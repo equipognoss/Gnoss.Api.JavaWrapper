@@ -95,7 +95,11 @@ import org.gnoss.apiWrapper.models.RemoveTriples;
 import org.gnoss.apiWrapper.models.SecondaryResource;
 import org.gnoss.apiWrapper.models.TriplesToInclude;
 import org.gnoss.apiWrapper.models.TriplesToModify;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClient.Builder;
+import org.springframework.web.reactive.function.client.WebClient.RequestBodyUriSpec;
+import org.springframework.web.reactive.function.client.WebClient.RequestHeadersUriSpec;
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -5446,7 +5450,29 @@ public class ResourceApi extends GnossApiWrapper{
 		return rdf_final;
 	}
 	
+	public void DownloadFilesFromURL(String URL, String fileName) {
+		GnossWebClient webCLient= (GnossWebClient) WebClient.create();
+		
+		try {
+			webCLient.head().header("Referer", "Referer:"+URL);
+			webCLient.head().header("User-Agent", "User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36 gnossspider");
+			String sign= getSignForUrl(URL);
+			webCLient.head().header("Authorization", "Authorization: OAuth \n"+ GetStringForUrl(sign));
+			DownloadFile(URL, fileName);
+		}catch(Exception ex) {
+			
+			System.out.println("File "+fileName+" not downloaded. "+ex.getMessage());
+		}
+
+	}
 	
+	
+	   public String getSignForUrl(String url) throws SignatureException, MalformedURLException, URISyntaxException
+       {
+           String sign = OAuthInfo.GetSignedUrl(url);
+           return sign.replace("&", ",").replace("url", "");
+       }
+	   
 	/*
 	public ArrayList<String> GetAutomaticLabelingTags(String title, String description) throws GnossAPIArgumentException{
 		ArrayList<String> tagsList=null;
@@ -5457,6 +5483,21 @@ public class ResourceApi extends GnossApiWrapper{
 			
 		}
 	}*/
+	   public void DownloadFile(String URL, String fileName) throws IOException {
+		   
+		   URL url= new URL(URL);
+		   URLConnection urlCon=url.openConnection();
+		   InputStream is = urlCon.getInputStream();
+		   FileOutputStream fos = new FileOutputStream(fileName);
+		   byte [] array = new byte[1000];
+		   int leido = is.read(array);
+		   while (leido > 0) {
+		      fos.write(array,0,leido);
+		      leido=is.read(array);
+		   }
+		   is.close();
+		   fos.close();
+	   }
 	
 	
 	/**

@@ -17,7 +17,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 
-public  class GnossWebClient {
+public abstract  class GnossWebClient implements WebClient{
 
 	private boolean autoRedirect;
 	

@@ -2,11 +2,22 @@ package org.gnoss.apiWrapper.Helpers;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.Buffer;
+
+import javax.imageio.ImageIO;
 
 import org.gnoss.apiWrapper.Excepciones.GnossAPIException;
 
 public class ImageHelper {
+	
+	private ILogHelper _logHelper;
 	
 	/**
 	 * Resize keeping the aspect ratio to width
@@ -229,13 +240,81 @@ public class ImageHelper {
 		return resultImage;
 	}
 	
-	/**
+	
 	public static byte[] BitmapToByteArray(BufferedImage bitmap){
 		byte[] buffer = null;
 		
-		try{
-			I
+		try {
+			ByteArrayOutputStream baos= new ByteArrayOutputStream();
+			ImageIO.write(bitmap, "bmp", baos);
+			buffer=baos.toByteArray();
+			
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			
 		}
+		return buffer;
 	}
-	*/
+	
+	public static BufferedImage DownloadImageFromUrl(String imagenUrl) {
+		BufferedImage bi= new BufferedImage(256, 256, BufferedImage.TYPE_INT_RGB);
+		
+		try {
+			URL url= new URL(imagenUrl);
+			URLConnection urlCon= url.openConnection();
+			InputStream is= urlCon.getInputStream();
+			
+			
+			byte[] array = new byte[1000];
+			int leido=is.read(array);
+			InputStream input= new ByteArrayInputStream(array);
+			while(leido>0) {
+				bi=ImageIO.read(input);
+				leido=is.read(array);
+				
+			}
+			is.close();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return bi;
+	}
+	
+	
+	public BufferedImage ReadImageFromUrlOrLocalPath(String imageUrlOrPath) throws GnossAPIException {
+		BufferedImage bi= new BufferedImage(256, 256, BufferedImage.TYPE_INT_RGB);
+		URI uri = URI.create(imageUrlOrPath);
+		if(uri != null) {
+			bi=ImageHelper.DownloadImageFromUrl(imageUrlOrPath);
+		}else {
+			File file= new File(imageUrlOrPath);
+			if(file.exists()) {
+				try {
+					bi=ImageHelper.DownloadImageFromUrl(imageUrlOrPath);
+				}catch(Exception ex) {
+					this._logHelper.Error("Error reading the image "+ imageUrlOrPath +": "+ex.getMessage());
+				}
+			}else {
+				throw new GnossAPIException("The image "+imageUrlOrPath+" doesn´t exist or the application couldn´t access");
+			}
+		}
+		return bi;
+	}
+	
+	 
+	public static BufferedImage ByteArrayToBitmap(byte[] byteArray) {
+		BufferedImage bi= new BufferedImage(256, 256, BufferedImage.TYPE_INT_RGB);
+		
+		try {
+			InputStream in= new ByteArrayInputStream(byteArray);
+			bi=ImageIO.read(in);
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		return bi;
+	}
+	
 }

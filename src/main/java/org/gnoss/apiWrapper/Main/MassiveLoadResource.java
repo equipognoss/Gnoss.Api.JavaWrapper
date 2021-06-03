@@ -154,7 +154,7 @@ public class MassiveLoadResource extends ResourceApi{
 			}
 			List<String> ontologyTriples=resource.ToOntologyGnossTriples(this);
 			List<String> searchTriples= resource.ToSearchGraphTriples(this);
-			Map<UUID, String> acidData= resource.ToAcidData(this);
+			Map<UUID, String[]> acidData= resource.ToAcidData(this);
 			
 			//REVISAR!!!!!!!!!!!
 			String pathOntology=getFilesDirectory()+"\\"+getOntologyNameWithoutExtension()+ "_"+getMassiveLoadIdentifier()+ "_"+counter.get(getOntologyNameWithoutExtension().toString()).getFileCount()+".nq";
@@ -258,7 +258,7 @@ public class MassiveLoadResource extends ResourceApi{
 			}
 			List<String> ontologyTriples= resource.ToOntologyGnossTriples(this);
 			List<String> searchTriples= resource.ToSearchGraphTriples(this);
-			Map<UUID, String> acidData=resource.ToAcidData(this);
+			Map<UUID, String[]> acidData=resource.ToAcidData(this);
 			
 			String pathOntology= getFilesDirectory()+"\\"+getOntologyNameWithoutExtension()+"_"+getMassiveLoadIdentifier()+"_"+counter.get(getOntologyNameWithoutExtension()).getFileCount()+".nq";
 			String uriOntology=getUri()+"/"+getOntologyNameWithoutExtension()+"_"+getMassiveLoadIdentifier()+"_"+counter.get(getOntologyNameWithoutExtension()).getFileCount()+".nq";
