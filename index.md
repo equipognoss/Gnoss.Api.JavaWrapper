@@ -1,37 +1,35 @@
-## Welcome to GitHub Pages
+## Welcome to Gnoss API
 
-You can use the [editor on GitHub](https://github.com/equipognoss/Gnoss.Api.JavaWrapper/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Here you can find the basic information to use GNOSS Api Rest. 
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Ontology
 
-### Markdown
+Use it to work with ontologies
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Community
 
-```markdown
-Syntax highlighted code block
+Use it to query / create / modify / delete communities
 
-# Header 1
-## Header 2
-### Header 3
+### Notification
 
-- Bulleted
-- List
+Use it to send notification to your users
 
-1. Numbered
-2. List
+### SecondaryEntity
 
-**Bold** and _Italic_ and `Code` text
+Use it to create, modify or delete secondary entities
 
-[Link](url) and ![Image](src)
-```
+### Thesaurus
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+Use it to create / modify / delete nodes in a thesaurus
 
-### Jekyll Themes
+### Sparql
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/equipognoss/Gnoss.Api.JavaWrapper/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+Use it to query our sparql endpoint
 
-### Support or Contact
+### User
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+Use it to query / create / modify / delete users
+
+### Resource
+
+Use it to query / create / modify / delete resources
