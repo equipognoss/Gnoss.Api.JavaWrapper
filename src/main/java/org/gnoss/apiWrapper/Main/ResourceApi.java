@@ -70,9 +70,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.security.SignatureException;
-import java.security.Timestamp;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -95,11 +92,8 @@ import org.gnoss.apiWrapper.models.RemoveTriples;
 import org.gnoss.apiWrapper.models.SecondaryResource;
 import org.gnoss.apiWrapper.models.TriplesToInclude;
 import org.gnoss.apiWrapper.models.TriplesToModify;
-import org.springframework.http.HttpMethod;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClient.Builder;
-import org.springframework.web.reactive.function.client.WebClient.RequestBodyUriSpec;
-import org.springframework.web.reactive.function.client.WebClient.RequestHeadersUriSpec;
+
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -2992,7 +2986,7 @@ public class ResourceApi extends GnossApiWrapper{
 		boolean success=false;
 		Triples triplesToInsert = new Triples(); {
 			triplesToInsert.setResource_id(resourceId);
-			triplesToInsert.setCommunity_short_name((communityShortName.isEmpty() || communityShortName.isBlank()) ? getCommunityShortName() : communityShortName);
+			triplesToInsert.setCommunity_short_name((communityShortName.isEmpty() || StringUtils.isBlank(communityShortName)) ? getCommunityShortName() : communityShortName);
 			triplesToInsert.setPublish_home(publishHome);
 			triplesToInsert.setTriples_list(tripleList);
 			triplesToInsert.setEnd_of_load(true);
@@ -3030,7 +3024,7 @@ public class ResourceApi extends GnossApiWrapper{
 		Triples triplesToInsert= new Triples();
 		{
 			triplesToInsert.setResource_id(resourceId);
-			triplesToInsert.setCommunity_short_name((communityShortName.isEmpty() || communityShortName.isBlank()) ? getCommunityShortName() : communityShortName);
+			triplesToInsert.setCommunity_short_name((communityShortName.isEmpty() || StringUtils.isBlank(communityShortName)) ? getCommunityShortName() : communityShortName);
 			triplesToInsert.setPublish_home(publishHome);
 			triplesToInsert.setTriples_list(tripleList);
 			triplesToInsert.setEnd_of_load(true);
@@ -3563,7 +3557,7 @@ public class ResourceApi extends GnossApiWrapper{
 			String url=getApiUrl()+"/resource/get-rdf?resource_id="+resourceId;
 			rdf=WebRequest("GET", url, "application/json");
 			
-			if(!rdf.isBlank() || !rdf.isEmpty()) {
+			if(!StringUtils.isBlank(rdf) || !rdf.isEmpty()) {
 				this._logHelper.Debug("Rdf obtained for the resource "+resourceId);
 			}else {
 				this._logHelper.Debug("There is no rdf for the resource "+resourceId);
@@ -3802,7 +3796,7 @@ public class ResourceApi extends GnossApiWrapper{
 			String url=getApiUrl()+"/resource/create-basic-ontology-resource";
 			resourceId=WebRequestPostWithJsonObject(url, parameters);
 			
-			if(!resourceId.isEmpty() || !resourceId.isBlank()) {
+			if(!resourceId.isEmpty() || !StringUtils.isBlank(resourceId)) {
 				this._logHelper.Debug("Basic ontology resource created: "+resourceId);
 			}
 			else {
@@ -3836,13 +3830,13 @@ public class ResourceApi extends GnossApiWrapper{
 		for(ComplexOntologyResource resource : parameters) {
 			if(resource.getTextCategories()!=null) {
 				if(hierarquicalCategories) {
-					if(communityShortName.isEmpty() || communityShortName.isBlank()) {
+					if(communityShortName.isEmpty() || StringUtils.isBlank(communityShortName)) {
 						resource.setCategoriesIds(GetHierarquicalCategoriesIdentifiersList(resource.getTextCategories()));
 					}else {
 						resource.setCategoriesIds(GetHierarquicalCategoriesIdentifiersList(resource.getTextCategories(), communityShortName));
 					}
 				}else {
-					if(communityShortName.isEmpty() || communityShortName.isBlank()) {
+					if(communityShortName.isEmpty() || StringUtils.isBlank(communityShortName)) {
 						resource.setCategoriesIds(GetNotHierarquicalCategoriesIdentifiersList(resource.getTextCategories()));
 					}else {
 						resource.setCategoriesIds(GetNotHierarquicalCategoriesIdentifiersList(resource.getTextCategories(), communityShortName));
@@ -3851,7 +3845,7 @@ public class ResourceApi extends GnossApiWrapper{
 			}
 			String documentId="";
 			
-			if(communityShortName.isEmpty() || communityShortName.isBlank()) {
+			if(communityShortName.isEmpty() || StringUtils.isBlank(communityShortName)) {
 				communityShortName=getCommunityShortName();
 			}
 			LoadResourceParams resourceParam=GetResourceModelOfComplexOntologyResource(communityShortName, resource, false, false);
@@ -3868,7 +3862,7 @@ public class ResourceApi extends GnossApiWrapper{
 			String url=getApiUrl()+"/resource/massive-complex-ontology-resource-creation";
 			WebRequestPostWithJsonObject(url, massiveLoad);
 			
-			if(!resourceId.isBlank() || !resourceId.isEmpty()) {
+			if(!StringUtils.isBlank(resourceId) || !resourceId.isEmpty()) {
 				this._logHelper.Debug("Complex ontology resource created: "+resourceId);
 			}else {
 				this._logHelper.Debug("Massive Complex ontology resource not created: "+gson.toJson(massiveLoad));

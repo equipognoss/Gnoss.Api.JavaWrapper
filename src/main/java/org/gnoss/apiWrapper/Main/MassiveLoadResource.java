@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +11,7 @@ import java.util.UUID;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.lang3.tuple.Pair;
+
 import org.gnoss.apiWrapper.ApiModel.CloseMassiveDataLoadResource;
 import org.gnoss.apiWrapper.ApiModel.MassiveDataLoadPackageResource;
 import org.gnoss.apiWrapper.ApiModel.MassiveDataLoadResource;

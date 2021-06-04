@@ -5,6 +5,7 @@
  */
 package org.gnoss.apiWrapper.models;
 
+import org.apache.commons.lang3.StringUtils;
 import org.gnoss.apiWrapper.ApiModel.AttachedResourceFilePropertyTypes;
 import org.gnoss.apiWrapper.ApiModel.ResourceVisibility;
 import org.gnoss.apiWrapper.Excepciones.GnossAPIArgumentException;
@@ -12,11 +13,10 @@ import org.gnoss.apiWrapper.Excepciones.GnossAPIException;
 import org.gnoss.apiWrapper.Helpers.Constants;
 import org.gnoss.apiWrapper.Helpers.ILogHelper;
 import org.gnoss.apiWrapper.Helpers.ImageHelper;
-import org.gnoss.apiWrapper.Helpers.ImageTransformationType;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -694,7 +694,7 @@ public class ComplexOntologyResource extends BaseResource {
 					 }
 				 }
 			 }
-			 if(entity!=null && !predicate.isEmpty() && !predicate.isBlank()) {
+			 if(entity!=null && !predicate.isEmpty() && !StringUtils.isBlank(predicate)) {
 				 if(getOntology().getEntities()==null) {
 					 getOntology().setEntities(new ArrayList<OntologyEntity>());
 					 getOntology().getEntities().add(entity);
@@ -718,7 +718,7 @@ public class ComplexOntologyResource extends BaseResource {
 				}
 			 }
 			 else {
-				 if(!predicate.isEmpty() && !predicate.isBlank()) {
+				 if(!predicate.isEmpty() && !StringUtils.isBlank(predicate)) {
 					 if(getOntology().getProperties()==null) {
 						 getOntology().setProperties(new ArrayList<OntologyProperty>());
 					 }

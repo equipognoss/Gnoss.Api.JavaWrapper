@@ -1,20 +1,8 @@
 package org.gnoss.apiWrapper.Web;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.web.context.request.ServletWebRequest;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.reactive.function.client.WebClient;
-
 import java.net.URI;
-import java.net.URISyntaxException;
+
 
 
 public abstract  class GnossWebClient implements WebClient{

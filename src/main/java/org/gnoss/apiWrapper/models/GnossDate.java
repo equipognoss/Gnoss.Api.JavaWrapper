@@ -48,11 +48,11 @@ public class GnossDate {
     private String _patternYYYY = "^([0-9]{1,4})$";
     private String _patternYYYYMMDD = "^([0-9]{3,4})[./-]([0]?[1-9]|[1][0-2])[./-]([0]?[1-9]|[1|2][0-9]|[3][0|1])$";
     private String _patternYYYYMM = "^([0-9]{3,4})[./-]([0]?[1-9]|[1][0-2])$";
-    private String _patternDDLettersMonthYYYY = "^([0]?[1-9]|[1|2][0-9]|[3][0|1])[\s]*[de]*[\s]*(Enero|Febrero|Marzo|Abril|Mayo|Junio|Julio|Agosto|Septiembre|Octubre|Noviembre|Diciembre)[\s]*[de|del]*[\s]*([0-9]{3,4})$";
+    private String _patternDDLettersMonthYYYY = "^([0]?[1-9]|[1|2][0-9]|[3][0|1])[\\s]*[de]*[\\s]*(Enero|Febrero|Marzo|Abril|Mayo|Junio|Julio|Agosto|Septiembre|Octubre|Noviembre|Diciembre)[\\s]*[de|del]*[\\s]*([0-9]{3,4})$";
 
-    private String _patternLettersMonthDDYYYY = "^((Enero|Febrero|Marzo|Abril|Mayo|Junio|Julio|Agosto|Septiembre|Octubre|Noviembre|Diciembre)*[0]?[1-9]|[1|2][0-9]|[3][0|1])[\s][de]*[\s]*[\s]*[de|del]*[\s]*([0-9]{3,4})$";
+    private String _patternLettersMonthDDYYYY = "^((Enero|Febrero|Marzo|Abril|Mayo|Junio|Julio|Agosto|Septiembre|Octubre|Noviembre|Diciembre)*[0]?[1-9]|[1|2][0-9]|[3][0|1])[\\s][de]*[\\s]*[\\s]*[de|del]*[\\s]*([0-9]{3,4})$";
 
-    private String _patternLettersMonthYYYY = "^(Enero|Febrero|Marzo|Abril|Mayo|Junio|Julio|Agosto|Septiembre|Octubre|Noviembre|Diciembre)[\s]*[de|del]*[\s]*([0-9]{3,4})$";
+    private String _patternLettersMonthYYYY = "^(Enero|Febrero|Marzo|Abril|Mayo|Junio|Julio|Agosto|Septiembre|Octubre|Noviembre|Diciembre)[\\s]*[de|del]*[\\s]*([0-9]{3,4})$";
     //endRegion Patterns
     
     

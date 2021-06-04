@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.Buffer;
 
 import javax.imageio.ImageIO;
 

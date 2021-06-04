@@ -1,7 +1,5 @@
 package org.gnoss.apiWrapper.ApiModel;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class SparqlObject {
 	private Head head;

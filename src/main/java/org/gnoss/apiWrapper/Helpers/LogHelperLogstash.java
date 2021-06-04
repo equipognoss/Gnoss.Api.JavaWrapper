@@ -1,36 +1,22 @@
 package org.gnoss.apiWrapper.Helpers;
 
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 
-import com.microsoft.applicationinsights.core.dependencies.apachecommons.logging.LogFactory;
-import com.microsoft.applicationinsights.core.dependencies.http.client.protocol.HttpClientContext;
-import com.microsoft.applicationinsights.core.dependencies.http.protocol.BasicHttpContext;
-import com.microsoft.applicationinsights.core.dependencies.http.protocol.HttpContext;
-import com.microsoft.applicationinsights.core.dependencies.xstream.io.xml.XmlFriendlyNameCoder;
-
 import java.io.File;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.lang.Object;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

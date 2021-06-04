@@ -14,6 +14,7 @@ import java.util.UUID;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.gnoss.apiWrapper.ApiModel.ParamsAddUserGroups;
 import org.gnoss.apiWrapper.ApiModel.ParamsAddUserOrg;
 import org.gnoss.apiWrapper.ApiModel.ParamsChangeVisibility;
@@ -155,7 +156,7 @@ public class UserApi extends GnossApiWrapper{
 	public boolean ValidatePassword(String user, String password) throws MalformedURLException, IOException, GnossAPIException {
 		boolean validPassword=false;
 		try {
-		if(!user.isEmpty() || !user.isBlank() && !password.isEmpty() ||!password.isBlank()) {
+		if(!user.isEmpty() || !StringUtils.isBlank(user) && !password.isEmpty() ||!StringUtils.isBlank(password)) {
 			String url=getApiUrl()+"/user/validate-password";
 			ParamsLoginPassword model = new ParamsLoginPassword();
 			{
@@ -291,7 +292,7 @@ public class UserApi extends GnossApiWrapper{
 	 */
 	public String GenerateForgottenPasswordUrl(String loginOrEmail) throws Exception {
 		String link= "";
-		if(!loginOrEmail.isEmpty() || !loginOrEmail.isBlank()) {
+		if(!loginOrEmail.isEmpty() || !StringUtils.isBlank(loginOrEmail)) {
 			try {
 				String url= getApiUrl()+"/user/generate-forgotten-password-url?login="+loginOrEmail+"&community_short_name="+getCommunityShortName();
 				link= WebRequest("GET", url);
@@ -583,7 +584,7 @@ public class UserApi extends GnossApiWrapper{
 	 * @throws IOException
 	 */
 	public String getLoginTokenForEmail(String email, boolean longLiveToken) throws GnossAPIException, MalformedURLException, IOException {
-		if(!email.isBlank() || !email.isEmpty()) {
+		if(!StringUtils.isBlank(email) || !email.isEmpty()) {
 			throw new GnossAPIException("The email can´t be null or empty");
 		}else {
 			String url=getApiUrl()+"/user/generate-login-token-for-email?email="+email+"&longLiveToken="+longLiveToken;

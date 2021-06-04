@@ -1,11 +1,10 @@
 package org.gnoss.apiWrapper.models;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.gnoss.apiWrapper.Excepciones.GnossAPIArgumentException;
 import org.gnoss.apiWrapper.Excepciones.GnossAPIException;
 import org.gnoss.apiWrapper.Helpers.LogHelper;
 

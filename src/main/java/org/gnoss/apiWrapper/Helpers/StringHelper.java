@@ -6,7 +6,6 @@ import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
 import java.util.regex.Pattern;
 
-import jdk.internal.util.xml.impl.Input;
 
 /**
  * Utilities to use strings

@@ -3,7 +3,7 @@ package org.gnoss.apiWrapper.ApiModel;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.gnoss.apiWrapper.ApiModel.SparqlObject;
+
 
 public class Results {
 

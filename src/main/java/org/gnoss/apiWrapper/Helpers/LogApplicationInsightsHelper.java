@@ -4,14 +4,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.rmi.activation.ActivationGroupDesc.CommandEnvironment;
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -19,9 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.gnoss.apiWrapper.Utils.LogsAndTracesLocation;
 import org.gnoss.apiWrapper.Utils.UtilTelemetry;
 
-import com.microsoft.applicationinsights.TelemetryClient;
-//import com.microsoft.applicationinsights.web.internal.ApplicationInsightsServletContextListener;
-import com.microsoft.applicationinsights.*;
+
 
 public class LogApplicationInsightsHelper implements ILogHelper {
 	

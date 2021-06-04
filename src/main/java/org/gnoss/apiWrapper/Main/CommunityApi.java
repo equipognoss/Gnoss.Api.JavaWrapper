@@ -1,6 +1,6 @@
 package org.gnoss.apiWrapper.Main;
 
-import org.apache.logging.log4j.core.net.Advertiser;
+import org.apache.commons.lang3.StringUtils;
 import org.gnoss.apiWrapper.ApiModel.CategoryNames;
 import org.gnoss.apiWrapper.ApiModel.CertificationLevelModel;
 import org.gnoss.apiWrapper.ApiModel.ChangeNameCommunityModel;
@@ -21,7 +21,6 @@ import org.gnoss.apiWrapper.ApiModel.ThesaurusModel;
 import org.gnoss.apiWrapper.ApiModel.UploadContentModel;
 import org.gnoss.apiWrapper.ApiModel.UserCommunity;
 import org.gnoss.apiWrapper.ApiModel.UserCommunityModel;
-import org.gnoss.apiWrapper.ApiModel.UserNovertiesModel;
 import org.gnoss.apiWrapper.Excepciones.GnossAPIException;
 import org.gnoss.apiWrapper.Helpers.ILogHelper;
 import org.gnoss.apiWrapper.Helpers.LogHelper;
@@ -29,7 +28,6 @@ import org.gnoss.apiWrapper.OAuth.OAuthInfo;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.System.Logger;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URLEncoder;
@@ -45,7 +43,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import com.google.gson.Gson;
-import com.microsoft.applicationinsights.core.dependencies.apachecommons.logging.Log;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -390,7 +387,7 @@ public class CommunityApi extends GnossApiWrapper{
 		try {
 			String url=getApiUrl()+"/community/open-community";
 			
-			if(url.isEmpty() || url.isBlank()) {
+			if(url.isEmpty() || StringUtils.isBlank(url)) {
 				communityShortName=CommunityShortName;
 			}
 			WebRequestPostWithJsonObject(url, communityShortName);
