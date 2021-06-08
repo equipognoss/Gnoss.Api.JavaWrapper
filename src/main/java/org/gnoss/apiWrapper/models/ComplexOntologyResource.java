@@ -204,9 +204,9 @@ public class ComplexOntologyResource extends BaseResource {
     
     /**
      * Prepares the screenshot of a url with the specified sizes. The screenshot will be asigned to imagePredicate property
-     * @param screenshotUrl: Url to generate the screenshot
-     * @param imagePredicate: Predicate where the screenshot url will be saved
-     * @param screenshotSizes: Screenshot sizes. It will generate as many screenshots as sizes in this array
+     * @param screenshotUrl Url to generate the screenshot
+     * @param imagePredicate Predicate where the screenshot url will be saved
+     * @param screenshotSizes Screenshot sizes. It will generate as many screenshots as sizes in this array
      */
     public void GenerateScreenshot(String screenshotUrl, String imagePredicate, int[] screenshotSizes) {
     	setMustGenerateScreenshot(true);
@@ -244,11 +244,11 @@ public class ComplexOntologyResource extends BaseResource {
     
     /**
      * Attach a file (not an image, to attach an image use AttachImage method) to the resource. 
-     * @param downloadUrl: Download Url. It can be a local path or a internet url
-     * @param filePredicate: Predicate of the ontological property where the file reference will be inserted
-     * @param entity: Auxiliary entity which would have the reference to the file<
-     * @param fileIdentifier: Unique identifier of the file. Only neccesary if there is more than one file with the same name<
-     * @param language: The file language
+     * @param downloadUrl Download Url. It can be a local path or a internet url
+     * @param filePredicate Predicate of the ontological property where the file reference will be inserted
+     * @param entity Auxiliary entity which would have the reference to the file<
+     * @param fileIdentifier Unique identifier of the file. Only neccesary if there is more than one file with the same name<
+     * @param language The file language
      * @throws GnossAPIException
      * @throws IOException
      */
@@ -281,10 +281,10 @@ public class ComplexOntologyResource extends BaseResource {
    
     /**
      * Attach a file (not an image, to attach an image use AttachImage method) to the resource. 
-     * @param file: The file bytes
-     * @param filePredicate: Predicate of the ontological property where the file reference will be inserted
-     * @param fileName: The file name
-     * @param entity: Auxiliary entity which would have the reference to the file
+     * @param file The file bytes
+     * @param filePredicate Predicate of the ontological property where the file reference will be inserted
+     * @param fileName The file name
+     * @param entity Auxiliary entity which would have the reference to the file
      * @throws GnossAPIException 
      * @throws IOException 
      */
@@ -294,11 +294,11 @@ public class ComplexOntologyResource extends BaseResource {
     
 	/**
 	 * Attach a file (not an image, to attach an image use AttachImage method) to the resource that can be accessed from the Web. It means that the file won't be encripted in the server
-	 * @param file: Archivo a adjuntar (no imagen)
-	 * @param filePredicate: Predicate of the ontological property where the file reference will be inserted
-	 * @param fileName: Auxiliary entity which would have the reference to the file
-	 * @param entity: The file name
-	 * @param language: The file language
+	 * @param file Archivo a adjuntar (no imagen)
+	 * @param filePredicate Predicate of the ontological property where the file reference will be inserted
+	 * @param fileName Auxiliary entity which would have the reference to the file
+	 * @param entity The file name
+	 * @param language The file language
 	 * @throws GnossAPIException 
 	 * @throws IOException 
 	 */
@@ -308,11 +308,11 @@ public class ComplexOntologyResource extends BaseResource {
 	 
 	/**
 	 * Attach a reference to a file (not an image, to attach an image use AttachImageWithoutReference method) previously uploaded using the 
-	 * @param downloadUrl: Download Url. It can be a local path or a internet url
-	 * @param filePredicate: Predicate of the ontological property where the file reference will be inserted
-	 * @param entity: Auxiliary entity which would have the reference to the file
-	 * @param fileIdentifier: Unique identifier of the file. Only neccesary if there is more than one file with the same name
-	 * @param language: The file language
+	 * @param downloadUrl Download Url. It can be a local path or a internet url
+	 * @param filePredicate Predicate of the ontological property where the file reference will be inserted
+	 * @param entity Auxiliary entity which would have the reference to the file
+	 * @param fileIdentifier Unique identifier of the file. Only neccesary if there is more than one file with the same name
+	 * @param language The file language
 	 * @throws GnossAPIException 
 	 * @throws IOException 
 	 */
@@ -348,11 +348,11 @@ public class ComplexOntologyResource extends BaseResource {
 	/**
 	 * Attach a reference to a file (not an image, to attach an image use AttachImageWithoutReference method) previusly uploaded using the 
 	 * A downloadable file it's a file that can be accessed from the Web. It means that the file won't be encripted in the server
-	 * @param downloadUrl: Download Url. It can be a local path or a internet url
-	 * @param filePredicate: Predicate of the ontological property where the file reference will be inserted
-	 * @param entity: Auxiliary entity which would have the reference to the file
-	 * @param fileIdentifier: Unique identifier of the file. Only neccesary if there is more than one file with the same name
-	 * @param language: The file language
+	 * @param downloadUrl Download Url. It can be a local path or a internet url
+	 * @param filePredicate Predicate of the ontological property where the file reference will be inserted
+	 * @param entity Auxiliary entity which would have the reference to the file
+	 * @param fileIdentifier Unique identifier of the file. Only neccesary if there is more than one file with the same name
+	 * @param language The file language
 	 * @throws GnossAPIException 
 	 * @throws IOException 
 	 */
@@ -387,9 +387,9 @@ public class ComplexOntologyResource extends BaseResource {
 	
 	/**
 	 * Uploads a file to the server, but it's not referenced by the resource
-	 * @param downloadUrl: Download Url. It can be a local path or a internet url
-	 * @param fileIdentifier: Unique identifier of the file. Only neccesary if there is more than one file with the same name<
-	 * @param language: The file language
+	 * @param downloadUrl Download Url. It can be a local path or a internet url
+	 * @param fileIdentifier Unique identifier of the file. Only neccesary if there is more than one file with the same name<
+	 * @param language The file language
 	 * @throws GnossAPIException
 	 * @throws IOException
 	 */
@@ -427,9 +427,9 @@ public class ComplexOntologyResource extends BaseResource {
 	/**
 	 * Uploads a file to the server, but it's not referenced by the resource. 
 	 * A downloadable file it's a file that can be accessed from the Web. It means that the file won't be encripted in the server
-	 * @param downloadUrl: Download Url. It can be a local path or a internet url
-	 * @param fileIdentifier: Unique identifier of the file. Only neccesary if there is more than one file with the same name
-	 * @param language: The file language
+	 * @param downloadUrl Download Url. It can be a local path or a internet url
+	 * @param fileIdentifier Unique identifier of the file. Only neccesary if there is more than one file with the same name
+	 * @param language The file language
 	 * @throws GnossAPIException
 	 * @throws IOException
 	 */

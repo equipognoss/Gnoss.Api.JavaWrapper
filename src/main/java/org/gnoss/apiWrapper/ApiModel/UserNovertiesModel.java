@@ -24,7 +24,7 @@ public class UserNovertiesModel {
 	}
 	/**
 	 * User identificator
-	 * @param user_id
+	 * @param user_id user id 
 	 */
 	public void setUser_id(UUID user_id) {
 		this.user_id = user_id;
@@ -38,7 +38,7 @@ public class UserNovertiesModel {
 	}
 	/**
 	 * User subscription to community categories
-	 * @param community_subscriptions
+	 * @param community_subscriptions community subscriptions 
 	 */
 	public void setCommunity_subscriptions(CommunitySubscriptionModel community_subscriptions) {
 		this.community_subscriptions = community_subscriptions;
@@ -52,7 +52,7 @@ public class UserNovertiesModel {
 	}
 	/**
 	 * User subscription to another user
-	 * @param user_subscription
+	 * @param user_subscription user subscriptions
 	 */
 	public void setUser_subscription(List<UserSubscriptionModel> user_subscription) {
 		this.user_subscription = user_subscription;
@@ -66,7 +66,7 @@ public class UserNovertiesModel {
 	}
 	/**
 	 * User info about community membership
-	 * @param user_community_membership
+	 * @param user_community_membership user community membership
 	 */
 	public void setUser_community_membership(UserCommunityMembership user_community_membership) {
 		this.user_community_membership = user_community_membership;

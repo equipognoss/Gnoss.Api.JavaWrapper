@@ -19,7 +19,7 @@ public class ParamsParentNode {
 	}
 	/**
 	 * URL of the thesaurus ontology
-	 * @param thesaurus_ontology_url
+	 * @param thesaurus_ontology_url Thesaurus ontology url 
 	 */
 	public void setThesaurus_ontology_url(String thesaurus_ontology_url) {
 		this.thesaurus_ontology_url = thesaurus_ontology_url;
@@ -33,7 +33,7 @@ public class ParamsParentNode {
 	}
 	/**
 	 * Community short name 
-	 * @param community_short_name
+	 * @param community_short_name Community short name 
 	 */
 	public void setCommunity_short_name(String community_short_name) {
 		this.community_short_name = community_short_name;
@@ -47,7 +47,7 @@ public class ParamsParentNode {
 	}
 	/**
 	 * Identificator of the parent category 
-	 * @param parent_category_id
+	 * @param parent_category_id Parent category id 
 	 */
 	public void setParent_category_id(String parent_category_id) {
 		this.parent_category_id = parent_category_id;
@@ -61,7 +61,7 @@ public class ParamsParentNode {
 	}
 	/**
 	 * Identificator of the child category 
-	 * @param child_category_id
+	 * @param child_category_id Child category id 
 	 */
 	public void setChild_category_id(String child_category_id) {
 		this.child_category_id = child_category_id;

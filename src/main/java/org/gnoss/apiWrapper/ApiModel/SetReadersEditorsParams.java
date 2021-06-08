@@ -26,7 +26,7 @@ public class SetReadersEditorsParams {
 	}
 	/**
 	 * Resource identifier
-	 * @param resource_id
+	 * @param resource_id resource id 
 	 */
 	public void setResource_id(UUID resource_id) {
 		this.resource_id = resource_id;
@@ -40,7 +40,7 @@ public class SetReadersEditorsParams {
 	}
 	/**
 	 * Community short name
-	 * @param community_short_name
+	 * @param community_short_name community short name 
 	 */
 	public void setCommunity_short_name(String community_short_name) {
 		this.community_short_name = community_short_name;
@@ -54,7 +54,7 @@ public class SetReadersEditorsParams {
 	}
 	/**
 	 * Visibility of the resource
-	 * @param visibility
+	 * @param visibility visibility 
 	 */
 	public void setVisibility(int visibility) {
 		this.visibility = visibility;
@@ -68,7 +68,7 @@ public class SetReadersEditorsParams {
 	}
 	/**
 	 * Users short names of the resource editors or readers
-	 * @param readers_list
+	 * @param readers_list readers list
 	 */
 	public void setReaders_list(List<ReaderEditor> readers_list) {
 		this.readers_list = readers_list;
@@ -82,7 +82,7 @@ public class SetReadersEditorsParams {
 	}
 	/**
 	 * True if the resource must be published in the home of the community (by default false)
-	 * @param publish_home
+	 * @param publish_home publish home 
 	 */
 	public void setPublish_home(boolean publish_home) {
 		this.publish_home = publish_home;

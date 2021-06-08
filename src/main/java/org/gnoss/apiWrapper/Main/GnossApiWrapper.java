@@ -96,8 +96,8 @@ public class GnossApiWrapper {
     /**
      * Constructor of GnossApiWrapper
      *
-     * @param oauth --> OAuth information to sign the Api requests
-     * @param communityShortName --> Community shirt name which you want to use
+     * @param oauth  OAuth information to sign the Api requests
+     * @param communityShortName  Community shirt name which you want to use
      * the API
      */
     public GnossApiWrapper(OAuthInfo oauth, String communityShortName) {
@@ -109,7 +109,7 @@ public class GnossApiWrapper {
     /**
      * Constructor of GnossApiWrapper
      *
-     * @param configFilePath --> Configuration file path, with a structure like
+     * @param configFilePath  Configuration file path, with a structure like
      * http://api.gnoss.com/v3/
      * @throws IOException 
      * @throws SAXException 

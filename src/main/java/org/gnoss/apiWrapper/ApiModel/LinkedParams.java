@@ -23,7 +23,7 @@ public class LinkedParams {
 	}
 	/**
 	 * Resource to be linked by the resource list
-	 * @param resource_id
+	 * @param resource_id Resource id
 	 */
 	public void setResource_id(UUID resource_id) {
 		this.resource_id = resource_id;
@@ -37,7 +37,7 @@ public class LinkedParams {
 	}
 	/**
 	 * Community short name 
-	 * @param community_short_name
+	 * @param community_short_name Community short name
 	 */
 	public void setCommunity_short_name(String community_short_name) {
 		this.community_short_name = community_short_name;
@@ -51,7 +51,7 @@ public class LinkedParams {
 	}
 	/**
 	 * List of resources to link
-	 * @param resource_list_to_link
+	 * @param resource_list_to_link Resource list to link
 	 */
 	public void setResource_list_to_link(List<UUID> resource_list_to_link) {
 		this.resource_list_to_link = resource_list_to_link;

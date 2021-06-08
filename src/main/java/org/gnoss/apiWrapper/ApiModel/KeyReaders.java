@@ -18,7 +18,7 @@ public class KeyReaders {
 	}
 	/**
 	 * Resource identifier
-	 * @param resource_id
+	 * @param resource_id Resource id
 	 */
 	public void setResource_id(UUID resource_id) {
 		this.resource_id = resource_id;
@@ -32,7 +32,7 @@ public class KeyReaders {
 	}
 	/**
 	 * Users short names of the resource
-	 * @param readers
+	 * @param readers Readers 
 	 */
 	public void setReaders(List<String> readers) {
 		this.readers = readers;
@@ -46,7 +46,7 @@ public class KeyReaders {
 	}
 	/**
 	 * Editors group
-	 * @param reader_groups
+	 * @param reader_groups Reader groups
 	 */
 	public void setReader_groups(List<ReaderGroup> reader_groups) {
 		this.reader_groups = reader_groups;

@@ -17,7 +17,7 @@ public class ItemTypeName {
 	}
 	/**
 	 * Resource type name
-	 * @param item_type_name
+	 * @param item_type_name Item type name 
 	 */
 	public void setItem_type_name(String item_type_name) {
 		this.item_type_name = item_type_name;
@@ -31,7 +31,7 @@ public class ItemTypeName {
 	}
 	/**
 	 * Language of the type name 
-	 * @param item_type_name_language
+	 * @param item_type_name_language Item type name language
 	 */
 	public void setItem_type_name_language(String item_type_name_language) {
 		this.item_type_name_language = item_type_name_language;

@@ -11,7 +11,7 @@ public class DateTypes {
 	 */
 	public final static String AC="A.C";
 	/**
-	 * After Christ, spanich verion
+	 * After Christ, spanish version
 	 */
 	public final static String DC="";
 	/**

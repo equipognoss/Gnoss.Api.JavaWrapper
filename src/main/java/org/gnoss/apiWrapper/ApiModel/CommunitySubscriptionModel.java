@@ -23,7 +23,7 @@ public class CommunitySubscriptionModel {
 	}
 	/**
 	 * Subscription user identificator
-	 * @param user_id
+	 * @param user_id user id
 	 */
 	public void setUser_id(UUID user_id) {
 		this.user_id = user_id;
@@ -37,7 +37,7 @@ public class CommunitySubscriptionModel {
 	}
 	/**
 	 * Community short name 
-	 * @param community_short_name
+	 * @param community_short_name community short name
 	 */
 	public void setCommunity_short_name(String community_short_name) {
 		this.community_short_name = community_short_name;
@@ -51,7 +51,7 @@ public class CommunitySubscriptionModel {
 	}
 	/**
 	 * Categories which user is subscribed 
-	 * @param category_list
+	 * @param category_list category list
 	 */
 	public void setCategory_list(List<ThesaurusCategory> category_list) {
 		this.category_list = category_list;

@@ -26,7 +26,7 @@ public class CommentModel {
 	}
 	/**
 	 * comment creation date 
-	 * @param comment_date
+	 * @param comment_date comment_date
 	 */
 	public void setComment_date(Date comment_date) {
 		this.comment_date = comment_date;
@@ -40,7 +40,7 @@ public class CommentModel {
 	}
 	/**
 	 * Community short name 
-	 * @param community_short_name
+	 * @param community_short_name community_short_name
 	 */
 	public void setCommunity_short_name(String community_short_name) {
 		this.community_short_name = community_short_name;
@@ -54,7 +54,7 @@ public class CommentModel {
 	}
 	/**
 	 * Resource identificator
-	 * @param resource_id
+	 * @param resource_id resource id
 	 */
 	public void setResource_id(UUID resource_id) {
 		this.resource_id = resource_id;
@@ -68,35 +68,35 @@ public class CommentModel {
 	}
 	/**
 	 * User identificator who has commented the resource
-	 * @param user_id
+	 * @param user_id id of the user
 	 */
 	public void setUser_id(UUID user_id) {
 		this.user_id = user_id;
 	}
 	/**
 	 * Description of the comment
-	 * @return html description
+	 * @return html_description
 	 */
 	public String getHtml_description() {
 		return html_description;
 	}
 	/**
 	 * Description of the comment 
-	 * @param html_description
+	 * @param html_description Html description
 	 */
 	public void setHtml_description(String html_description) {
 		this.html_description = html_description;
 	}
 	/**
 	 * Parent comment identificator (if the comment is an answer to another comment)
-	 * @return parent comment identificator
+	 * @return parent_comment_identificator
 	 */
 	public UUID getParent_comment_id() {
 		return parent_comment_id;
 	}
 	/**
 	 * Parent comment identificator (if the comment is an answer to another comment)
-	 * @param parent_comment_id
+	 * @param parent_comment_id The id of parent comment
 	 */
 	public void setParent_comment_id(UUID parent_comment_id) {
 		this.parent_comment_id = parent_comment_id;

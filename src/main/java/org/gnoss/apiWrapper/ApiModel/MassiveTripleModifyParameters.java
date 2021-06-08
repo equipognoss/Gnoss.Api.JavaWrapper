@@ -17,7 +17,7 @@ public class MassiveTripleModifyParameters {
 	}
 	/**
 	 * Triples to modify
-	 * @param List of triples
+	 * @param triples List of triples
 	 */
 	public void setTriples(List<MassiveTriple> triples) {
 		this.triples = triples;
@@ -31,7 +31,7 @@ public class MassiveTripleModifyParameters {
 	}
 	/**
 	 * Ontology to modify
-	 * @param Ontology
+	 * @param ontology Ontology
 	 
 	 */
 	public void setOntology(String ontology) {
@@ -46,7 +46,7 @@ public class MassiveTripleModifyParameters {
 	}
 	/**
 	 * Community short name
-	 * @param community short name
+	 * @param community_short_name community short name
 	 */
 	public void setCommunity_short_name(String community_short_name) {
 		this.community_short_name = community_short_name;

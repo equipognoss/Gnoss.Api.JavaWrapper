@@ -18,8 +18,8 @@ public class NotificationApi extends GnossApiWrapper{
 	
 	/**
 	 * COnstructor of NotificationAPI
-	 * @param oauth
-	 * @param communityShortName
+	 * @param oauth OAuth
+	 * @param communityShortName community short name 
 	 */
 	public NotificationApi(OAuthInfo oauth, String communityShortName) {
 		super(oauth, communityShortName);
@@ -29,7 +29,7 @@ public class NotificationApi extends GnossApiWrapper{
 	
 	/**
 	 * COnstructor of NotificationApi
-	 * @param configFilePath
+	 * @param configFilePath configuration file path 
 	 * @throws GnossAPIException
 	 * @throws ParserConfigurationException
 	 * @throws SAXException

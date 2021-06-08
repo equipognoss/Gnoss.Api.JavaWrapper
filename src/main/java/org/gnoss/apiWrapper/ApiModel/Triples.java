@@ -20,7 +20,7 @@ public class Triples {
 	}
 	/**
 	 * Community short name
-	 * @param community_short_name
+	 * @param community_short_name community short name 
 	 */
 	public void setCommunity_short_name(String community_short_name) {
 		this.community_short_name = community_short_name;
@@ -34,7 +34,7 @@ public class Triples {
 	}
 	/**
 	 * Resource identifier
-	 * @param resource_id
+	 * @param resource_id resource id 
 	 */
 	public void setResource_id(UUID resource_id) {
 		this.resource_id = resource_id;
@@ -48,7 +48,7 @@ public class Triples {
 	}
 	/**
 	 * Triple list
-	 * @param triples_list
+	 * @param triples_list triple list
 	 */
 	public void setTriples_list(List<Triple> triples_list) {
 		this.triples_list = triples_list;
@@ -62,7 +62,7 @@ public class Triples {
 	}
 	/**
 	 * True if the resource must be published in the home of the community (by default false)
-	 * @param publish_home
+	 * @param publish_home publish home 
 	 */
 	public void setPublish_home(boolean publish_home) {
 		this.publish_home = publish_home;
@@ -76,7 +76,7 @@ public class Triples {
 	}
 	/**
 	 * True if it is the end of the load and must delete the cache
-	 * @param end_of_load
+	 * @param end_of_load end of load 
 	 */
 	public void setEnd_of_load(boolean end_of_load) {
 		this.end_of_load = end_of_load;

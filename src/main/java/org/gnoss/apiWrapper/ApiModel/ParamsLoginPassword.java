@@ -19,7 +19,7 @@ public class ParamsLoginPassword {
 	/**
 	 * Login or email of the user 
 	 * Example:fer123
-	 * @param login
+	 * @param login login 
 	 */
 	public void setLogin(String login) {
 		this.login = login;
@@ -33,7 +33,7 @@ public class ParamsLoginPassword {
 	}
 	/**
 	 * Password of the user
-	 * @param password
+	 * @param password password
 	 */
 	public void setPassword(String password) {
 		this.password = password;

@@ -31,7 +31,7 @@ public class MassiveDataLoadPackageResource {
 	}
 	/**
 	 * Package identifier
-	 * @param package_id
+	 * @param package_id Package id
 	 */
 	public void setPackage_id(UUID package_id) {
 		this.package_id = package_id;
@@ -45,7 +45,7 @@ public class MassiveDataLoadPackageResource {
 	}
 	/**
 	 * Load identifier
-	 * @param load_id
+	 * @param load_id Load id
 	 */
 	public void setLoad_id(UUID load_id) {
 		this.load_id = load_id;
@@ -59,7 +59,7 @@ public class MassiveDataLoadPackageResource {
 	}
 	/**
 	 * Ontology file route
-	 * @param ontology_rute
+	 * @param ontology_rute Ontology route
 	 */
 	public void setOntology_rute(String ontology_rute) {
 		this.ontology_rute = ontology_rute;
@@ -73,7 +73,7 @@ public class MassiveDataLoadPackageResource {
 	}
 	/**
 	 * Search graph file rute
-	 * @param search_rute
+	 * @param search_rute Search route
 	 */
 	public void setSearch_rute(String search_rute) {
 		this.search_rute = search_rute;
@@ -87,7 +87,7 @@ public class MassiveDataLoadPackageResource {
 	}
 	/**
 	 * SQL file route
-	 * @param sql_rute
+	 * @param sql_rute SQL route
 	 */
 	public void setSql_rute(String sql_rute) {
 		this.sql_rute = sql_rute;
@@ -101,7 +101,7 @@ public class MassiveDataLoadPackageResource {
 	}
 	/**
 	 * State of the package
-	 * @param state
+	 * @param state State 
 	 */
 	public void setState(int state) {
 		this.state = state;
@@ -115,7 +115,7 @@ public class MassiveDataLoadPackageResource {
 	}
 	/**
 	 * Error in processing the package
-	 * @param error
+	 * @param error Error 
 	 */
 	public void setError(int error) {
 		this.error = error;
@@ -129,7 +129,7 @@ public class MassiveDataLoadPackageResource {
 	}
 	/**
 	 * Date of creation the package
-	 * @param date_creation
+	 * @param date_creation Date creation
 	 */
 	public void setDate_creation(Date date_creation) {
 		this.date_creation = date_creation;
@@ -143,7 +143,7 @@ public class MassiveDataLoadPackageResource {
 	}
 	/**
 	 * Date when the package is processed
-	 * @param date_processing
+	 * @param date_processing Date processing
 	 */
 	public void setDate_processing(Date date_processing) {
 		this.date_processing = date_processing;
@@ -157,7 +157,7 @@ public class MassiveDataLoadPackageResource {
 	}
 	/**
 	 * Ontology name 
-	 * @param ontology
+	 * @param ontology Ontology
 	 */
 	public void setOntology(String ontology) {
 		this.ontology = ontology;
@@ -171,7 +171,7 @@ public class MassiveDataLoadPackageResource {
 	}
 	/**
 	 * The data is compressed 
-	 * @param comprimido
+	 * @param comprimido Comprimido
 	 */
 	public void setComprimido(boolean comprimido) {
 		this.comprimido = comprimido;
@@ -185,7 +185,7 @@ public class MassiveDataLoadPackageResource {
 	}
 	/**
 	 * The package is the last one 
-	 * @param isLast
+	 * @param isLast isLast
 	 */
 	public void setLast(boolean isLast) {
 		this.isLast = isLast;

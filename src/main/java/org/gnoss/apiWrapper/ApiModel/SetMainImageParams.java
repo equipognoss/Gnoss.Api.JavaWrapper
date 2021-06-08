@@ -21,7 +21,7 @@ public class SetMainImageParams {
 	}
 	/**
 	 * Community short name
-	 * @param community_short_name
+	 * @param community_short_name community short name 
 	 */
 	public void setCommunity_short_name(String community_short_name) {
 		this.community_short_name = community_short_name;
@@ -35,7 +35,7 @@ public class SetMainImageParams {
 	}
 	/**
 	 * Resource identifier
-	 * @param resource_id
+	 * @param resource_id resource id 
 	 */
 	public void setResource_id(UUID resource_id) {
 		this.resource_id = resource_id;
@@ -49,7 +49,7 @@ public class SetMainImageParams {
 	}
 	/**
 	 * Path of the image
-	 * @param path
+	 * @param path path
 	 */
 	public void setPath(String path) {
 		this.path = path;

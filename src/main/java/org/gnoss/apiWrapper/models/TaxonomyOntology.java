@@ -188,7 +188,7 @@ public class TaxonomyOntology extends BaseOntology{
 	}
 	/**
 	 * Gets the content of the RdfFile
-	 * @return
+	 * @return String 
 	 * @throws IOException 
 	 * @throws GnossAPIException 
 	 */
@@ -214,7 +214,7 @@ public class TaxonomyOntology extends BaseOntology{
 	}
 	/**
 	 * Sets the concept entity list of the ontology
-	 * @param conceptEntities
+	 * @param conceptEntities concept entities 
 	 */
 	public void setConceptEntities(List<ConceptEntity> conceptEntities) {
 		this.conceptEntities = conceptEntities;

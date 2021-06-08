@@ -27,7 +27,7 @@ public class CommentParams {
 	}
 	/**
 	 * Community short name
-	 * @param community_short_name
+	 * @param community_short_name community short name
 	 */
 	public void setCommunity_short_name(String community_short_name) {
 		this.community_short_name = community_short_name;
@@ -41,21 +41,21 @@ public class CommentParams {
 	}
 	/**
 	 * Resource identifier
-	 * @param resource_id
+	 * @param resource_id resource Id
 	 */
 	public void setResource_id(UUID resource_id) {
 		this.resource_id = resource_id;
 	}
 	/**
 	 * User short name
-	 * @return user short name
+	 * @return user_short_name 
 	 */
 	public String getUser_short_name() {
 		return user_short_name;
 	}
 	/**
 	 * User short name 
-	 * @param user_short_name
+	 * @param user_short_name user short name
 	 */
 	public void setUser_short_name(String user_short_name) {
 		this.user_short_name = user_short_name;
@@ -69,7 +69,7 @@ public class CommentParams {
 	}
 	/**
 	 * Description of the comment
-	 * @param html_description
+	 * @param html_description html description
 	 */
 	public void setHtml_description(String html_description) {
 		this.html_description = html_description;
@@ -83,7 +83,7 @@ public class CommentParams {
 	}
 	/**
 	 * Parent comment identifier (if the comment is an answer to another comment)
-	 * @param parent_comment_id
+	 * @param parent_comment_id parent comment Id
 	 */
 	public void setParent_comment_id(UUID parent_comment_id) {
 		this.parent_comment_id = parent_comment_id;
@@ -97,7 +97,7 @@ public class CommentParams {
 	}
 	/**
 	 * Comment date
-	 * @param comment_date
+	 * @param comment_date Comment date
 	 */
 	public void setComment_date(Date comment_date) {
 		this.comment_date = comment_date;
@@ -111,7 +111,7 @@ public class CommentParams {
 	}
 	/**
 	 * True if the comment must be published in the community home
-	 * @param pusblish_home
+	 * @param pusblish_home publishing home
 	 */
 	public void setPusblish_home(boolean pusblish_home) {
 		this.pusblish_home = pusblish_home;

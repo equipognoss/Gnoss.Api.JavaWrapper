@@ -20,7 +20,7 @@ public class ParamsDeleteNode {
 	}
 	/**
 	 * URL of the thesaurus ontology
-	 * @param thesaurus_ontology_url
+	 * @param thesaurus_ontology_url Thesaurus ontology url 
 	 */
 	public void setThesaurus_ontology_url(String thesaurus_ontology_url) {
 		this.thesaurus_ontology_url = thesaurus_ontology_url;
@@ -34,7 +34,7 @@ public class ParamsDeleteNode {
 	}
 	/**
 	 * Ontology URL of the resources that references this thesaurus 
-	 * @param resources_ontology_url
+	 * @param resources_ontology_url Resources ontology url 
 	 */
 	public void setResources_ontology_url(String resources_ontology_url) {
 		this.resources_ontology_url = resources_ontology_url;
@@ -48,7 +48,7 @@ public class ParamsDeleteNode {
 	}
 	/**
 	 * Community short name 
-	 * @param community_short_name
+	 * @param community_short_name Community short name 
 	 */
 	public void setCommunity_short_name(String community_short_name) {
 		this.community_short_name = community_short_name;
@@ -62,7 +62,7 @@ public class ParamsDeleteNode {
 	}
 	/**
 	 * Identificator of the category 
-	 * @param category_id
+	 * @param category_id Category id 
 	 */
 	public void setCategory_id(String category_id) {
 		this.category_id = category_id;
@@ -76,7 +76,7 @@ public class ParamsDeleteNode {
 	}
 	/**
 	 * Path from root to her last child to which will move the resource that are in the deleted category 
-	 * @param path
+	 * @param path Path
 	 */
 	public void setPath(String[] path) {
 		this.path = path;

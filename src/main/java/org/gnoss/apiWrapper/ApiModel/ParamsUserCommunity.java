@@ -17,7 +17,7 @@ public class ParamsUserCommunity {
 	}
 	/**
 	 * User short name
-	 * @param user_short_name
+	 * @param user_short_name User short name 
 	 */
 	public void setUser_short_name(String user_short_name) {
 		this.user_short_name = user_short_name;
@@ -31,7 +31,7 @@ public class ParamsUserCommunity {
 	}
 	/**
 	 * Community short name 
-	 * @param community_short_name
+	 * @param community_short_name Community short name
 	 */
 	public void setCommunity_short_name(String community_short_name) {
 		this.community_short_name = community_short_name;

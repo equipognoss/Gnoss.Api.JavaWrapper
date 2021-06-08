@@ -23,7 +23,7 @@ public class VoteModel {
 	}
 	/**
 	 * Resource identificator 
-	 * @param resource_id
+	 * @param resource_id resource id 
 	 */
 	public void setResource_id(UUID resource_id) {
 		this.resource_id = resource_id;
@@ -37,7 +37,7 @@ public class VoteModel {
 	}
 	/**
 	 * User identificator who has voted the resource
-	 * @param user_id
+	 * @param user_id user id 
 	 */
 	public void setUser_id(UUID user_id) {
 		this.user_id = user_id;
@@ -51,7 +51,7 @@ public class VoteModel {
 	}
 	/**
 	 * Vote date
-	 * @param vote_time
+	 * @param vote_time vote time 
 	 */
 	public void setVote_time(Date vote_time) {
 		this.vote_time = vote_time;

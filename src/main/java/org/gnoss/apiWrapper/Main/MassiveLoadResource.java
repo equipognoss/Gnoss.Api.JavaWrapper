@@ -77,7 +77,7 @@ public class MassiveLoadResource extends ResourceApi{
 	
 	/**
 	 * Constructor of MassiveLoadResourceApi
-	 * @param oauth
+	 * @param oauth oauth
 	 * @param configFilePath Configuration file path, with a structure like http://api.gnoss.com/v3/exampleConfig.txt 
 	 * @throws GnossAPIException
 	 * @throws ParserConfigurationException
@@ -92,8 +92,8 @@ public class MassiveLoadResource extends ResourceApi{
 	/**
 	 * Create a new massive data load
 	 * @param pName Massive data load name
-	 * @param pFilesDirectory -> Path directory of the massive data load files
-	 * @param pOrganizationID -> Organization identifier
+	 * @param pFilesDirectory  Path directory of the massive data load files
+	 * @param pOrganizationID  Organization identifier
 	 * @return Identifier of the load
 	 * @throws GnossAPIException
 	 */
@@ -245,9 +245,9 @@ public class MassiveLoadResource extends ResourceApi{
 	}
 	/**
 	 * Create a new package massive data load
-	 * @param resource -> Interface of the Gnoss Methods
-	 * @param isLast -> The last resource
-	 * @return -> Identifier of the package
+	 * @param resource  Interface of the Gnoss Methods
+	 * @param isLast  The last resource
+	 * @return  Identifier of the package
 	 */
 	public UUID MassiveDataLoadPackage(IGnossOCBase resource, boolean isLast) {
 		UUID identifier = UUID.randomUUID();

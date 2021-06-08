@@ -18,7 +18,7 @@ public class AumentedReading {
 	}
 	/**
 	 * Increased- reading title
-	 * @param title
+	 * @param title title
 	 */
 	public void setTitle(String title) {
 		this.title = title;
@@ -32,7 +32,7 @@ public class AumentedReading {
 	}
 	/**
 	 * Increased-reading description 
-	 * @param description
+	 * @param description description
 	 */
 	public void setDescription(String description) {
 		this.description = description;

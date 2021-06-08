@@ -21,7 +21,7 @@ public class ParamsChangeCategoryName {
 	}
 	/**
 	 * Community short name 
-	 * @param community_short_name
+	 * @param community_short_name Community short name 
 	 */
 	public void setCommunity_short_name(String community_short_name) {
 		this.community_short_name = community_short_name;
@@ -35,7 +35,7 @@ public class ParamsChangeCategoryName {
 	}
 	/**
 	 * Category_id
-	 * @param category_id
+	 * @param category_id Category id 
 	 */
 	public void setCategory_id(UUID category_id) {
 		this.category_id = category_id;
@@ -49,7 +49,7 @@ public class ParamsChangeCategoryName {
 	}
 	/**
 	 * New category name 
-	 * @param new_category_name
+	 * @param new_category_name New category name 
 	 */
 	public void setNew_category_name(String new_category_name) {
 		this.new_category_name = new_category_name;

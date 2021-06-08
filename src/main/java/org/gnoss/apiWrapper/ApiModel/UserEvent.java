@@ -23,7 +23,7 @@ public class UserEvent {
 	}
 	/**
 	 * Event identifier
-	 * @param event_id
+	 * @param event_id event id 
 	 */
 	public void setEvent_id(UUID event_id) {
 		this.event_id = event_id;
@@ -37,7 +37,7 @@ public class UserEvent {
 	}
 	/**
 	 * Event name 
-	 * @param name
+	 * @param name name 
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -51,7 +51,7 @@ public class UserEvent {
 	}
 	/**
 	 * Event date 
-	 * @param date
+	 * @param date date
 	 */
 	public void setDate(Date date) {
 		this.date = date;

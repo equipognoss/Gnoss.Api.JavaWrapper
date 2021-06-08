@@ -16,8 +16,8 @@ public class OntologyCount {
 	
 	/**
 	 * Constructor
-	 * @param resourcesCount
-	 * @param fileCount
+	 * @param resourcesCount resources count 
+	 * @param fileCount file count 
 	 */
 	public OntologyCount(int resourcesCount, int fileCount) {
 		this.fileCount=fileCount;
@@ -33,7 +33,7 @@ public class OntologyCount {
 	}
 	/**
 	 * Number of resources in a file
-	 * @param resourcesCount
+	 * @param resourcesCount resources count 
 	 */
 	public void setResourcesCount(int resourcesCount) {
 		this.resourcesCount = resourcesCount;
@@ -47,7 +47,7 @@ public class OntologyCount {
 	}
 	/**
 	 * Number of files of a ontology
-	 * @param fileCount
+	 * @param fileCount file count 
 	 */
 	public void setFileCount(int fileCount) {
 		this.fileCount = fileCount;

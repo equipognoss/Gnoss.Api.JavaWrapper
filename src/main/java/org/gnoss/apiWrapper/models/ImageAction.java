@@ -18,9 +18,9 @@ public class ImageAction {
 	
 	/**
 	 * Constructor of ImageAction
-	 * @param size: Size in pixels of the width and height of the result image 
-	 * @param imageTransformationType : Transformation to apply to the image
-	 * @param embedsRGB : embed color space
+	 * @param size Size in pixels of the width and height of the result image 
+	 * @param imageTransformationType  Transformation to apply to the image
+	 * @param embedsRGB  embed color space
 	 */
 	public ImageAction(int size, ImageTransformationType imageTransformationType, boolean embedsRGB) {
 		this.size=size;
@@ -34,10 +34,10 @@ public class ImageAction {
 	
 	/**
 	 * Constructor of imageAction
-	 * @param size: Size in pixels of the width and height of the result image 
-	 * @param imageTransformationType: Transformation to apply to the image
-	 * @param imageQualityPercentage : Minimum quality for the converted image (between 0 and 100)
-	 * @param embedsRGB: embed color space
+	 * @param size Size in pixels of the width and height of the result image 
+	 * @param imageTransformationType Transformation to apply to the image
+	 * @param imageQualityPercentage Minimum quality for the converted image (between 0 and 100)
+	 * @param embedsRGB embed color space
 	 */
 	public ImageAction(int size, ImageTransformationType imageTransformationType, long imageQualityPercentage, boolean embedsRGB) {
 		this.size=size;
@@ -50,10 +50,10 @@ public class ImageAction {
 	
 	/**
 	 * Constructor of imageAction
-	 * @param width: width to resize
-	 * @param heiht: height to resize
-	 * @param imageTransformationType: Transformation to apply to the image
-	 * @param embedsRGB: embed color space
+	 * @param width width to resize
+	 * @param heiht height to resize
+	 * @param imageTransformationType Transformation to apply to the image
+	 * @param embedsRGB embed color space
 	 */
 	public ImageAction(float width, float heiht, ImageTransformationType imageTransformationType, boolean embedsRGB) {
 		this.size=(int) width;
@@ -66,11 +66,11 @@ public class ImageAction {
 	
 	/**
 	 * Constructor of imageAction
-	 * @param width: width to resize
-	 * @param heiht: height to resize
-	 * @param imageTransformationType: Transformation to apply to the image
-	 * @param imageQualityPercentage: Minimum quality for the converted image (between 0 and 100)
-	 * @param embedsRGB: embed color space
+	 * @param width width to resize
+	 * @param heiht height to resize
+	 * @param imageTransformationType Transformation to apply to the image
+	 * @param imageQualityPercentage Minimum quality for the converted image (between 0 and 100)
+	 * @param embedsRGB embed color space
 	 */
 	public ImageAction(float width, float heiht, ImageTransformationType imageTransformationType, long imageQualityPercentage, boolean embedsRGB) {
 		this.size=(int) width;
@@ -85,7 +85,7 @@ public class ImageAction {
 	
 	/**
 	 * Get the size in pixels of the width and height of the result image
-	 * @return
+	 * @return int 
 	 */
 	
 	public int getSize() {
@@ -93,14 +93,14 @@ public class ImageAction {
 	}
 	/**
 	 * Set the size in pixels of the width and height of the result image
-	 * @param size
+	 * @param size size
 	 */
 	public void setSize(int size) {
 		this.size = size;
 	}
 	/**
 	 * Height, in pixels, that must have the image after the transformation
-	 * @return
+	 * @return float 
 	 */
 	public float getHeight() {
 		return height;
@@ -114,56 +114,56 @@ public class ImageAction {
 	}
 	/**
 	 * Width, in pixels, that must have the image after the transformation
-	 * @return
+	 * @return float
 	 */
 	public float getWidth() {
 		return width;
 	}
 	/**
 	 * Width, in pixels, that must have the image after the transformation
-	 * @param width
+	 * @param width width
 	 */
 	public void setWidth(float width) {
 		this.width = width;
 	}
 	/**
 	 * Transformation to apply to the image
-	 * @return
+	 * @return ImageTransformationType 
 	 */
 	public ImageTransformationType getImegeTransformationType() {
 		return imageTransformationType;
 	}
 	/**
 	 * Transformation to apply to the image
-	 * @param imegeTransformationType
+	 * @param imegeTransformationType image Transformation Type 
 	 */
 	public void setImegeTransformationType(ImageTransformationType imegeTransformationType) {
 		this.imageTransformationType = imegeTransformationType;
 	}
 	/**
 	 * Minimum quality for the converted image (between 0 and 100)
-	 * @return
+	 * @return long 
 	 */
 	public long getImageQualityPercentage() {
 		return imageQualityPercentage;
 	}
 	/**
-	 * Minimum quality for the converted image (between 0 and 100)
-	 * @param imageQualityPercentage
+	 * Minimum quality for the converted  image (between 0 and 100)
+	 * @param imageQualityPercentage image quality percentage 
 	 */
 	public void setImageQualityPercentage(long imageQualityPercentage) {
 		this.imageQualityPercentage = imageQualityPercentage;
 	}
 	/**
 	 * Embed color space
-	 * @return
+	 * @return boolean 
 	 */
 	public boolean isEmbedsRGB() {
 		return embedsRGB;
 	}
 	/**
 	 * Embed color space
-	 * @param embedsRGB
+	 * @param embedsRGB EmbededRGB
 	 */
 	public void setEmbedsRGB(boolean embedsRGB) {
 		this.embedsRGB = embedsRGB;

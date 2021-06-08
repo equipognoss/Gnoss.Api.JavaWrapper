@@ -21,7 +21,7 @@ public class ResponseGetUrl {
 	}
 	/**
 	 * Resource identifier
-	 * @param resource_id
+	 * @param resource_id reosurce id 
 	 */
 	public void setResource_id(UUID resource_id) {
 		this.resource_id = resource_id;
@@ -35,7 +35,7 @@ public class ResponseGetUrl {
 	}
 	/**
 	 * Url of the resource
-	 * @param url
+	 * @param url url 
 	 */
 	public void setUrl(String url) {
 		this.url = url;

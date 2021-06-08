@@ -30,8 +30,8 @@ public class ThesaurusAPI extends GnossApiWrapper{
 	
 	/**
 	 * Constructor of ThhesaurusApi
-	 * @param oauth -> OAuth information to sign the API request
-	 * @param communityShortName -> Community short name which you want to use the API
+	 * @param oauth  OAuth information to sign the API request
+	 * @param communityShortName  Community short name which you want to use the API
 	 */
 	public ThesaurusAPI(OAuthInfo oauth, String communityShortName) {
 		super(oauth, communityShortName);
@@ -41,7 +41,7 @@ public class ThesaurusAPI extends GnossApiWrapper{
 	
 	/**
 	 * Constructor of THesaurusAPI
-	 * @param configFilePath -> Configuration file path, with a structure like "http://api.gnoss.com/v3/exampleConfig.txt" 
+	 * @param configFilePath  Configuration file path, with a structure like "http://api.gnoss.com/v3/exampleConfig.txt" 
 	 * @throws GnossAPIException
 	 * @throws ParserConfigurationException
 	 * @throws SAXException
@@ -59,8 +59,8 @@ public class ThesaurusAPI extends GnossApiWrapper{
 	
 	/**
 	 * Get the RDF of a semantic thesaurus
-	 * @param thesaurusOntologyUrl -> Identifier of the thesaurus
-	 * @param source -> RDF of a semantic thesaurus
+	 * @param thesaurusOntologyUrl  Identifier of the thesaurus
+	 * @param source  RDF of a semantic thesaurus
 	 * @return
 	 */
 	public String GetThesaurus(String thesaurusOntologyUrl, String source) {
@@ -79,10 +79,10 @@ public class ThesaurusAPI extends GnossApiWrapper{
 	}
 	/**
 	 * Moves category of a semantic thesaurus from its current father to another one, indicating its full path from the root.
-	 * @param pURLOntologiaTesauro -> URL of the semantic thesaurus ontology
-	 * @param pUrlOntologiaRecursos -> URL of the ontology of the resources that are linked to the semantic thesaurus
-	 * @param pCategoriaMoveId -> URI of the category to move
-	 * @param pPath-> Path from the root to the last new father of the category
+	 * @param pURLOntologiaTesauro  URL of the semantic thesaurus ontology
+	 * @param pUrlOntologiaRecursos  URL of the ontology of the resources that are linked to the semantic thesaurus
+	 * @param pCategoriaMoveId  URI of the category to move
+	 * @param pPath Path from the root to the last new father of the category
 	 * @throws Exception
 	 */
 	public void MoveSemanticThesaurusNode(String pURLOntologiaTesauro, String pUrlOntologiaRecursos, String pCategoriaMoveId, String[] pPath) throws Exception {
@@ -105,10 +105,10 @@ public class ThesaurusAPI extends GnossApiWrapper{
 	
 	/**
 	 * Removes a category of a semantic thesaurus moving all resources that were linked to it to another one indicating its complete path from the root.
-	 * @param pUrlOntologiaTesauro -> URL of the semantic thesaurus ontology
-	 * @param UrlOntologiaRecursos -> URL of the ontology of the resources that are linked to the semantic thesaurus
-	 * @param pCategoriaAEliminarId -> Path from the root father to its last child where resources of the removed category are going to be moved to
-	 * @param pPath
+	 * @param pUrlOntologiaTesauro  URL of the semantic thesaurus ontology
+	 * @param UrlOntologiaRecursos  URL of the ontology of the resources that are linked to the semantic thesaurus
+	 * @param pCategoriaAEliminarId  Path from the root father to its last child where resources of the removed category are going to be moved to
+	 * @param pPath path 
 	 * @throws Exception
 	 */
 	public void RemoveSemanticThesaurusNode(String pUrlOntologiaTesauro, String UrlOntologiaRecursos, String pCategoriaAEliminarId, String[] pPath) throws Exception {
@@ -132,8 +132,8 @@ public class ThesaurusAPI extends GnossApiWrapper{
 	
 	/**
 	 * Modify the category name 
-	 * @param newCategoryNamed
-	 * @param categoryId
+	 * @param newCategoryNamed new Category named
+	 * @param categoryId Category id 
 	 * @throws Exception
 	 */
 	public void ChangeCategoryName(String newCategoryNamed, UUID categoryId) throws Exception {
@@ -155,8 +155,8 @@ public class ThesaurusAPI extends GnossApiWrapper{
 	
 	/**
 	 * Create a new category
-	 * @param categoryName
-	 * @param parentCategoryId
+	 * @param categoryName category name 
+	 * @param parentCategoryId parent category id 
 	 * @throws Exception
 	 */
 	public void createCategory(String categoryName, UUID parentCategoryId) throws Exception{
@@ -181,8 +181,8 @@ public class ThesaurusAPI extends GnossApiWrapper{
 	
 	/**
 	 * Delete a category
-	 * @param categoryName
-	 * @param parentCategoryId
+	 * @param categoryName category name 
+	 * @param parentCategoryId parent category id 
 	 * @throws Exception
 	 */
 	
@@ -208,9 +208,9 @@ public class ThesaurusAPI extends GnossApiWrapper{
 	
 	/**
 	 * Adds a category as a parent of another one
-	 * @param pUrlOntologiaTesauro ->URL of the semantic thesaurus ontology
-	 * @param pCategoriaPadreId ->URI of the parent category
-	 * @param pCategoriaHijoId -> URI of the child category<
+	 * @param pUrlOntologiaTesauro URL of the semantic thesaurus ontology
+	 * @param pCategoriaPadreId URI of the parent category
+	 * @param pCategoriaHijoId  URI of the child category<
 	 * @throws Exception
 	 */
 	public void AddFatherToSemanticThesaurusNode(String pUrlOntologiaTesauro, String pCategoriaPadreId, String pCategoriaHijoId) throws Exception {
@@ -233,9 +233,9 @@ public class ThesaurusAPI extends GnossApiWrapper{
 	
 	/**
 	 * Modifies the semantic thesaurus category name
-	 * @param pUrlOntologiaTesauro -> URL of the semantic thesaurus ontology
-	 * @param pCategoriaId -> URI of the category
-	 * @param pNombre -> Category name, supports multi language with the format: nombre@es|||name@en|||
+	 * @param pUrlOntologiaTesauro  URL of the semantic thesaurus ontology
+	 * @param pCategoriaId  URI of the category
+	 * @param pNombre  Category name, supports multi language with the format: nombre@es|||name@en|||
 	 * @throws Exception
 	 */
 	public void ChangeNameToSemanticThesaurusNode(String pUrlOntologiaTesauro, String pCategoriaId, String pNombre) throws Exception {
@@ -259,8 +259,8 @@ public class ThesaurusAPI extends GnossApiWrapper{
 	
 	/**
 	 * Inserts a category of a semantic thesaurus.
-	 * @param pUrlOntologiaTesauro -> URL of the semantic thesaurus ontology
-	 * @param pRdfCategoria -> Inserted category Rdf
+	 * @param pUrlOntologiaTesauro  URL of the semantic thesaurus ontology
+	 * @param pRdfCategoria  Inserted category Rdf
 	 * @throws Exception
 	 */
 	public void InsertSemanticThesaurusNode(String pUrlOntologiaTesauro, byte[] pRdfCategoria) throws Exception {

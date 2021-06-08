@@ -29,7 +29,7 @@ public class StringHelper {
 	
 	/**
 	 * REmove reserved caracters for urls in a string 
-	 * @param <inputString> String to remove reserved characters
+	 * @param inputString String to remove reserved characters
 	 * @return The inputString without reserved characters
 	 */
 	
@@ -70,7 +70,7 @@ public class StringHelper {
 	
 	/**
 	 * Remove accents from the input string
-	 * @param <pInputString> String to remove accents 
+	 * @param pInputString String to remove accents 
 	 * @return  InputString without accents 
 	 */
 	public static String RemoveAccentsWithRegEx(String pInputString) {
@@ -91,7 +91,7 @@ public class StringHelper {
 	
 	/**
 	 * Gets a url encoded as UTF-8
-	 * @param <url> Url to encode
+	 * @param url Url to encode
 	 */
 	public static String urlEncoderUTF8(String url) {
 		try {

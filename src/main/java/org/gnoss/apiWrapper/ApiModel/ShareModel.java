@@ -21,7 +21,7 @@ public class ShareModel {
 	}
 	/**
 	 * Resource identificator 
-	 * @param resource_id
+	 * @param resource_id resource id 
 	 */
 	public void setResource_id(UUID resource_id) {
 		this.resource_id = resource_id;
@@ -35,7 +35,7 @@ public class ShareModel {
 	}
 	/**
 	 * Origin community short name 
-	 * @param origin_community_short_name
+	 * @param origin_community_short_name origin community short name 
 	 */
 	public void setOrigin_community_short_name(String origin_community_short_name) {
 		this.origin_community_short_name = origin_community_short_name;
@@ -49,7 +49,7 @@ public class ShareModel {
 	}
 	/**
 	 * Destiny community short name 
-	 * @param destiny_community_short_name
+	 * @param destiny_community_short_name destiny community short name 
 	 */
 	public void setDestiny_community_short_name(String destiny_community_short_name) {
 		this.destiny_community_short_name = destiny_community_short_name;
@@ -63,7 +63,7 @@ public class ShareModel {
 	}
 	/**
 	 * user identificator who has shared the resource
-	 * @param user_id
+	 * @param user_id user id 
 	 */
 	public void setUser_id(UUID user_id) {
 		this.user_id = user_id;

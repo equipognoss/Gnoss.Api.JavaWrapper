@@ -18,7 +18,7 @@ public class ParamsInsertNode {
 	}
 	/**
 	 * URL of the thesaurus ontology 
-	 * @param thesaurus_ontology_url
+	 * @param thesaurus_ontology_url Thesaurus ontology url 
 	 */
 	public void setThesaurus_ontology_url(String thesaurus_ontology_url) {
 		this.thesaurus_ontology_url = thesaurus_ontology_url;
@@ -32,7 +32,7 @@ public class ParamsInsertNode {
 	}
 	/**
 	 * Community short name 
-	 * @param community_short_name
+	 * @param community_short_name Community short name 
 	 */
 	public void setCommunity_short_name(String community_short_name) {
 		this.community_short_name = community_short_name;
@@ -46,7 +46,7 @@ public class ParamsInsertNode {
 	}
 	/**
 	 * RDF of the category 
-	 * @param rdf_category
+	 * @param rdf_category RDF category
 	 */
 	public void setRdf_category(byte[] rdf_category) {
 		this.rdf_category = rdf_category;

@@ -22,7 +22,7 @@ public class ResponseGetCategories {
 	}
 	/**
 	 * Resource identifier
-	 * @param resource_id
+	 * @param resource_id resource id 
 	 */
 	public void setResource_id(UUID resource_id) {
 		this.resource_id = resource_id;
@@ -36,7 +36,7 @@ public class ResponseGetCategories {
 	}
 	/**
 	 * Categories of the resource
-	 * @param category_id_list
+	 * @param category_id_list category id list
 	 */
 	public void setCategory_id_list(List<ThesaurusCategory> category_id_list) {
 		this.category_id_list = category_id_list;

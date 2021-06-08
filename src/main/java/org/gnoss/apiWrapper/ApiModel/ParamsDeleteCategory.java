@@ -20,7 +20,7 @@ public class ParamsDeleteCategory {
 	}
 	/**
 	 * Community short name 
-	 * @param community_short_name
+	 * @param community_short_name Community short name 
 	 */
 	public void setCommunity_short_name(String community_short_name) {
 		this.community_short_name = community_short_name;
@@ -34,7 +34,7 @@ public class ParamsDeleteCategory {
 	}
 	/**
 	 * Category id 
-	 * @param category_id
+	 * @param category_id Category id 
 	 */
 	public void setCategory_id(UUID category_id) {
 		this.category_id = category_id;

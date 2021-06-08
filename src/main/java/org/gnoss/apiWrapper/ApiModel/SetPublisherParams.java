@@ -25,7 +25,7 @@ public class SetPublisherParams {
 	}
 	/**
 	 * Community short name
-	 * @param community_short_name
+	 * @param community_short_name community short name 
 	 */
 	public void setCommunity_short_name(String community_short_name) {
 		this.community_short_name = community_short_name;
@@ -39,7 +39,7 @@ public class SetPublisherParams {
 	}
 	/**
 	 * Resource identifier
-	 * @param resource_id
+	 * @param resource_id resource id 
 	 */
 	public void setResource_id(UUID resource_id) {
 		this.resource_id = resource_id;
@@ -53,7 +53,7 @@ public class SetPublisherParams {
 	}
 	/**
 	 * Email of the resource publisher
-	 * @param publisher_email
+	 * @param publisher_email publisher email 
 	 */
 	public void setPublisher_email(String publisher_email) {
 		this.publisher_email = publisher_email;
@@ -67,7 +67,7 @@ public class SetPublisherParams {
 	}
 	/**
 	 * Resource identifier list
-	 * @param resource_id_list
+	 * @param resource_id_list resource id list
 	 */
 	public void setResource_id_list(List<UUID> resource_id_list) {
 		this.resource_id_list = resource_id_list;
@@ -81,7 +81,7 @@ public class SetPublisherParams {
 	}
 	/**
 	 * True if the original editors must be keepers 
-	 * @param keep_editors
+	 * @param keep_editors keep editors 
 	 */
 	public void setKeep_editors(boolean keep_editors) {
 		this.keep_editors = keep_editors;

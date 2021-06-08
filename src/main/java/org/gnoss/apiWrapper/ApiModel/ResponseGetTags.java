@@ -22,7 +22,7 @@ public class ResponseGetTags {
 	}
 	/**
 	 * Resource identifier
-	 * @param resource_id
+	 * @param resource_id resource id 
 	 */
 	public void setResource_id(UUID resource_id) {
 		this.resource_id = resource_id;
@@ -36,7 +36,7 @@ public class ResponseGetTags {
 	}
 	/**
 	 * Resource tags
-	 * @param tags
+	 * @param tags tags 
 	 */
 	public void setTags(List<String> tags) {
 		this.tags = tags;

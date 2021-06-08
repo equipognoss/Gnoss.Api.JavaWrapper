@@ -29,7 +29,7 @@ public class MassiveDataLoadResource {
 	}
 	/**
 	 * Load identifier
-	 * @param load_id
+	 * @param load_id Load id 
 	 */
 	public void setLoad_id(UUID load_id) {
 		this.load_id = load_id;
@@ -43,7 +43,7 @@ public class MassiveDataLoadResource {
 	}
 	/**
 	 * Load name 
-	 * @param name
+	 * @param name Name 
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -57,7 +57,7 @@ public class MassiveDataLoadResource {
 	}
 	/**
 	 * State of the data load 
-	 * @param state
+	 * @param state State
 	 */
 	public void setState(int state) {
 		this.state = state;
@@ -71,7 +71,7 @@ public class MassiveDataLoadResource {
 	}
 	/**
 	 * Date creation of the data load 
-	 * @param data_create
+	 * @param data_create Date create
 	 */
 	public void setData_create(Date data_create) {
 		this.data_create = data_create;
@@ -85,7 +85,7 @@ public class MassiveDataLoadResource {
 	}
 	/**
 	 * Organization identifier
-	 * @param organization_id
+	 * @param organization_id Organization id 
 	 */
 	public void setOrganization_id(UUID organization_id) {
 		this.organization_id = organization_id;
@@ -99,7 +99,7 @@ public class MassiveDataLoadResource {
 	}
 	/**
 	 * Project identifier
-	 * @param project_id
+	 * @param project_id Project id 
 	 */
 	public void setProject_id(UUID project_id) {
 		this.project_id = project_id;
@@ -113,7 +113,7 @@ public class MassiveDataLoadResource {
 	}
 	/**
 	 * Identity identifier
-	 * @param identity_id
+	 * @param identity_id Identity id 
 	 */
 	public void setIdentity_id(UUID identity_id) {
 		this.identity_id = identity_id;
@@ -127,7 +127,7 @@ public class MassiveDataLoadResource {
 	}
 	/**
 	 * Short name of the community
-	 * @param community_name
+	 * @param community_name Community short name 
 	 */
 	public void setCommunity_name(String community_name) {
 		this.community_name = community_name;

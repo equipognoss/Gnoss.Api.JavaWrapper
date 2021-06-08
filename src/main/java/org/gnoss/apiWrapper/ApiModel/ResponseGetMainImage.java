@@ -23,7 +23,7 @@ public class ResponseGetMainImage {
 	}
 	/**
 	 * Resource identifier
-	 * @param resource_id
+	 * @param resource_id resource id 
 	 */
 	public void setResource_id(UUID resource_id) {
 		this.resource_id = resource_id;
@@ -37,7 +37,7 @@ public class ResponseGetMainImage {
 	}
 	/**
 	 * The image path
-	 * @param path
+	 * @param path path
 	 */
 	public void setPath(String path) {
 		this.path = path;
@@ -51,7 +51,7 @@ public class ResponseGetMainImage {
 	}
 	/**
 	 * All the possible sizes for the image
-	 * @param sizes
+	 * @param sizes sizes 
 	 */
 	public void setSizes(List<Integer> sizes) {
 		this.sizes = sizes;

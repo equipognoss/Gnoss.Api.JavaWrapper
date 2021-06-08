@@ -23,7 +23,7 @@ public class KeyEditors {
 	}
 	/**
 	 * Resource identifier
-	 * @param resource_id
+	 * @param resource_id Resource id
 	 */
 	public void setResource_id(UUID resource_id) {
 		this.resource_id = resource_id;
@@ -37,7 +37,7 @@ public class KeyEditors {
 	}
 	/**
 	 * User short name of the resource editors
-	 * @param editors
+	 * @param editors Editors
 	 */
 	public void setEditors(List<String> editors) {
 		this.editors = editors;
@@ -51,7 +51,7 @@ public class KeyEditors {
 	}
 	/**
 	 * Editors group 
-	 * @param editor_groups
+	 * @param editor_groups Editor groups
 	 */
 	public void setEditor_groups(List<EditorGroup> editor_groups) {
 		this.editor_groups = editor_groups;

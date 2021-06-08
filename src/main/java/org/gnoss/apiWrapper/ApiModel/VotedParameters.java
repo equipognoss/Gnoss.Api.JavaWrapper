@@ -18,7 +18,7 @@ public class VotedParameters {
 	}
 	/**
 	 * Resource identificator
-	 * @param resource_id
+	 * @param resource_id resource id 
 	 */
 	public void setResource_id(UUID resource_id) {
 		this.resource_id = resource_id;
@@ -32,7 +32,7 @@ public class VotedParameters {
 	}
 	/**
 	 * User identificator who has voted the resource
-	 * @param user_id
+	 * @param user_id user id 
 	 */
 	public void setUser_id(UUID user_id) {
 		this.user_id = user_id;
@@ -46,7 +46,7 @@ public class VotedParameters {
 	}
 	/**
 	 * Project identificator
-	 * @param project_id
+	 * @param project_id project id 
 	 */
 	public void setProject_id(UUID project_id) {
 		this.project_id = project_id;
@@ -60,7 +60,7 @@ public class VotedParameters {
 	}
 	/**
 	 * Vote value
-	 * @param vote_value
+	 * @param vote_value vote value 
 	 */
 	public void setVote_value(float vote_value) {
 		this.vote_value = vote_value;

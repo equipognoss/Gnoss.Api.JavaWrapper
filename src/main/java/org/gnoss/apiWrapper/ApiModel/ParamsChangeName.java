@@ -19,7 +19,7 @@ public class ParamsChangeName {
 	}
 	/**
 	 * URL of the thesaurus ontology
-	 * @param thesaurus_ontology_url
+	 * @param thesaurus_ontology_url Thesaurus ontology url 
 	 */
 	public void setThesaurus_ontology_url(String thesaurus_ontology_url) {
 		this.thesaurus_ontology_url = thesaurus_ontology_url;
@@ -33,7 +33,7 @@ public class ParamsChangeName {
 	}
 	/**
 	 * Community short name 
-	 * @param community_short_name
+	 * @param community_short_name Community short name 
 	 */
 	public void setCommunity_short_name(String community_short_name) {
 		this.community_short_name = community_short_name;
@@ -47,7 +47,7 @@ public class ParamsChangeName {
 	}
 	/**
 	 * Identificator of the category 
-	 * @param category_id
+	 * @param category_id Category id 
 	 */
 	public void setCategory_id(String category_id) {
 		this.category_id = category_id;
@@ -61,7 +61,7 @@ public class ParamsChangeName {
 	}
 	/**
 	 * Name of category 
-	 * @param category_name
+	 * @param category_name Category name 
 	 */
 	public void setCategory_name(String category_name) {
 		this.category_name = category_name;

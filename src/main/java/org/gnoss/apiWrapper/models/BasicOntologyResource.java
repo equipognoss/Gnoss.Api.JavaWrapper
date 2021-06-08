@@ -19,8 +19,8 @@ public class BasicOntologyResource extends BaseResource{
 	
 	/**
 	 * Read an image from the local file system or the internet and asigns it to the AttachedFile property
-	 * @param downloadUrl: Absolute local path or url of the image
-	 * @param size: Size to resize the image after download it
+	 * @param downloadUrl Absolute local path or url of the image
+	 * @param size Size to resize the image after download it
 	 * @throws IOException 
 	 * @throws GnossAPIException 
 	 */
@@ -39,7 +39,7 @@ public class BasicOntologyResource extends BaseResource{
 	
 	/**
 	 * Read a file (not an image, to attach an image use AttachImage from the local file system or the internet and asigns it to the AttachedFile property
-	 * @param downloadUrl: Absolute local path or url of the image
+	 * @param downloadUrl Absolute local path or url of the image
 	 * @throws IOException 
 	 * @throws GnossAPIException 
 	 */

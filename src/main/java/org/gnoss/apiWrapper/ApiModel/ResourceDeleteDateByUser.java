@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
- * Properties od the resource deleted
+ * Properties of the resource deleted
  * @author Andrea
  *
  */
@@ -23,7 +23,7 @@ public class ResourceDeleteDateByUser {
 	}
 	/**
 	 * Resource identificator
-	 * @param resourde_id
+	 * @param resourde_id  resource id 
 	 */
 	public void setResourde_id(UUID resourde_id) {
 		this.resourde_id = resourde_id;
@@ -37,7 +37,7 @@ public class ResourceDeleteDateByUser {
 	}
 	/**
 	 * Resource deleted date by user 
-	 * @param delete_date
+	 * @param delete_date delete date 
 	 */
 	public void setDelete_date(Date delete_date) {
 		this.delete_date = delete_date;
@@ -51,7 +51,7 @@ public class ResourceDeleteDateByUser {
 	}
 	/**
 	 * User identificator who has deleted the resource
-	 * @param uder_id
+	 * @param user_id user id 
 	 */
 	public void setUder_id(UUID user_id) {
 		this.user_id = user_id;

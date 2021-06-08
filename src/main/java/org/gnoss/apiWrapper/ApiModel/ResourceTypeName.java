@@ -18,7 +18,7 @@ public class ResourceTypeName {
 	}
 	/**
 	 * Resource type name
-	 * @param resource_type_name
+	 * @param resource_type_name resource type name
 	 */
 	public void setResource_type_name(String resource_type_name) {
 		this.resource_type_name = resource_type_name;
@@ -32,7 +32,7 @@ public class ResourceTypeName {
 	}
 	/**
 	 * Language of the type name 
-	 * @param resource_type_name_language
+	 * @param resource_type_name_language resource type name language
 	 */
 	public void setResource_type_name_language(String resource_type_name_language) {
 		this.resource_type_name_language = resource_type_name_language;

@@ -24,7 +24,7 @@ public class Userlite {
 	}
 	/**
 	 * Name
-	 * @param name
+	 * @param name name 
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -38,7 +38,7 @@ public class Userlite {
 	}
 	/**
 	 * Last name or Family name
-	 * @param last_name
+	 * @param last_name last name 
 	 */
 	public void setLast_name(String last_name) {
 		this.last_name = last_name;
@@ -52,7 +52,7 @@ public class Userlite {
 	}
 	/**
 	 * User short name 
-	 * @param user_short_name
+	 * @param user_short_name user short name 
 	 */
 	public void setUser_short_name(String user_short_name) {
 		this.user_short_name = user_short_name;
@@ -66,7 +66,7 @@ public class Userlite {
 	}
 	/**
 	 * Imagen
-	 * @param image
+	 * @param image image 
 	 */
 	public void setImage(String image) {
 		this.image = image;
@@ -80,7 +80,7 @@ public class Userlite {
 	}
 	/**
 	 * User born date
-	 * @param born_date
+	 * @param born_date born date 
 	 */
 	public void setBorn_date(Date born_date) {
 		this.born_date = born_date;

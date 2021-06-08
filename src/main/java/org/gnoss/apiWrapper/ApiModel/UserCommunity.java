@@ -27,7 +27,7 @@ public class UserCommunity {
 	}
 	/**
 	 * Name 
-	 * @param name
+	 * @param name name 
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -41,7 +41,7 @@ public class UserCommunity {
 	}
 	/**
 	 * Last name or Family name 
-	 * @param last_name
+	 * @param last_name last name 
 	 */
 	public void setLast_name(String last_name) {
 		this.last_name = last_name;
@@ -55,7 +55,7 @@ public class UserCommunity {
 	}
 	/**
 	 * User short name 
-	 * @param user_short_name
+	 * @param user_short_name user short name 
 	 */
 	public void setUser_short_name(String user_short_name) {
 		this.user_short_name = user_short_name;
@@ -69,7 +69,7 @@ public class UserCommunity {
 	}
 	/**
 	 * User identificator
-	 * @param user_id
+	 * @param user_id user id 
 	 */
 	public void setUser_id(UUID user_id) {
 		this.user_id = user_id;
@@ -83,7 +83,7 @@ public class UserCommunity {
 	}
 	/**
 	 * Number of resources
-	 * @param num_resources
+	 * @param num_resources number of resources 
 	 */
 	public void setNum_resources(String num_resources) {
 		this.num_resources = num_resources;
@@ -97,7 +97,7 @@ public class UserCommunity {
 	}
 	/**
 	 * Number of comments 
-	 * @param num_comments
+	 * @param num_comments number of comments 
 	 */
 	public void setNum_comments(String num_comments) {
 		this.num_comments = num_comments;
@@ -111,7 +111,7 @@ public class UserCommunity {
 	}
 	/**
 	 * Groups
-	 * @param groups
+	 * @param groups groups 
 	 */
 	public void setGroups(List<String> groups) {
 		this.groups = groups;

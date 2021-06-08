@@ -76,8 +76,8 @@ public class Ontology extends BaseOntology {
      *
      * @param graphsUrl Graphs url of the enviroment.
      * @param ontologyUrl Download url of the ontology
-     * @param rdfType The rdf:type property of the ontology
-     * @param rdfsLabel The rdfs:label of the ontology
+     * @param rdfType The rdf type property of the ontology
+     * @param rdfsLabel The rdfs label of the ontology
      * @param prefixList Prefix list declared in the ontology
      * @param propertyList Property list of the ontology
      * @param entityList List of auxiliar entities

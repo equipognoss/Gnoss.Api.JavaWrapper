@@ -22,7 +22,7 @@ public class ParamsChangeVisibility {
 	}
 	/**
 	 * User identifier
-	 * @param user_id
+	 * @param user_id User id 
 	 */
 	public void setUser_id(UUID user_id) {
 		this.user_id = user_id;
@@ -36,21 +36,21 @@ public class ParamsChangeVisibility {
 	}
 	/**
 	 * Communities short names where the user is going to be added (The organization must be member of all of them)
-	 * @param communities_Id
+	 * @param communities_Id Communities id 
 	 */
 	public void setCommunities_Id(List<UUID> communities_Id) {
 		this.communities_Id = communities_Id;
 	}
 	/**
 	 * Communities short names where the user is going to be added (The organization must be member of all of them)
-	 * @return 
+	 * @return visibility
 	 */
 	public boolean isVisibility() {
 		return visibility;
 	}
 	/**
 	 * Communities short names where the user is going to be added (The organization must be member of all of them)
-	 * @param visibility
+	 * @param visibility Visibility 
 	 */
 	public void setVisibility(boolean visibility) {
 		this.visibility = visibility;

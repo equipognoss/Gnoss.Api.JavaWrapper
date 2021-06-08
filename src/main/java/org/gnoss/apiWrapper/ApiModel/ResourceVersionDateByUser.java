@@ -23,7 +23,7 @@ public class ResourceVersionDateByUser {
 	}
 	/**
 	 * Resource identificator
-	 * @param resource_id
+	 * @param resource_id Resource id
 	 */
 	public void setResource_id(UUID resource_id) {
 		this.resource_id = resource_id;
@@ -37,7 +37,7 @@ public class ResourceVersionDateByUser {
 	}
 	/**
 	 * Resource version date by user
-	 * @param version_date
+	 * @param version_date version date
 	 */
 	public void setVersion_date(Date version_date) {
 		this.version_date = version_date;
@@ -51,7 +51,7 @@ public class ResourceVersionDateByUser {
 	}
 	/**
 	 * User identificator who has versioned the resource
-	 * @param user_id
+	 * @param user_id user id 
 	 */
 	public void setUser_id(UUID user_id) {
 		this.user_id = user_id;

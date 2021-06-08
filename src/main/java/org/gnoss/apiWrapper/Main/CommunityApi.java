@@ -75,9 +75,9 @@ public class CommunityApi extends GnossApiWrapper{
      * Load categories
      * @param community_short_name Community short name
      * @return List of categories
-     * @throws MalformedURLException
-     * @throws IOException
-     * @throws GnossAPIException
+     * @throws MalformedURLException exception
+     * @throws IOException exception
+     * @throws GnossAPIException exception
      */
     public ArrayList<ThesaurusCategory> LoadCategories(String community_short_name) throws MalformedURLException, IOException, GnossAPIException{
     	String url = _oauth.getApiUrl() + "/community/get-categories?community_short_name=" + community_short_name;
@@ -168,17 +168,17 @@ public class CommunityApi extends GnossApiWrapper{
     
     /**
      * Create community
-     * @param communityName-> Community name 
-     * @param communityShortName -> Short name of the community
-     * @param description -> <description of the community
-     * @param tagList -> Tags of the community
-     * @param type -> Type of the community
-     * @param accessType -> Access type of the community
-     * @param parentCommunityShortName -> Parent community short name 
-     * @param administratorUserId -> Admin ID of the community
-     * @param organizationShortName -> Admin organization short name of the community
-     * @param logo -> Logo of the community
-     * @throws Exception 
+     * @param communityName Community name 
+     * @param communityShortName  Short name of the community
+     * @param description  description of the community
+     * @param tagList  Tags of the community
+     * @param type  Type of the community
+     * @param accessType  Access type of the community
+     * @param parentCommunityShortName  Parent community short name 
+     * @param administratorUserId  Admin ID of the community
+     * @param organizationShortName  Admin organization short name of the community
+     * @param logo  Logo of the community
+     * @throws Exception  
      */
     public void CreateCommunity(String communityName, String communityShortName, String description, List<String> tagList, int type, int accessType, String parentCommunityShortName, UUID administratorUserId, String organizationShortName, byte[] logo ) throws Exception {
     	
@@ -208,10 +208,10 @@ public class CommunityApi extends GnossApiWrapper{
     
     /**
      * Create a community
-     * @param communityShortName -> Short name of the community
-     * @param parentCommunityShortName -> Parent Community short name of the community
-     * @param administratorUserId -> Admin ID of the community
-     * @throws Exception 
+     * @param communityShortName  Short name of the community
+     * @param parentCommunityShortName  Parent Community short name of the community
+     * @param administratorUserId  Admin ID of the community
+     * @throws Exception  
      */
     public void VincularComunidadPadre(String communityShortName, String parentCommunityShortName, UUID administratorUserId) throws Exception {
     	LinkParentCommunityModel linkparent= new LinkParentCommunityModel();
@@ -251,7 +251,7 @@ public class CommunityApi extends GnossApiWrapper{
 
     /**
      * 
-     * @param pmodel
+     * @param pmodel model 
      * @throws Exception 
      */
     public void UploadContentFile(UploadContentModel pmodel) throws Exception {
@@ -268,7 +268,7 @@ public class CommunityApi extends GnossApiWrapper{
     
     /**
      * Create community
-     * @param communityModel -> Community model
+     * @param communityModel  Community model
      * @throws Exception 
      */
     public void CreateCommunity(CommunityModel communityModel) throws Exception {
@@ -287,7 +287,7 @@ public class CommunityApi extends GnossApiWrapper{
     
     /**
      * Create community
-     * @param linkparent -> Community model
+     * @param linkparent  Community model
      * @throws Exception 
      */
 	private void LinkParentCommunity(LinkParentCommunityModel linkparent) throws Exception {
@@ -306,12 +306,12 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Get the data a user email by user email and the community short name
-	 * @param number_resources -> boolean to return number of resources
-	 * @param number_comments -> boolean to return number of comments
-	 * @param groups -> boolean to return groups
-	 * @param pFechaInit -> date init
-	 * @param pFechaFin -> date end
-	 * @return
+	 * @param number_resources  boolean to return number of resources
+	 * @param number_comments  boolean to return number of comments
+	 * @param groups  boolean to return groups
+	 * @param pFechaInit  date initial
+	 * @param pFechaFin  date end
+	 * @return list
 	 * @throws Exception 
 	 */
 	public List<UserCommunity> getUsersByCommunityShortName(boolean number_resources, boolean number_comments, boolean groups, Date pFechaInit, Date pFechaFin ) throws Exception{
@@ -338,7 +338,7 @@ public class CommunityApi extends GnossApiWrapper{
 	/**
 	 * Create a thesaurus for  a community
 	 * @return  Thesaurus to create
-	 * @throws Exception
+	 * @throws Exception 
 	 */
 	public String getThesaurus() throws Exception {
 		
@@ -357,8 +357,8 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Create thesaurus for a community
-	 * @param thesaurusXml -> Thesaurus to create
-	 * @throws Exception
+	 * @param thesaurusXml  Thesaurus to create
+	 * @throws Exception 
 	 */
 	public void CreateThesaurus(String thesaurusXml) throws Exception {
 		try {
@@ -380,8 +380,8 @@ public class CommunityApi extends GnossApiWrapper{
 
 	/**
 	 * Open an existing community
-	 * @param communityShortName
-	 * @throws Exception
+	 * @param communityShortName Community short name 
+	 * @throws Exception 
 	 */
 	public void OpenCommunity(String communityShortName) throws Exception {
 		try {
@@ -417,8 +417,8 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Upload the community settings
-	 * @param settingsXml -> Community settings in XML format
-	 * @throws Exception 
+	 * @param settingsXml  Community settings in XML format
+	 * @throws Exception  
 	 */
 	public void UploadConfiguration(String settingsXml) throws Exception {
 		try {
@@ -440,8 +440,8 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Upload CMS community settings
-	 * @param settingsCmsXml -> Community CMS settings in XML format
-	 * @throws Exception
+	 * @param settingsCmsXml  Community CMS settings in XML format
+	 * @throws Exception 
 	 */
 	public void UploadCMSConfiguration(String settingsCmsXml) throws Exception {
 		try {
@@ -466,10 +466,10 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Register a user in a community
-	 * @param userID -> User identifier that we will register in the community
-	 * @param organizationShortName -> Short name of the user organization
-	 * @param identityType -> Type of user identity in the community
-	 * @throws Exception
+	 * @param userID  User identifier that we will register in the community
+	 * @param organizationShortName  Short name of the user organization
+	 * @param identityType  Type of user identity in the community
+	 * @throws Exception 
 	 */
 	public void AddMember(UUID userID, String organizationShortName, int identityType) throws Exception {
 		try {
@@ -495,8 +495,8 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Delete a user from a Community
-	 * @param userID -> User identifier that we will delete from the community
-	 * @throws Exception
+	 * @param userID  User identifier that we will delete from the community
+	 * @throws Exception 
 	 */
 	public void DeleteMember(UUID userID) throws Exception {
 		try {
@@ -520,10 +520,10 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Register the users of a organization group in a community
-	 * @param organizationShortName -> Short name of the user organization
-	 * @param groupShortName -> Short name of the group
-	 * @param identityType -> Type of user identity in the community
-	 * @throws Exception
+	 * @param organizationShortName  Short name of the user organization
+	 * @param groupShortName  Short name of the group
+	 * @param identityType  Type of user identity in the community
+	 * @throws Exception 
 	 */
 	public void AddMememberOrganizationGroupToCommunity(String organizationShortName, String groupShortName, int identityType) throws Exception {
 		try {
@@ -549,8 +549,8 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Delete the users of a organization group in a company
-	 * @param organizationShortName -> Short name of the group
-	 * @param groupShortName -> Short name of the organization
+	 * @param organizationShortName  Short name of the group
+	 * @param groupShortName  Short name of the organization
 	 * @throws Exception 
 	 */
 	public void DeleteMemberOrganizationGroupFromCommunity(String organizationShortName, String groupShortName) throws Exception {
@@ -575,8 +575,8 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Upgrade a user changing is role to community administrator
-	 * @param userId
-	 * @throws Exception 
+	 * @param userId user id
+	 * @throws Exception  
 	 */
 	public void UpgradeMemberToAdministrator(UUID userId) throws Exception {
 		
@@ -601,9 +601,9 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Add the users of a organization group as administrator in a company
-	 * @param organizationShortName -> Short name of the user organization
-	 * @param groupShortName -> Short name of the group
-	 * @throws Exception
+	 * @param organizationShortName  Short name of the user organization
+	 * @param groupShortName  Short name of the group
+	 * @throws Exception 
 	 */
 	public void UpgradeMembersOrganizationGroupToAdministrators(String organizationShortName, String groupShortName) throws Exception {
 		try {
@@ -629,13 +629,13 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Add a group to the community
-	 * @param groupName -> name of the group
-	 * @param groupShortName -> Short name of the group
-	 * @param description -> Description of the group
-	 * @param tags -> Tags of the group
-	 * @param members -> List uses that want to add
-	 * @param sendNotification -> It indicates whether an email is going to be sent to users telling them that has been added to the group
-	 * @throws Exception
+	 * @param groupName  name of the group
+	 * @param groupShortName  Short name of the group
+	 * @param description  Description of the group
+	 * @param tags  Tags of the group
+	 * @param members  List uses that want to add
+	 * @param sendNotification  It indicates whether an email is going to be sent to users telling them that has been added to the group
+	 * @throws Exception 
 	 */
 	public void CreateCommunityGroup (String groupName, String groupShortName, String description, List<String> tags, List<UUID> members, boolean sendNotification) throws Exception {
 		try {
@@ -662,8 +662,8 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Delete a community group from the community
-	 * @param groupShortName -> Short name of the community group
-	 * @throws Exception
+	 * @param groupShortName  Short name of the community group
+	 * @throws Exception 
 	 */
 	public void DeleteCommunityGroup(String groupShortName) throws Exception {
 		try {
@@ -685,10 +685,10 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Add a list of users to a community group
-	 * @param groupShortName -> Short name of the group
-	 * @param members -> List users that want to add
-	 * @param sendNotification -> It indicates wheter a message is going to be sent to users telling them has been added to the group
-	 * @throws Exception
+	 * @param groupShortName  Short name of the group
+	 * @param members  List users that want to add
+	 * @param sendNotification  It indicates whatever a message is going to be sent to users telling them has been added to the group
+	 * @throws Exception 
 	 */
 	public void AddMembersToGroup(String groupShortName, List<UUID> members, boolean sendNotification) throws Exception {
 		String miembros="";
@@ -713,8 +713,8 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Create a list of users to a community group
-	 * @param certificationLevelsDescription 
-	 * @param certificationPolitics
+	 * @param certificationLevelsDescription  certification level description
+	 * @param certificationPolitics Certification politics
 	 * @throws Exception 
 	 */
 	public void CreateCertificationLevels(List<String> certificationLevelsDescription, String certificationPolitics) throws Exception {
@@ -737,9 +737,9 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Delete a list of users from a community group
-	 * @param groupShortName -> Short name of the group
-	 * @param members -> List users that want to add
-	 * @throws Exception
+	 * @param groupShortName  Short name of the group
+	 * @param members  List users that want to add
+	 * @throws Exception 
 	 */
 	public void DeleteMembersFromGroup(String groupShortName, List<UUID> members) throws Exception {
 		try {
@@ -762,9 +762,9 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Gets the members of a company group
-	 * @param groupShortName-> Short name of the group
-	 * @return -> List of members identifiers of the community group
-	 * @throws Exception
+	 * @param groupShortName Short name of the group
+	 * @return  List of members identifiers of the community group
+	 * @throws Exception 
 	 */
 	public List<UUID> getGroupMembers(String groupShortName) throws Exception {
 		List<UUID> members = null;
@@ -784,10 +784,10 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Gets the members of an organization group
-	 * @param organizationShortName -> Organization short name of the user
-	 * @param groupShortName -> Short name of the group 
+	 * @param organizationShortName  Organization short name of the user
+	 * @param groupShortName  Short name of the group 
 	 * @return List of members identifiers of the organization group
-	 * @throws Exception
+	 * @throws Exception 
 	 */
 	public List<UUID> getOrganizationGroupMembers(String organizationShortName, String groupShortName) throws Exception{
 		List<UUID> members=null;
@@ -807,8 +807,8 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Expel a user from a community
-	 * @param userId -> User identifier to expel from the community
-	 * @throws Exception
+	 * @param userId  User identifier to expel from the community
+	 * @throws Exception 
 	 */
 	public void ExpelMember(UUID userId) throws Exception {
 		try {
@@ -830,7 +830,7 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Close a community
-	 * @throws Exception
+	 * @throws Exception  
 	 */
 	public void CloseCommunity() throws Exception {
 		try {
@@ -846,7 +846,7 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Change the community name 
-	 * @param newName -> new Community name 
+	 * @param newName  new Community name 
 	 * @throws Exception
 	 */
 	public void ChangeCommunityName(String newName) throws Exception {
@@ -890,7 +890,7 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Gets the organization name of a user in a community
-	 * @param userId -> User identifier
+	 * @param userId  User identifier
 	 * @return Organization name of a user in a community
 	 * @throws Exception
 	 */
@@ -966,8 +966,8 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Gets the community identifier
-	 * @param communityShortName -> Community short name 
-	 * @return
+	 * @param communityShortName  Community short name 
+	 * @return UUID
 	 * @throws Exception
 	 */
 	public UUID getCommunityId(String communityShortName) throws Exception {
@@ -986,8 +986,8 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Blocks a member in a community
-	 * @param userId -> User´s identifier 
-	 * @param communityShortName -> Community short name 
+	 * @param userId  User´s identifier 
+	 * @param communityShortName  Community short name 
 	 * @throws Exception
 	 */
 	public void BlockMember(UUID userId, String communityShortName) throws Exception {
@@ -1008,8 +1008,8 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Unblocks a member in a community
-	 * @param userId -> User´s identifier
-	 * @param communityShortName -> Community short name 
+	 * @param userId  User´s identifier
+	 * @param communityShortName  Community short name 
 	 * @throws Exception
 	 */
 	public void UnblockMember(UUID userId, String communityShortName) throws Exception {
@@ -1029,8 +1029,8 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Refresh the cache of a CMS component 
-	 * @param componentId -> Component id to refresh
-	 * @param communityShortName -> Community short name
+	 * @param componentId  Component id to refresh
+	 * @param communityShortName  Community short name
 	 * @throws Exception
 	 */
 	public void RefreshCMSComponent(UUID componentId, String communityShortName) throws Exception {
@@ -1047,7 +1047,7 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Refresh the cache of all community´s CMS components 
-	 * @param communityShortName -> Community short name 
+	 * @param communityShortName  Community short name 
 	 * @throws Exception
 	 */
 	public void RefreshAllCMSComponent( String communityShortName) throws Exception {
@@ -1064,8 +1064,8 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Gets the basic information of a community
-	 * @param communityShortName -> Community short name 
-	 * @return
+	 * @param communityShortName  Community short name 
+	 * @return CommunityInfoModel
 	 * @throws Exception
 	 */
 	public CommunityInfoModel GetCommunityInfo(String communityShortName) throws Exception {
@@ -1084,8 +1084,8 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Gets the basic information of a community
-	 * @param communityId -> Community identifier
-	 * @return
+	 * @param communityId  Community identifier
+	 * @return CommunityInfoModel
 	 * @throws Exception
 	 */
 	public CommunityInfoModel GetCommunityInfo(UUID communityId) throws Exception {
@@ -1104,8 +1104,8 @@ public class CommunityApi extends GnossApiWrapper{
 	
 	/**
 	 * Gets the name of a category in all of the languages that has been defined
-	 * @param categoryId -> Category identifier
-	 * @return
+	 * @param categoryId  Category identifier
+	 * @return CategoryNames
 	 * @throws Exception
 	 */
 	public CategoryNames getCategoryName(UUID categoryId) throws Exception {
@@ -1125,7 +1125,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 * 
 	 * @param pShortName
 	 * @param pUserID
-	 * @return
+	 * @return boolean 
 	 * @throws IOException
 	 * @throws GnossAPIException
 	 */

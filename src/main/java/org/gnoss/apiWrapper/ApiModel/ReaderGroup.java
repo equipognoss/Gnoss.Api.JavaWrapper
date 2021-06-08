@@ -19,7 +19,7 @@ public class ReaderGroup {
 	}
 	/**
 	 * Group short name
-	 * @param group_short_name
+	 * @param group_short_name Group short name 
 	 */
 	public void setGroup_short_name(String group_short_name) {
 		this.group_short_name = group_short_name;
@@ -33,7 +33,7 @@ public class ReaderGroup {
 	}
 	/**
 	 * Organization short name
-	 * @param organization_short_name
+	 * @param organization_short_name Organization short name 
 	 */
 	public void setOrganization_short_name(String organization_short_name) {
 		this.organization_short_name = organization_short_name;

@@ -23,7 +23,7 @@ public class ResourceEditionDateByUser {
 	}
 	/**
 	 * Resource identificator
-	 * @param resourde_id
+	 * @param resourde_id Resource id 
 	 */
 	public void setResourde_id(UUID resourde_id) {
 		this.resourde_id = resourde_id;
@@ -37,7 +37,7 @@ public class ResourceEditionDateByUser {
 	}
 	/**
 	 * Resource edition date by user
-	 * @param edition_date
+	 * @param edition_date Edition date 
 	 */
 	public void setEdition_date(Date edition_date) {
 		this.edition_date = edition_date;
@@ -51,7 +51,7 @@ public class ResourceEditionDateByUser {
 	}
 	/**
 	 * User identificator who has edited the resource
-	 * @param user_id
+	 * @param user_id User id 
 	 */
 	public void setUser_id(UUID user_id) {
 		this.user_id = user_id;

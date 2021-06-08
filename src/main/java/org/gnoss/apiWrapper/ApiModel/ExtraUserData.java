@@ -23,7 +23,7 @@ public class ExtraUserData {
 	}
 	/**
 	 * Identificator of the extra data 
-	 * @param name_id
+	 * @param name_id Id name
 	 */
 	public void setName_id(UUID name_id) {
 		this.name_id = name_id;
@@ -37,7 +37,7 @@ public class ExtraUserData {
 	}
 	/**
 	 * Extra data name 
-	 * @param name
+	 * @param name Name
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -51,7 +51,7 @@ public class ExtraUserData {
 	}
 	/**
 	 * Extra data value identifier. Only if the list of values has been defined. 
-	 * @param value_id
+	 * @param value_id Id value
 	 */
 	public void setValue_id(UUID value_id) {
 		this.value_id = value_id;
@@ -65,7 +65,7 @@ public class ExtraUserData {
 	}
 	/**
 	 * Extra data value
-	 * @param value
+	 * @param value Value
 	 */
 	public void setValue(String value) {
 		this.value = value;

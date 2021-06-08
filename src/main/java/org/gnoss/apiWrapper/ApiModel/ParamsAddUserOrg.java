@@ -23,7 +23,7 @@ public class ParamsAddUserOrg {
 	}
 	/**
 	 * User identifier
-	 * @param user_id
+	 * @param user_id user Id 
 	 */
 	public void setUder_id(UUID user_id) {
 		this.user_id = user_id;
@@ -37,7 +37,7 @@ public class ParamsAddUserOrg {
 	}
 	/**
 	 * Organization short name 
-	 * @param organization_short_name
+	 * @param organization_short_name Organization short name  
 	 */
 	public void setOrganization_short_name(String organization_short_name) {
 		this.organization_short_name = organization_short_name;
@@ -51,7 +51,7 @@ public class ParamsAddUserOrg {
 	}
 	/**
 	 * User position in the organization 
-	 * @param position
+	 * @param position Position 
 	 */
 	public void setPosition(String position) {
 		this.position = position;
@@ -65,7 +65,7 @@ public class ParamsAddUserOrg {
 	}
 	/**
 	 * Communities short names where the user is going to be added (The organization must be member of all of them)
-	 * @param communities_short_names
+	 * @param communities_short_names Communities short names 
 	 */
 	public void setCommunities_short_names(List<String> communities_short_names) {
 		this.communities_short_names = communities_short_names;

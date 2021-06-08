@@ -24,7 +24,7 @@ public class ShareParams {
 	}
 	/**
 	 * Community short name where the resource
-	 * @param destination_community_short_name
+	 * @param destination_community_short_name destination community short name 
 	 */
 	public void setDestination_community_short_name(String destination_community_short_name) {
 		this.destination_community_short_name = destination_community_short_name;
@@ -38,7 +38,7 @@ public class ShareParams {
 	}
 	/**
 	 * Resource udentifier
-	 * @param resource_id
+	 * @param resource_id resource id 
 	 */
 	public void setResource_id(UUID resource_id) {
 		this.resource_id = resource_id;
@@ -52,7 +52,7 @@ public class ShareParams {
 	}
 	/**
 	 * Categories of the destination community
-	 * @param categories
+	 * @param categories categories 
 	 */
 	public void setCategories(List<UUID> categories) {
 		this.categories = categories;

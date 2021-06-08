@@ -23,11 +23,11 @@ public class TriplesToInclude {
 
 	/**
 	 * Creates a new object to insert a new property in a resource
-	 * @param value: Value of the new property
-	 * @param predicate: Predicate of the property to be inserted, with namespace without prefix. 
+	 * @param value Value of the new property
+	 * @param predicate Predicate of the property to be inserted, with namespace without prefix. 
 	 * If it's an auxiliary entity property, you must set the predicate as firstLevelPredicate|secondLevelPredicate
-	 * @param title: If the property inserted is the title, set his property to TRUE
-	 * @param description: If the preoperty inserted is the description, set this property to TRUE 
+	 * @param title If the property inserted is the title, set his property to TRUE
+	 * @param description If the preoperty inserted is the description, set this property to TRUE 
 	 */
 	public TriplesToInclude(String value, String predicate, boolean title, boolean description){
 		NewValue = value;
@@ -39,10 +39,10 @@ public class TriplesToInclude {
 	
 	/**
 	 * Creates a new object to insert a new property in a resource
-	 * @param value: Value of the new property
-	 * @param predicate: Predicate of the property to be inserted, with namespace without prefix. 
+	 * @param value Value of the new property
+	 * @param predicate Predicate of the property to be inserted, with namespace without prefix. 
 	 * If it's an auxiliary entity property, you must set the predicate as firstLevelPredicate|secondLevelPredicate
-	 * @param title: If the property inserted is the title, set his property to TRUE
+	 * @param title If the property inserted is the title, set his property to TRUE
 	 */
 	public TriplesToInclude(String value, String predicate, boolean title){
 		NewValue = value;
@@ -55,8 +55,8 @@ public class TriplesToInclude {
 	
 	/**
 	 * Creates a new object to insert a new property in a resource
-	 * @param value: Value of the new property
-	 * @param predicate: Predicate of the property to be inserted, with namespace without prefix. 
+	 * @param value Value of the new property
+	 * @param predicate Predicate of the property to be inserted, with namespace without prefix. 
 	 * If it's an auxiliary entity property, you must set the predicate as firstLevelPredicate|secondLevelPredicate
 	 */
 	public TriplesToInclude(String value, String predicate){

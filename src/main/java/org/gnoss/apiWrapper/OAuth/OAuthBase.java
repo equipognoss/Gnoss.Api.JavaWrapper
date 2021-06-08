@@ -73,8 +73,8 @@ public class OAuthBase {
     /**
      * Constructor
      *
-     * @param consumerKey
-     * @param consumerSecret
+     * @param consumerKey consumer key 
+     * @param consumerSecret consumer secret 
      */
     public OAuthBase(String consumerKey, String consumerSecret) {
         ConsumerKey = consumerKey;

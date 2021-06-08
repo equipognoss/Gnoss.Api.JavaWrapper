@@ -16,7 +16,7 @@ public class Triple {
 	}
 	/**
 	 * Subject
-	 * @param subject
+	 * @param subject subject 
 	 */
 	public void setSubject(String subject) {
 		this.subject = subject;
@@ -30,7 +30,7 @@ public class Triple {
 	}
 	/**
 	 * Predicate
-	 * @param predicate
+	 * @param predicate predicate 
 	 */
 	public void setPredicate(String predicate) {
 		this.predicate = predicate;
@@ -44,7 +44,7 @@ public class Triple {
 	}
 	/**
 	 * Object
-	 * @param object_t
+	 * @param object_t object_t
 	 */
 	public void setObject_t(String object_t) {
 		this.object_t = object_t;
@@ -58,7 +58,7 @@ public class Triple {
 	}
 	/**
 	 * Languaje of the object
-	 * @param language
+	 * @param language language 
 	 */
 	public void setLanguage(String language) {
 		this.language = language;

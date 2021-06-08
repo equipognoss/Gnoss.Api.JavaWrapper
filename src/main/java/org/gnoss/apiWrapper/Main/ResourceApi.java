@@ -132,10 +132,10 @@ public class ResourceApi extends GnossApiWrapper{
 
 	/**
 	 * Constructor of ResourceApi
-	 * @param oauth: OAuth information to sign the Api requests
-	 * @param communityShortName: Community short name which you want to use the API
-	 * @param ontologyName: Ontology name of the resources that you are going to query, upload or modify
-	 * @param developerEmail: If you want to be informed of any incident that may happends during a large load of resources, an email will be sent to this email address
+	 * @param oauth OAuth information to sign the Api requests
+	 * @param communityShortName Community short name which you want to use the API
+	 * @param ontologyName Ontology name of the resources that you are going to query, upload or modify
+	 * @param developerEmail If you want to be informed of any incident that may happends during a large load of resources, an email will be sent to this email address
 	 */
 	public ResourceApi(OAuthInfo oauth, String communityShortName, String ontologyName, String developerEmail){
 		super(oauth, communityShortName);
@@ -147,9 +147,9 @@ public class ResourceApi extends GnossApiWrapper{
 
 	/**
 	 * Constructor of ResourceApi
-	 * @param oauth: OAuth information to sign the Api requests
-	 * @param communityShortName: Community short name which you want to use the API
-	 * @param ontologyName: Ontology name of the resources that you are going to query, upload or modify
+	 * @param oauth OAuth information to sign the Api requests
+	 * @param communityShortName Community short name which you want to use the API
+	 * @param ontologyName Ontology name of the resources that you are going to query, upload or modify
 	 */
 	public ResourceApi(OAuthInfo oauth, String communityShortName, String ontologyName){
 		super(oauth, communityShortName);        
@@ -161,8 +161,8 @@ public class ResourceApi extends GnossApiWrapper{
 
 	/**
 	 * Constructor of ResourceApi
-	 * @param oauth: OAuth information to sign the Api requests
-	 * @param communityShortName: Community short name which you want to use the API	 
+	 * @param oauth OAuth information to sign the Api requests
+	 * @param communityShortName Community short name which you want to use the API	 
 	 */
 	public ResourceApi(OAuthInfo oauth, String communityShortName) {
 		super(oauth, communityShortName); 
@@ -201,7 +201,7 @@ public class ResourceApi extends GnossApiWrapper{
 
 	/**
 	 * Constructor of ResourceApi
-	 * @param configFilePath: Configuration file path, with a structure like http://api.gnoss.com/v3/exampleConfig.txt
+	 * @param configFilePath Configuration file path, with a structure like http://api.gnoss.com/v3/exampleConfig.txt
 	 */
 	public ResourceApi(String configFilePath) throws GnossAPIException, ParserConfigurationException, SAXException, IOException{
 		super(configFilePath);
@@ -213,9 +213,9 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Load a complex semantic resources list
-	 * @param resourceList: List of resources to load
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarch
-	 * @param numAttemps: Number of retries loading of the failed load of a resource
+	 * @param resourceList List of resources to load
+	 * @param hierarquicalCategories Indicates whether the categories has hierarch
+	 * @param numAttemps Number of retries loading of the failed load of a resource
 	 */
 	public void LoadComplexSemanticResourceList(ArrayList<ComplexOntologyResource> resourceList, boolean hierarquicalCategories, int numAttemps){
 		LoadComplexSemanticResourceListInt(resourceList, hierarquicalCategories, numAttemps);
@@ -223,8 +223,8 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Load a complex semantic resources list
-	 * @param resourceList: List of resources to load
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarch
+	 * @param resourceList List of resources to load
+	 * @param hierarquicalCategories Indicates whether the categories has hierarch
 	 */
 	public void LoadComplexSemanticResourceList(ArrayList<ComplexOntologyResource> resourceList, boolean hierarquicalCategories){
 		LoadComplexSemanticResourceListInt(resourceList, hierarquicalCategories, 5);
@@ -232,10 +232,10 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Load resources of main entities in an otology and a community 
-	 * @param resourceList: List of resources to load
-	 * @param hierarchycalCategories: Indicates whether the categories has hierarchy
-	 * @param ontology: Ontology where resource will be loaded
-	 * @param communityShortName: Community short name where the resources will be loaded
+	 * @param resourceList List of resources to load
+	 * @param hierarchycalCategories Indicates whether the categories has hierarchy
+	 * @param ontology Ontology where resource will be loaded
+	 * @param communityShortName Community short name where the resources will be loaded
 	 */
 	public void LoadComplexSemanticResourceListWithOntologyAndCommunity(ArrayList<ComplexOntologyResource> resourceList, boolean hierarchycalCategories, String ontology, String communityShortName){
 		LoadComplexSemanticResourceListWithOntologyAndCommunityInt(resourceList, hierarchycalCategories, ontology, communityShortName);
@@ -243,10 +243,10 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Load a complex semantic resources list
-	 * @param resourceList: List of resources to load
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarchy
-	 * @param numAttemps: Number of retries loading of the failed load of a resource
-	 * @param rdfsPath: Path to save the RDF, if necessary
+	 * @param resourceList List of resources to load
+	 * @param hierarquicalCategories Indicates whether the categories has hierarchy
+	 * @param numAttemps Number of retries loading of the failed load of a resource
+	 * @param rdfsPath Path to save the RDF, if necessary
 	 */
 	public void LoadComplexSemanticResourceListSavingLocalRdf(ArrayList<ComplexOntologyResource> resourceList, boolean hierarquicalCategories, int numAttemps, String rdfsPath){
 		LoadComplexSemanticResourceListInt(resourceList, hierarquicalCategories, numAttemps, null, rdfsPath);
@@ -254,9 +254,9 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Load a complex semantic resources list
-	 * @param resourceList: List of resources to load
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarchy
-	 * @param numAttemps: Number of retries loading of the failed load of a resource
+	 * @param resourceList List of resources to load
+	 * @param hierarquicalCategories Indicates whether the categories has hierarchy
+	 * @param numAttemps Number of retries loading of the failed load of a resource
 	 */
 	public void LoadComplexSemanticResourceListSavingLocalRdf(ArrayList<ComplexOntologyResource> resourceList, boolean hierarquicalCategories, int numAttemps){
 		LoadComplexSemanticResourceListInt(resourceList, hierarquicalCategories, numAttemps, null, null);
@@ -264,8 +264,8 @@ public class ResourceApi extends GnossApiWrapper{
 
 	/**
 	 * Load a complex semantic resources list
-	 * @param resourceList: List of resources to load
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarchy
+	 * @param resourceList List of resources to load
+	 * @param hierarquicalCategories Indicates whether the categories has hierarchy
 	 */
 	public void LoadComplexSemanticResourceListSavingLocalRdf(ArrayList<ComplexOntologyResource> resourceList, boolean hierarquicalCategories){
 		LoadComplexSemanticResourceListInt(resourceList, hierarquicalCategories, 5, null, null);
@@ -273,10 +273,10 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Load resources of main entities in a community
-	 * @param resourceList: List of resources to load
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarchy
-	 * @param communityShortName: Number of retries loading of the failed load of a resource
-	 * @param numAttemps: Defined if it is necessary the load in other community that the specified in the OAuth
+	 * @param resourceList List of resources to load
+	 * @param hierarquicalCategories Indicates whether the categories has hierarchy
+	 * @param communityShortName Number of retries loading of the failed load of a resource
+	 * @param numAttemps Defined if it is necessary the load in other community that the specified in the OAuth
 	 */
 	public void LoadComplexSemanticResourceListCommunityShortName(ArrayList<ComplexOntologyResource> resourceList, boolean hierarquicalCategories, String communityShortName, int numAttemps){
 		LoadComplexSemanticResourceListInt(resourceList, hierarquicalCategories, numAttemps, communityShortName);
@@ -284,9 +284,9 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Load resources of main entities in a community
-	 * @param resourceList: List of resources to load
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarchy
-	 * @param communityShortName: Number of retries loading of the failed load of a resource	 
+	 * @param resourceList List of resources to load
+	 * @param hierarquicalCategories Indicates whether the categories has hierarchy
+	 * @param communityShortName Number of retries loading of the failed load of a resource	 
 	 */
 	public void LoadComplexSemanticResourceListCommunityShortName(ArrayList<ComplexOntologyResource> resourceList, boolean hierarquicalCategories, String communityShortName){
 		LoadComplexSemanticResourceListInt(resourceList, hierarquicalCategories, 5, communityShortName);
@@ -294,11 +294,11 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Load a complex semantic resource ComplexSemanticResource saving the resource rdf
-	 * @param resource: Resource to load
-	 * @param rdfsPath: Path to save the RDF, if necessary
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarchy
-	 * @param isLast: There are not resources left to load
-	 * @param numAttemps: Number of retries loading of the failed load of a resource
+	 * @param resource Resource to load
+	 * @param rdfsPath Path to save the RDF, if necessary
+	 * @param hierarquicalCategories Indicates whether the categories has hierarchy
+	 * @param isLast There are not resources left to load
+	 * @param numAttemps Number of retries loading of the failed load of a resource
 	 * @return Resource identifier string
 	 */
 	public String LoadComplexSemanticResourceSaveRdf(ComplexOntologyResource resource, String rdfsPath, boolean hierarquicalCategories, boolean isLast, int numAttemps) throws GnossAPIArgumentException{
@@ -311,10 +311,10 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Load a complex semantic resource ComplexSemanticResource saving the resource rdf
-	 * @param resource: Resource to load
-	 * @param rdfsPath: Path to save the RDF, if necessary
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarchy
-	 * @param isLast: There are not resources left to load
+	 * @param resource Resource to load
+	 * @param rdfsPath Path to save the RDF, if necessary
+	 * @param hierarquicalCategories Indicates whether the categories has hierarchy
+	 * @param isLast There are not resources left to load
 	 * @return Resource identifier string
 	 */	
 	public String LoadComplexSemanticResourceSaveRdf(ComplexOntologyResource resource, String rdfsPath, boolean hierarquicalCategories, boolean isLast) throws GnossAPIArgumentException{
@@ -323,9 +323,9 @@ public class ResourceApi extends GnossApiWrapper{
 
 	/**
 	 * Load a complex semantic resource ComplexSemanticResource saving the resource rdf
-	 * @param resource: Resource to load
-	 * @param rdfsPath: Path to save the RDF, if necessary
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarchy
+	 * @param resource Resource to load
+	 * @param rdfsPath Path to save the RDF, if necessary
+	 * @param hierarquicalCategories Indicates whether the categories has hierarchy
 	 * @return Resource identifier string
 	 */
 	public String LoadComplexSemanticResourceSaveRdf(ComplexOntologyResource resource, String rdfsPath, boolean hierarquicalCategories) throws GnossAPIArgumentException{
@@ -334,8 +334,8 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Load a complex semantic resource ComplexSemanticResource saving the resource rdf
-	 * @param resource: Resource to load
-	 * @param rdfsPath: Path to save the RDF, if necessary
+	 * @param resource Resource to load
+	 * @param rdfsPath Path to save the RDF, if necessary
 	 * @return Resource identifier string
 	 */
 	public String LoadComplexSemanticResourceSaveRdf(ComplexOntologyResource resource, String rdfsPath) throws GnossAPIArgumentException{
@@ -345,10 +345,10 @@ public class ResourceApi extends GnossApiWrapper{
 	/**
 	 * Load a complex semantic resource in the community
 	 * @param resource: Resource to load
-	 * @param communityShortName: Defined if it is necessary the load in other community that the specified in the OAuth
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarchy
-	 * @param isLast: There are not resources left to load
-	 * @param numAttemps: Number of retries loading of the failed load of a resource
+	 * @param communityShortName Defined if it is necessary the load in other community that the specified in the OAuth
+	 * @param hierarquicalCategories Indicates whether the categories has hierarchy
+	 * @param isLast There are not resources left to load
+	 * @param numAttemps Number of retries loading of the failed load of a resource
 	 * @return: Resource identifier string
 	 */
 	public String LoadComplexSemanticResourceCommunityShortName(ComplexOntologyResource resource, String communityShortName, boolean hierarquicalCategories, boolean isLast, int numAttemps){
@@ -357,10 +357,10 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Load a complex semantic resource in the community
-	 * @param resource: Resource to load
-	 * @param communityShortName: Defined if it is necessary the load in other community that the specified in the OAuth
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarchy
-	 * @param isLast: There are not resources left to load
+	 * @param resource Resource to load
+	 * @param communityShortName Defined if it is necessary the load in other community that the specified in the OAuth
+	 * @param hierarquicalCategories Indicates whether the categories has hierarchy
+	 * @param isLast There are not resources left to load
 	 * @return: Resource identifier string
 	 */
 	public String LoadComplexSemanticResourceCommunityShortName(ComplexOntologyResource resource, String communityShortName, boolean hierarquicalCategories, boolean isLast){
@@ -369,9 +369,9 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Load a complex semantic resource in the community
-	 * @param resource: Resource to load
-	 * @param communityShortName: Defined if it is necessary the load in other community that the specified in the OAuth
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarchy
+	 * @param resource Resource to load
+	 * @param communityShortName Defined if it is necessary the load in other community that the specified in the OAuth
+	 * @param hierarquicalCategories Indicates whether the categories has hierarchy
 	 * @return: Resource identifier string
 	 */
 	public String LoadComplexSemanticResourceCommunityShortName(ComplexOntologyResource resource, String communityShortName, boolean hierarquicalCategories){
@@ -380,8 +380,8 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Load a complex semantic resource in the community
-	 * @param resource: Resource to load
-	 * @param communityShortName: Defined if it is necessary the load in other community that the specified in the OAuth
+	 * @param resource Resource to load
+	 * @param communityShortName Defined if it is necessary the load in other community that the specified in the OAuth
 	 * @return: Resource identifier string
 	 */
 	public String LoadComplexSemanticResourceCommunityShortName(ComplexOntologyResource resource, String communityShortName){
@@ -390,14 +390,14 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Load a complex semantic resource in the community with a rdf file
-	 * @param resource: Resource to load
-	 * @param rdfFile: Path to save the RDF, if necessary
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarchy
-	 * @param isLast: There are not resources left to load
-	 * @param numAttemps: Number of retries loading of the failed load of a resource
-	 * @param communityShortName: Defined if it is necessary the load in other community that the specified in the OAuth
-	 * @param rdfsPath: Path to save the RDF, if necessary
-	 * @return
+	 * @param resource Resource to load
+	 * @param rdfFile Path to save the RDF, if necessary
+	 * @param hierarquicalCategories Indicates whether the categories has hierarchy
+	 * @param isLast There are not resources left to load
+	 * @param numAttemps Number of retries loading of the failed load of a resource
+	 * @param communityShortName Defined if it is necessary the load in other community that the specified in the OAuth
+	 * @param rdfsPath Path to save the RDF, if necessary
+	 * @return String 
 	 */
 	public String LoadComplexSemanticResourceRdf(ComplexOntologyResource resource, String rdfFile, boolean hierarquicalCategories, boolean isLast, int numAttemps, String communityShortName, String rdfsPath){
 		try{
@@ -462,7 +462,7 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Loads the attached files of a not yet loaded resource.
-	 * @param resource:
+	 * @param resource
  	 *		community_short_name = community short name string
      *   	resource_id = resource identifier guid
      *   	resource_attached_files = resource attached files. List of SemanticAttachedResource
@@ -491,7 +491,7 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Loads the attached files of a not yet loaded resource.
-	 * @param resource:
+	 * @param resource
  	 *		community_short_name = community short name string
      *   	resource_id = resource identifier guid
      *   	resource_attached_files = resource attached files. List of SemanticAttachedResource
@@ -569,10 +569,10 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Modifies the complex ontology resource with the rdf
-	 * @param resource: Resource to load
-	 * @param rdfFile: Resource rdf file
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarchy
-	 * @param isLast: There are not resources left to load
+	 * @param resource Resource to load
+	 * @param rdfFile Resource rdf file
+	 * @param hierarquicalCategories Indicates whether the categories has hierarchy
+	 * @param isLast There are not resources left to load
 	 */
 	public void ModifyComplexOntologyResourceRDF(ComplexOntologyResource resource, String rdfFile, boolean hierarquicalCategories, boolean isLast){
 		LogHelper.getInstance().Trace("******************** Begin the resource modification: " + resource.getGnossId());
@@ -605,10 +605,10 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Modifies the complex ontology resource
-	 * @param resource: Resource to load
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarchy
-	 * @param isLast: There are not resources left to load
-	 * @param communityShortName: Community short name where the resources will be loaded
+	 * @param resource Resource to load
+	 * @param hierarquicalCategories Indicates whether the categories has hierarchy
+	 * @param isLast There are not resources left to load
+	 * @param communityShortName Community short name where the resources will be loaded
 	 */
 	public void ModifyComplexSemanticResourceCommunityShortName(ComplexOntologyResource resource, boolean hierarquicalCategories, boolean isLast, String communityShortName){
 		LogHelper.getInstance().Trace("******************** Begin modification of resource: " + resource.getGnossId());
@@ -637,7 +637,7 @@ public class ResourceApi extends GnossApiWrapper{
 		}
 	}
 	
-	
+	/*
 	/**
 	 * Modifies the basic ontology resource
 	 * @param resource: Resource to load
@@ -655,9 +655,9 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Modifies the complex ontology resource generating a new rdf, and also changes the physical image with the new image
-	 * @param resource: Resource to load
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarchy
-	 * @param numAttemps: Number of retries loading of the failed load of a resource
+	 * @param resource Resource to load
+	 * @param hierarquicalCategories Indicates whether the categories has hierarchy
+	 * @param numAttemps Number of retries loading of the failed load of a resource
 	 */
 	public void ModifyComplexOntologyResourceWithImages(ComplexOntologyResource resource, boolean hierarquicalCategories, int numAttemps){
 		int attempNumber = 0;
@@ -745,9 +745,9 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Modifies the complex ontology resource
-	 * @param resource: Resource to load
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarchy
-	 * @param isLast: There are not resources left to load
+	 * @param resource Resource to load
+	 * @param hierarquicalCategories Indicates whether the categories has hierarchy
+	 * @param isLast There are not resources left to load
 	 */
 	public void ModifyComplexOntologyResource(ComplexOntologyResource resource, boolean hierarquicalCategories, boolean isLast){
 		LogHelper.getInstance().Trace("******************** Begin the resource modification: " + resource.getGnossId());
@@ -805,14 +805,14 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Load a complex semantic resource in the community with a rdf file
-	 * @param resource: Resource to load
-	 * @param rdfFile: Path to save the RDF, if necessary
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarchy
-	 * @param isLast: There are not resources left to load
-	 * @param numAttemps: Number of retries loading of the failed load of a resource
-	 * @param communityShortName: Defined if it is necessary the load in other community that the specified in the OAuth
-	 * @param rdfsPath: Path to save the RDF, if necessary
-	 * @return
+	 * @param resource Resource to load
+	 * @param rdfFile Path to save the RDF, if necessary
+	 * @param hierarquicalCategories Indicates whether the categories has hierarchy
+	 * @param isLast There are not resources left to load
+	 * @param numAttemps Number of retries loading of the failed load of a resource
+	 * @param communityShortName Defined if it is necessary the load in other community that the specified in the OAuth
+	 * @param rdfsPath Path to save the RDF, if necessary
+	 * @return String
 	 */
 	public String LoadComplexSemanticResourceRdf(ComplexOntologyResource resource, String rdfFile){
 		return LoadComplexSemanticResourceRdf(resource, rdfFile, false, false, 5, null, null);	
@@ -820,14 +820,14 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Load a complex semantic resource in the community with a rdf file
-	 * @param resource: Resource to load
-	 * @param rdfFile: Path to save the RDF, if necessary
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarchy
-	 * @param isLast: There are not resources left to load
-	 * @param numAttemps: Number of retries loading of the failed load of a resource
-	 * @param communityShortName: Defined if it is necessary the load in other community that the specified in the OAuth
-	 * @param rdfsPath: Path to save the RDF, if necessary
-	 * @return
+	 * @param resource Resource to load
+	 * @param rdfFile Path to save the RDF, if necessary
+	 * @param hierarquicalCategories Indicates whether the categories has hierarchy
+	 * @param isLast There are not resources left to load
+	 * @param numAttemps Number of retries loading of the failed load of a resource
+	 * @param communityShortName Defined if it is necessary the load in other community that the specified in the OAuth
+	 * @param rdfsPath Path to save the RDF, if necessary
+	 * @return String
 	 */
 	public String LoadComplexSemanticResourceRdf(ComplexOntologyResource resource, String rdfFile, boolean hierarquicalCategories){
 		return LoadComplexSemanticResourceRdf(resource, rdfFile, hierarquicalCategories, false, 5, null, null);	
@@ -835,14 +835,14 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Load a complex semantic resource in the community with a rdf file
-	 * @param resource: Resource to load
-	 * @param rdfFile: Path to save the RDF, if necessary
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarchy
-	 * @param isLast: There are not resources left to load
-	 * @param numAttemps: Number of retries loading of the failed load of a resource
-	 * @param communityShortName: Defined if it is necessary the load in other community that the specified in the OAuth
-	 * @param rdfsPath: Path to save the RDF, if necessary
-	 * @return
+	 * @param resource Resource to load
+	 * @param rdfFile Path to save the RDF, if necessary
+	 * @param hierarquicalCategories Indicates whether the categories has hierarchy
+	 * @param isLast There are not resources left to load
+	 * @param numAttemps Number of retries loading of the failed load of a resource
+	 * @param communityShortName Defined if it is necessary the load in other community that the specified in the OAuth
+	 * @param rdfsPath Path to save the RDF, if necessary
+	 * @return String
 	 */
 	public String LoadComplexSemanticResourceRdf(ComplexOntologyResource resource, String rdfFile, boolean hierarquicalCategories, boolean isLast){
 		return LoadComplexSemanticResourceRdf(resource, rdfFile, hierarquicalCategories, isLast, 5, null, null);
@@ -850,14 +850,14 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Load a complex semantic resource in the community with a rdf file
-	 * @param resource: Resource to load
-	 * @param rdfFile: Path to save the RDF, if necessary
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarchy
-	 * @param isLast: There are not resources left to load
-	 * @param numAttemps: Number of retries loading of the failed load of a resource
-	 * @param communityShortName: Defined if it is necessary the load in other community that the specified in the OAuth
-	 * @param rdfsPath: Path to save the RDF, if necessary
-	 * @return
+	 * @param resource Resource to load
+	 * @param rdfFile Path to save the RDF, if necessary
+	 * @param hierarquicalCategories Indicates whether the categories has hierarchy
+	 * @param isLast There are not resources left to load
+	 * @param numAttemps Number of retries loading of the failed load of a resource
+	 * @param communityShortName Defined if it is necessary the load in other community that the specified in the OAuth
+	 * @param rdfsPath Path to save the RDF, if necessary
+	 * @return String
 	 */
 	public String LoadComplexSemanticResourceRdf(ComplexOntologyResource resource, String rdfFile, boolean hierarquicalCategories, boolean isLast, int numAttemps){
 		return LoadComplexSemanticResourceRdf(resource, rdfFile, hierarquicalCategories, isLast, numAttemps, null, null);
@@ -865,13 +865,13 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Load a complex semantic resource in the community with a rdf file
-	 * @param resource: Resource to load
-	 * @param rdfFile: Path to save the RDF, if necessary
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarchy
-	 * @param isLast: There are not resources left to load
-	 * @param numAttemps: Number of retries loading of the failed load of a resource
-	 * @param communityShortName: Defined if it is necessary the load in other community that the specified in the OAuth
-	 * @return
+	 * @param resource Resource to load
+	 * @param rdfFile Path to save the RDF, if necessary
+	 * @param hierarquicalCategories Indicates whether the categories has hierarchy
+	 * @param isLast There are not resources left to load
+	 * @param numAttemps Number of retries loading of the failed load of a resource
+	 * @param communityShortName Defined if it is necessary the load in other community that the specified in the OAuth
+	 * @return String
 	 */
 	public String LoadComplexSemanticResourceRdf(ComplexOntologyResource resource, String rdfFile, boolean hierarquicalCategories, boolean isLast, int numAttemps, String communityShortName){
 		return LoadComplexSemanticResourceRdf(resource, rdfFile, hierarquicalCategories, isLast, numAttemps, communityShortName, null);
@@ -883,8 +883,8 @@ public class ResourceApi extends GnossApiWrapper{
 
 	/**
 	 * Returns a guid from a resource large identigier. If it cannot get it, returns an empty guid.
-	 * @param largeResourceId: Resource large identifier
-	 * @return
+	 * @param largeResourceId Resource large identifier
+	 * @return UUID
 	 */
 	public UUID GetShortGuid(String largeResourceId){
 		try{
@@ -905,7 +905,7 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Modifies secondary entities loaded in a normal way (one RDF by resource)
-	 * @param resourceList: Resource list to delete
+	 * @param resourceList Resource list to delete
 	 * @throws GnossAPIException 
 	 */
 	public void ModifySecondaryResourcesList(ArrayList<SecondaryResource> resourceList) throws GnossAPIException{
@@ -921,8 +921,8 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Modifies secondary entities loaded in a normal way (one RDF by resource)
-	 * @param resourceList: Resource list to delete
-	 * @return
+	 * @param resourceList Resource list to delete
+	 * @return boolean 
 	 * @throws GnossAPIException
 	 */
 	public boolean ModifySecondaryResource(SecondaryResource resourceList) throws GnossAPIException{
@@ -944,7 +944,7 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Creates a complex ontology resource
-	 * @param parameters
+	 * @param parameters parameters
 	 * @return Resource identifier guid
 	 */
 	public String CreateComplexOntologyResource(LoadResourceParams parameters)
@@ -983,7 +983,7 @@ public class ResourceApi extends GnossApiWrapper{
 
 	/**
 	 * Modifies a complex ontology resouce
-	 * @param parameter
+	 * @param parameter parameters
 	 * @return If the resource was modified
 	 */
 	public boolean ModifyComplexOntologyResource(LoadResourceParams parameters){
@@ -1032,7 +1032,7 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Method to add / modify / delete triples of multiple complex ontology resources
-	 * @param multipleResourceTriples: Dictionary with resource identifier guid and the resourde triples list to modify
+	 * @param multipleResourceTriples Dictionary with resource identifier guid and the resourde triples list to modify
 	 * @param loadId Charge identifier string
 	 * @param publishHome Dictionary with resource identifier guid and the resource attached files list.
 	 * @param mainImage Main image String
@@ -1092,9 +1092,9 @@ public class ResourceApi extends GnossApiWrapper{
 	/**
 	 * Method for adding one or more properties of a loaded resource. In IncluirTriples can indicate whether title or description. By default false two fields. 
 	 * It influences the value of the resource searches
-	 * @param resourceTriples: Contains as a key the resource guid identifier to modify and as a value a TriplesToInclude list of the resource properties that will be included
-	 * @param numAttemps: Number of retries loading of the failed load of a resource
-	 * @param publishHome: Indicates whether the home must be updated
+	 * @param resourceTriples Contains as a key the resource guid identifier to modify and as a value a TriplesToInclude list of the resource properties that will be included
+	 * @param numAttemps Number of retries loading of the failed load of a resource
+	 * @param publishHome Indicates whether the home must be updated
 	 * @return Indicates whether the properties have been added to the loaded resource
 	 */
 	public HashMap<UUID, Boolean> InsertPropertiesLoadedResources(HashMap<UUID, ArrayList<TriplesToInclude>> resourceTriples, int numAttemps, boolean publishHome){
@@ -1104,8 +1104,8 @@ public class ResourceApi extends GnossApiWrapper{
 	/**
 	 * Method for adding one or more properties of a loaded resource. In IncluirTriples can indicate whether title or description. By default false two fields. 
 	 * It influences the value of the resource searches
-	 * @param resourceTriples: Contains as a key the resource guid identifier to modify and as a value a TriplesToInclude list of the resource properties that will be included
-	 * @param numAttemps: Number of retries loading of the failed load of a resource
+	 * @param resourceTriples Contains as a key the resource guid identifier to modify and as a value a TriplesToInclude list of the resource properties that will be included
+	 * @param numAttemps Number of retries loading of the failed load of a resource
 	 * @return Indicates whether the properties have been added to the loaded resource
 	 */
 	public HashMap<UUID, Boolean> InsertPropertiesLoadedResources(HashMap<UUID, ArrayList<TriplesToInclude>> resourceTriples, int numAttemps){
@@ -1115,7 +1115,7 @@ public class ResourceApi extends GnossApiWrapper{
 	/**
 	 * Method for adding one or more properties of a loaded resource. In IncluirTriples can indicate whether title or description. By default false two fields. 
 	 * It influences the value of the resource searches
-	 * @param resourceTriples: Contains as a key the resource guid identifier to modify and as a value a TriplesToInclude list of the resource properties that will be included
+	 * @param resourceTriples Contains as a key the resource guid identifier to modify and as a value a TriplesToInclude list of the resource properties that will be included
 	 * @return Indicates whether the properties have been added to the loaded resource
 	 */
 	public HashMap<UUID, Boolean> InsertPropertiesLoadedResources(HashMap<UUID, ArrayList<TriplesToInclude>> resourceTriples){
@@ -1183,9 +1183,9 @@ public class ResourceApi extends GnossApiWrapper{
 	/**
 	 * Method for modifying one or more properties of a loaded resource. In ModificarTriples can indicate whether title or description. By default false two fields. 
 	 * It influences the value of the resource searches
-	 * @param resourceTriples: Contains as a key the resource guid identifier to modify and as a value a TriplesToModify list of the resource properties that will be modified
-	 * @param numAttemps: Indicates whether the home must be updated
-	 * @param publishHome: Default 2. Number of retries loading of the failed load of a resource
+	 * @param resourceTriples Contains as a key the resource guid identifier to modify and as a value a TriplesToModify list of the resource properties that will be modified
+	 * @param numAttemps Indicates whether the home must be updated
+	 * @param publishHome Default 2. Number of retries loading of the failed load of a resource
 	 * @return Indicates whether the properties have been modified of the loaded resource
 	 */
 	public HashMap<UUID, Boolean> ModifyPropertiesLoadedResources(HashMap<UUID, ArrayList<TriplesToModify>> resourceTriples, int numAttemps, boolean publishHome){
@@ -1265,13 +1265,13 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Method to add / modify / delete triples of complex ontology resource
-	 * @param resourceID: Resource identifier guid
-	 * @param tripleList: Resource triples list to modify
-	 * @param loadId: Charge identifier string
-	 * @param publishHome: Resource attached files list
-	 * @param mainImage: Main image string
-	 * @param resourceAttachedFiles: Indicates whether the home must be updated
-	 * @param endOfLoad: Indicates the resource modified is the last and it must deletes cache
+	 * @param resourceID Resource identifier guid
+	 * @param tripleList Resource triples list to modify
+	 * @param loadId Charge identifier string
+	 * @param publishHome Resource attached files list
+	 * @param mainImage Main image string
+	 * @param resourceAttachedFiles Indicates whether the home must be updated
+	 * @param endOfLoad Indicates the resource modified is the last and it must deletes cache
 	 * @throws Exception
 	 */
 	public void ModifyTripleList(UUID resourceID, ArrayList<ModifyResourceTriple> tripleList, String loadId, boolean publishHome, String mainImage, ArrayList<SemanticAttachedResource> resourceAttachedFiles, boolean endOfLoad) throws Exception{
@@ -1302,7 +1302,7 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Changes the current ontology by the indicated ontology.
-	 * @param newOntology: New ontology name
+	 * @param newOntology New ontology name
 	 */
 	public void ChangeOntology(String newOntology){
 		String ontologia = newOntology.toLowerCase().replace(".owl", "");
@@ -1367,9 +1367,9 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Allows a virtuoso query, setting the 'SELECT' and 'WHERE' parts of the query and the graph name
-	 * @param selectPart: The 'SELECT' query part
-	 * @param wherePart: The 'WHERE' query part
-	 * @param ontologyName: Graph name where the query runs (without extension '.owl')
+	 * @param selectPart The 'SELECT' query part
+	 * @param wherePart The 'WHERE' query part
+	 * @param ontologyName Graph name where the query runs (without extension '.owl')
 	 * @return DataSet with the query result
 	 * @throws GnossAPIException 
 	 */
@@ -1462,9 +1462,9 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Logical delete of the resource
-	 * @param resourceId: Resource identifier
-	 * @param loadId: Charge identifier
-	 * @param endOfCharge: Marks the end of the charge  
+	 * @param resourceId Resource identifier
+	 * @param loadId Charge identifier
+	 * @param endOfCharge Marks the end of the charge  
 	 * @throws Exception
 	 */
 	public void Delete(UUID resourceId, String loadId, boolean endOfCharge) throws Exception{
@@ -1491,8 +1491,8 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Logical delete of the resource
-	 * @param resourceId: Resource identifier
-	 * @param loadId: Charge identifier
+	 * @param resourceId Resource identifier
+	 * @param loadId Charge identifier
 	 * @throws Exception
 	 */
 	public void Delete(UUID resourceId, String loadId) throws Exception{
@@ -1501,9 +1501,9 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Persistent delete of the resource
-	 * @param resourceId: Resource identifier
-	 * @param deleteAttached: Indicates if the attached resources must be deleted
-	 * @param endOfCharge: Marks the end of the carge
+	 * @param resourceId Resource identifier
+	 * @param deleteAttached Indicates if the attached resources must be deleted
+	 * @param endOfCharge Marks the end of the carge
 	 * @return If the resource was deleted
 	 * @throws Exception 
 	 */
@@ -1563,8 +1563,8 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Persistent delete of the resource
-	 * @param resourceId: Resource identifier
-	 * @param deleteAttached: Indicates if the attached resources must be deleted
+	 * @param resourceId Resource identifier
+	 * @param deleteAttached Indicates if the attached resources must be deleted
 	 * @return If the resource was deleted
 	 * @throws Exception 
 	 */
@@ -1573,8 +1573,8 @@ public class ResourceApi extends GnossApiWrapper{
 	}
 	
 	/**
-	 * @param resourceId: Resource identifier
-	 * @return
+	 * @param resourceId Resource identifier
+	 * @return Boolean
 	 * @throws Exception 
 	 */
 	public boolean PersistentDelete(UUID resourceId) throws Exception{
@@ -1584,9 +1584,9 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Modify one or more properties of an entity of a loaded resource.
-	 * @param resourceTriples: Contains as a key the large Gnoss identifier of secondary resource to modify and as a value a ModificarTriples list of the resource properties to modified
-	 * @param numAttemps: Indicates whether the home must be updated
-	 * @param publishHome: Number of retries loading of the failed load of a resource
+	 * @param resourceTriples Contains as a key the large Gnoss identifier of secondary resource to modify and as a value a ModificarTriples list of the resource properties to modified
+	 * @param numAttemps Indicates whether the home must be updated
+	 * @param publishHome Number of retries loading of the failed load of a resource
 	 */
 	public void ModifyPropertyLoadedSecondaryResource(HashMap<String, ArrayList<TriplesToModify>> resourceTriples, int numAttemps, boolean publishHome){
 		ModifyPropertyLoadedSecondaryResourceInt(resourceTriples, getCommunityShortName(), numAttemps, publishHome);
@@ -1594,8 +1594,8 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Modify one or more properties of an entity of a loaded resource.
-	 * @param resourceTriples: Contains as a key the large Gnoss identifier of secondary resource to modify and as a value a ModificarTriples list of the resource properties to modified
-	 * @param numAttemps: Indicates whether the home must be updated
+	 * @param resourceTriples Contains as a key the large Gnoss identifier of secondary resource to modify and as a value a ModificarTriples list of the resource properties to modified
+	 * @param numAttemps Indicates whether the home must be updated
 	 */
 	public void ModifyPropertyLoadedSecondaryResource(HashMap<String, ArrayList<TriplesToModify>> resourceTriples, int numAttemps){
 		ModifyPropertyLoadedSecondaryResourceInt(resourceTriples, getCommunityShortName(), numAttemps);
@@ -1603,7 +1603,7 @@ public class ResourceApi extends GnossApiWrapper{
 
 	/**
 	 * Modify one or more properties of an entity of a loaded resource.
-	 * @param resourceTriples: Contains as a key the large Gnoss identifier of secondary resource to modify and as a value a ModificarTriples list of the resource properties to modified
+	 * @param resourceTriples Contains as a key the large Gnoss identifier of secondary resource to modify and as a value a ModificarTriples list of the resource properties to modified
 	 */
 	public void ModifyPropertyLoadedSecondaryResource(HashMap<String, ArrayList<TriplesToModify>> resourceTriples){
 		ModifyPropertyLoadedSecondaryResourceInt(resourceTriples, getCommunityShortName());
@@ -2098,9 +2098,9 @@ public class ResourceApi extends GnossApiWrapper{
 	/**
 	 * Method for adding one or more properties of a loaded resource. In RemoveTriples can indicate whether title or description. 
 	 * By default false two fields. It influences the value of the resource searches.
-	 * @param resourceTriples:,Contains as a key the resource guid identifier to modify and as a value a RemoveTriples list of the resource properties that will be deleted.
-	 * @param numAttemps: Indicates whether the home must be updated
-	 * @param publishHome: Default 2. Number of retries loading of the failed load of a resource
+	 * @param resourceTriples Contains as a key the resource guid identifier to modify and as a value a RemoveTriples list of the resource properties that will be deleted.
+	 * @param numAttemps Indicates whether the home must be updated
+	 * @param publishHome Default 2. Number of retries loading of the failed load of a resource
 	 * @return HashMap resource identifier and boolean indicating the successfull, or not, result of the action
 	 */
 	public HashMap<UUID, Boolean> DeletePropertiesLoadedResources(HashMap<UUID, ArrayList<RemoveTriples>> resourceTriples, int numAttemps, boolean publishHome){
@@ -2110,8 +2110,8 @@ public class ResourceApi extends GnossApiWrapper{
 	/**
 	 * Method for adding one or more properties of a loaded resource. In RemoveTriples can indicate whether title or description. 
 	 * By default false two fields. It influences the value of the resource searches.
-	 * @param resourceTriples:,Contains as a key the resource guid identifier to modify and as a value a RemoveTriples list of the resource properties that will be deleted.
-	 * @param numAttemps: Indicates whether the home must be updated
+	 * @param resourceTriples Contains as a key the resource guid identifier to modify and as a value a RemoveTriples list of the resource properties that will be deleted.
+	 * @param numAttemps Indicates whether the home must be updated
 	 * @return HashMap resource identifier and boolean indicating the successfull, or not, result of the action
 	 */
 	public HashMap<UUID, Boolean> DeletePropertiesLoadedResources(HashMap<UUID, ArrayList<RemoveTriples>> resourceTriples, int numAttemps){
@@ -2121,7 +2121,7 @@ public class ResourceApi extends GnossApiWrapper{
 	/**
 	 * Method for adding one or more properties of a loaded resource. In RemoveTriples can indicate whether title or description. 
 	 * By default false two fields. It influences the value of the resource searches.
-	 * @param resourceTriples:,Contains as a key the resource guid identifier to modify and as a value a RemoveTriples list of the resource properties that will be deleted.
+	 * @param resourceTriples Contains as a key the resource guid identifier to modify and as a value a RemoveTriples list of the resource properties that will be deleted.
 	 * @return HashMap resource identifier and boolean indicating the successfull, or not, result of the action
 	 */
 	public HashMap<UUID, Boolean> DeletePropertiesLoadedResources(HashMap<UUID, ArrayList<RemoveTriples>> resourceTriples){
@@ -2182,11 +2182,11 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Load a complex semantic resources list
-	 * @param resourceList: List of resources to load
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarchy
-	 * @param numAttemps: Number of retries loading of the failed load of a resource
-	 * @param communityShortName: Defined if it is necessary the load in other community that the specified in the OAuth
-	 * @param rdfsPath: Path to save the RDF, if necessary
+	 * @param resourceList List of resources to load
+	 * @param hierarquicalCategories Indicates whether the categories has hierarchy
+	 * @param numAttemps Number of retries loading of the failed load of a resource
+	 * @param communityShortName Defined if it is necessary the load in other community that the specified in the OAuth
+	 * @param rdfsPath Path to save the RDF, if necessary
 	 */
 	private void LoadComplexSemanticResourceListInt(ArrayList<ComplexOntologyResource> resourceList, boolean hierarquicalCategories, int numAttemps, String communityShortName, String rdfsPath){
 		int processedNumber = 0;
@@ -2234,10 +2234,10 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Load a complex semantic resources list
-	 * @param resourceList: List of resources to load
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarchy
-	 * @param numAttemps: Number of retries loading of the failed load of a resource
-	 * @param communityShortName: Defined if it is necessary the load in other community that the specified in the OAuth
+	 * @param resourceList List of resources to load
+	 * @param hierarquicalCategories Indicates whether the categories has hierarchy
+	 * @param numAttemps Number of retries loading of the failed load of a resource
+	 * @param communityShortName Defined if it is necessary the load in other community that the specified in the OAuth
 	 */
 	private void LoadComplexSemanticResourceListInt(ArrayList<ComplexOntologyResource> resourceList, boolean hierarquicalCategories, int numAttemps, String communityShortName){
 		LoadComplexSemanticResourceListInt(resourceList, hierarquicalCategories, numAttemps, communityShortName, null);
@@ -2245,9 +2245,9 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Load a complex semantic resources list
-	 * @param resourceList: List of resources to load
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarchy
-	 * @param numAttemps: Number of retries loading of the failed load of a resource
+	 * @param resourceList List of resources to load
+	 * @param hierarquicalCategories Indicates whether the categories has hierarchy
+	 * @param numAttemps Number of retries loading of the failed load of a resource
 	 */
 	private void LoadComplexSemanticResourceListInt(ArrayList<ComplexOntologyResource> resourceList, boolean hierarquicalCategories, int numAttemps){
 		LoadComplexSemanticResourceListInt(resourceList, hierarquicalCategories, numAttemps, null, null);
@@ -2255,8 +2255,8 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Load a complex semantic resources list
-	 * @param resourceList: List of resources to load
-	 * @param hierarquicalCategories: Indicates whether the categories has hierarchy
+	 * @param resourceList List of resources to load
+	 * @param hierarquicalCategories Indicates whether the categories has hierarchy
 	 */
 	private void LoadComplexSemanticResourceListInt(ArrayList<ComplexOntologyResource> resourceList, boolean hierarquicalCategories){
 		LoadComplexSemanticResourceListInt(resourceList, hierarquicalCategories, 2, null, null);
@@ -2670,7 +2670,7 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Method to know if there are pending resources in a community
-	 * @param ontologyURL
+	 * @param ontologyURL ontology URL 
 	 * @return The number of pending actions in a community
 	 * @throws Exception
 	 */
@@ -2694,7 +2694,7 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Gets the community short name to which a resource belongs
-	 * @param resourceID -> Resource identifier
+	 * @param resourceID  Resource identifier
 	 * @return Community short name 
 	 * @throws Exception
 	 */
@@ -2867,8 +2867,8 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * 
-	 * @param proyectoId
-	 * @return
+	 * @param proyectoId proyecto id 
+	 * @return String
 	 * @throws Exception
 	 */
 	public String ObtenerPathEstilos(UUID proyectoId) throws Exception {
@@ -3114,7 +3114,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 * Gets the resources urls in the indicated language
 	 * @param resourceId_list Resources identifiers list
 	 * @param language language code string
-	 * @return Resource.ResponseGetUrl list with the existent resources urls
+	 * @return Resource ResponseGetUrl list with the existent resources urls
 	 * @throws Exception
 	 */
 	public List<ResponseGetUrl> getUrl(List<UUID> resourceId_list, String language) throws Exception{
@@ -3320,10 +3320,10 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Insert or update Votes for document 
-	 * @param pIdentidadID
-	 * @param pValorVoto
-	 * @param pDocumentoID
-	 * @param pProyectoID
+	 * @param pIdentidadID Identidad Id
+	 * @param pValorVoto Valor voto
+	 * @param pDocumentoID Documento ID
+	 * @param pProyectoID proyecto ID
 	 * @throws Exception
 	 */
 	public void VoteDocument(UUID pIdentidadID, float pValorVoto, UUID pDocumentoID, UUID pProyectoID) throws Exception {
@@ -3427,7 +3427,7 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Get the tags of the resources
-	 * @param   resourceId_list
+	 * @param   resourceId_list resource Id List
 	 * @return ResponseGetsTags list with the tags of the resources 
 	 * @throws Exception 
 	 */
@@ -3627,7 +3627,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 * Link the resources in the list to another resource
 	 * @param resourceId Resource that has been linked
 	 * @param resourceListToLink Resource list to link 
-	 * @return
+	 * @return booleano
 	 * @throws Exception
 	 */
 	public boolean LinkResource(UUID resourceId, ArrayList<UUID> resourceListToLink) throws Exception {
@@ -3659,8 +3659,8 @@ public class ResourceApi extends GnossApiWrapper{
 	 * @param targetCommunity target community short name string
 	 * @param resourceId resource identifier Guid
 	 * @param categories guid list where the document is going to be shared to
-	 * @param publisher_email
-	 * @return
+	 * @param publisher_email publisher email
+	 * @return booleano 
 	 * @throws Exception
 	 */
 	public boolean Share(String targetCommunity, UUID resourceId, ArrayList<UUID> categories, String publisher_email) throws Exception {
@@ -3690,7 +3690,7 @@ public class ResourceApi extends GnossApiWrapper{
 	/**
 	 * Shares the resources 
 	 * @param parameters List of shareParams model 
-	 * @return
+	 * @return boolean 
 	 * @throws Exception
 	 */
 	public boolean ShareResources(List<ShareParams> parameters) throws Exception {
@@ -3715,7 +3715,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 * Sets the resource main image
 	 * @param resourceId Resource identifier UUID
 	 * @param path Relative path with the image name, image sizes available and [IMGPrincipal] mask 
-	 * @return
+	 * @return boolean 
 	 * @throws Exception
 	 */
 	public boolean setMainImage(UUID resourceId, String path) throws Exception {
@@ -3749,7 +3749,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 * @param parentCommentId optional parent comment identifier Guid. The current comment is its answer
 	 * @param commentDate  publisher user short name
 	 * @param publishHome indicates whether the home must be updated
-	 * @return
+	 * @return UUID
 	 * @throws Exception
 	 */
 	public UUID Comment (UUID resourceId, String userShortName, String description, UUID parentCommentId, Date commentDate, boolean publishHome) throws Exception {
@@ -3785,7 +3785,7 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Creates a complex ontology resource
-	 * @param parameters
+	 * @param parameters parameters
 	 * @return resource identifier guid 
 	 * @throws Exception
 	 */
@@ -3813,10 +3813,10 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Creates a complex Ontology resource 
-	 * @param parameters
-	 * @param pCargaID
-	 * @param hierarquicalCategories
-	 * @param communityShortName
+	 * @param parameters parameters
+	 * @param pCargaID cargaId
+	 * @param hierarquicalCategories hierarquical categories
+	 * @param communityShortName community short name 
 	 * @return Resource identifier UUID
 	 * @throws MalformedURLException
 	 * @throws IOException
@@ -3877,7 +3877,7 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Modifies a basic ontology resource 
-	 * @param parameters
+	 * @param parameters parameters 
 	 * @return Resource identifier UUID 
 	 * @throws Exception
 	 */
@@ -4000,7 +4000,7 @@ public class ResourceApi extends GnossApiWrapper{
 	/**
 	 * Checks if a resource has been previously locked. 
 	 * @param resourceId Resource identifier to verify
-	 * @return
+	 * @return boolean 
 	 * @throws Exception
 	 */
 	public boolean CheckLockedResource (UUID resourceId) throws Exception {
@@ -4076,11 +4076,11 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * 
-	 * @param communityShortName
-	 * @param rec
-	 * @param pEsUltimo
-	 * @param pTipoDoc
-	 * @return
+	 * @param communityShortName community short name 
+	 * @param rec rec 
+	 * @param pEsUltimo boolean 
+	 * @param pTipoDoc tipo Documento 
+	 * @return LoadResourceParams
 	 */
 	private LoadResourceParams GetResourceModelOfBasicOntologyResource(String communityShortName, BasicOntologyResource rec, boolean pEsUltimo, short pTipoDoc ) {
 		
@@ -4605,10 +4605,10 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * 
-	 * @param resource
-	 * @param hierarquicalCategories
-	 * @param resourceType
-	 * @param isLast
+	 * @param resource resource 
+	 * @param hierarquicalCategories hierarquical categories
+	 * @param resourceType resource type 
+	 * @param isLast is Last
 	 * @throws MalformedURLException
 	 * @throws IOException
 	 * @throws GnossAPIException
@@ -5496,7 +5496,7 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Get the community members email list
-	 * @return
+	 * @return ArrayList
 	 */
 	public ArrayList<String> GetCommunityMembersEmailList(){
 		ArrayList<String> emails= new ArrayList<String>();

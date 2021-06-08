@@ -20,7 +20,7 @@ public class NotificationModel {
 	}
 	/**
 	 * Subject of the email
-	 * @param Subject of the email
+	 * @param subject Subject of the email
 	 */
 	public void setObject(String subject) {
 		this.subject = subject;
@@ -34,7 +34,7 @@ public class NotificationModel {
 	}
 	/**
 	 * Message of the email
-	 * @param Message of the email
+	 * @param message Message of the email
 	 */
 	public void setMessage(String message) {
 		this.message = message;
@@ -48,7 +48,7 @@ public class NotificationModel {
 	}
 	/**
 	 * True if the message contains html
-	 * @param True or false
+	 * @param is_html True or false
 	 */
 	public void setIs_html(boolean is_html) {
 		this.is_html = is_html;
@@ -62,7 +62,7 @@ public class NotificationModel {
 	}
 	/**
 	 * List of email receivers
-	 * @param list of email
+	 * @param receivers list of email
 	 */
 	public void setReceivers(List<String> receivers) {
 		this.receivers = receivers;
@@ -76,7 +76,7 @@ public class NotificationModel {
 	}
 	/**
 	 * Sender mask
-	 * @param sender mask
+	 * @param sender_mask sender mask
 	 */
 	public void setSender_mask(String sender_mask) {
 		this.sender_mask = sender_mask;
@@ -90,7 +90,7 @@ public class NotificationModel {
 	}
 	/**
 	 * Community short name
-	 * @param community short name
+	 * @param community_short_name community short name
 	 */
 	public void setCommunity_short_name(String community_short_name) {
 		this.community_short_name = community_short_name;

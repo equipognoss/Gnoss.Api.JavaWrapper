@@ -23,7 +23,7 @@ public class UserCommunityMembership {
 	}
 	/**
 	 * User identificator
-	 * @param user_id
+	 * @param user_id User id 
 	 */
 	public void setUser_id(UUID user_id) {
 		this.user_id = user_id;
@@ -37,7 +37,7 @@ public class UserCommunityMembership {
 	}
 	/**
 	 * Community short name 
-	 * @param community_short_name
+	 * @param community_short_name Community short name 
 	 */
 	public void setCommunity_short_name(String community_short_name) {
 		this.community_short_name = community_short_name;
@@ -51,7 +51,7 @@ public class UserCommunityMembership {
 	}
 	/**
 	 * User community registration date 
-	 * @param registration_date
+	 * @param registration_date Registration name 
 	 */
 	public void setRegistration_date(Date registration_date) {
 		this.registration_date = registration_date;
@@ -65,7 +65,7 @@ public class UserCommunityMembership {
 	}
 	/**
 	 * Indicates if the user manages the community
-	 * @param administrator_rol
+	 * @param administrator_rol Administrator rol 
 	 */
 	public void setAdministrator_rol(boolean administrator_rol) {
 		this.administrator_rol = administrator_rol;

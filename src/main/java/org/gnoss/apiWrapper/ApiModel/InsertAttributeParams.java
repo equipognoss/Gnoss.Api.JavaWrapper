@@ -18,7 +18,7 @@ public class InsertAttributeParams {
 	}
 	/**
 	 * Graph Url
-	 * @param graph
+	 * @param graph Graph
 	 */
 	public void setGraph(String graph) {
 		this.graph = graph;
@@ -32,7 +32,7 @@ public class InsertAttributeParams {
 	}
 	/**
 	 * Value to insert
-	 * @param value
+	 * @param value Value 
 	 */
 	public void setValue(String value) {
 		this.value = value;

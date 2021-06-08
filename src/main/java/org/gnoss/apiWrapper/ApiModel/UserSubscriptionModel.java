@@ -23,7 +23,7 @@ public class UserSubscriptionModel {
 	}
 	/**
 	 * Subscriptor user identificator
-	 * @param user_id
+	 * @param user_id user id 
 	 */
 	public void setUser_id(UUID user_id) {
 		this.user_id = user_id;
@@ -37,7 +37,7 @@ public class UserSubscriptionModel {
 	}
 	/**
 	 * Community short name. Null if user is a follower
-	 * @param community_short_name
+	 * @param community_short_name community short name 
 	 */
 	public void setCommunity_short_name(String community_short_name) {
 		this.community_short_name = community_short_name;
@@ -51,7 +51,7 @@ public class UserSubscriptionModel {
 	}
 	/**
 	 * User identificator who user is subscribe
-	 * @param user_followed_id
+	 * @param user_followed_id user followed id 
 	 */
 	public void setUser_followed_id(UUID user_followed_id) {
 		this.user_followed_id = user_followed_id;
@@ -65,7 +65,7 @@ public class UserSubscriptionModel {
 	}
 	/**
 	 * Categories which user is subscribed 
-	 * @param subscription_date
+	 * @param subscription_date subscription date 
 	 */
 	public void setSubscription_date(Date subscription_date) {
 		this.subscription_date = subscription_date;

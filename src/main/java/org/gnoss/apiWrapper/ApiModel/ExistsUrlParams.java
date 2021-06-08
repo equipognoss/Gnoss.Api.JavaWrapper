@@ -18,7 +18,7 @@ public class ExistsUrlParams {
 	}
 	/**
 	 * Url check
-	 * @param url
+	 * @param url Url
 	 */
 	public void setUrl(String url) {
 		this.url = url;
@@ -32,7 +32,7 @@ public class ExistsUrlParams {
 	}
 	/**
 	 * Community short name 
-	 * @param community_short_name
+	 * @param community_short_name Community short name
 	 */
 	public void setCommunity_short_name(String community_short_name) {
 		this.community_short_name = community_short_name;

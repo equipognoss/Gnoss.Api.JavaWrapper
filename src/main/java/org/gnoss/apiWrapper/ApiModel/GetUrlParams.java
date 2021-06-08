@@ -23,7 +23,7 @@ public class GetUrlParams {
 	}
 	/**
 	 * Resource list to get their download URL
-	 * @param resource_id_list
+	 * @param resource_id_list Resource id list
 	 */
 	public void setResource_id_list(List<UUID> resource_id_list) {
 		this.resource_id_list = resource_id_list;
@@ -37,7 +37,7 @@ public class GetUrlParams {
 	}
 	/**
 	 * Community short name
-	 * @param community_short_name
+	 * @param community_short_name Community short name 
 	 */
 	public void setCommunity_short_name(String community_short_name) {
 		this.community_short_name = community_short_name;
@@ -51,7 +51,7 @@ public class GetUrlParams {
 	}
 	/**
 	 * Language of the URL 
-	 * @param language
+	 * @param language Language
 	 */
 	public void setLanguage(String language) {
 		this.language = language;

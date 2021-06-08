@@ -52,7 +52,7 @@ public class ResourceNoveltiesModel {
 	}
 	/**
 	 * Item type names in different languages
-	 * @param item_type_names
+	 * @param item_type_names Item type names 
 	 */
 	public void setItem_type_names(List<ItemTypeName> item_type_names) {
 		this.item_type_names = item_type_names;
@@ -66,7 +66,7 @@ public class ResourceNoveltiesModel {
 	}
 	/**
 	 * Community short name 
-	 * @param community_short_name
+	 * @param community_short_name Community short name 
 	 */
 	public void setCommunity_short_name(String community_short_name) {
 		this.community_short_name = community_short_name;
@@ -80,7 +80,7 @@ public class ResourceNoveltiesModel {
 	}
 	/**
 	 * Resource identificator
-	 * @param resource_id
+	 * @param resource_id Resource id 
 	 */
 	public void setResource_id(UUID resource_id) {
 		this.resource_id = resource_id;
@@ -94,7 +94,7 @@ public class ResourceNoveltiesModel {
 	}
 	/**
 	 * Resource title
-	 * @param title
+	 * @param title Title 
 	 */
 	public void setTitle(String title) {
 		this.title = title;
@@ -108,77 +108,77 @@ public class ResourceNoveltiesModel {
 	}
 	/**
 	 * Resource description
-	 * @param description
+	 * @param description Description 
 	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 	/**
 	 * Resource tags 
-	 * @return list of tags
+	 * @return tags list of tags
 	 */
 	public List<String> getTags() {
 		return tags;
 	}
 	/**
 	 * Resource tags
-	 * @param tags
+	 * @param tags Tags
 	 */
 	public void setTags(List<String> tags) {
 		this.tags = tags;
 	}
 	/**
 	 * Resource categories
-	 * @return list of categories
+	 * @return categories list of categories
 	 */
 	public List<UUID> getCategories() {
 		return categories;
 	}
 	/**
 	 * Resource categories
-	 * @param categories
+	 * @param categories List of categories
 	 */
 	public void setCategories(List<UUID> categories) {
 		this.categories = categories;
 	}
 	/**
 	 * Resource type
-	 * @return type
+	 * @return resource_type type
 	 */
 	public int getResource_type() {
 		return resource_type;
 	}
 	/**
 	 * Resource type
-	 * @param resource_type
+	 * @param resource_type Resource type
 	 */
 	public void setResource_type(int resource_type) {
 		this.resource_type = resource_type;
 	}
 	/**
 	 * Resource type names in different languages
-	 * @return list of types names 
+	 * @return resource_type_names list of types names 
 	 */
 	public List<ResourceTypeName> getResource_type_names() {
 		return resource_type_names;
 	}
 	/**
 	 * Resource type names in different languages
-	 * @param resource_type_names
+	 * @param resource_type_names Resource type names 
 	 */
 	public void setResource_type_names(List<ResourceTypeName> resource_type_names) {
 		this.resource_type_names = resource_type_names;
 	}
 	/**
 	 * Resource url
-	 * @return  url 
+	 * @return resource_url url  
 	 */
 	public String getResource_url() {
 		return resource_url;
 	}
 	/**
 	 * Resource url 
-	 * @param resource_url
+	 * @param resource_url Resource url 
 	 */
 	public void setResource_url(String resource_url) {
 		this.resource_url = resource_url;
@@ -192,7 +192,7 @@ public class ResourceNoveltiesModel {
 	}
 	/**
 	 * Resource authors (comma separated)
-	 * @param authors
+	 * @param authors authors
 	 */
 	public void setAuthors(String authors) {
 		this.authors = authors;
@@ -206,21 +206,21 @@ public class ResourceNoveltiesModel {
 	}
 	/**
 	 * REsource visibility
-	 * @param visibility
+	 * @param visibility Visibility 
 	 */
 	public void setVisibility(int visibility) {
 		this.visibility = visibility;
 	}
 	/**
 	 * Resource readers list
-	 * @return readers list
+	 * @return readers_list readers list
 	 */
 	public List<ReaderEditor> getReaders_list() {
 		return readers_list;
 	}
 	/**
 	 * Resource readers list
-	 * @param readers_list
+	 * @param readers_list Readers list 
 	 */
 	public void setReaders_list(List<ReaderEditor> readers_list) {
 		this.readers_list = readers_list;
@@ -234,7 +234,7 @@ public class ResourceNoveltiesModel {
 	}
 	/**
 	 * Resource editors list
-	 * @param editors_list
+	 * @param editors_list Editors list
 	 */
 	public void setEditors_list(List<ReaderEditor> editors_list) {
 		this.editors_list = editors_list;
@@ -248,7 +248,7 @@ public class ResourceNoveltiesModel {
 	}
 	/**
 	 * REsource creation date
-	 * @param creation_date
+	 * @param creation_date Creation date 
 	 */
 	public void setCreation_date(Date creation_date) {
 		this.creation_date = creation_date;
@@ -262,21 +262,21 @@ public class ResourceNoveltiesModel {
 	}
 	/**
 	 * Resource last edition date
-	 * @param last_edition_date
+	 * @param last_edition_date Last edition date 
 	 */
 	public void setLast_edition_date(Date last_edition_date) {
 		this.last_edition_date = last_edition_date;
 	}
 	/**
 	 * Resource edition date
-	 * @return edition date
+	 * @return edition_date_by_user edition date
 	 */
 	public List<ResourceEditionDateByUser> getEdition_date_by_user() {
 		return edition_date_by_user;
 	}
 	/**
 	 * Resource edition date
-	 * @param edition_date_by_user
+	 * @param edition_date_by_user Edition date by user 
 	 */
 	public void setEdition_date_by_user(List<ResourceEditionDateByUser> edition_date_by_user) {
 		this.edition_date_by_user = edition_date_by_user;
@@ -290,7 +290,7 @@ public class ResourceNoveltiesModel {
 	}
 	/**
 	 * Resource version date
-	 * @param version_date_by_user
+	 * @param version_date_by_user Version date by user
 	 */
 	public void setVersion_date_by_user(List<ResourceVersionDateByUser> version_date_by_user) {
 		this.version_date_by_user = version_date_by_user;
@@ -304,7 +304,7 @@ public class ResourceNoveltiesModel {
 	}
 	/**
 	 * Resource deleted date
-	 * @param delete_date_by_user
+	 * @param delete_date_by_user Delete date by user 
 	 */
 	public void setDelete_date_by_user(ResourceDeleteDateByUser delete_date_by_user) {
 		this.delete_date_by_user = delete_date_by_user;
@@ -318,7 +318,7 @@ public class ResourceNoveltiesModel {
 	}
 	/**
 	 * Path of the resource main image
-	 * @param main_image
+	 * @param main_image Main image 
 	 */
 	public void setMain_image(String main_image) {
 		this.main_image = main_image;
@@ -332,35 +332,35 @@ public class ResourceNoveltiesModel {
 	}
 	/**
 	 * Resource version dates
-	 * @param comments
+	 * @param comments Comments 
 	 */
 	public void setComments(List<CommentModel> comments) {
 		this.comments = comments;
 	}
 	/**
 	 * Resource number of views
-	 * @return number of views
+	 * @return views number of views
 	 */
 	public int getViews() {
 		return views;
 	}
 	/**
 	 * Resource number of views
-	 * @param views
+	 * @param views views 
 	 */
 	public void setViews(int views) {
 		this.views = views;
 	}
 	/**
 	 * Resource number of plays
-	 * @return number of plays
+	 * @return plays number of plays
 	 */
 	public int getPlays() {
 		return plays;
 	}
 	/**
 	 * Resource number of plays
-	 * @param plays
+	 * @param plays plays 
 	 */
 	public void setPlays(int plays) {
 		this.plays = plays;
@@ -374,21 +374,21 @@ public class ResourceNoveltiesModel {
 	}
 	/**
 	 * Resource number of downloads
-	 * @param downloads
+	 * @param downloads downloads 
 	 */
 	public void setDownloads(int downloads) {
 		this.downloads = downloads;
 	}
 	/**
 	 * Resource last view date 
-	 * @return last view date
+	 * @return last_view_date last view date
 	 */
 	public Date getLast_view_date() {
 		return last_view_date;
 	}
 	/**
 	 * Resource last view date
-	 * @param last_view_date
+	 * @param last_view_date last view date 
 	 */
 	public void setLast_view_date(Date last_view_date) {
 		this.last_view_date = last_view_date;
@@ -402,7 +402,7 @@ public class ResourceNoveltiesModel {
 	}
 	/**
 	 * Resource votes
-	 * @param votes
+	 * @param votes votes 
 	 */
 	public void setVotes(List<VoteModel> votes) {
 		this.votes = votes;
@@ -416,35 +416,35 @@ public class ResourceNoveltiesModel {
 	}
 	/**
 	 * Resource sharing
-	 * @param shared_on
+	 * @param shared_on shared on 
 	 */
 	public void setShared_on(List<ShareModel> shared_on) {
 		this.shared_on = shared_on;
 	}
 	/**
 	 * Resource saved to user personal space
-	 * @return list of personal spaces
+	 * @return personal_spaces list of personal spaces
 	 */
 	public List<PersonalSpaceModel> getPersonal_spaces() {
 		return personal_spaces;
 	}
 	/**
 	 * Resource saved to user personal space
-	 * @param personal_spaces
+	 * @param personal_spaces personal spaces 
 	 */
 	public void setPersonal_spaces(List<PersonalSpaceModel> personal_spaces) {
 		this.personal_spaces = personal_spaces;
 	}
 	/**
 	 * If the resource is a link to a web page, this property gets  the url of the web page
-	 * @return  url web page
+	 * @return link url web page
 	 */
 	public String getLink() {
 		return link;
 	}
 	/**
 	 * If the resource is a link to a web page, this property sets  the url of the web page
-	 * @param link
+	 * @param link link
 	 */
 	public void setLink(String link) {
 		this.link = link;

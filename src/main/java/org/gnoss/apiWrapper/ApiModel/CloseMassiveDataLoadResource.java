@@ -20,7 +20,7 @@ public class CloseMassiveDataLoadResource {
 	}
 	/**
 	 * Data load identifier
-	 * @param dataLoadIdentifier
+	 * @param dataLoadIdentifier dataLoadIdentifier
 	 */
 	public void setDataLoadIdentifier(UUID dataLoadIdentifier) {
 		DataLoadIdentifier = dataLoadIdentifier;

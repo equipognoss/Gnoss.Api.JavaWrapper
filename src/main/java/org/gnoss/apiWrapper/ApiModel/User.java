@@ -44,7 +44,7 @@ public class User {
 	}
 	/**
 	 * Name
-	 * @param name
+	 * @param name name 
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -58,7 +58,7 @@ public class User {
 	}
 	/**
 	 * Last name or Family name 
-	 * @param las_name
+	 * @param las_name last name 
 	 */
 	public void setLas_name(String las_name) {
 		this.las_name = las_name;
@@ -72,7 +72,7 @@ public class User {
 	}
 	/**
 	 * Email
-	 * @param email
+	 * @param email email 
 	 */
 	public void setEmail(String email) {
 		this.email = email;
@@ -86,7 +86,7 @@ public class User {
 	}
 	/**
 	 * Password (Only for update not for query)
-	 * @param password
+	 * @param password password 
 	 */
 	public void setPassword(String password) {
 		this.password = password;
@@ -100,7 +100,7 @@ public class User {
 	}
 	/**
 	 * User extra data
-	 * @param extra_data
+	 * @param extra_data entra data
 	 */
 	public void setExtra_data(List<ExtraUserData> extra_data) {
 		this.extra_data = extra_data;
@@ -114,7 +114,7 @@ public class User {
 	}
 	/**
 	 * User events 
-	 * @param user_events
+	 * @param user_events user events
 	 */
 	public void setUser_events(List<UserEvent> user_events) {
 		this.user_events = user_events;
@@ -128,7 +128,7 @@ public class User {
 	}
 	/**
 	 * Auxiliary data 
-	 * @param aux_data
+	 * @param aux_data aux data
 	 */
 	public void setAux_data(String aux_data) {
 		this.aux_data = aux_data;
@@ -142,7 +142,7 @@ public class User {
 	}
 	/**
 	 * Community identifier
-	 * @param community_id
+	 * @param community_id community data
 	 */
 	public void setCommunity_id(UUID community_id) {
 		this.community_id = community_id;
@@ -156,7 +156,7 @@ public class User {
 	}
 	/**
 	 * Community short name 
-	 * @param community_short_name
+	 * @param community_short_name community short name 
 	 */
 	public void setCommunity_short_name(String community_short_name) {
 		this.community_short_name = community_short_name;
@@ -170,7 +170,7 @@ public class User {
 	}
 	/**
 	 * User short name 
-	 * @param user_short_name
+	 * @param user_short_name user short name 
 	 */
 	public void setUser_short_name(String user_short_name) {
 		this.user_short_name = user_short_name;
@@ -184,7 +184,7 @@ public class User {
 	}
 	/**
 	 * User identifier
-	 * @param user_id
+	 * @param user_id user id 
 	 */
 	public void setUser_id(UUID user_id) {
 		this.user_id = user_id;
@@ -198,7 +198,7 @@ public class User {
 	}
 	/**
 	 * User identification (passport number, dni ...)
-	 * @param id_card
+	 * @param id_card id card 
 	 */
 	public void setId_card(String id_card) {
 		this.id_card = id_card;
@@ -212,7 +212,7 @@ public class User {
 	}
 	/**
 	 * User born date
-	 * @param born_date
+	 * @param born_date born date
 	 */
 	public void setBorn_date(Date born_date) {
 		this.born_date = born_date;
@@ -226,7 +226,7 @@ public class User {
 	}
 	/**
 	 * Country identifier 
-	 * @param country_id
+	 * @param country_id country id 
 	 */
 	public void setCountry_id(UUID country_id) {
 		this.country_id = country_id;
@@ -240,7 +240,7 @@ public class User {
 	}
 	/**
 	 * User country
-	 * @param country
+	 * @param country country 
 	 */
 	public void setCountry(String country) {
 		this.country = country;
@@ -254,7 +254,7 @@ public class User {
 	}
 	/**
 	 * Province identifier
-	 * @param province_id
+	 * @param province_id province id 
 	 */
 	public void setProvince_id(UUID province_id) {
 		this.province_id = province_id;
@@ -268,7 +268,7 @@ public class User {
 	}
 	/**
 	 * User province
-	 * @param province
+	 * @param province province 
 	 */
 	public void setProvince(String province) {
 		this.province = province;
@@ -282,7 +282,7 @@ public class User {
 	}
 	/**
 	 * User city
-	 * @param city
+	 * @param city city 
 	 */
 	public void setCity(String city) {
 		this.city = city;
@@ -296,7 +296,7 @@ public class User {
 	}
 	/**
 	 * User address
-	 * @param address
+	 * @param address address 
 	 */
 	public void setAddress(String address) {
 		this.address = address;
@@ -310,7 +310,7 @@ public class User {
 	}
 	/**
 	 * User postal code 
-	 * @param postal_code
+	 * @param postal_code postal code 
 	 */
 	public void setPostal_code(String postal_code) {
 		this.postal_code = postal_code;
@@ -324,7 +324,7 @@ public class User {
 	}
 	/**
 	 * Date when the member has joined to this community
-	 * @param join_community_date
+	 * @param join_community_date join community date 
 	 */
 	public void setJoin_community_date(Date join_community_date) {
 		this.join_community_date = join_community_date;
@@ -338,7 +338,7 @@ public class User {
 	}
 	/**
 	 * H for Male or M for Female
-	 * @param sex
+	 * @param sex sex 
 	 */
 	public void setSex(String sex) {
 		this.sex = sex;
@@ -352,7 +352,7 @@ public class User {
 	}
 	/**
 	 * User preferences 
-	 * @param pr
+	 * @param pr preferences 
 	 */
 	public void setPr(List<ThesaurusCategory> pr) {
 		this.pr = pr;
@@ -366,7 +366,7 @@ public class User {
 	}
 	/**
 	 * True if this user must receive the community newsletter
-	 * @param language
+	 * @param language language 
 	 */
 	public void setLanguage(String language) {
 		this.language = language;

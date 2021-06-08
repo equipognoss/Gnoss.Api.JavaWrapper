@@ -22,7 +22,7 @@ public class ParamsAddUserGroups {
 	}
 	/**
 	 * User identifier
-	 * @param uder_id
+	 * @param uder_id user Id
 	 */
 	public void setUder_id(UUID uder_id) {
 		this.uder_id = uder_id;
@@ -36,7 +36,7 @@ public class ParamsAddUserGroups {
 	}
 	/**
 	 * Organization short name 
-	 * @param organization_short_name
+	 * @param organization_short_name Organization short name 
 	 */
 	public void setOrganization_short_name(String organization_short_name) {
 		this.organization_short_name = organization_short_name;
@@ -50,7 +50,7 @@ public class ParamsAddUserGroups {
 	}
 	/**
 	 * Groups where the user is going to be added
-	 * @param groups_short_names
+	 * @param groups_short_names Groups short names 
 	 */
 	public void setGroups_short_names(List<String> groups_short_names) {
 		this.groups_short_names = groups_short_names;
