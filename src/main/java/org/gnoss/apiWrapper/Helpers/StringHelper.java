@@ -92,6 +92,7 @@ public class StringHelper {
 	/**
 	 * Gets a url encoded as UTF-8
 	 * @param url Url to encode
+	 * @return String string
 	 */
 	public static String urlEncoderUTF8(String url) {
 		try {

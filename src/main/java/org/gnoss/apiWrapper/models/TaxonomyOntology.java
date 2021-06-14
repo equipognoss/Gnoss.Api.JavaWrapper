@@ -38,7 +38,7 @@ public class TaxonomyOntology extends BaseOntology{
     private StringBuilder file;
     
     /**
-     * @throws IOException 
+     * @throws IOException  IOException
      * @throws GnossAPIException GnossAPIException
      * 
      */

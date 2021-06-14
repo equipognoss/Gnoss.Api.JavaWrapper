@@ -204,7 +204,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 * Constructor of ResourceApi
 	 * @param configFilePath Configuration file path, with a structure like http://api.gnoss.com/v3/exampleConfig.txt
 	 * @throws GnossAPIException Gnoss API Exception
-	 * @throws ParserCOnfigurationException parser configuration exception
+	 * @throws ParserConfigurationException parser configuration exception
 	 * @throws SAXException sax exception
 	 * @throws IOException IO exception 
 	 */
@@ -509,6 +509,7 @@ public class ResourceApi extends GnossApiWrapper{
      *  	file_property_type = type of file
      *   	rdf_attached_files = image to load byte[]
      *   	main_image = main image string
+     * @throws GnossAPIArgumentException GnossAPIArgumentException
 	 */
 	public void MassiveUploadImages(LoadResourceParams resource) throws GnossAPIArgumentException{
 		try{
@@ -984,7 +985,7 @@ public class ResourceApi extends GnossApiWrapper{
 
 	/**
 	 * Modifies a complex ontology resouce
-	 * @param parameter parameters
+	 * @param parameters parameters
 	 * @return If the resource was modified T or F 
 	 */
 	public boolean ModifyComplexOntologyResource(LoadResourceParams parameters){
@@ -1577,7 +1578,7 @@ public class ResourceApi extends GnossApiWrapper{
 	/**
 	 * @param resourceId Resource identifier
 	 * @return Boolean T or F
-	 * @throws Exception 
+	 * @throws Exception  Exception
 	 */
 	public boolean PersistentDelete(UUID resourceId) throws Exception{
 		return PersistentDelete(resourceId, false, false);
@@ -3908,7 +3909,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 * @param publishHome indicates whether the home must be updated
 	 * @param mainImage main image string
 	 * @param resourceAttachedFiles resource attached files list
-	 * @param endOfLoadindicates the resource modified is the last and it must deletes cache
+	 * @param endOfLoad Indicates the resource modified is the last and it must deletes cache
 	 * @param userId User that try to modify the resource
 	 * @throws Exception Exception 
 	 */
@@ -5082,7 +5083,7 @@ public class ResourceApi extends GnossApiWrapper{
      *   /// For example, with "gnoss:mainImage" setting, it would not work, it should be: "http://www.gnoss.com/mainImage"
 	 * @param fileRdfPropertiesList Images names to load
 	 * @param filePropertiesTypeList Attached files types
-	 * @param attachedFiles List Images to attach
+	 * @param attachedFilesList List Images to attach
 	 * @param publishHome Indicates whether the home must be updated
 	 * @throws IOException IO Exception
 	 * @throws GnossAPIException Gnoss API 

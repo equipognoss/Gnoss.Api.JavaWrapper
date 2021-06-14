@@ -114,6 +114,7 @@ public class GnossApiWrapper {
      * @throws IOException  IO Exception 
      * @throws SAXException SAX Exception 
      * @throws ParserConfigurationException Parser Configuration Exception  
+     * @throws GnossAPIException GnossAPIException
      */
     public GnossApiWrapper(String configFilePath) throws GnossAPIException, ParserConfigurationException, SAXException, IOException {
         LoadConfigFile(configFilePath);

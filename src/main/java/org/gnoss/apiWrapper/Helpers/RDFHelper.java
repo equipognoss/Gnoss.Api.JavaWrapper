@@ -11,11 +11,11 @@ public class RDFHelper {
 
 	/**
 	 * Returns a string with the value of the label localName in xelm
-	 * @param xelt <RDF elements>
-	 * @param localName <Label to get the value>
-	 * @param nameSpaceName <(Optional) The namespace of the label, it it is necessary >
-	 * @param filterAttribute <(Optional) Xname of the attribute to filter by >
-	 * @param filterAttributeValue <(Optional) Value of the filterAttribute>
+	 * @param xelt RDF elements
+	 * @param localName Label to get the value
+	 * @param nameSpaceName Optional The namespace of the label, it it is necessary 
+	 * @param filterAttribute Optional Xname of the attribute to filter by 
+	 * @param filterAttributeValue Optional Value of the filterAttribute
 	 * @return The value of the label localName
 	 */
 	public static String getElementValue(Iterable<Element> xelt, String localName, String nameSpaceName, String filterAttribute, String filterAttributeValue ) {
@@ -64,9 +64,9 @@ public class RDFHelper {
 	
 	/**
 	 * Returns a string with the value of the label localName in xelm
-	 * @param elto <RDF element>
-	 * @param localName <Label to get a value>
-	 * @param nameSpaceName <(Optional) the namespace of the label, if it is  necessary>
+	 * @param elto RDF element
+	 * @param localName Label to get a value
+	 * @param nameSpaceName Optional the namespace of the label, if it is  necessary
 	 * @return String valor
 	 */
 	

@@ -109,6 +109,7 @@ public class ImageHelper {
 	 * Resize keeping the aspect ratio to height
 	 * @param image Image to resize
 	 * @param heightInPixels Height to resize
+	 * @param pResizeAlways boolean
 	 * @return New image with height
 	 */
 	public static BufferedImage ResizeImageToHeight(BufferedImage image, int heightInPixels, boolean pResizeAlways){

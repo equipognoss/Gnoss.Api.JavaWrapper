@@ -82,7 +82,7 @@ public class MassiveLoadResource extends ResourceApi{
 	 * @throws GnossAPIException Gnoss API Exception 
 	 * @throws ParserConfigurationException PArser Configuration Exception
 	 * @throws SAXException SAX Exception 
-	 * @throws IOExceptionIO Exception 
+	 * @throws IOException IO Exception 
 	 */
 	public MassiveLoadResource(OAuthInfo oauth, String configFilePath) throws GnossAPIException, ParserConfigurationException, SAXException, IOException {
 		super(configFilePath);

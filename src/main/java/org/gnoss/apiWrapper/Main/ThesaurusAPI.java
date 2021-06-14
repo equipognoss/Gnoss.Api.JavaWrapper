@@ -210,7 +210,7 @@ public class ThesaurusAPI extends GnossApiWrapper{
 	 * Adds a category as a parent of another one
 	 * @param pUrlOntologiaTesauro URL of the semantic thesaurus ontology
 	 * @param pCategoriaPadreId URI of the parent category
-	 * @param pCategoriaHijoId  URI of the child category<
+	 * @param pCategoriaHijoId  URI of the child category
 	 * @throws Exception exception 
 	 */
 	public void AddFatherToSemanticThesaurusNode(String pUrlOntologiaTesauro, String pCategoriaPadreId, String pCategoriaHijoId) throws Exception {

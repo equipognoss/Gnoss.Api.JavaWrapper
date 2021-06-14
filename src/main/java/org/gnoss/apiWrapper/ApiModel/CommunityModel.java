@@ -15,10 +15,7 @@ public class CommunityModel {
 	private String organization_short_name;
 	private byte[] logo;
 	
-	/**
-	 * <summary>
-	 * 
-	 * */
+	
 	public String getCommunity_name() {
 		return community_name;
 	}
