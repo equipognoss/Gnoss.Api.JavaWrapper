@@ -67,7 +67,7 @@ public class RDFHelper {
 	 * @param elto <RDF element>
 	 * @param localName <Label to get a value>
 	 * @param nameSpaceName <(Optional) the namespace of the label, if it is  necessary>
-	 * @return
+	 * @return String valor
 	 */
 	
 	public static String getAttributeValue( Element elto, String localName, String nameSpaceName) {

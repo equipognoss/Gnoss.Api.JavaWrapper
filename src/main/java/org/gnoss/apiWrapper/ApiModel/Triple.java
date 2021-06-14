@@ -23,7 +23,7 @@ public class Triple {
 	}
 	/**
 	 * Predicate
-	 * @return predicate
+	 * @return predicate predicate
 	 */
 	public String getPredicate() {
 		return predicate;
@@ -37,7 +37,7 @@ public class Triple {
 	}
 	/**
 	 * Object 
-	 * @return Object
+	 * @return Object Object
 	 */
 	public String getObject_t() {
 		return object_t;

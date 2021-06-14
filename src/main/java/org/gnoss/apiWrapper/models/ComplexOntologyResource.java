@@ -217,6 +217,7 @@ public class ComplexOntologyResource extends BaseResource {
     
     /**
      * Returns a String with the information of this ComplexOntologyResource
+     * @return String stringBuilder
      */
     public String toString() {
     	StringBuilder sb= new StringBuilder();
@@ -249,8 +250,8 @@ public class ComplexOntologyResource extends BaseResource {
      * @param entity Auxiliary entity which would have the reference to the file<
      * @param fileIdentifier Unique identifier of the file. Only neccesary if there is more than one file with the same name<
      * @param language The file language
-     * @throws GnossAPIException
-     * @throws IOException
+     * @throws GnossAPIException GnossAPIException
+     * @throws IOException IOException
      */
     public void AttachFile(String downloadUrl, String filePredicate, OntologyEntity entity, String fileIdentifier, String language) throws GnossAPIException, IOException {
     	if(!downloadUrl.isEmpty()) {
@@ -285,8 +286,8 @@ public class ComplexOntologyResource extends BaseResource {
      * @param filePredicate Predicate of the ontological property where the file reference will be inserted
      * @param fileName The file name
      * @param entity Auxiliary entity which would have the reference to the file
-     * @throws GnossAPIException 
-     * @throws IOException 
+     * @throws GnossAPIException  GnossAPIException
+     * @throws IOException IOException
      */
 	public void AttachFile(byte[] file, String filePredicate, String fileName, OntologyEntity entity) throws IOException, GnossAPIException {
     	AttachFileInternal(file, filePredicate, fileName, AttachedResourceFilePropertyTypes.file, entity, (Boolean) null, null);
@@ -299,8 +300,8 @@ public class ComplexOntologyResource extends BaseResource {
 	 * @param fileName Auxiliary entity which would have the reference to the file
 	 * @param entity The file name
 	 * @param language The file language
-	 * @throws GnossAPIException 
-	 * @throws IOException 
+	 * @throws GnossAPIException GnossAPIException
+	 * @throws IOException IOException
 	 */
 	public void AttachDownloadableFile(byte[] file, String filePredicate, String fileName, OntologyEntity entity, String language ) throws IOException, GnossAPIException {
 		AttachFileInternal(file, filePredicate, fileName, AttachedResourceFilePropertyTypes.downloadableFile, entity, false, language);
@@ -313,8 +314,8 @@ public class ComplexOntologyResource extends BaseResource {
 	 * @param entity Auxiliary entity which would have the reference to the file
 	 * @param fileIdentifier Unique identifier of the file. Only neccesary if there is more than one file with the same name
 	 * @param language The file language
-	 * @throws GnossAPIException 
-	 * @throws IOException 
+	 * @throws GnossAPIException GnossAPIException
+	 * @throws IOException IOException
 	 */
 	public void AttachReferenceToFile(String downloadUrl, String filePredicate, OntologyEntity entity, String fileIdentifier, String language) throws IOException, GnossAPIException {
 		if(!downloadUrl.isEmpty()) {
@@ -353,8 +354,8 @@ public class ComplexOntologyResource extends BaseResource {
 	 * @param entity Auxiliary entity which would have the reference to the file
 	 * @param fileIdentifier Unique identifier of the file. Only neccesary if there is more than one file with the same name
 	 * @param language The file language
-	 * @throws GnossAPIException 
-	 * @throws IOException 
+	 * @throws GnossAPIException GnossAPIException
+	 * @throws IOException IOException
 	 */
 	public void AttachReferenceToDownloadableFile(String downloadUrl, String filePredicate, OntologyEntity entity, String fileIdentifier, String language) throws IOException, GnossAPIException {
 		if(!downloadUrl.isEmpty()) {
@@ -390,8 +391,8 @@ public class ComplexOntologyResource extends BaseResource {
 	 * @param downloadUrl Download Url. It can be a local path or a internet url
 	 * @param fileIdentifier Unique identifier of the file. Only neccesary if there is more than one file with the same name<
 	 * @param language The file language
-	 * @throws GnossAPIException
-	 * @throws IOException
+	 * @throws GnossAPIException GnossAPIException
+	 * @throws IOException IOException
 	 */
 	public void AttachFileWithoutReference(String downloadUrl, String fileIdentifier, String language) throws GnossAPIException, IOException {
 		if(!downloadUrl.isEmpty()) {
@@ -430,8 +431,8 @@ public class ComplexOntologyResource extends BaseResource {
 	 * @param downloadUrl Download Url. It can be a local path or a internet url
 	 * @param fileIdentifier Unique identifier of the file. Only neccesary if there is more than one file with the same name
 	 * @param language The file language
-	 * @throws GnossAPIException
-	 * @throws IOException
+	 * @throws GnossAPIException GnossAPIException
+	 * @throws IOException IOException
 	 */
 	public void AttachDownloadableFileWithoutRederence(String downloadUrl, String fileIdentifier, String language) throws GnossAPIException, IOException {
 		if(!downloadUrl.isEmpty()) {

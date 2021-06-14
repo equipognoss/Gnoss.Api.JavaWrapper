@@ -67,9 +67,9 @@ public class GnossDate {
     
     /**
      * Constructor of GnossDate
-     * @param date
-     * @param americanFormat 
-     * @throws GnossAPIDateException
+     * @param date date 
+     * @param americanFormat  amercianDateFormat
+     * @throws GnossAPIDateException GnossAPIDateException
      */
     public GnossDate(String date, boolean americanFormat) throws GnossAPIDateException {
     	Initialize();
@@ -242,8 +242,8 @@ public class GnossDate {
      *Assumes only one low number comes left side and max 3 low numbers right side at a time of high number.(ex: IV and VIII)
      * 
      * 
-     * @param romanNum
-     * @return
+     * @param romanNum romanNum
+     * @return int calc
      */
     private int RomanToDecimal(String romanNum) {
     	char [] chars = romanNum.toCharArray();
@@ -451,7 +451,7 @@ public class GnossDate {
     //region Public methods
 	/**
 	 * Gets a GnossDate as a String
-	 * @return a String
+	 * @return  String StringBuilder
 	 */
     public String ToString() {
     	
@@ -481,42 +481,42 @@ public class GnossDate {
     //Properties
     /**
      * Gets the millennium
-     * @return millenium
+     * @return int millenium
      */
     public int getMillenium() {
 		return millenium;
 	}
     /**
      * Sets the millenium
-     * @param millenium
+     * @param millenium millenium
      */
 	public void setMillenium(int millenium) {
 		this.millenium = millenium;
 	}
 	/**
 	 * Gets the century
-	 * @return century
+	 * @return century century
 	 */
 	public int getCentury() {
 		return century;
 	}
 	/**
 	 * Sets the century
-	 * @param century
+	 * @param century century
 	 */
 	public void setCentury(int century) {
 		this.century = century;
 	}
 	/**
 	 * Gets the millenium in roman numbers
-	 * @return _milleniumRoman
+	 * @return _milleniumRoman _milleniumRoman
 	 */
 	public String getMilleniumRoman() {
 		return _millenniumRoman;
 	}
 	/**
 	 * Sets the millenium in roman numbers
-	 * @param milleniumRoman
+	 * @param milleniumRoman _milleniumRoman
 	 */
 	public void setMilleniumRoman(String milleniumRoman) {
 		this._millenniumRoman=getMilleniumRoman();
@@ -524,56 +524,56 @@ public class GnossDate {
 	}
 	/**
 	 * Gets the normalized date with the pattern yyyyMMddhhmmss
-	 * @return normDate
+	 * @return normDate normDate
 	 */
 	public String getNormDate() {
 		return normDate;
 	}
 	/**
 	 * Sets the normalized date with the pattern yyyyMMddhhmmss
-	 * @param normDate
+	 * @param normDate normDate
 	 */
 	public void setNormDate(String normDate) {
 		this.normDate = normDate;
 	}
 	/**
 	 * Gets the accurancy
-	 * @return precisionDate
+	 * @return precisionDate precisionDate
 	 */
 	public String getPrecisionDate() {
 		return precisionDate;
 	}
 	/**
 	 * Sets the accurancy
-	 * @param precisionDate
+	 * @param precisionDate precisionDate
 	 */
 	public void setPrecisionDate(String precisionDate) {
 		this.precisionDate = precisionDate;
 	}
 	/**
 	 * Gets the type of dates
-	 * @return typeDate
+	 * @return typeDate typeDate
 	 */
 	public String getTypeDate() {
 		return typeDate;
 	}
 	/**
 	 * sets the type of date
-	 * @param typeDate
+	 * @param typeDate typeDate
 	 */
 	public void setTypeDate(String typeDate) {
 		this.typeDate = typeDate;
 	}
 	/**
 	 * Gets the century in roman numbers
-	 * @return _centuryRoman
+	 * @return _centuryRoman _centuryRoman
 	 */
 	public String getCenturyRoman() {
 		return _centuryRoman;
 	}
 	/**
 	 * Sets the century in roman numbers
-	 * @param centuryRoman
+	 * @param centuryRoman _centuryRoman
 	 */
 	public void setCenturyRoman(String centuryRoman) {
 		this._centuryRoman=getCenturyRoman();
@@ -581,14 +581,14 @@ public class GnossDate {
 	}
 	/**
 	 * Gets the day (2 digits)
-	 * @return _day
+	 * @return _day _day
 	 */
 	public String getDay() {
 		return _day;
 	}
 	/**
 	 * Sets the day (2 digits)
-	 * @param day
+	 * @param day _day
 	 */
 	public void setDay(String day) {
 		this._day=CompleteStringZerosAtLeftWithLimit(getDay(), 2);
@@ -596,14 +596,14 @@ public class GnossDate {
 	}
 	/**
 	 * Get the month (2 digits)
-	 * @return _month
+	 * @return _month _month
 	 */
 	public String getMonth() {
 		return _month;
 	}
 	/**
 	 * Set the month (2 digits)
-	 * @param month
+	 * @param month _month
 	 */
 	public void setMonth(String month) {
 		if (getMonth().toLowerCase().equals("enero"))
@@ -660,14 +660,14 @@ public class GnossDate {
 	}
 	/**
 	 * Get the year( 4 digits)
-	 * @return _year
+	 * @return _year _year
 	 */
 	public String getYear() {
 		return _year;
 	}
 	/**
 	 * Set the year (4 digits)
-	 * @param year
+	 * @param year _year
 	 */
 	public void setYear(String year) {
 		this._year=CompleteStringZerosAtLeftWithLimit(getYear(), 4);
@@ -675,42 +675,42 @@ public class GnossDate {
 	}
 	/**
 	 * Get the hour (2 digits)
-	 * @return hour
+	 * @return hour hour
 	 */
 	public String getHour() {
 		return hour;
 	}
 	/**
 	 * Set the hour (2 digits )
-	 * @param hour
+	 * @param hour hour
 	 */
 	public void setHour(String hour) {
 		this.hour = hour;
 	}
 	/**
 	 * Get the minutes (2digits)
-	 * @return minutes
+	 * @return minutes minutes
 	 */
 	public String getMinutes() {
 		return minutes;
 	}
 	/**
 	 * Set the minutes (2 digits)
-	 * @param minutes
+	 * @param minutes minutes
 	 */
 	public void setMinutes(String minutes) {
 		this.minutes = minutes;
 	}
 	/**
 	 * Get the seconds (2 digits)
-	 * @return seconds
+	 * @return seconds seconds
 	 */
 	public String getSeconds() {
 		return seconds;
 	}
 	/**
 	 * Sets the seconds (2 digits)
-	 * @param seconds
+	 * @param seconds seconds 
 	 */
 	public void setSeconds(String seconds) {
 		this.seconds = seconds;

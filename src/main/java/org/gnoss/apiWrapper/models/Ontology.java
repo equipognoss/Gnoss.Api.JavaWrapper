@@ -83,7 +83,7 @@ public class Ontology extends BaseOntology {
      * @param entityList List of auxiliar entities
      * @param resourceId First part of the resource identifier
      * @param articleId Second part of the resource identifier
-     * @throws GnossAPIArgumentException
+     * @throws GnossAPIArgumentException GnossAPIArgumentException
      */
     public Ontology(String graphsUrl, String ontologyUrl, String rdfType, String rdfsLabel, ArrayList<String> prefixList, ArrayList<OntologyProperty> propertyList, ArrayList<OntologyEntity> entityList, UUID resourceId, UUID articleId) throws GnossAPIArgumentException {
         super(graphsUrl, ontologyUrl, rdfType, rdfsLabel, prefixList, propertyList, entityList);

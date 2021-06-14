@@ -160,7 +160,7 @@ public class OAuthBase {
      * @param httpMehod Http method
      * @param url Url
      * @param oAuthParameters OAuth parameters
-     * @return 
+     * @return String signatureBase
      */
     private static String GetSignatureBaseEncoded(String httpMehod, String url, HashMap<String, String> oAuthParameters){
         HashMap<String, String> parameters = new HashMap<>();
@@ -257,7 +257,7 @@ public class OAuthBase {
     /**
      * Generate the timestamp for the signature
      *
-     * @return Timestamp
+     * @return Timestamp TimeStamp for the signature
      */
     private String GenerateTimeStamp() {
         LocalDateTime now = LocalDateTime.now();
@@ -270,7 +270,7 @@ public class OAuthBase {
     /**
      * Generate a nonce
      *
-     * @return Nonce
+     * @return Nonce UUID
      */
     public String GenerateNonce() {
         UUID guid = UUID.randomUUID();

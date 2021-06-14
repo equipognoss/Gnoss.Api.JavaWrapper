@@ -20,7 +20,7 @@ public class UserCommunity {
 	
 	/**
 	 * Name 
-	 * @return name 
+	 * @return name name
 	 */
 	public String getName() {
 		return name;

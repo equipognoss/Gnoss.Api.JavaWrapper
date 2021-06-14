@@ -39,7 +39,7 @@ public class TaxonomyOntology extends BaseOntology{
     
     /**
      * @throws IOException 
-     * @throws GnossAPIException 
+     * @throws GnossAPIException GnossAPIException
      * 
      */
     @Override
@@ -188,9 +188,9 @@ public class TaxonomyOntology extends BaseOntology{
 	}
 	/**
 	 * Gets the content of the RdfFile
-	 * @return String 
-	 * @throws IOException 
-	 * @throws GnossAPIException 
+	 * @return String _stringRdfFile
+	 * @throws IOException IOException
+	 * @throws GnossAPIException GnossAPIException
 	 */
 	public String get_stringRdfFile() throws IOException, GnossAPIException {
 		String fich= new String(get_rdfFile());
@@ -207,7 +207,7 @@ public class TaxonomyOntology extends BaseOntology{
 	
 	/**
 	 * Gets the concept entity list of the ontology
-	 * @return conceptEntities
+	 * @return conceptEntities conceptEntities
 	 */
 	public List<ConceptEntity> getConceptEntities() {
 		return conceptEntities;

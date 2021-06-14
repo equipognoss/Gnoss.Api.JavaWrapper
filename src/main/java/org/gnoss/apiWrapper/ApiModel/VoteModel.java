@@ -16,7 +16,7 @@ public class VoteModel {
 	
 	/**
 	 * Resource identificator
-	 * @return identificator
+	 * @return identificator identificator
 	 */
 	public UUID getResource_id() {
 		return resource_id;

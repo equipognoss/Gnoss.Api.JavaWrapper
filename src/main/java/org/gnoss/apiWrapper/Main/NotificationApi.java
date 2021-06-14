@@ -30,10 +30,10 @@ public class NotificationApi extends GnossApiWrapper{
 	/**
 	 * COnstructor of NotificationApi
 	 * @param configFilePath configuration file path 
-	 * @throws GnossAPIException
-	 * @throws ParserConfigurationException
-	 * @throws SAXException
-	 * @throws IOException
+	 * @throws GnossAPIException Gnoss Api Exception
+	 * @throws ParserConfigurationException Parser Configuration Exception
+	 * @throws SAXException SAX Exception 
+	 * @throws IOException IO Exception 
 	 */
 	public NotificationApi(String configFilePath) throws GnossAPIException, ParserConfigurationException, SAXException, IOException {
 		super(configFilePath);

@@ -17,7 +17,7 @@ public class Userlite {
 	
 	/**
 	 * Name 
-	 * @return name 
+	 * @return name name
 	 */
 	public String getName() {
 		return name;
@@ -59,7 +59,7 @@ public class Userlite {
 	}
 	/**
 	 * Imagen
-	 * @return imagen
+	 * @return imagen imagen
 	 */
 	public String getImage() {
 		return image;

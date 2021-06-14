@@ -28,7 +28,7 @@ public class RemoveTriples {
 	 * Remove the triples from a resource without attached files
 	 * @param value Current value of the property to delete
 	 * @param predicate Predicate of the property to delete. If it's a property of an auxiliary entity, the correct syntax is firstLevelPredicate|secondLevelPredicate
-	 * @throws GnossAPIException
+	 * @throws GnossAPIException GnossAPIException
 	 */
 	public RemoveTriples(String value, String predicate) throws GnossAPIException{
 		Value = value;
@@ -40,7 +40,7 @@ public class RemoveTriples {
 	 * @param value Current value of the property to delete
 	 * @param predicate Predicate of the property to delete. If it's a property of an auxiliary entity, the correct syntax is firstLevelPredicate|secondLevelPredicate
 	 * @param objectType Objet type. It can be image or attached file
-	 * @throws GnossAPIException
+	 * @throws GnossAPIException GnossAPIException
 	 */
 	public RemoveTriples(String value, String predicate, short objectType) throws GnossAPIException{		
 		setPredicate(predicate);

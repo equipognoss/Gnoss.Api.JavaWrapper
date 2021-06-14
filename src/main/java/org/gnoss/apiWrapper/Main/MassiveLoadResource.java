@@ -79,10 +79,10 @@ public class MassiveLoadResource extends ResourceApi{
 	 * Constructor of MassiveLoadResourceApi
 	 * @param oauth oauth
 	 * @param configFilePath Configuration file path, with a structure like http://api.gnoss.com/v3/exampleConfig.txt 
-	 * @throws GnossAPIException
-	 * @throws ParserConfigurationException
-	 * @throws SAXException
-	 * @throws IOException
+	 * @throws GnossAPIException Gnoss API Exception 
+	 * @throws ParserConfigurationException PArser Configuration Exception
+	 * @throws SAXException SAX Exception 
+	 * @throws IOExceptionIO Exception 
 	 */
 	public MassiveLoadResource(OAuthInfo oauth, String configFilePath) throws GnossAPIException, ParserConfigurationException, SAXException, IOException {
 		super(configFilePath);
@@ -95,7 +95,7 @@ public class MassiveLoadResource extends ResourceApi{
 	 * @param pFilesDirectory  Path directory of the massive data load files
 	 * @param pOrganizationID  Organization identifier
 	 * @return Identifier of the load
-	 * @throws GnossAPIException
+	 * @throws GnossAPIException Gnoss API Exception 
 	 */
 	public UUID MassiveDataLoad(String pName, String pFilesDirectory, UUID pOrganizationID) throws GnossAPIException {
 		this.MassiveLoadIdentifier= UUID.randomUUID();

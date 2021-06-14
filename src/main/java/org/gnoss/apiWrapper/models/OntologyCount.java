@@ -26,7 +26,7 @@ public class OntologyCount {
 	
 	/**
 	 * Number of resources in a file
-	 * @return resourcesCount
+	 * @return resourcesCount resourcesCount
 	 */
 	public int getResourcesCount() {
 		return resourcesCount;
@@ -40,7 +40,7 @@ public class OntologyCount {
 	}
 	/**
 	 * Number of files of a ontology
-	 * @return fileCount
+	 * @return fileCount fileCount
 	 */
 	public int getFileCount() {
 		return fileCount;

@@ -20,10 +20,10 @@ public class ImageHelper {
 	
 	/**
 	 * Resize keeping the aspect ratio to width
-	 * @param image: Image to resize
-	 * @param widthInPixels: Width to resize
-	 * @param pResizeAlways: New image with width = widthInPixels
-	 * @return
+	 * @param image Image to resize
+	 * @param widthInPixels Width to resize
+	 * @param pResizeAlways New image with width = widthInPixels
+	 * @return BufferedImage resultImage
 	 */
 	public static BufferedImage ResizeImageToWidth(BufferedImage image, int widthInPixels, boolean pResizeAlways){
 		try{
@@ -50,9 +50,9 @@ public class ImageHelper {
 	
 	/**
 	 * Resize keeping the aspect ratio to width
-	 * @param image: Image to resize
-	 * @param widthInPixels: Width to resize
-	 * @return
+	 * @param image Image to resize
+	 * @param widthInPixels Width to resize
+	 * @return BufferedImage resultImage
 	 */
 	public static BufferedImage ResizeImageToWidth(BufferedImage image, int widthInPixels){
 		return ResizeImageToWidth(image, widthInPixels, false);
@@ -60,11 +60,11 @@ public class ImageHelper {
 	
 	/**
 	 * Resize the image keeping the aspect ratio without exceeding the width or height indicated 
-	 * @param image: Image to resize
-	 * @param widthInPixels: Width to resize
-	 * @param heightInPixels: Height to resize
+	 * @param image Image to resize
+	 * @param widthInPixels Width to resize
+	 * @param heightInPixels Height to resize
 	 * @return New image with width and height
-	 * @throws GnossAPIException
+	 * @throws GnossAPIException GnossAPIException
 	 */
 	public static BufferedImage ResizeImageToHeightAndWidth(BufferedImage image, int widthInPixels, int heightInPixels) throws GnossAPIException{
 		int height = image.getHeight();
@@ -107,8 +107,8 @@ public class ImageHelper {
 	
 	/**
 	 * Resize keeping the aspect ratio to height
-	 * @param image: Image to resize
-	 * @param heightInPixels: Height to resize
+	 * @param image Image to resize
+	 * @param heightInPixels Height to resize
 	 * @return New image with height
 	 */
 	public static BufferedImage ResizeImageToHeight(BufferedImage image, int heightInPixels, boolean pResizeAlways){
@@ -131,8 +131,8 @@ public class ImageHelper {
 	
 	/**
 	 * Resize keeping the aspect ratio to height
-	 * @param image: Image to resize
-	 * @param heightInPixels: Height to resize
+	 * @param image Image to resize
+	 * @param heightInPixels Height to resize
 	 * @return New image with height
 	 */
 	public static BufferedImage ResizeImageToHeight(BufferedImage image, int heightInPixels){
@@ -141,8 +141,8 @@ public class ImageHelper {
 	
 	/**
 	 * Resize to the indicated size, crop the image and take the top of the image if it is vertical, or the central part if its horizontal
-	 * @param image: Image
-	 * @param squareSize: Size in pixels of the width and height of the result image
+	 * @param image Image
+	 * @param squareSize Size in pixels of the width and height of the result image
 	 * @return Square image
 	 */
 	public static BufferedImage CropImageToSquare(BufferedImage image, int squareSize){
@@ -208,10 +208,10 @@ public class ImageHelper {
 	
 	/**
 	 * Resize to the indicated size, crop the image and take the top of the image if it is vertical, or the central part if its horizontal
-	 * @param image: Image
-	 * @param pHeight: Height
-	 * @param pWidth: Width
-	 * @return Image
+	 * @param image Image
+	 * @param pHeight Height
+	 * @param pWidth Width
+	 * @return Image BufferedImage
 	 */
 	public static BufferedImage CropImageToHeightAndWidth(BufferedImage image, int pHeight, int pWidth){
 		int aspcetRatioDeseado = pHeight / pWidth;

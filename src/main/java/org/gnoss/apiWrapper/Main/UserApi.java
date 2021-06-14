@@ -48,10 +48,10 @@ public class UserApi extends GnossApiWrapper{
 	/**
 	 * Constructor of UserAPI
 	 * @param configFilePath  Configuration file path, with a structure like http://api.gnoss.com/v3/exampleConfig.txt 
-	 * @throws GnossAPIException
-	 * @throws ParserConfigurationException
-	 * @throws SAXException
-	 * @throws IOException
+	 * @throws GnossAPIException Gnoss API Exception 
+	 * @throws ParserConfigurationException Parser Configuration Exception 
+	 * @throws SAXException SAX Exception 
+	 * @throws IOException IO Exception 
 	 */
 	public UserApi( String configFilePath) throws GnossAPIException, ParserConfigurationException, SAXException, IOException {
 		super(configFilePath);
@@ -64,7 +64,7 @@ public class UserApi extends GnossApiWrapper{
 	 * Get the data user by user short name
 	 * @param userShortName  User short name you want to get data
 	 * @return  User data that has been requested
-	 * @throws Exception 
+	 * @throws Exception  Exception 
 	 */
 	public User getUserByShortName(String userShortName ) throws Exception {
 
@@ -92,7 +92,7 @@ public class UserApi extends GnossApiWrapper{
 	 * Get the data by user identifier
 	 * @param userId  User identifier you want to get data
 	 * @return User data that has been required
-	 * @throws Exception 
+	 * @throws Exception exception 
 	 */
 	public User getUserById(UUID userId) throws Exception {
 		
@@ -119,7 +119,7 @@ public class UserApi extends GnossApiWrapper{
 	 * Get the data a user by user email
 	 * @param email  User email you want to get data
 	 * @return User data that has been requested
-	 * @throws Exception 
+	 * @throws Exception exception 
 	 */
 	public User getUserByEmail(String email) throws Exception {
 
@@ -149,9 +149,9 @@ public class UserApi extends GnossApiWrapper{
 	 * @param user  User email
 	 * @param password  password
 	 * @return True if the password is valid
-	 * @throws MalformedURLException
-	 * @throws IOException
-	 * @throws GnossAPIException
+	 * @throws MalformedURLException Mal formed URL Exception 
+	 * @throws IOException IO Exception 
+	 * @throws GnossAPIException Gnoss API Exception 
 	 */
 	public boolean ValidatePassword(String user, String password) throws MalformedURLException, IOException, GnossAPIException {
 		boolean validPassword=false;
@@ -188,7 +188,7 @@ public class UserApi extends GnossApiWrapper{
 	 * Gets the position of an organization profile in a community
 	 * @param profileId  Organization profile ID
 	 * @return Position of the organization profile in a community
-	 * @throws Exception 
+	 * @throws Exception Exception 
 	 */
 	public String getProfileRoleInOrganization(UUID profileId) throws Exception {
 		String profileRol="";
@@ -209,7 +209,7 @@ public class UserApi extends GnossApiWrapper{
 	 * Create a user awaiting activation
 	 * @param user  User data you want to create
 	 * @return User data
-	 * @throws Exception 
+	 * @throws Exception exception 
 	 */
 	public User CreateUserWaitingForActivate(User user) throws Exception {
 
@@ -241,7 +241,7 @@ public class UserApi extends GnossApiWrapper{
 	 * Create user
 	 * @param user  User data you want to create
 	 * @return User data
-	 * @throws Exception 
+	 * @throws Exception  exception 
 	 */
 	public User CreateUser(User user) throws Exception {
 		Gson jsonUtilities = new Gson();
@@ -271,7 +271,7 @@ public class UserApi extends GnossApiWrapper{
 	/**
 	 * Verify user
 	 * @param loginOrEmail  Login or email of the user
-	 * @throws Exception 
+	 * @throws Exception exception 
 	 */
 	public void VerificarUsuario(String loginOrEmail) throws Exception {
 		try {
@@ -288,7 +288,7 @@ public class UserApi extends GnossApiWrapper{
 	 * Gets the URL to recover the password of a user
 	 * @param loginOrEmail Login or email of the user
 	 * @return URL to recover the password of a user
-	 * @throws Exception 
+	 * @throws Exception exception 
 	 */
 	public String GenerateForgottenPasswordUrl(String loginOrEmail) throws Exception {
 		String link= "";
@@ -309,7 +309,7 @@ public class UserApi extends GnossApiWrapper{
 	/**
 	 * Modify a user
 	 * @param user  User data
-	 * @throws Exception 
+	 * @throws Exception exception
 	 */
 	public void ModifyUser(User user) throws Exception {
 		Gson jsonUtilities = new Gson();
@@ -329,7 +329,7 @@ public class UserApi extends GnossApiWrapper{
 	/**
 	 * Delete a user from a community
 	 * @param userShortName  User short name to delete
-	 * @throws Exception 
+	 * @throws Exception exception
 	 */
 	public void DeleteUserFromCommunity(String userShortName) throws Exception {
 		try {
@@ -355,7 +355,7 @@ public class UserApi extends GnossApiWrapper{
 	/**
 	 * Delete a user
 	 * @param user  User identifier to delete
-	 * @throws Exception 
+	 * @throws Exception exception
 	 */
 	public void DeleteUser(UUID user) throws Exception {
 		try {
@@ -375,7 +375,7 @@ public class UserApi extends GnossApiWrapper{
 	 * @param organizationShortName  Organization´s short name
 	 * @param position  Organization´s position
 	 * @param communitiesShortNames Communities´ short names that will be included
-	 * @throws Exception 
+	 * @throws Exception exception
 	 */
 	public void AddUserToOrganization(UUID userId, String organizationShortName, String position, List<String> communitiesShortNames) throws Exception {
 		try {
@@ -404,7 +404,7 @@ public class UserApi extends GnossApiWrapper{
 	 * @param userId User ID
 	 * @param pComunidadesID Communities´ Id 
 	 * @param pvisibilidad User´s visibility
-	 * @throws Exception 
+	 * @throws Exception exception
 	 */
 	public void ChangeVisibilityUserCommunities(UUID userId, List<UUID> pComunidadesID, boolean pvisibilidad) throws Exception {
 		try {
@@ -432,7 +432,7 @@ public class UserApi extends GnossApiWrapper{
 	 * @param userId User ID to delete
 	 * @param organizationShortName  Organization short name 
 	 * @param groupsShortNames  Organization short names that will be included 
-	 * @throws Exception 
+	 * @throws Exception exception
 	 */
 	public void AddUserToOrganizationGroup(UUID userId, String organizationShortName, List<String> groupsShortNames) throws Exception {
 		try {
@@ -460,7 +460,7 @@ public class UserApi extends GnossApiWrapper{
 	 * Get the data user by user id
 	 * @param listaIds  User´s Id list
 	 * @return Users list
-	 * @throws Exception 
+	 * @throws Exception exception 
 	 */
 	public Map<UUID, User> getUserByIds(List<UUID> listaIds) throws Exception{
 		Map<UUID, User> users=null;
@@ -485,7 +485,7 @@ public class UserApi extends GnossApiWrapper{
 	 * @param communityShortName  Community short name 
 	 * @param searchDate Start search date time in ISO8601
 	 * @return Modified users identifiers list
-	 * @throws Exception 
+	 * @throws Exception exception 
 	 */
 	public List<UUID> getModifiedUsersFromDate(String communityShortName, String searchDate) throws Exception{
 		List<UUID> users=null;
@@ -521,7 +521,7 @@ public class UserApi extends GnossApiWrapper{
 	 * Get the communities´ short names  managed by the user 
 	 * @param login User´s login
 	 * @return Communities´ short name managed by the user
-	 * @throws Exception 
+	 * @throws Exception exception 
 	 */
 	public List<String> getManagedCommunity(String login) throws Exception{
 		List<String> communities=null;
@@ -545,7 +545,7 @@ public class UserApi extends GnossApiWrapper{
 	 * @param communityShortName  community short name
 	 * @param searchDate  Start search datetime in ISO8601 format
 	 * @return UserNoveltiesModel with the novelties of the user from search date
-	 * @throws Exception 
+	 * @throws Exception exception 
 	 */
 	public UserNovertiesModel getUserNoveltiesFromDate(UUID userId, String communityShortName, String searchDate) throws Exception {
 		UserNovertiesModel user= null;
@@ -578,10 +578,10 @@ public class UserApi extends GnossApiWrapper{
 	 * Gets a single use token or a long live token to use it in a login action
 	 * @param email  user´s email
 	 * @param longLiveToken  True if the token is going to be used more than one time
-	 * @return String 
-	 * @throws GnossAPIException
-	 * @throws MalformedURLException
-	 * @throws IOException
+	 * @return String of token 
+	 * @throws GnossAPIException Gnoss API Exception
+	 * @throws MalformedURLException Mal formed URL Exception
+	 * @throws IOException IO Exception 
 	 */
 	public String getLoginTokenForEmail(String email, boolean longLiveToken) throws GnossAPIException, MalformedURLException, IOException {
 		if(!StringUtils.isBlank(email) || !email.isEmpty()) {
@@ -601,9 +601,9 @@ public class UserApi extends GnossApiWrapper{
 	 * @param token token 
 	 * @param deleteSingleToken delete single token 
 	 * @return True if it is a single use token to delete it from the database
-	 * @throws GnossAPIException
-	 * @throws MalformedURLException
-	 * @throws IOException
+	 * @throws GnossAPIException Gnoss API Exception 
+	 * @throws MalformedURLException Mal Formed URL Exception 
+	 * @throws IOException IO Exception 
 	 */
 	public String getEmailByToken(UUID token, boolean deleteSingleToken) throws GnossAPIException, MalformedURLException, IOException {
 		if(token.equals("")) {
@@ -621,7 +621,7 @@ public class UserApi extends GnossApiWrapper{
 	/**
 	 * Blocks a user
 	 * @param userId  User´s identifier
-	 * @throws Exception 
+	 * @throws Exception Exception 
 	 */
 	public void BlockUser(UUID userId) throws Exception {
 		try {
@@ -639,7 +639,7 @@ public class UserApi extends GnossApiWrapper{
 	/**
 	 * Unblocks a  user
 	 * @param userId  user´s identifier
-	 * @throws Exception 
+	 * @throws Exception exception 
 	 */
 	public void UnblockUser(UUID userId) throws Exception {
 		try {
@@ -657,7 +657,7 @@ public class UserApi extends GnossApiWrapper{
 	 * @param userId  User identifier
 	 * @param socialNetworkUserId  Social network user´s identifier
 	 * @param socialNetwork  Social Nertwork (like Facebook, instagram, Twitter ...)
-	 * @throws Exception 
+	 * @throws Exception exception
 	 */
 	public void AddSocialNetworkLogin(UUID userId, String socialNetworkUserId, String socialNetwork) throws Exception {
 		try {
@@ -676,7 +676,7 @@ public class UserApi extends GnossApiWrapper{
 	 * @param userId  user identifier
 	 * @param socialNetworkUserId  New social network user´s identifier
 	 * @param socialNetwork  Social network (Like Facebook, Twitter, Instagram...)
-	 * @throws Exception 
+	 * @throws Exception  exception
 	 */
 	public void ModifySocialNetworkLogin(UUID userId, String socialNetworkUserId, String socialNetwork) throws Exception {
 		try {
@@ -693,8 +693,8 @@ public class UserApi extends GnossApiWrapper{
 	 * Gets a user by a social network login
 	 * @param socialNetworkUserId  Social network user´s identifier
 	 * @param socialNetwork  Social network (Facebook, twitter, instagram...)
-	 * @return UUID
-	 * @throws Exception 
+	 * @return UUID uuid
+	 * @throws Exception exception
 	 */
 	public UUID getUserBySocialNetworkLogin(String socialNetworkUserId, String socialNetwork) throws Exception {
 		UUID user_id = null;
@@ -715,8 +715,8 @@ public class UserApi extends GnossApiWrapper{
 	 * Checks if a user ID in a social network exists in the system
 	 * @param socialNetworkUserId  Social network user´s identifier
 	 * @param socialNetwork  Social network (Facebook, Instagram, Twitter...)
-	 * @return True if the user exists 
-	 * @throws Exception 
+	 * @return Boolean True if the user exists 
+	 * @throws Exception exception
 	 */
 	public boolean ExistsSocialNetworkLogin(String socialNetworkUserId, String socialNetwork) throws Exception {
 		boolean b=false;
@@ -736,8 +736,8 @@ public class UserApi extends GnossApiWrapper{
 	/**
 	 * Adds the community CMS admin rol to a user
 	 * @param emails emails
-	 * @return List
-	 * @throws Exception 
+	 * @return List List of Strings 
+	 * @throws Exception  exception
 	 */
 	public List<String> ExistsEmails (List<String> emails) throws Exception{
 		List<String> lista = null;
@@ -758,8 +758,8 @@ public class UserApi extends GnossApiWrapper{
 	 * Gets the user´s group in a community
 	 * @param userId  User identifier
 	 * @param communityShortName  Community short name 
-	 * @return List
-	 * @throws Exception 
+	 * @return List List of Strings
+	 * @throws Exception  exception
 	 */
 	public List<String> getGroupsPerCommunity(UUID userId, String communityShortName) throws Exception{
 		List<String> lista=null;
@@ -781,7 +781,7 @@ public class UserApi extends GnossApiWrapper{
 	 * Adds the community CMS Admin rol to a user
 	 * @param userId user id 
 	 * @param communityShortName community short name 
-	 * @throws Exception 
+	 * @throws Exception exception
 	 */
 	public void AddCmsAdminRolToUser(UUID userId, String communityShortName) throws Exception {
 		try {
@@ -798,7 +798,7 @@ public class UserApi extends GnossApiWrapper{
 	 * Removes the community CMS Admin rol to a user
 	 * @param userId user id 
 	 * @param communityShortName community short name 
-	 * @throws Exception 
+	 * @throws Exception exception
 	 */
 	public void RemoveCmsAdminRolToUser(UUID userId, String communityShortName) throws Exception {
 		try {

@@ -38,7 +38,7 @@ public class AuxiliaryEntitiesTriplesToInclude {
 
 	/**
 	 * Gets the value of thhe predicate
-	 * @return String 
+	 * @return String value
 	 */
 	public String getValue() {
 		return value;
@@ -53,7 +53,7 @@ public class AuxiliaryEntitiesTriplesToInclude {
 
 	/**
 	 * Gets the predicate of the auxiliary entity
-	 * @return String 
+	 * @return String predicate
 	 */
 	public String getPredicate() {
 		return _predicate;
@@ -61,7 +61,7 @@ public class AuxiliaryEntitiesTriplesToInclude {
 	/**
 	 * Sets the predicate of the auxiliary entity
 	 * @param predicate predicate 
-	 * @throws GnossAPIArgumentException 
+	 * @throws GnossAPIArgumentException  GnossAPIArgumentException
 	 */
 	public void setPredicate(String predicate) throws GnossAPIArgumentException {
 		if(value.contains("|")) {
@@ -78,7 +78,7 @@ public class AuxiliaryEntitiesTriplesToInclude {
 	 * Gets the entity name
 	 * For example, in http://gnoss.com/items/article_223b30c1-2552-4ed0-ba5f-e257585b08bf_9c126c3a-7850-4cdc-b176-95ae6fd0bb78
      * the entity name is: article
-	 * @return String 
+	 * @return String name
 	 */
 	public String getName() {
 		return name;
@@ -98,7 +98,7 @@ public class AuxiliaryEntitiesTriplesToInclude {
 	 * Gets the entity identifier
 	 * For example in http://gnoss.com/items/article_223b30c1-2552-4ed0-ba5f-e257585b08bf_9c126c3a-7850-4cdc-b176-95ae6fd0bb78
      * the identifier is: 9c126c3a-7850-4cdc-b176-95ae6fd0bb78
-	 * @return UUID 
+	 * @return UUID identifier
 	 */
 	public UUID getIdentifier() {
 		return identifier;

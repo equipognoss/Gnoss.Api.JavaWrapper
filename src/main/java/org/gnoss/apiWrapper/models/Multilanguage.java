@@ -14,7 +14,7 @@ public class Multilanguage {
     private String Language;
 
     /**
-     * @return the string
+     * @return  string string
      */
     public String getString() {
         return string;

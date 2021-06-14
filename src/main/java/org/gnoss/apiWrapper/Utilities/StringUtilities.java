@@ -17,7 +17,7 @@ public class StringUtilities {
      * Quita todas las repeticiones finales de un carácter de la cadena actual.
      * @param cadena Cadena a modificar
      * @param caracterEliminar Caracter a eliminar del final de la cadena
-     * @return 
+     * @return String cadena
      */
     public String trimEnd(String cadena, char caracterEliminar){        
         int indice = cadena.length() - 1;

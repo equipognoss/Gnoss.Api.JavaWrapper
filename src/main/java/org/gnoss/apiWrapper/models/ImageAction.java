@@ -85,7 +85,7 @@ public class ImageAction {
 	
 	/**
 	 * Get the size in pixels of the width and height of the result image
-	 * @return int 
+	 * @return int size
 	 */
 	
 	public int getSize() {
@@ -100,21 +100,21 @@ public class ImageAction {
 	}
 	/**
 	 * Height, in pixels, that must have the image after the transformation
-	 * @return float 
+	 * @return float height
 	 */
 	public float getHeight() {
 		return height;
 	}
 	/**
 	 * Height, in pixels, that must have the image after the transformation
-	 * @param height
+	 * @param height float
 	 */
 	public void setHeight(float height) {
 		this.height = height;
 	}
 	/**
 	 * Width, in pixels, that must have the image after the transformation
-	 * @return float
+	 * @return float width
 	 */
 	public float getWidth() {
 		return width;
@@ -128,7 +128,7 @@ public class ImageAction {
 	}
 	/**
 	 * Transformation to apply to the image
-	 * @return ImageTransformationType 
+	 * @return ImageTransformationType  imageTransformationType
 	 */
 	public ImageTransformationType getImegeTransformationType() {
 		return imageTransformationType;
@@ -142,7 +142,7 @@ public class ImageAction {
 	}
 	/**
 	 * Minimum quality for the converted image (between 0 and 100)
-	 * @return long 
+	 * @return long  imageQualityPercentage
 	 */
 	public long getImageQualityPercentage() {
 		return imageQualityPercentage;
@@ -156,7 +156,7 @@ public class ImageAction {
 	}
 	/**
 	 * Embed color space
-	 * @return boolean 
+	 * @return boolean embedsRGB
 	 */
 	public boolean isEmbedsRGB() {
 		return embedsRGB;

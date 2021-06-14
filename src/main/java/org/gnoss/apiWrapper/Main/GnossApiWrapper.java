@@ -111,9 +111,9 @@ public class GnossApiWrapper {
      *
      * @param configFilePath  Configuration file path, with a structure like
      * http://api.gnoss.com/v3/
-     * @throws IOException 
-     * @throws SAXException 
-     * @throws ParserConfigurationException 
+     * @throws IOException  IO Exception 
+     * @throws SAXException SAX Exception 
+     * @throws ParserConfigurationException Parser Configuration Exception  
      */
     public GnossApiWrapper(String configFilePath) throws GnossAPIException, ParserConfigurationException, SAXException, IOException {
         LoadConfigFile(configFilePath);

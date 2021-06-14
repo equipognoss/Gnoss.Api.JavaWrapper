@@ -58,7 +58,10 @@ public class OAuthInfo {
     
     /**
      * Get a signed url for the API     
-     * @throws MalformedURLException 
+     * @throws MalformedURLException MalformedExceptions
+     * @throws SignatureException SignatureException
+     * @throws URISyntaxException URISyntaxException
+     * @return String SignedUrl
      */
     public String getOAuthSignedUrl() throws SignatureException, URISyntaxException, MalformedURLException{
         return getSignedUrl(ApiUrl);
