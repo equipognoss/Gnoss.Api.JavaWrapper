@@ -32,7 +32,7 @@ public interface IGnossOCBase {
 	 * @param resourceAPI Api Resource
 	 * @return The id of the document and the necessary dates for insert in sql server
 	 */
-	HashMap<UUID, String[]> ToAcidData(ResourceApi resourceAPI);
+	HashMap<UUID, String> ToAcidData(ResourceApi resourceAPI);
 	/**
 	 * Generates the object´s URI
 	 * @param ResourceAPI Api resource

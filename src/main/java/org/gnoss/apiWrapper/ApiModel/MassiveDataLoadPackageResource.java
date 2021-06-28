@@ -14,6 +14,9 @@ public class MassiveDataLoadPackageResource {
 	private String ontology_rute;
 	private String search_rute;
 	private String sql_rute;
+	private byte[] ontology_byte;
+	private byte[] search_bytes;
+	private byte[] sql_bytes;	
 	private int state;
 	private int error;
 	private Date date_creation;
@@ -191,5 +194,23 @@ public class MassiveDataLoadPackageResource {
 		this.isLast = isLast;
 	}
 	
+	public byte[] getOntology_byte() {
+		return ontology_byte;
+	}
+	public void setOntology_byte(byte[] ontology_byte) {
+		this.ontology_byte = ontology_byte;
+	}
+	public byte[] getSearch_bytes() {
+		return search_bytes;
+	}
+	public void setSearch_bytes(byte[] search_bytes) {
+		this.search_bytes = search_bytes;
+	}
+	public byte[] getSql_bytes() {
+		return sql_bytes;
+	}
+	public void setSql_bytes(byte[] sql_bytes) {
+		this.sql_bytes = sql_bytes;
+	}
 
 }
