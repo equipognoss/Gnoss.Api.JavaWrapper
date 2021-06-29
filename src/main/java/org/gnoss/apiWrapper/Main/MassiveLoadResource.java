@@ -81,12 +81,14 @@ public class MassiveLoadResource extends ResourceApi{
 	
 	
     /**
-	 * Constructor of MassiveLoadResourceApi
-	 * @param oauth OAuth information to sign the Api request
-	 * @param communityShortName Community short name which you want to use the API
-	 * @param ontologyName Ontology name of the resources that you are going to query, upload or modify
-	 * @param developerEmail If you want to be informed of any incident that may happends during a large load of resources, an email will be sent to this email address
-	 */
+     * Constructor of MassiveLoadResourceApi
+     * @param oauth Oauth information to sign the Api request
+     * @param communityShortName Community short name which you want to use the API
+     * @param isDebugMode Only for debugging
+     * @param maxResourcePerPackage Num max of resources per package
+     * @param ontologyName (Optional) Ontology name of the resources that you are going to query, upload or modify
+     * @param developerEmail (Optional) If you want to be informed of any incident that may happends during a large load of resources, an email will be sent to this email address
+     */
 	public MassiveLoadResource(OAuthInfo oauth, String communityShortName, boolean isDebugMode, int maxResourcePerPackage, String ontologyName, String developerEmail) {
 		super(oauth, communityShortName, ontologyName, developerEmail);
 		this._logHelper=LogHelper.getInstance();
@@ -94,13 +96,14 @@ public class MassiveLoadResource extends ResourceApi{
                 this.isDebugMode = isDebugMode;
 	}
 
-        /**
-	 * Constructor of MassiveLoadResourceApi
-	 * @param oauth Oauth information to sign the Api request
-	 * @param communityShortName Community short name which you want to use the API
-	 * @param ontologyName Ontology name of the resources that you are going to query, upload or modify
-	 * @param developerEmail If you want to be informed of any incident that may happends during a large load of resources, an email will be sent to this email address
-	 */
+    /**
+     * Constructor of MassiveLoadResourceApi
+     * @param oauth Oauth information to sign the Api request
+     * @param communityShortName Community short name which you want to use the API
+     * @param isDebugMode Only for debugging
+     * @param maxResourcePerPackage Num max of resources per package
+     * @param ontologyName (Optional) Ontology name of the resources that you are going to query, upload or modify
+     */
 	public MassiveLoadResource(OAuthInfo oauth, String communityShortName, boolean isDebugMode, int maxResourcePerPackage, String ontologyName) {
 		super(oauth, communityShortName, ontologyName);
 		this._logHelper=LogHelper.getInstance();
@@ -108,13 +111,13 @@ public class MassiveLoadResource extends ResourceApi{
                 this.isDebugMode = isDebugMode;
 	}
 
-        /**
-	 * Constructor of MassiveLoadResourceApi
-	 * @param oauth Oauth information to sign the Api request
-	 * @param communityShortName Community short name which you want to use the API
-	 * @param ontologyName Ontology name of the resources that you are going to query, upload or modify
-	 * @param developerEmail If you want to be informed of any incident that may happends during a large load of resources, an email will be sent to this email address
-	 */
+    /**
+     * Constructor of MassiveLoadResourceApi
+     * @param oauth Oauth information to sign the Api request
+     * @param communityShortName Community short name which you want to use the API
+     * @param isDebugMode Only for debugging
+     * @param maxResourcePerPackage Num max of resources per package
+     */
 	public MassiveLoadResource(OAuthInfo oauth, String communityShortName, boolean isDebugMode, int maxResourcePerPackage) {
 		super(oauth, communityShortName);
 		this._logHelper=LogHelper.getInstance();
@@ -122,26 +125,27 @@ public class MassiveLoadResource extends ResourceApi{
                 this.isDebugMode = isDebugMode;
 	}
 	
-        /**
-	 * Constructor of MassiveLoadResourceApi
-	 * @param oauth Oauth information to sign the Api request
-	 * @param communityShortName Community short name which you want to use the API
-	 * @param ontologyName Ontology name of the resources that you are going to query, upload or modify
-	 * @param developerEmail If you want to be informed of any incident that may happends during a large load of resources, an email will be sent to this email address
-	 */
+    /**
+     * Constructor of MassiveLoadResourceApi
+     * @param oauth Oauth information to sign the Api request
+     * @param communityShortName Community short name which you want to use the API
+     * @param isDebugMode Only for debugging
+     */
 	public MassiveLoadResource(OAuthInfo oauth, String communityShortName, boolean isDebugMode) {
 		super(oauth, communityShortName);
 		this._logHelper=LogHelper.getInstance();
                 this.isDebugMode = isDebugMode;
 	}
 
-     /**
-	 * Constructor of MassiveLoadResourceApi
-	 * @param oauth Oauth information to sign the Api request
-	 * @param communityShortName Community short name which you want to use the API
-	 * @param ontologyName Ontology name of the resources that you are going to query, upload or modify
-	 * @param developerEmail If you want to be informed of any incident that may happends during a large load of resources, an email will be sent to this email address
-	 */
+    /**
+     * Constructor of MassiveLoadResourceApi
+     * @param oauth Oauth information to sign the Api request
+     * @param communityShortName Community short name which you want to use the API
+     * @throws GnossAPIException Exception controlled by the Api
+     * @throws ParserConfigurationException Exception given at try convert dates
+     * @throws SAXException SaxException
+     * @throws IOException IOException
+     */
 	public MassiveLoadResource(OAuthInfo oauth, String communityShortName) throws GnossAPIException, ParserConfigurationException, SAXException, IOException {
 		super(oauth, communityShortName);
 		this._logHelper=LogHelper.getInstance();
@@ -152,14 +156,14 @@ public class MassiveLoadResource extends ResourceApi{
 	//MÉTODOS
 	
 		/**
-		 * Create a new massive data load
-		 * @param pName Massive data load name
-		 * @param pFilesDirectory Path directory of the massive data load files
-		 * @param pUrl Url where the file directory should be responding
-		 * @param pOnlyPrepareMassiveLoad True if the massive data load sould not be uploaded
-		 * @return Identifier of the load
-		 * @throws GnossAPIException 
-		 */
+		* Create a new massive data load
+		* @param pName Massive data load name
+		* @param pFilesDirectory Path directory of the massive data load files
+		* @param pUrl Url where the file directory should be resopinding
+		* @param pOnlyPrepareMassiveLoad True if the massive data load should not be uploaded
+		* @return Identifier of the load
+		* @throws GnossAPIException Exception controlled by the Api
+		*/
 		public UUID CreateMassiveDataLoad(String pName, String pFilesDirectory, String pUrl, boolean pOnlyPrepareMassiveLoad) throws GnossAPIException {
 			try {
 				if(pOnlyPrepareMassiveLoad && isDebugMode)
@@ -192,9 +196,9 @@ public class MassiveLoadResource extends ResourceApi{
 		 * Create a new massive data load
 		 * @param pName Massive data load name
 		 * @param pFilesDirectory Path directory of the massive data load files
-		 * @param pUrl Url where the file directory should be responding
+		 * @param pUrl Url where the file directory should be resopinding
 		 * @return Identifier of the load
-		 * @throws GnossAPIException 
+		 * @throws GnossAPIException Exception controlled by the Api
 		 */
 		public UUID CreateMassiveDataLoad(String pName, String pFilesDirectory, String pUrl) throws GnossAPIException {
 			return CreateMassiveDataLoad(pName, pFilesDirectory, pUrl, false);
@@ -236,7 +240,7 @@ public class MassiveLoadResource extends ResourceApi{
 		/**
 		 * Uploads an existing massive data load
 		 * @param pMassiveLoadIdentifier Massive data load identifier
-		 * @throws Exception
+		 * @throws Exception Exception
 		 */
 		public void UploadPrepareMassiveLoad(UUID pMassiveLoadIdentifier) throws Exception {
 			File directory = new File(FilesDirectory);
@@ -270,6 +274,10 @@ public class MassiveLoadResource extends ResourceApi{
 		}
 		
 		
+		/**
+		 * Create a new package massive data load
+		 * @param resource Interface of the Gnoss Methods
+		 */
 		public void AddResourceToPackage(IGnossOCBase resource) {
 			try {
 				if(!counter.keySet().contains(getOntologyNameWithoutExtension())) {
@@ -325,7 +333,7 @@ public class MassiveLoadResource extends ResourceApi{
 		/**
 		 * Close a massive data load
 		 * @return True if the data load is closed
-		 * @throws Exception 
+		 * @throws Exception Exception
 		 */
 		public boolean CloseMassiveDataLoad() throws Exception {
 			String url = getApiUrl().concat("/resource/close-massive-load");
@@ -352,7 +360,7 @@ public class MassiveLoadResource extends ResourceApi{
 		/**
 		 * Create the massive data load
 		 * @return True if the load is correctly created
-		 * @throws Exception 
+		 * @throws Exception Exception
 		 */
 		private boolean CreateMassiveDataLoad() throws Exception {
 			boolean created = false;
@@ -378,6 +386,10 @@ public class MassiveLoadResource extends ResourceApi{
 			return created;
 		}
 		
+		/**
+		 * Send package with the number of elements indicated in the constructor
+		 * @param pMassiveLoadIdentifier (Optional) Massive data load identifier
+		 */
 		private void SendPackage(UUID pMassiveLoadIdentifier) {
 			try {
 				if(onlyPrepareMassiveLoad) {
@@ -429,10 +441,17 @@ public class MassiveLoadResource extends ResourceApi{
 			}
 		}
 		
+		/**
+		 * Send package with the number of elements indicated in the constructor
+		 */
 		private void SendPackage() {
 			SendPackage(null);
 		}
 		
+		/**
+		 * Close the streams to prepare new package
+		 * @throws IOException IOException
+		 */
 		private void CloseStreams() throws IOException {
 			if(streamData != null) {
 				streamData.flush();
@@ -454,10 +473,10 @@ public class MassiveLoadResource extends ResourceApi{
 		}
 		
 		/**
-		 * Create a new package in a massive data load
+		 * Creates a new package in a massive data load
 		 * @param model Data model of the package massive data load
 		 * @return True if the new massive data load package was created succesfully
-		 * @throws Exception 
+		 * @throws Exception Exception
 		 */
 		private boolean CreatePackageMassiveDataLoad(MassiveDataLoadPackageResource model) throws Exception {
 			boolean created = false;
@@ -475,6 +494,12 @@ public class MassiveLoadResource extends ResourceApi{
 			return created;
 		}
 		
+		/**
+		 * Return actual load state
+		 * @param pLoadId Load id
+		 * @return Actual load state
+		 * @throws Exception Exception
+		 */
 		public EstadoCargaModel LoadState(UUID pLoadId) throws Exception {
 			EstadoCargaModel estadoCarga;
 			try {
@@ -491,34 +516,58 @@ public class MassiveLoadResource extends ResourceApi{
 			return estadoCarga;
 		}
 
+		/**
+		 * Name of the ontology to load
+		 * @return LoadName Name of the ontology to load
+		 */
 		public String getLoadName() {
 			return LoadName;
 		}
 
+		/**
+		 * Set the ontology name to load
+		 * @param loadName New ontology's name
+		 */
 		public void setLoadName(String loadName) {
 			this.LoadName = loadName;
 		}
 
+		/**
+		 * Return massive load identifier
+		 * @return Massive load identifier
+		 */
 		public UUID getMassiveLoadIdentifier() {
 			return MassiveLoadIdentifier;
 		}
 
-		public void setMassiveLoadIdentifier(UUID massiveLoadIdentifier) {
-			MassiveLoadIdentifier = massiveLoadIdentifier;
-		}
-
+		/**
+		 * Return path where the files will be
+		 * @return Pathe where the files will be
+		 */
 		public String getFilesDirectory() {
 			return FilesDirectory;
 		}
 
+		/**
+		 * Set the path where the files will be
+		 * @param filesDirectory New path where the files will be
+		 */
 		public void setFilesDirectory(String filesDirectory) {
 			FilesDirectory = filesDirectory;
 		}
 
+		/**
+		 * Url where the massiveDataLoad api will download the files 
+		 * @return Url where the massiveDataLoad api will download the files 
+		 */
 		public String getUri() {
 			return Uri;
 		}
 
+		/**
+		 * Set the url where the massive data load will be downloaded
+		 * @param uri New url where the massiveDataLoad api will download the files
+		 */
 		public void setUri(String uri) {
 			Uri = uri;
 		}
