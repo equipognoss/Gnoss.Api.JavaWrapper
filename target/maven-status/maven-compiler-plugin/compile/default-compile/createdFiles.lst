@@ -6,6 +6,7 @@ org\gnoss\apiWrapper\ApiModel\ShareModel.class
 org\gnoss\apiWrapper\Helpers\CharArrayDelimiters.class
 org\gnoss\apiWrapper\Helpers\ILogHelper.class
 org\gnoss\apiWrapper\models\BoolOntologyProperty.class
+org\gnoss\apiWrapper\models\EstadoCarga.class
 org\gnoss\apiWrapper\ApiModel\MassiveResourceLoad.class
 org\gnoss\apiWrapper\models\TaxonomyOntology.class
 org\gnoss\apiWrapper\ApiModel\TiposDocumentacion.class
@@ -80,6 +81,7 @@ org\gnoss\apiWrapper\ApiModel\MembersGroupCommunityModel.class
 org\gnoss\apiWrapper\ApiModel\PersonalSpaceModel.class
 org\gnoss\apiWrapper\models\OntologyProperty.class
 org\gnoss\apiWrapper\Utilities\StringUtilities.class
+org\gnoss\apiWrapper\models\EstadoCargaModel.class
 org\gnoss\apiWrapper\models\StringOntologyProperty.class
 org\gnoss\apiWrapper\ApiModel\CreateGroupCommunityModel.class
 org\gnoss\apiWrapper\ApiModel\ParamsParentNode.class
