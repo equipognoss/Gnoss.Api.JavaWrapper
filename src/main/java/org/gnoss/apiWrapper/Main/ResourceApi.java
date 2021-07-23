@@ -1313,6 +1313,7 @@ public class ResourceApi extends GnossApiWrapper{
 		
 		if(!StringUtils.isEmpty(ontologia)){
 			setOntologyUrl(getGraphsUrl() + "Ontologia/" + ontologia + ".owl");
+			setOntologyNameWithoutExtension(ontologia);
 		}
 	}
 	
