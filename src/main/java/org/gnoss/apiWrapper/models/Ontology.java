@@ -170,7 +170,15 @@ public class Ontology extends BaseOntology {
                         }
                         prop.setValue(GnossHelper.GetImagePath(resourceId, prop.getValue().toString()));
                     }
-                    Write(prop.getName(), prop.getValue().toString(), prop.getLanguage());
+                    if(prop instanceof ListStringOntologyProperty) {
+                        ArrayList<String> listaValores = (ArrayList<String>)prop.getValue();
+                        for(String valor : listaValores) {
+                            Write(prop.getName(), valor, prop.getLanguage());
+                        }
+                    }
+                    else {
+                        Write(prop.getName(), prop.getValue().toString(), prop.getLanguage());   
+                    }
                 }
             }
         }
