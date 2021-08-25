@@ -12,6 +12,7 @@ import org.gnoss.apiWrapper.OAuth.OAuthInfo;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -358,9 +359,8 @@ public class GnossApiWrapper {
         SendLockTokenForResource(model, otherHeaders);
 
         Gson jsonUtilities = new Gson();
-        String json = jsonUtilities.toJson(model);
-
         
+        String json = jsonUtilities.toJson(model);
         
         HttpURLConnection webRequest = PrepareWebRequest("POST", url, json, "application/json; charset=UTF-8", acceptHeader, otherHeaders);
 

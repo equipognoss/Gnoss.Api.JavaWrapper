@@ -14,7 +14,7 @@ public class MassiveDataLoadPackageResource {
 	private String ontology_rute;
 	private String search_rute;
 	private String sql_rute;
-	private byte[] ontology_byte;
+	private byte[] ontology_bytes;
 	private byte[] search_bytes;
 	private byte[] sql_bytes;	
 	private int state;
@@ -195,10 +195,10 @@ public class MassiveDataLoadPackageResource {
 	}
 	
 	public byte[] getOntology_byte() {
-		return ontology_byte;
+		return ontology_bytes;
 	}
 	public void setOntology_byte(byte[] ontology_byte) {
-		this.ontology_byte = ontology_byte;
+		this.ontology_bytes = ontology_byte;
 	}
 	public byte[] getSearch_bytes() {
 		return search_bytes;

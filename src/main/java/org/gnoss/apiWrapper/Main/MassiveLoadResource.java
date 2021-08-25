@@ -75,7 +75,7 @@ public class MassiveLoadResource extends ResourceApi{
     private OutputStreamWriter streamSearch;
     
     private boolean isDebugMode;
-    private final static int DEBUG_PACKAGE_SIZE = 10;
+    private final static int DEBUG_PACKAGE_SIZE = 5;
     private boolean onlyPrepareMassiveLoad;
 
 	
@@ -403,7 +403,7 @@ public class MassiveLoadResource extends ResourceApi{
 				
 				String uriOntology = getUri().concat("/").concat(getOntologyNameWithoutExtension()).concat("_").concat(massiveLoadFilesIdentifier.toString()).concat("_").concat(counter.get(getOntologyNameWithoutExtension()).getFileCount() + "").concat(".nq");
 				String uriSearch = getUri().concat("/").concat(getOntologyNameWithoutExtension()).concat("_search_").concat(massiveLoadFilesIdentifier.toString()).concat("_").concat(counter.get(getOntologyNameWithoutExtension()).getFileCount() + "").concat(".nq");
-				String uriAcid = getUri().concat("/").concat(getOntologyNameWithoutExtension()).concat("_acid_").concat(massiveLoadFilesIdentifier.toString()).concat("_").concat(counter.get(getOntologyNameWithoutExtension()).getFileCount() + "").concat(".nq");
+				String uriAcid = getUri().concat("/").concat(getOntologyNameWithoutExtension()).concat("_acid_").concat(massiveLoadFilesIdentifier.toString()).concat("_").concat(counter.get(getOntologyNameWithoutExtension()).getFileCount() + "").concat(".txt");
 				
 				MassiveDataLoadPackageResource model = new MassiveDataLoadPackageResource();
 				model.setPackage_id(UUID.randomUUID());
@@ -421,6 +421,7 @@ public class MassiveLoadResource extends ResourceApi{
 					model.setSearch_bytes(Files.readAllBytes(searchFile.toPath()));
 					model.setSql_bytes(Files.readAllBytes(acidFile.toPath()));
 				}
+				
 				
 				model.setOntology_rute(uriOntology);
 				model.setSearch_rute(uriSearch);
