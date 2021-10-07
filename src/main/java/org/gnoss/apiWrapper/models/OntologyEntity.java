@@ -150,6 +150,7 @@ public class OntologyEntity {
             throw new GnossAPIArgumentException("Required. RdfsLabel can't be null or empty");
         } else {
             _rdfsLabel = rdfsLabel;
+            RdfsLabel = rdfsLabel;
         }
     }
 
