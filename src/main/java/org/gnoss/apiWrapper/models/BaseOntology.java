@@ -215,7 +215,9 @@ public abstract class BaseOntology {
                                     }
                                     prop.setValue(GnossHelper.GetImagePath(resourceId, prop.getValue().toString()));
                                 }
-                                Write(prop.getName(), prop.getValue().toString(), prop.getLanguage());
+                                if(prop.getValue()!= null) {
+                                	 Write(prop.getName(), prop.getValue().toString(), prop.getLanguage());
+                                }                               
                             }
                             if(entityDictionary.get(id).getEntities() == null || entityDictionary.get(id).getEntities().size() == 0){
                             	StringBuilder.append("</rdf:Description>\n");
