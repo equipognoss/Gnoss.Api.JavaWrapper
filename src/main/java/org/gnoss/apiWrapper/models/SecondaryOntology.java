@@ -86,7 +86,14 @@ public class SecondaryOntology extends BaseOntology{
 			if(properties != null){
 				for(OntologyProperty prop : properties){
 					if(!StringUtils.isEmpty(prop.getName()) && prop.getValue() != null && !prop.getClass().equals(DataTypes.OntologyPropertyImage.getClass())){
-						Write(prop.getName(), prop.getValue().toString(), prop.getLanguage());
+						if(prop.getValue() instanceof ArrayList<?>) {
+							for(Object obj : (ArrayList<Object>)prop.getValue()) {
+								Write(prop.getName(), obj.toString(), prop.getLanguage());
+							}
+						}
+						else {
+							Write(prop.getName(), prop.getValue().toString(), prop.getLanguage());
+						}
 					}
 				}
 			}
