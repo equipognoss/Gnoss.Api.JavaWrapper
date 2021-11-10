@@ -6,6 +6,7 @@ import org.gnoss.apiWrapper.ApiModel.DeleteParams;
 import org.gnoss.apiWrapper.ApiModel.ExistsUrlParams;
 import org.gnoss.apiWrapper.ApiModel.FileOntology;
 import org.gnoss.apiWrapper.ApiModel.GetDownloadParams;
+import org.gnoss.apiWrapper.ApiModel.GetMetakeywordsModel;
 import org.gnoss.apiWrapper.ApiModel.GetUrlParams;
 import org.gnoss.apiWrapper.ApiModel.GnossResourceProperty;
 import org.gnoss.apiWrapper.ApiModel.InsertAttributeParams;
@@ -74,6 +75,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
@@ -1397,7 +1399,7 @@ public class ResourceApi extends GnossApiWrapper{
 			
 			SparqlQuery model = new SparqlQuery();
 			model.setOntology(graph);
-			model.setCommunity_short_name(graph);
+			model.setCommunity_short_name(getCommunityShortName());
 			model.setQuery_select(selectPart);
 			model.setQuery_where(wherePart);
 			
@@ -3781,6 +3783,34 @@ public class ResourceApi extends GnossApiWrapper{
 			return comentId;
 		}catch(Exception ex) {
 			this._logHelper.Error("Error comenting resource "+resourceId+". \r\n: Json: "+gson.toJson(model)+", "+ex.getMessage());
+			throw ex;
+		}
+		
+	}
+	
+	
+	/**
+	 * Get metakeywords of the ontology
+	 * @param resourceID Resource
+	 * @return Dictionary with all the metakeywords
+	 * @throws Exception
+	 */
+	public Dictionary<UUID, ArrayList<String>> GetMetakeywords (UUID resourceID) throws Exception {
+		Gson gson = new Gson();
+		GetMetakeywordsModel metakeywordsModel = new GetMetakeywordsModel();
+		try {			
+			metakeywordsModel.setCommunity_short_name(getCommunityShortName());
+			metakeywordsModel.setResource_id(resourceID);
+			
+			String url=getApiUrl()+"/resource/get-metakeywords";
+			
+			String response = WebRequestPostWithJsonObject(url, metakeywordsModel);
+			
+			Dictionary<UUID, ArrayList<String>> metakeywords = gson.fromJson(response, Dictionary.class);
+			
+			return metakeywords;
+		} catch(Exception ex) {
+			this._logHelper.Error("Error getting metakeywords from resource " + resourceID + ". \r\n: Json: "+gson.toJson(metakeywordsModel)+", "+ex.getMessage());
 			throw ex;
 		}
 		
