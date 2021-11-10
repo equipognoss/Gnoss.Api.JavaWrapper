@@ -103,6 +103,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -3796,6 +3797,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 * @return Dictionary with all the metakeywords
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unchecked")
 	public HashMap<UUID, ArrayList<MetaKeyword>> GetMetakeywords (UUID resourceID) throws Exception {
 		Gson gson = new Gson();
 		GetMetakeywordsModel metakeywordsModel = new GetMetakeywordsModel();
@@ -3806,10 +3808,13 @@ public class ResourceApi extends GnossApiWrapper{
 			String url = getApiUrl()+"/resource/get-metakeywords";
 
 			String response = WebRequestPostWithJsonObject(url, metakeywordsModel);
-
+			
 			HashMap<UUID, ArrayList<MetaKeyword>> metakeywords = new HashMap<UUID, ArrayList<MetaKeyword>>();
 
-			metakeywords = gson.fromJson(response, metakeywords.getClass());
+			Type fooType = new TypeToken<HashMap<UUID, ArrayList<MetaKeyword>>>() {}.getType();    
+			
+			
+			metakeywords = gson.fromJson(response, fooType);
 
 			return metakeywords;
 		} catch(Exception ex) {
