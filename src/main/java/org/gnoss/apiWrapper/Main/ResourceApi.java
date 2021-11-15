@@ -3798,12 +3798,13 @@ public class ResourceApi extends GnossApiWrapper{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public HashMap<UUID, ArrayList<MetaKeyword>> GetMetakeywords (UUID resourceID) throws Exception {
+	public HashMap<UUID, ArrayList<MetaKeyword>> GetMetakeywords (UUID resourceID, String pOntologyNameWithExtension) throws Exception {
 		Gson gson = new Gson();
 		GetMetakeywordsModel metakeywordsModel = new GetMetakeywordsModel();
 		try {
 			metakeywordsModel.setCommunity_short_name(getCommunityShortName());
 			metakeywordsModel.setResource_id(resourceID);
+			metakeywordsModel.setOntology_name(pOntologyNameWithExtension);
 
 			String url = getApiUrl()+"/resource/get-metakeywords";
 
