@@ -216,7 +216,16 @@ public abstract class BaseOntology {
                                     prop.setValue(GnossHelper.GetImagePath(resourceId, prop.getValue().toString()));
                                 }
                                 if(prop.getValue()!= null) {
-                                	 Write(prop.getName(), prop.getValue().toString(), prop.getLanguage());
+                                	// Write(prop.getName(), prop.getValue().toString(), prop.getLanguage());
+                                	if(prop instanceof ListStringOntologyProperty) {
+                                        ArrayList<String> listaValores = (ArrayList<String>)prop.getValue();
+                                        for(String valor : listaValores) {
+                                            Write(prop.getName(), valor, prop.getLanguage());
+                                        }
+                                    }
+                                    else {
+                                        Write(prop.getName(), prop.getValue().toString(), prop.getLanguage());   
+                                    }
                                 }                               
                             }
                             if(entityDictionary.get(id).getEntities() == null || entityDictionary.get(id).getEntities().size() == 0){
