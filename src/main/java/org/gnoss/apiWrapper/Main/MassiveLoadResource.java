@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.time.ZonedDateTime;
@@ -293,10 +294,9 @@ public class MassiveLoadResource extends ResourceApi{
 				String pathAcid = FilesDirectory.concat("\\").concat(getOntologyNameWithoutExtension()).concat("_acid_").concat(MassiveLoadIdentifier.toString()).concat("_").concat(counter.get(getOntologyNameWithoutExtension()).getFileCount() + "").concat(".txt");
 				
 				if(streamData == null || streamOntology == null || streamSearch == null) {
-					
-					streamData = new OutputStreamWriter(new FileOutputStream(pathAcid));
-					streamOntology = new OutputStreamWriter(new FileOutputStream(pathOntology));
-					streamSearch = new OutputStreamWriter(new FileOutputStream(pathSearch));
+					streamData = new OutputStreamWriter(new FileOutputStream(pathAcid),Charset.forName("UTF-8"));
+					streamOntology = new OutputStreamWriter(new FileOutputStream(pathOntology),Charset.forName("UTF-8"));
+					streamSearch = new OutputStreamWriter(new FileOutputStream(pathSearch),Charset.forName("UTF-8"));
 				}
 				
 				for(String triple : ontologyTriples) {
