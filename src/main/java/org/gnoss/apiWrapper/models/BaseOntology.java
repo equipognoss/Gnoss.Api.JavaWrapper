@@ -39,11 +39,11 @@ public abstract class BaseOntology {
         if (StringUtils.isEmpty(rdfType.trim())) {
             throw new GnossAPIArgumentException("Required. RdfType can't be null or empty");
         } else if (StringUtils.isEmpty(rdfsLabel)) {
-            throw new GnossAPIArgumentException("Rquired. RdfsLabel can't be null or empty");
+            throw new GnossAPIArgumentException("Required. RdfsLabel can't be null or empty");
         } else {
             this._rdfType = rdfType;
             this._rdfsLabel = rdfsLabel;
-            this._properties = propertyList;
+            this._properties = propertyList; 
             this.OntologyUrl = ontologyUrl;
             this.PrefixList = prefixList;
             this.identifier = identifier;

@@ -649,7 +649,7 @@ public class ResourceApi extends GnossApiWrapper{
 				LogHelper.getInstance().Debug("Successfully modified the resource with id: " + resource.getId() + " and Gnoss identifier " + resource.getShortGnossId() + "belonging to the ontology '" + resource.getOntology().getOntologyUrl() + "' and RdfType = '" + resource.getOntology().getRdfType() + "'");
 			}
 			else{
-				LogHelper.getInstance().Error("The resource with id: " + resource.getShortGnossId() + " of the ontology '" + resource.getOntology().getOntologyUrl() + "' has not bean modified.");
+				LogHelper.getInstance().Error("The resource with id: " + resource.getShortGnossId() + " of the ontology '" + resource.getOntology().getOntologyUrl() + "' has not been modified.");
 			}
 		}
 		catch(Exception ex){
@@ -1552,7 +1552,7 @@ public class ResourceApi extends GnossApiWrapper{
 				try{
 					processedNumber++;
 					DeleteSecondaryEntity(getOntologyUrl(), getCommunityShortName(), url);
-					LogHelper.getInstance().Debug("Successfully deleted th resource with ID: " + url);
+					LogHelper.getInstance().Debug("Successfully deleted the resource with ID: " + url);
 					resourcesToDelete.remove(url);
 				}
 				catch(Exception ex)
