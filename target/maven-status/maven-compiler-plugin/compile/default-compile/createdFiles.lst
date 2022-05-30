@@ -85,10 +85,12 @@ org\gnoss\apiWrapper\models\EstadoCargaModel.class
 org\gnoss\apiWrapper\models\StringOntologyProperty.class
 org\gnoss\apiWrapper\ApiModel\CreateGroupCommunityModel.class
 org\gnoss\apiWrapper\ApiModel\ParamsParentNode.class
+org\gnoss\apiWrapper\Main\ResourceApi$1.class
 org\gnoss\apiWrapper\ApiModel\UserEvent.class
 org\gnoss\apiWrapper\Helpers\DatosRequest.class
 org\gnoss\apiWrapper\ApiModel\ParamsDeleteNode.class
 org\gnoss\apiWrapper\ApiModel\AumentedReading.class
+org\gnoss\apiWrapper\ApiModel\GetMetakeywordsModel.class
 org\gnoss\apiWrapper\ApiModel\CommunityInfoModel.class
 org\gnoss\apiWrapper\Helpers\Constants.class
 org\gnoss\apiWrapper\Helpers\LogHelper.class
@@ -167,6 +169,7 @@ org\gnoss\apiWrapper\ApiModel\ModifyResourceTripleListParams.class
 org\gnoss\apiWrapper\models\TriplesToInclude.class
 org\gnoss\apiWrapper\Helpers\IdentityTypes.class
 org\gnoss\apiWrapper\ApiModel\GnossResourceProperty.class
+org\gnoss\apiWrapper\ApiModel\MetaKeyword.class
 org\gnoss\apiWrapper\models\ListStringOntologyProperty.class
 org\gnoss\apiWrapper\models\ImageOntologyProperty.class
 org\gnoss\apiWrapper\ApiModel\ParamsLoginPassword.class

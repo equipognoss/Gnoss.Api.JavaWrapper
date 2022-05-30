@@ -30,6 +30,7 @@ C:\GNOSS\ProyectosGit\Gnoss.Api.JavaWrapper\src\main\java\org\gnoss\apiWrapper\m
 C:\GNOSS\ProyectosGit\Gnoss.Api.JavaWrapper\src\main\java\org\gnoss\apiWrapper\OAuth\OAuthInfo.java
 C:\GNOSS\ProyectosGit\Gnoss.Api.JavaWrapper\src\main\java\org\gnoss\apiWrapper\Helpers\CharArrayDelimiters.java
 C:\GNOSS\ProyectosGit\Gnoss.Api.JavaWrapper\src\main\java\org\gnoss\apiWrapper\ApiModel\ExistsUrlParams.java
+C:\GNOSS\ProyectosGit\Gnoss.Api.JavaWrapper\src\main\java\org\gnoss\apiWrapper\ApiModel\MetaKeyword.java
 C:\GNOSS\ProyectosGit\Gnoss.Api.JavaWrapper\src\main\java\org\gnoss\apiWrapper\ApiModel\PersonalSpaceModel.java
 C:\GNOSS\ProyectosGit\Gnoss.Api.JavaWrapper\src\main\java\org\gnoss\apiWrapper\Main\NotificationApi.java
 C:\GNOSS\ProyectosGit\Gnoss.Api.JavaWrapper\src\main\java\org\gnoss\apiWrapper\ApiModel\MassiveTriple.java
@@ -153,6 +154,7 @@ C:\GNOSS\ProyectosGit\Gnoss.Api.JavaWrapper\src\main\java\org\gnoss\apiWrapper\m
 C:\GNOSS\ProyectosGit\Gnoss.Api.JavaWrapper\src\main\java\org\gnoss\apiWrapper\Utilities\StringUtilities.java
 C:\GNOSS\ProyectosGit\Gnoss.Api.JavaWrapper\src\main\java\org\gnoss\apiWrapper\Helpers\RDFHelper.java
 C:\GNOSS\ProyectosGit\Gnoss.Api.JavaWrapper\src\main\java\org\gnoss\apiWrapper\ApiModel\GroupOrgCommunityModel.java
+C:\GNOSS\ProyectosGit\Gnoss.Api.JavaWrapper\src\main\java\org\gnoss\apiWrapper\ApiModel\GetMetakeywordsModel.java
 C:\GNOSS\ProyectosGit\Gnoss.Api.JavaWrapper\src\main\java\org\gnoss\apiWrapper\ApiModel\ParamsChangeCategoryName.java
 C:\GNOSS\ProyectosGit\Gnoss.Api.JavaWrapper\src\main\java\org\gnoss\apiWrapper\ApiModel\CertificationLevelModel.java
 C:\GNOSS\ProyectosGit\Gnoss.Api.JavaWrapper\src\main\java\org\gnoss\apiWrapper\ApiModel\ReaderEditor.java
