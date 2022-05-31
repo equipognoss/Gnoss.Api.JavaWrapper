@@ -12,8 +12,8 @@
   <description>Gnoss Api Wrapper library for Java. Gnoss is a semantic platform described here: https://www.gnoss.com/en. This library provides a Java implementation to simplify the use of the GNOSS API in Java. We need to publish this library in order to simplify the integration of GNOSS API with other applications.</description>
   <licenses>
 	<license>
-		<name>GNU General Public License, Version 3.0</name>
-		<url>https://www.gnu.org/licenses/gpl-3.0.html</url>
+		<name>GNU Lesser General Public License v3</name>
+		<url>https://www.gnu.org/licenses/lgpl-3.0.html</url>
 	</license>
   </licenses>
   <scm>
