@@ -547,7 +547,7 @@ public class GnossApiWrapper {
         }
 
         if (!StringUtils.isEmpty(logPath) && !StringUtils.isEmpty(logFileName) && !StringUtils.isEmpty(logLevel)) {
-            if (logPath.startsWith("\\")) {
+            if (logPath.startsWith(File.separator)) {
 //TODO                
 //logPath = HttpContext.Current.Server.MapPath(logPath);
             }

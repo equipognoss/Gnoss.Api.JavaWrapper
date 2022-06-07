@@ -422,13 +422,13 @@ public class MassiveLoadResource extends ResourceApi {
 			if (isDebugMode) {
 				CloseStreams();
 
-				File ontologyFile = new File(FilesDirectory.concat("\\").concat(getOntologyNameWithoutExtension())
+				File ontologyFile = new File(FilesDirectory.concat(File.separator).concat(getOntologyNameWithoutExtension())
 						.concat("_").concat(massiveLoadFilesIdentifier.toString()).concat("_")
 						.concat(counter.get(getOntologyNameWithoutExtension()).getFileCount() + "").concat(".nq"));
-				File searchFile = new File(FilesDirectory.concat("\\").concat(getOntologyNameWithoutExtension())
+				File searchFile = new File(FilesDirectory.concat(File.separator).concat(getOntologyNameWithoutExtension())
 						.concat("_search_").concat(massiveLoadFilesIdentifier.toString()).concat("_")
 						.concat(counter.get(getOntologyNameWithoutExtension()).getFileCount() + "").concat(".nq"));
-				File acidFile = new File(FilesDirectory.concat("\\").concat(getOntologyNameWithoutExtension())
+				File acidFile = new File(FilesDirectory.concat(File.separator).concat(getOntologyNameWithoutExtension())
 						.concat("_acid_").concat(massiveLoadFilesIdentifier.toString()).concat("_")
 						.concat(counter.get(getOntologyNameWithoutExtension()).getFileCount() + "").concat(".txt"));
 
