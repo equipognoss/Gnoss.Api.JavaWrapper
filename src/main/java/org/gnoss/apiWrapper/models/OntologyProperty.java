@@ -66,7 +66,7 @@ public class OntologyProperty {
     @Override
     public boolean equals(java.lang.Object obj){
         Object object = obj;
-        if (object.getClass() != this.getClass())
+        if (object != null && object.getClass() != this.getClass())
         {
             return false;
         }
@@ -89,7 +89,7 @@ public class OntologyProperty {
             }
             else
             {
-                if ((this.name == null && property.getName() == null) || (this.value != null && this.name.equals(property.getName()) && this.value.equals(property.getValue())))
+                if (this.value != null && this.name.equals(property.getName()) && this.value.equals(property.getValue()))
                 {
                     return true;
                 }

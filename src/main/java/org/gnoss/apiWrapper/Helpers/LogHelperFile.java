@@ -150,6 +150,7 @@ public class LogHelperFile implements ILogHelper {
     private void Write(LogLevels logLevel, String className, String memberName, String message, int numberWriteErrors) throws InterruptedException{
         if(_isActivated){
             OutputStreamWriter sw = null;
+            OutputStream os = null;
             try{
                 LocalDateTime localDateTime = LocalDateTime.now();
                 DateTimeFormatter firstDateFormat = DateTimeFormatter.ofPattern("yyyy_MM_dd");
@@ -162,12 +163,14 @@ public class LogHelperFile implements ILogHelper {
                 String currentTime = localDateTime.format(thirdDateFormat);
                 String completeMessage = currentDate + "\t" + currentTime + "\t" + Thread.currentThread().getId() + "\t" + logLevel.toString() + "\t" + className + "\t" + memberName + "\t" + message;
             
-                OutputStream os = new FileOutputStream(absolutePath);
+                os = new FileOutputStream(absolutePath);
                 sw = new OutputStreamWriter(os);
                 System.out.println(completeMessage);
                 sw.write(completeMessage);
                 sw.flush();
                 sw.close();
+                os.flush();
+                os.close();
             }
             catch(Exception ex){
                 Thread.sleep(500);

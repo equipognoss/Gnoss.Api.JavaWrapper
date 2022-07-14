@@ -223,8 +223,8 @@ public class UserApi extends GnossApiWrapper{
 					
 			String response = WebRequest("POST", url, json, "application/json");
 			Gson gson = new Gson();
-			user = gson.fromJson(response, new User().getClass());
-			if (user != null) {
+			createdUser = gson.fromJson(response, new User().getClass());
+			if (createdUser != null) {
 				this._logHelper.Debug(
 						"The user " + createdUser.getName() + " " + createdUser.getLas_name() + " has been obteined succesfully");
 			} else {
@@ -606,7 +606,7 @@ public class UserApi extends GnossApiWrapper{
 	 * @throws IOException IO Exception 
 	 */
 	public String getEmailByToken(UUID token, boolean deleteSingleToken) throws GnossAPIException, MalformedURLException, IOException {
-		if(token.equals("")) {
+		if(token != null) {
 			throw new GnossAPIException("The token can´t be null or empty");
 		}else {
 			String url=getApiUrl()+"/user/get-email-by-token?token="+token+"&deleteSingleUseToken="+deleteSingleToken;

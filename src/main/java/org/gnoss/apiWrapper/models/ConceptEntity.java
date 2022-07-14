@@ -85,7 +85,7 @@ public class ConceptEntity  extends SecondaryEntity{
 
 	public String getParentGnossId() {
 		
-		if(this._parentNameIdentifier!= null || !this._parentNameIdentifier.isEmpty() || this._parentNameIdentifier== "" ) {
+		if(this._parentNameIdentifier!= null && !this._parentNameIdentifier.isEmpty()) {
 			this._parentGnossId= this._rootIdentifier+"_"+this._parentNameIdentifier;
 			this._parentGnossId= this.graphsUrl+" "+ this._parentGnossId;
 		}

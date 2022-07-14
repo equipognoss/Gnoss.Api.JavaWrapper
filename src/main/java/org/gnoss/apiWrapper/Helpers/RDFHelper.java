@@ -23,20 +23,20 @@ public class RDFHelper {
 		String value="";
 			if(nameSpaceName!=null) {
 				for (Element elto: xelt) {
-					if(elto.getName().equals(localName) && elto.getNamespace().equals(nameSpaceName)) {
+					if(elto.getName().equals(localName) && elto.getNamespace().toString().equals(nameSpaceName)) {
 						if(filterAttribute==null) {
-							if(elto.getName().equals(localName) && elto.getNamespace().equals(nameSpaceName)) {
+							eltos.add(elto);
+							value=eltos.get(0).getName();
+							
+						}else {
+							if(elto.getName().equals(localName) && elto.getNamespace().toString().equals(nameSpaceName) &&(elto.getAttributeValue(filterAttribute)==filterAttributeValue)){
 								eltos.add(elto);
 								value=eltos.get(0).getName();
 							}
-						}else if(filterAttribute!=null) {
-							if(elto.getName().equals(localName) && elto.getNamespace().equals(nameSpaceName) &&(elto.getAttributeValue(filterAttribute)==filterAttributeValue)){
-								eltos.add(elto);
-								value=eltos.get(0).getName();
-							}
-						}
-						else {return null;}
-					}else {return null;}
+						}						
+					}else {
+						return null;
+					}
 					
 				}
 			}else {
@@ -76,7 +76,7 @@ public class RDFHelper {
 			try {
 				List <Attribute> lista=elto.getAttributes();
 				for(Attribute attr : lista) {
-					if(attr.getName().equals(localName) && attr.getNamespace().equals(nameSpaceName)) {
+					if(attr.getName().equals(localName) && attr.getNamespace().toString().equals(nameSpaceName)) {
 						valor= lista.get(0).getName();
 					}
 				}

@@ -272,6 +272,10 @@ public class MassiveLoadResource extends ResourceApi {
 	 * @param resource Interface of the Gnoss Methods
 	 */
 	public void AddResourceToPackage(IGnossOCBase resource) {
+		FileOutputStream fileOutputStreamAcid = null;
+		FileOutputStream fileOutputStreamOntology = null;
+		FileOutputStream fileOutputStreamSearch = null;
+		
 		try {
 			if (!counter.keySet().contains(getOntologyNameWithoutExtension())) {
 				counter.put(getOntologyNameWithoutExtension(), new OntologyCount(0, 0));
@@ -292,9 +296,17 @@ public class MassiveLoadResource extends ResourceApi {
 					.concat(counter.get(getOntologyNameWithoutExtension()).getFileCount() + "").concat(".txt");
 
 			if (streamData == null || streamOntology == null || streamSearch == null) {
-				streamData = new OutputStreamWriter(new FileOutputStream(pathAcid), Charset.forName("UTF-8"));
-				streamOntology = new OutputStreamWriter(new FileOutputStream(pathOntology), Charset.forName("UTF-8"));
-				streamSearch = new OutputStreamWriter(new FileOutputStream(pathSearch), Charset.forName("UTF-8"));
+				fileOutputStreamAcid = new FileOutputStream(pathAcid);
+				fileOutputStreamOntology = new FileOutputStream(pathOntology); 
+				fileOutputStreamSearch = new FileOutputStream(pathSearch);
+				
+				streamData = new OutputStreamWriter(fileOutputStreamAcid, Charset.forName("UTF-8"));
+				streamOntology = new OutputStreamWriter(fileOutputStreamOntology, Charset.forName("UTF-8"));
+				streamSearch = new OutputStreamWriter(fileOutputStreamSearch, Charset.forName("UTF-8"));
+				
+				fileOutputStreamAcid.close();
+				fileOutputStreamOntology.close();
+				fileOutputStreamSearch.close();
 			}
 
 			for (String triple : ontologyTriples) {
@@ -327,7 +339,7 @@ public class MassiveLoadResource extends ResourceApi {
 		} catch (Exception ex) {
 			LogHelper.getInstance()
 					.Error("Error creating the package of massive data load. \n".concat(ex.getMessage()));
-		}
+		}		
 	}
 
 	/**

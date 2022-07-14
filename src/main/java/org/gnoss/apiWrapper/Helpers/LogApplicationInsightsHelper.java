@@ -181,13 +181,11 @@ public class LogApplicationInsightsHelper implements ILogHelper {
 
 	@Override
 	public void Fatal(String message) {
-		// TODO Auto-generated method stub
 		Fatal(message, "", "");
 	}
 	
 	
 	private void Write(LogLevels logLevels, String className, String memberName, String message, int numberWriteErrors) {
-		// TODO Auto-generated method stub
 		LocalDateTime localDateTime = LocalDateTime.now();
         DateTimeFormatter firstDateFormat = DateTimeFormatter.ofPattern("yyyy_MM_dd");
         DateTimeFormatter secondDateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -204,7 +202,6 @@ public class LogApplicationInsightsHelper implements ILogHelper {
 		if (LogHelper.getLogLocation().equals(LogsAndTracesLocation.ApplicationInsights)) {
 			File fichero=null;
 			BufferedWriter bw=null;
-			Thread thread=null;
 			try {
 				fichero= new File (absolutePath);
 				bw= new BufferedWriter (new FileWriter(fichero));
@@ -216,13 +213,12 @@ public class LogApplicationInsightsHelper implements ILogHelper {
 			}catch(IOException ex){
 				ex.printStackTrace();
 				try {
-					thread.sleep(500);
+					Thread.sleep(500);
 					if(numberWriteErrors>0) {
 						numberWriteErrors--;
 						Write(logLevels, className, memberName, message, numberWriteErrors);
 					}
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

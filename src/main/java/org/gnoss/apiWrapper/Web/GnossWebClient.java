@@ -18,9 +18,9 @@ public abstract  class GnossWebClient implements WebClient{
 	}
 	
 	protected String GetWebRequest(URI address) {
-		
-		String request=GetWebRequest(address).toString();
-		 return request;	 
+		//String request=GetWebRequest(address).toString();
+		//return request;
+		return "";
 	}
 	
 

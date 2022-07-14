@@ -247,7 +247,7 @@ public class GnossDate {
      */
     private int RomanToDecimal(String romanNum) {
     	char [] chars = romanNum.toCharArray();
-    	int [] nums=null;
+    	int [] nums = new int[romanNum.length()];
     	int i=0;
     	int calc=0;
     	for (char c: chars) {

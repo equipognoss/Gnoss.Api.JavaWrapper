@@ -45,56 +45,51 @@ public class TaxonomyOntology extends BaseOntology{
     @Override
     public  String GenerateRDF() throws IOException, GnossAPIException {
     	File file= new File("file.txt");
-    	FileWriter fileWriter= new FileWriter(file);
-    	String rdfFile=null;
-    	
-    	WriteRdfHeader();
-    	if(getRdfType()==""|| getRdfType()==null || getRdfType().isEmpty() ) {
-    		throw new GnossAPIArgumentException("Required. It can't be null or empty, RdfType");
+    	FileWriter fileWriter = null;
+    	Reader b2 = null;
+    	try {
+    		fileWriter = new FileWriter(file);
+        	String rdfFile=null;
+        	
+        	WriteRdfHeader();
+        	if(getRdfType()==""|| getRdfType()==null || getRdfType().isEmpty() ) {
+        		throw new GnossAPIArgumentException("Required. It can't be null or empty, RdfType");
+        	}
+        	else if(getRdfsLabel()=="" || getRdfsLabel()==null || getRdfsLabel().isEmpty()){
+        		throw new GnossAPIArgumentException("Required. It can't be null or empty, RdfsLabel");
+        	}
+        	else {
+        		fileWriter.write("<rdf:Description rdf:about=\"" +getIdentifier()+"\">");
+        		if(getRdfType()!= null || getRdfType().isEmpty() || getRdfsLabel()!=null || getRdfsLabel().isEmpty()) {
+        			Write("rdf:type", getRdfType());
+    				Write("rdfs:label",getRdfsLabel());
+        		}
+        		else {
+        			throw new GnossAPIException("RdfType and RdfLabel are required, they can't be null or empty");
+        		}
+        		WritePropertyList(getProperties(), UUID.randomUUID());
+        		WriteConceptEntitiesFirstDescription(conceptEntities);
+        		fileWriter.write(conceptEntities.toString());
+        		fileWriter.write("</rdf:Description>");
+        		
+        		WriteConceptEntitiesAdditionalDescription(conceptEntities);
+        		
+        		fileWriter.write("</rdf:RDF>");
+        		
+        		fileWriter.flush();
+        		b2 = new FileReader("fileReader.txt");
+        	}
     	}
-    	else if(getRdfsLabel()=="" || getRdfsLabel()==null || getRdfsLabel().isEmpty()){
-    		throw new GnossAPIArgumentException("Required. It can't be null or empty, RdfsLabel");
+    	catch (Exception e) {
+    		throw new GnossAPIException(e.getMessage());
+		}
+    	finally {
+    		fileWriter.close();
+    		b2.close();
     	}
-    	else {
-    		fileWriter.write("<rdf:Description rdf:about=\"" +getIdentifier()+"\">");
-    		if(getRdfType()!= null || getRdfType().isEmpty() || getRdfsLabel()!=null || getRdfsLabel().isEmpty()) {
-    			Write("rdf:type", getRdfType());
-				Write("rdfs:label",getRdfsLabel());
-    		}
-    		else {
-    			throw new GnossAPIException("RdfType and RdfLabel are required, they can't be null or empty");
-    		}
-    		WritePropertyList(getProperties(), UUID.randomUUID());
-    		WriteConceptEntitiesFirstDescription(conceptEntities);
-    		fileWriter.write(conceptEntities.toString());
-    		fileWriter.write("</rdf:Description>");
-    		
-    		WriteConceptEntitiesAdditionalDescription(conceptEntities);
-    		
-    		fileWriter.write("</rdf:RDF>");
-    		
-    		fileWriter.flush();
-    		Reader b2= new FileReader("fileReader.txt");
-    		/*
-    		 *  // RDF file
-                File.Flush();
-                Stream.Position = 0;
-                BinaryReader b2 = new BinaryReader(Stream);
-                rdfFile = b2.ReadBytes((int)Stream.Length);
-
-                b2.Dispose();
-                b2.Close();
-                Stream.Dispose();
-                Stream.Close();
-                File.Dispose();
-                File.Close();
-    		 * */
-    		
-    	}
-    	
-		return DC;
-    	
-    }
+    	return DC;
+    }	
+    
     private void WriteConceptEntitiesAdditionalDescription(List<ConceptEntity> conceptEntityList) throws GnossAPIArgumentException, IOException {
     	if (conceptEntityList!=null) {
     		for(ConceptEntity ec : conceptEntityList ) {
@@ -171,7 +166,7 @@ public class TaxonomyOntology extends BaseOntology{
 		if (resourceId== null) {
 			if(propertyList!=null ) {
 				for(OntologyProperty prop: propertyList) {
-					if(prop.getName()!= null || !prop.getName().isEmpty() && prop.getValue()!=null && !prop.getName().equals(DataTypes.OntologyPropertyImage)) {
+					if(prop.getName()!= null || !prop.getName().isEmpty() && prop.getValue()!=null && !prop.getName().equals(DataTypes.OntologyPropertyImage.getClass())) {
 						Write(prop.getName(), prop.getValue().toString(), prop.getLanguage());
 					}
 				}
@@ -195,11 +190,21 @@ public class TaxonomyOntology extends BaseOntology{
 	public String get_stringRdfFile() throws IOException, GnossAPIException {
 		String fich= new String(get_rdfFile());
 		File file= new File(fich);
-		BufferedReader Reader = new BufferedReader(new FileReader(file));
-		String line;
-		
-		while((line=Reader.readLine())!=null) {
-			this._stringRdfFile+=line;
+		BufferedReader Reader = null;
+		try {
+			Reader = new BufferedReader(new FileReader(file));
+			String line;
+			
+			while((line=Reader.readLine())!=null) {
+				this._stringRdfFile+=line;
+			}
+			
+		}
+		catch (Exception e) {
+			throw new GnossAPIException(e.getMessage());
+		}
+		finally {
+			Reader.close();
 		}
 		
 		return _stringRdfFile;

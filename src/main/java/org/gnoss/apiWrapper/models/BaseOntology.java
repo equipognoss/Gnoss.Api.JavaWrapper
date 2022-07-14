@@ -208,7 +208,7 @@ public abstract class BaseOntology {
                         
                         if(entityDictionary.get(id).getProperties() != null){
                             for(OntologyProperty prop : entityDictionary.get(id).getProperties()){
-                                if(prop.getClass().equals(DataTypes.OntologyPropertyImage)){
+                                if(prop.getClass().equals(DataTypes.OntologyPropertyImage.getClass())){
                                     if(prop.getValue().toString().contains(Constants.IMAGES_PATH_ROOT)){
                                         String value = prop.getValue().toString().substring(prop.getValue().toString().lastIndexOf("/") + "/".length());
                                         prop.setValue(value);

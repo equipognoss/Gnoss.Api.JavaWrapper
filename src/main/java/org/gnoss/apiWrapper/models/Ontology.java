@@ -163,7 +163,7 @@ public class Ontology extends BaseOntology {
         if(propertyList != null){
             for(OntologyProperty prop : propertyList){
                 if(!StringUtils.isEmpty(prop.getName()) && prop.getValue() != null){
-                    if(prop.getClass().equals(DataTypes.OntologyPropertyImage)){
+                    if(prop.getClass().equals(DataTypes.OntologyPropertyImage.getClass())){
                         if(prop.getValue().toString().contains(Constants.IMAGES_PATH_ROOT)){
                             String value = prop.getValue().toString().substring(prop.getValue().toString().lastIndexOf("/") + "/".length());
                             prop.setValue(value);

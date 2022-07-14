@@ -456,11 +456,20 @@ public class ResourceApi extends GnossApiWrapper{
 
 				File file = new File(rdfsPath + "/" + GetOntologyNameWithOutExtensionFromUrlOntology(resource.getOntology().getOntologyUrl() + ".rdf"));
 				if(!file.exists()){
-					FileWriter fileWriter = new FileWriter (file);
-					BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-					bufferedWriter.write(resource.getRdFile().toString());
-					bufferedWriter.close();
-					fileWriter.close();
+					FileWriter fileWriter = null;
+					BufferedWriter bufferedWriter = null;
+					try{
+						fileWriter = new FileWriter (file);
+						bufferedWriter = new BufferedWriter(fileWriter);
+						bufferedWriter.write(resource.getRdFile().toString());
+					}
+					catch (Exception e) {
+						throw new GnossAPIException("Error writing the rdf file");
+					}
+					finally {
+						bufferedWriter.close();
+						fileWriter.close();
+					}
 				}
 			}
 
@@ -708,7 +717,9 @@ public class ResourceApi extends GnossApiWrapper{
 								propOntoImage = ontology;
 							}
 						}
-
+						if(propOntoImage != null) {
+							
+						
 						String prefijoPredicado = propOntoImage.getName().split(CharArrayDelimiters.Colon.toString())[0];
 						String nombreEtiquetaSinPrefijo = propOntoImage.getName().split(CharArrayDelimiters.Colon.toString())[1];
 						String nombreImagen = propOntoImage.getValue().toString();
@@ -735,13 +746,17 @@ public class ResourceApi extends GnossApiWrapper{
 								adjunto.setFile_rdf_property(name);
 								adjunto.setFile_property_type((short)resource.getAttachedFilesType().get(i).getID());
 								adjunto.setRdf_attacherd_file(resource.getAttachedFiles().get(i));
-								adjunto.setDelete_file(resource.getAttachedFiles().get(i).equals(null));
+								adjunto.setDelete_file(resource.getAttachedFiles().get(i) == null);
 								i++;
 								resourceAttachedFiles.add(adjunto);
 							}
 						}
 
 						ModifyTripleList(resource.getShortGnossId(), triplesList, getLoadIdentifier(), resource.getPublishInHome(), resource.getMainImage(), resourceAttachedFiles, true);
+						}
+						else {
+							LogHelper.getInstance().Error("ERROR geting the ontology property of the resource's image: " + resource.getId() + ". Title: " + resource.getTitle());
+						}
 					}
 					catch(Exception ex){
 						LogHelper.getInstance().Error("ERROR replacing the image of the resource: " + resource.getId() + ". Title: " + resource.getTitle() + ". \nMessage: " + ex.getMessage());
@@ -1712,8 +1727,17 @@ public class ResourceApi extends GnossApiWrapper{
 				String rdfFile = rdfsPath + "/" + GetOntologyNameWithOutExtensionFromUrlOntology(resource.getOntology().getOntologyUrl()) + "/" + resource.getId() + ".rdf";
 				File file = new File(rdfFile);
 				if (!file.exists()){
-					BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-					bw.write(resource.getStringRdfFile());
+					BufferedWriter bw = null;
+					try {
+						bw = new BufferedWriter(new FileWriter(file));
+						bw.write(resource.getStringRdfFile());
+					}
+					catch (Exception e) {
+						LogHelper.getInstance().Error("Error writing the rdf file of the resource: \tID: " + resource.getId() + ". Title: " + resource.getTitle() +". Message: " + e.getMessage());
+					}
+					finally {
+						bw.close();
+					}					
 				}	
 			}
 
@@ -1770,7 +1794,7 @@ public class ResourceApi extends GnossApiWrapper{
 				adjunto.setFile_rdf_property(nombre);
 				adjunto.setFile_property_type((short)rec.getAttachedFilesType().get(i).getID());
 				adjunto.setRdf_attacherd_file(rec.getAttachedFiles().get(i));
-				adjunto.setDelete_file(rec.getAttachedFiles().get(i).equals(null));
+				adjunto.setDelete_file(rec.getAttachedFiles().get(i) == null);
 				i++;
 				ArrayList<SemanticAttachedResource> listaAuxiliar = model.getResource_attached_files();
 				listaAuxiliar.add(adjunto);
@@ -2077,7 +2101,7 @@ public class ResourceApi extends GnossApiWrapper{
 
 		String[] path = hierarchicalName.split("|");
 		for(String category : path){
-			if(category != null || !category.equals("")){
+			if(category != null && !category.equals("")){
 				if(resultCategory == null){
 					for(ThesaurusCategory thesCat : categories){
 						if(thesCat.getCategory_name().equals(category)){
@@ -2729,7 +2753,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 */
 	public boolean HasUserEditingPermissionOnResourceByCommunityName(UUID resourceId, UUID userId) throws Exception {
 		boolean result=false;
-		if(!resourceId.equals("") && !userId.equals("")) {
+		if(resourceId != null  && userId != null) {
 			try {
 				String url=getApiUrl()+"/resource/get-user-editing-permission-on-resource-by-community-name?resource_id="+resourceId+"&user_id="+userId+"&community_short_name="+getCommunityShortName();
 				String response=WebRequest("GET", url);
@@ -2763,7 +2787,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 */
 	public boolean HasUserEditingPermissionOnResourceByCommunityID(UUID resourceId, UUID userId, UUID communityId) throws Exception {
 		boolean result=false;
-		if(!resourceId.equals("") && !userId.equals("")) {
+		if(resourceId != null && userId != null) {
 			try {
 				String url=getApiUrl()+"/resource/get-user-editing-permission-on-resource?resource_id="+resourceId+"&user_id="+userId+"&community_id="+communityId;
 				String response=WebRequest("GET", url);
@@ -3974,8 +3998,7 @@ public class ResourceApi extends GnossApiWrapper{
 
 
 		}catch(Exception ex) {
-			PrepareAttachedToLog(model.getResource_attached_files());
-			this._logHelper.Error("Error modifying resource triples list. \r\n: Json: "+gson.toJson(model)+", "+ex.getMessage());
+			this._logHelper.Error("Error modifying resource triples list. \r\n: Json: " + gson.toJson(model) + ", " + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -4214,7 +4237,7 @@ public class ResourceApi extends GnossApiWrapper{
 				int s=Integer.parseInt(rec.getAttachedFiles().get(k).toString());
 				adjunto.setFile_property_type( (short) s);
 				adjunto.setRdf_attacherd_file(rec.getAttachedFiles().get(k));
-				adjunto.setDelete_file(rec.getAttachedFiles().get(k).equals(null));
+				adjunto.setDelete_file(rec.getAttachedFiles().get(k) == null);
 				k++;
 				model.resource_attached_files.add(adjunto);
 
@@ -4292,17 +4315,13 @@ public class ResourceApi extends GnossApiWrapper{
 					this._logHelper.Debug(procesedNumber+" of "+resourceTriples.size()+". Object: "+docID+". Resource: "+resourceTriples.get(docID).toArray());
 					toModify.remove(docID);
 
-					if(result.containsKey(docID)) {
-						result.get(docID.equals(true));
-					}else {
+					if(!result.containsKey(docID)) {						
 						result.put(docID, true);
 					}
 				}catch(Exception ex) {
 					this._logHelper.Error("Resource "+docID+": "+ex.getMessage());
 
-					if(result.containsKey(docID)) {
-						result.get(docID.equals(false));
-					}else {
+					if(!result.containsKey(docID)) {						
 						result.put(docID, false);
 					}
 				}
@@ -4356,17 +4375,13 @@ public class ResourceApi extends GnossApiWrapper{
 					this._logHelper.Debug(procesedNumber+" of "+resourceTriples.size()+". Object: "+docID+". Resource: "+resourceTriples.get(docID).toArray());
 					toInsert.remove(docID);
 
-					if(result.containsKey(docID)) {
-						result.get(docID.equals(true));
-					}else {
+					if(!result.containsKey(docID)) {
 						result.put(docID, true);
 					}
 				}catch(Exception ex) {
 					this._logHelper.Error("Resource "+docID+": "+ex.getMessage());
 
-					if(result.containsKey(docID)) {
-						result.get(docID.equals(false));
-					}else {
+					if(!result.containsKey(docID)) {
 						result.put(docID, false);
 					}
 				}
@@ -5103,7 +5118,7 @@ public class ResourceApi extends GnossApiWrapper{
 				SemanticAttachedResource attach = new SemanticAttachedResource();
 				attach.setFile_rdf_property(name);
 				attach.setFile_property_type(filePropertiesTypeList.get(i));
-				attach.setDelete_file(attachedFilesList.get(i).equals(null));
+				attach.setDelete_file(attachedFilesList.get(i) == null);
 				i++;
 				resourceAttachedFiles.add(attach);
 			}
@@ -5146,7 +5161,7 @@ public class ResourceApi extends GnossApiWrapper{
 				attach.setFile_rdf_property(name);
 				attach.setFile_property_type(filePropertiesTypeList.get(i));
 				attach.setRdf_attacherd_file(attachedFilesList.get(i));
-				attach.setDelete_file(attachedFilesList.get(i).equals(null));
+				attach.setDelete_file(attachedFilesList.get(i) == null);
 				i++;
 				resourceAttachedFiles.add(attach);
 			}
@@ -5445,11 +5460,14 @@ public class ResourceApi extends GnossApiWrapper{
 
 		URLConnection urlCon=url.openConnection();
 		String rdf_final="";
-
+		FileOutputStream fos = null;
+		FileReader fr = null;
+		InputStream is = null;
+		BufferedReader br = null;
 		try {
 
-			InputStream is= urlCon.getInputStream();
-			FileOutputStream fos= new FileOutputStream("C:/recurso.txt");
+			is = urlCon.getInputStream();
+			fos = new FileOutputStream("C:/recurso.txt");
 			byte[] array= new byte[1024];
 			int leido=is.read(array);
 			while(leido>0) {
@@ -5458,8 +5476,8 @@ public class ResourceApi extends GnossApiWrapper{
 			}
 
 			File file= new File("C:/recurso.txt");
-			FileReader fr= new FileReader(file);
-			BufferedReader br= new BufferedReader(fr);
+			fr = new FileReader(file);
+			br = new BufferedReader(fr);
 
 			String linea=br.readLine();
 			while (linea!=null) {
@@ -5476,13 +5494,16 @@ public class ResourceApi extends GnossApiWrapper{
 			client.head().header("Authorization", "Authorization: OAuth \n"+ GetStringForUrl(resourceUrl));
 
 			file.delete();
+
+		}
+		catch(Exception ex) {
+			this._logHelper.Debug("Error downloading file: "+urlRdf+". Error "+ex.getMessage());
+		}
+		finally {
 			fr.close();
 			br.close();
 			is.close();
 			fos.close();
-		}
-		catch(Exception ex) {
-			this._logHelper.Debug("Error downloading file: "+urlRdf+". Error "+ex.getMessage());
 		}
 		return rdf_final;
 	}
@@ -5525,15 +5546,23 @@ public class ResourceApi extends GnossApiWrapper{
 		URL url= new URL(URL);
 		URLConnection urlCon=url.openConnection();
 		InputStream is = urlCon.getInputStream();
-		FileOutputStream fos = new FileOutputStream(fileName);
-		byte [] array = new byte[1000];
-		int leido = is.read(array);
-		while (leido > 0) {
-			fos.write(array,0,leido);
-			leido=is.read(array);
+		FileOutputStream fos = null;
+		try {
+			fos = new FileOutputStream(fileName);
+			byte [] array = new byte[1000];
+			int leido = is.read(array);
+			while (leido > 0) {
+				fos.write(array,0,leido);
+				leido=is.read(array);
+			}
 		}
-		is.close();
-		fos.close();
+		catch (Exception e) {
+			new GnossAPIException("Error while trying to download the file " + fileName);			
+		}
+		finally {
+			is.close();
+			fos.close();
+		}
 	}
 
 

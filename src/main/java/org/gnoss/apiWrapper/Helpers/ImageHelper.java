@@ -24,8 +24,9 @@ public class ImageHelper {
 	 * @param widthInPixels Width to resize
 	 * @param pResizeAlways New image with width = widthInPixels
 	 * @return BufferedImage resultImage
+	 * @throws GnossAPIException  Error at resize the image
 	 */
-	public static BufferedImage ResizeImageToWidth(BufferedImage image, int widthInPixels, boolean pResizeAlways){
+	public static BufferedImage ResizeImageToWidth(BufferedImage image, int widthInPixels, boolean pResizeAlways) throws GnossAPIException{
 		try{
 			int width = image.getHeight();
 			int height = image.getWidth();
@@ -43,8 +44,7 @@ public class ImageHelper {
 			return resultImage;
 		}
 		catch(Exception ex){
-			LogHelper.getInstance().Error("Error in resize: " + ex.getMessage());
-			return null;
+			throw new GnossAPIException("Error in resize: " + ex.getMessage());			
 		}
 	}
 	
@@ -53,8 +53,9 @@ public class ImageHelper {
 	 * @param image Image to resize
 	 * @param widthInPixels Width to resize
 	 * @return BufferedImage resultImage
+	 * @throws GnossAPIException  Error at resize the image
 	 */
-	public static BufferedImage ResizeImageToWidth(BufferedImage image, int widthInPixels){
+	public static BufferedImage ResizeImageToWidth(BufferedImage image, int widthInPixels) throws GnossAPIException{
 		return ResizeImageToWidth(image, widthInPixels, false);
 	}
 	
@@ -145,8 +146,9 @@ public class ImageHelper {
 	 * @param image Image
 	 * @param squareSize Size in pixels of the width and height of the result image
 	 * @return Square image
+	 * @throws GnossAPIException Error at resize the image
 	 */
-	public static BufferedImage CropImageToSquare(BufferedImage image, int squareSize){
+	public static BufferedImage CropImageToSquare(BufferedImage image, int squareSize) throws GnossAPIException{
 		BufferedImage resultImage = null;
 		int height = image.getHeight();
 		int width = image.getWidth();
@@ -213,8 +215,9 @@ public class ImageHelper {
 	 * @param pHeight Height
 	 * @param pWidth Width
 	 * @return Image BufferedImage
+	 * @throws GnossAPIException  Error at resize the image
 	 */
-	public static BufferedImage CropImageToHeightAndWidth(BufferedImage image, int pHeight, int pWidth){
+	public static BufferedImage CropImageToHeightAndWidth(BufferedImage image, int pHeight, int pWidth) throws GnossAPIException{
 		int aspcetRatioDeseado = pHeight / pWidth;
 		
 		BufferedImage resultImage = null;
