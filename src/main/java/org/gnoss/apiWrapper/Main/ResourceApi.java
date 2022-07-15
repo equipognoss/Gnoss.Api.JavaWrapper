@@ -467,12 +467,8 @@ public class ResourceApi extends GnossApiWrapper{
 						throw new GnossAPIException("Error writing the rdf file");
 					}
 					finally {
-						if(bufferedWriter != null) {
-							bufferedWriter.close();	
-						}
-						if(fileWriter != null) {
-							fileWriter.close();	
-						}						
+						CerrarBufferedWriter(bufferedWriter);
+						CerrarFileWriter(fileWriter);					
 					}
 				}
 			}
@@ -1739,12 +1735,8 @@ public class ResourceApi extends GnossApiWrapper{
 						LogHelper.getInstance().Error("Error writing the rdf file of the resource: \tID: " + resource.getId() + ". Title: " + resource.getTitle() +". Message: " + e.getMessage());
 					}
 					finally {
-						if(bw != null) {
-							bw.close();	
-						}
-						if(fw != null) {
-							fw.close();
-						}
+						CerrarBufferedWriter(bw);
+						CerrarFileWriter(fw);						
 					}					
 				}	
 			}
@@ -5478,18 +5470,10 @@ public class ResourceApi extends GnossApiWrapper{
 			this._logHelper.Debug("Error downloading file: "+urlRdf+". Error "+ex.getMessage());
 		}
 		finally {
-			if(fos != null) {
-				fos.close();	
-			}
-			if(br != null) {
-				br.close();	
-			}
-			if(fr != null) {
-				fr.close();	
-			}			
-			if(is != null) {
-				is.close();	
-			}			
+			CerrarInputStream(is);
+			CerrarFileOutputStream(fos);
+			CerrarBufferedReader(br);
+			CerrarFileReader(fr);
 		}
 		return rdf_final;
 	}
@@ -5507,7 +5491,6 @@ public class ResourceApi extends GnossApiWrapper{
 
 			System.out.println("File "+fileName+" not downloaded. "+ex.getMessage());
 		}
-
 	}
 
 
@@ -5517,16 +5500,6 @@ public class ResourceApi extends GnossApiWrapper{
 		return sign.replace("&", ",").replace("url", "");
 	}
 
-	/*
-	public ArrayList<String> GetAutomaticLabelingTags(String title, String description) throws GnossAPIArgumentException{
-		ArrayList<String> tagsList=null;
-
-		if(title.isEmpty() && description.isEmpty()) {
-			throw new GnossAPIArgumentException("Both parameters at GetAutomaticLabelingTags cannot be empty at the same time. At least one of them must have value.");
-		}else {
-
-		}
-	}*/
 	public void DownloadFile(String URL, String fileName) throws IOException, GnossAPIException {
 
 		URL url= new URL(URL);
@@ -5546,12 +5519,8 @@ public class ResourceApi extends GnossApiWrapper{
 			throw new GnossAPIException("Error while trying to download the file " + fileName);			
 		}
 		finally {
-			if(is != null) {
-				is.close();	
-			}
-			if(fos != null) {
-				fos.close();	
-			}
+			CerrarInputStream(is);
+			CerrarFileOutputStream(fos);
 		}
 	}
 
@@ -5595,6 +5564,90 @@ public class ResourceApi extends GnossApiWrapper{
 		}
 		else {
 			this._logHelper.Debug("The main image of the resources "+resourceId+ " has been deleted");
+		}
+	}
+	
+	/**
+	 * Cierra y controla la excepción de los fileOutputStream
+	 * @param fileOutputStream
+	 */
+	private void CerrarFileOutputStream(FileOutputStream fileOutputStream) {
+		try {
+			if(fileOutputStream != null) {
+				fileOutputStream.close();	
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Cierra y controla la excepción de los InputStream
+	 * @param fileOutputStream
+	 */
+	private void CerrarInputStream(InputStream inputStream) {
+		try {
+			if(inputStream != null) {
+				inputStream.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Cierra y controla la excepción de los bufferedReader
+	 * @param bufferedReader
+	 */
+	private void CerrarBufferedReader(BufferedReader bufferedReader) {
+		try {
+			if(bufferedReader != null) {
+				bufferedReader.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Cierra y controla la excepción de los fileReader
+	 * @param fileReader
+	 */
+	private void CerrarFileReader(FileReader fileReader) {
+		try {
+			if(fileReader != null) {
+				fileReader.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Cierra y controla la excepción de los bufferedWriter
+	 * @param bufferedWriter
+	 */
+	private void CerrarBufferedWriter(BufferedWriter bufferedWriter) {
+		try {
+			if(bufferedWriter != null) {
+				bufferedWriter.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Cierra y controla la excepción de los FileWriter
+	 * @param fileWriter
+	 */
+	private void CerrarFileWriter(FileWriter fileWriter) {
+		try {
+			if(fileWriter != null) {
+				fileWriter.close();	
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

@@ -11,8 +11,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -40,15 +38,7 @@ public class LogHelperFile implements ILogHelper {
     //Public methods
     public void Trace(String message, String className, String memberName){
         if(LogHelper.getLogLevel().compareTo(LogLevels.TRACE) <= 0){
-            try {
-                Write(LogLevels.TRACE, className, memberName, message);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(LogHelperFile.class.getName()).log(Level.SEVERE, null, ex);            
-				ex.printStackTrace();
-            } catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+        	Write(LogLevels.TRACE, className, memberName, message);       
         }
     }
     
@@ -62,15 +52,7 @@ public class LogHelperFile implements ILogHelper {
     
     public void Debug(String message, String className, String memberName){
         if(LogHelper.getLogLevel().compareTo(LogLevels.DEBUG) <= 0){
-            try {
-                Write(LogLevels.DEBUG, className, memberName, message);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(LogHelperFile.class.getName()).log(Level.SEVERE, null, ex);
-            	ex.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+        	Write(LogLevels.DEBUG, className, memberName, message);
         }
     }
     
@@ -84,15 +66,7 @@ public class LogHelperFile implements ILogHelper {
     
     public void Info(String message, String className, String memberName){
         if(LogHelper.getLogLevel().compareTo(LogLevels.INFO) <= 0){
-            try {
-                Write(LogLevels.INFO, className, memberName, message);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(LogHelperFile.class.getName()).log(Level.SEVERE, null, ex);
-            	ex.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+        	Write(LogLevels.INFO, className, memberName, message);
         }
     }
     
@@ -106,15 +80,7 @@ public class LogHelperFile implements ILogHelper {
     
     public void Warn(String message, String className, String memberName){
         if(LogHelper.getLogLevel().compareTo(LogLevels.WARN) <= 0){
-            try {
-                Write(LogLevels.WARN, className, memberName, message);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(LogHelperFile.class.getName()).log(Level.SEVERE, null, ex);            
-				ex.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+        	Write(LogLevels.WARN, className, memberName, message);
         }
     }
     
@@ -128,15 +94,7 @@ public class LogHelperFile implements ILogHelper {
     
     public void Error(String message, String className, String memberName){
         if(LogHelper.getLogLevel().compareTo(LogLevels.ERROR) <= 0){
-            try {
-                Write(LogLevels.ERROR, className, memberName, message);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(LogHelperFile.class.getName()).log(Level.SEVERE, null, ex);            
-				ex.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+        	Write(LogLevels.ERROR, className, memberName, message);
         }
     }
     
@@ -150,14 +108,7 @@ public class LogHelperFile implements ILogHelper {
     
     public void Fatal(String message, String className, String memberName){
         if(LogHelper.getLogLevel().compareTo(LogLevels.FATAL) <= 0){
-            try {
-                Write(LogLevels.FATAL, className, memberName, message);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(LogHelperFile.class.getName()).log(Level.SEVERE, null, ex);
-            	ex.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+        	Write(LogLevels.FATAL, className, memberName, message);            
         }
     }
     
@@ -171,7 +122,7 @@ public class LogHelperFile implements ILogHelper {
     
     //Private methods
     
-    private void Write(LogLevels logLevel, String className, String memberName, String message, int numberWriteErrors) throws InterruptedException, IOException{
+    private void Write(LogLevels logLevel, String className, String memberName, String message, int numberWriteErrors) {
         if(_isActivated){
             OutputStreamWriter sw = null;
             OutputStream os = null;
@@ -193,28 +144,52 @@ public class LogHelperFile implements ILogHelper {
                 sw.write(completeMessage);               
             }
             catch(Exception ex){
-                Thread.sleep(500);
+                try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
                 if(numberWriteErrors > 0){
                     numberWriteErrors --;
                     Write(logLevel, className, memberName, message, numberWriteErrors);
                 }
             }
             finally {
-            	if(sw != null) {
-            		sw.flush();
-            		sw.close();
-            	}
-            	if(os != null) {
-                    os.flush();
-                    os.close();            		
-            	}
+            	CerrarFileOutputStreamWriter(sw);
+            	CerrarFileOutputStream(os);
             }
         }
     }
     
-    private void Write(LogLevels logLevel, String className, String memberName, String message) throws InterruptedException, IOException {
+    private void Write(LogLevels logLevel, String className, String memberName, String message) {
         Write(logLevel, className, memberName, message, 3);
     }
     
-    
+	/**
+	 * Cierra y controla la excepción de los OutputStream
+	 * @param outputStream
+	 */
+	private void CerrarFileOutputStream(OutputStream outputStream) {
+		try {
+			if(outputStream != null) {
+				outputStream.close();	
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Cierra y controla la excepción de los OutputStreamWriter
+	 * @param outputStreamWriter
+	 */
+	private void CerrarFileOutputStreamWriter(OutputStreamWriter outputStreamWriter) {
+		try {
+			if(outputStreamWriter != null) {
+				outputStreamWriter.close();	
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
