@@ -147,8 +147,7 @@ public class LogHelperFile implements ILogHelper {
                 try {
 					Thread.sleep(500);
 				} catch (InterruptedException e) {
-					e.printStackTrace();
-					ex.printStackTrace();
+					
 				}
                 if(numberWriteErrors > 0){
                     numberWriteErrors --;
@@ -176,7 +175,6 @@ public class LogHelperFile implements ILogHelper {
 				outputStream.close();	
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 	
@@ -190,7 +188,6 @@ public class LogHelperFile implements ILogHelper {
 				outputStreamWriter.close();	
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 }

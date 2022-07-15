@@ -5417,8 +5417,9 @@ public class ResourceApi extends GnossApiWrapper{
 	 * @param directoryPath Directory path where the resource will be downloaded
 	 * @return Resource rdf
 	 * @throws IOException IO Exception 
+	 * @throws GnossAPIException 
 	 */
-	public String GetBasicOntologyResourceRdf(String domain, String resourceId, String directoryPath) throws IOException {
+	public String GetBasicOntologyResourceRdf(String domain, String resourceId, String directoryPath) throws IOException, GnossAPIException {
 		String rdf="";
 		String resourceUrl=domain+"/comunidad/"+getCommunityShortName()+"/recurso/nombre/"+resourceId;
 		String urlRdf=resourceUrl+"?rdf";
@@ -5571,56 +5572,60 @@ public class ResourceApi extends GnossApiWrapper{
 	/**
 	 * Cierra y controla la excepción de los fileOutputStream
 	 * @param fileOutputStream
+	 * @throws GnossAPIException 
 	 */
-	private void CerrarFileOutputStream(FileOutputStream fileOutputStream) {
+	private void CerrarFileOutputStream(FileOutputStream fileOutputStream) throws GnossAPIException {
 		try {
 			if(fileOutputStream != null) {
 				fileOutputStream.close();	
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new GnossAPIException("Error while try to close the stream");
 		}
 	}
 	
 	/**
 	 * Cierra y controla la excepción de los InputStream
 	 * @param fileOutputStream
+	 * @throws GnossAPIException 
 	 */
-	private void CerrarInputStream(InputStream inputStream) {
+	private void CerrarInputStream(InputStream inputStream) throws GnossAPIException {
 		try {
 			if(inputStream != null) {
 				inputStream.close();
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new GnossAPIException("Error while try to close the stream");
 		}
 	}
 	
 	/**
 	 * Cierra y controla la excepción de los bufferedReader
 	 * @param bufferedReader
+	 * @throws GnossAPIException 
 	 */
-	private void CerrarBufferedReader(BufferedReader bufferedReader) {
+	private void CerrarBufferedReader(BufferedReader bufferedReader) throws GnossAPIException {
 		try {
 			if(bufferedReader != null) {
 				bufferedReader.close();
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new GnossAPIException("Error while try to close the stream");
 		}
 	}
 	
 	/**
 	 * Cierra y controla la excepción de los fileReader
 	 * @param fileReader
+	 * @throws GnossAPIException 
 	 */
-	private void CerrarFileReader(FileReader fileReader) {
+	private void CerrarFileReader(FileReader fileReader) throws GnossAPIException {
 		try {
 			if(fileReader != null) {
 				fileReader.close();
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new GnossAPIException("Error while try to close the stream");
 		}
 	}
 	
@@ -5641,14 +5646,15 @@ public class ResourceApi extends GnossApiWrapper{
 	/**
 	 * Cierra y controla la excepción de los FileWriter
 	 * @param fileWriter
+	 * @throws GnossAPIException 
 	 */
-	private void CerrarFileWriter(FileWriter fileWriter) {
+	private void CerrarFileWriter(FileWriter fileWriter) throws GnossAPIException {
 		try {
 			if(fileWriter != null) {
 				fileWriter.close();	
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new GnossAPIException("Error while try to close the stream");
 		}
 	}
 }
