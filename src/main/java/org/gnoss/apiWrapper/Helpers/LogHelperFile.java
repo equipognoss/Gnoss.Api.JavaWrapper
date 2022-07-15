@@ -42,10 +42,13 @@ public class LogHelperFile implements ILogHelper {
         if(LogHelper.getLogLevel().compareTo(LogLevels.TRACE) <= 0){
             try {
                 Write(LogLevels.TRACE, className, memberName, message);
-            } catch (Exception ex) {
+            } catch (InterruptedException ex) {
                 Logger.getLogger(LogHelperFile.class.getName()).log(Level.SEVERE, null, ex);            
 				ex.printStackTrace();
-            }
+            } catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
     }
     
@@ -61,9 +64,12 @@ public class LogHelperFile implements ILogHelper {
         if(LogHelper.getLogLevel().compareTo(LogLevels.DEBUG) <= 0){
             try {
                 Write(LogLevels.DEBUG, className, memberName, message);
-            } catch (Exception ex) {
+            } catch (InterruptedException ex) {
                 Logger.getLogger(LogHelperFile.class.getName()).log(Level.SEVERE, null, ex);
             	ex.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
         }
     }
@@ -80,9 +86,12 @@ public class LogHelperFile implements ILogHelper {
         if(LogHelper.getLogLevel().compareTo(LogLevels.INFO) <= 0){
             try {
                 Write(LogLevels.INFO, className, memberName, message);
-            } catch (Exception ex) {
+            } catch (InterruptedException ex) {
                 Logger.getLogger(LogHelperFile.class.getName()).log(Level.SEVERE, null, ex);
             	ex.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
         }
     }
@@ -99,9 +108,12 @@ public class LogHelperFile implements ILogHelper {
         if(LogHelper.getLogLevel().compareTo(LogLevels.WARN) <= 0){
             try {
                 Write(LogLevels.WARN, className, memberName, message);
-            } catch (Exception ex) {
+            } catch (InterruptedException ex) {
                 Logger.getLogger(LogHelperFile.class.getName()).log(Level.SEVERE, null, ex);            
 				ex.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
         }
     }
@@ -118,9 +130,12 @@ public class LogHelperFile implements ILogHelper {
         if(LogHelper.getLogLevel().compareTo(LogLevels.ERROR) <= 0){
             try {
                 Write(LogLevels.ERROR, className, memberName, message);
-            } catch (Exception ex) {
+            } catch (InterruptedException ex) {
                 Logger.getLogger(LogHelperFile.class.getName()).log(Level.SEVERE, null, ex);            
 				ex.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
         }
     }
@@ -137,9 +152,11 @@ public class LogHelperFile implements ILogHelper {
         if(LogHelper.getLogLevel().compareTo(LogLevels.FATAL) <= 0){
             try {
                 Write(LogLevels.FATAL, className, memberName, message);
-            } catch (Exception ex) {
+            } catch (InterruptedException ex) {
                 Logger.getLogger(LogHelperFile.class.getName()).log(Level.SEVERE, null, ex);
             	ex.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
         }
     }
@@ -183,10 +200,14 @@ public class LogHelperFile implements ILogHelper {
                 }
             }
             finally {
-            	sw.flush();
-                sw.close();
-                os.flush();
-                os.close();
+            	if(sw != null) {
+            		sw.flush();
+            		sw.close();
+            	}
+            	if(os != null) {
+                    os.flush();
+                    os.close();            		
+            	}
             }
         }
     }

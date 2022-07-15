@@ -1729,8 +1729,10 @@ public class ResourceApi extends GnossApiWrapper{
 				File file = new File(rdfFile);
 				if (!file.exists()){
 					BufferedWriter bw = null;
+					FileWriter fw = null; 
 					try {
-						bw = new BufferedWriter(new FileWriter(file));
+						fw = new FileWriter(file);
+						bw = new BufferedWriter(fw);
 						bw.write(resource.getStringRdfFile());
 					}
 					catch (Exception e) {
@@ -1739,6 +1741,9 @@ public class ResourceApi extends GnossApiWrapper{
 					finally {
 						if(bw != null) {
 							bw.close();	
+						}
+						if(fw != null) {
+							fw.close();
 						}
 					}					
 				}	
@@ -5473,18 +5478,18 @@ public class ResourceApi extends GnossApiWrapper{
 			this._logHelper.Debug("Error downloading file: "+urlRdf+". Error "+ex.getMessage());
 		}
 		finally {
-			if(fr != null) {
-				fr.close();	
+			if(fos != null) {
+				fos.close();	
 			}
 			if(br != null) {
 				br.close();	
 			}
+			if(fr != null) {
+				fr.close();	
+			}			
 			if(is != null) {
 				is.close();	
-			}
-			if(fos != null) {
-				fos.close();	
-			}
+			}			
 		}
 		return rdf_final;
 	}

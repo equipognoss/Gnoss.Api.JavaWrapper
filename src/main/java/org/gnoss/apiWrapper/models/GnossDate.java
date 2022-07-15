@@ -601,56 +601,57 @@ public class GnossDate {
 	public void setMonth(String month) {
 		if (getMonth().toLowerCase().equals("enero"))
         {
-            month = "01";
+            this.month = "01";
         }
         else if (getMonth().toLowerCase().equals("febrero"))
         {
-            month = "02";
+        	this.month = "02";
         }
         else if (getMonth().toLowerCase().equals("marzo"))
         {
-            month = "03";
+        	this.month = "03";
         }
         else if (getMonth().toLowerCase().equals("abril"))
         {
-            month = "04";
+        	this.month = "04";
         }
         else if (getMonth().toLowerCase().equals("mayo"))
         {
-            month = "05";
+        	this.month = "05";
         }
         else if (getMonth().toLowerCase().equals("junio"))
         {
-            month = "06";
+        	this.month = "06";
         }
         else if (getMonth().toLowerCase().equals("julio"))
         {
-            month = "07";
+        	this.month = "07";
         }
         else if (getMonth().toLowerCase().equals("agosto"))
         {
-            month = "08";
+        	this.month = "08";
         }
         else if (getMonth().toLowerCase().equals("septiembre"))
         {
-            month = "09";
+        	this.month = "09";
         }
         else if (getMonth().toLowerCase().equals("octubre"))
         {
-            month = "10";
+        	this.month = "10";
         }
         else if (getMonth().toLowerCase().equals("noviembre"))
         {
-            month = "11";
+        	this.month = "11";
         }
         else if (getMonth().toLowerCase().equals("diciembre"))
         {
-            month = "12";
+        	this.month = "12";
         }else {
-        	month=CompleteStringZerosAtLeftWithLimit(getMonth(), 2);
+        	this.month = CompleteStringZerosAtLeftWithLimit(getMonth(), 2);
         }
 		UpdateNormalizeDate();
 	}
+	
 	/**
 	 * Get the year( 4 digits)
 	 * @return _year _year

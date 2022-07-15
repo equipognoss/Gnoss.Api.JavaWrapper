@@ -46,10 +46,8 @@ public class TaxonomyOntology extends BaseOntology{
     public  String GenerateRDF() throws IOException, GnossAPIException {
     	File file= new File("file.txt");
     	FileWriter fileWriter = null;
-    	Reader b2 = null;
     	try {
     		fileWriter = new FileWriter(file);
-        	String rdfFile=null;
         	
         	WriteRdfHeader();
         	if(getRdfType() == null || getRdfType().isEmpty() ) {
@@ -77,7 +75,6 @@ public class TaxonomyOntology extends BaseOntology{
         		fileWriter.write("</rdf:RDF>");
         		
         		fileWriter.flush();
-        		b2 = new FileReader("fileReader.txt");
         	}
     	}
     	catch (Exception e) {
@@ -86,9 +83,6 @@ public class TaxonomyOntology extends BaseOntology{
     	finally {
     		if(fileWriter != null) {
     			fileWriter.close();	
-    		}
-    		if(b2 != null) {
-        		b2.close();    			
     		}
     	}
     	return DC;

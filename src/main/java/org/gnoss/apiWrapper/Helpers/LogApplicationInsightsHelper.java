@@ -218,7 +218,9 @@ public class LogApplicationInsightsHelper implements ILogHelper {
 			}			
 			finally {
 				try {
-					bw.close();
+					if(bw != null) {
+						bw.close();	
+					}					
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

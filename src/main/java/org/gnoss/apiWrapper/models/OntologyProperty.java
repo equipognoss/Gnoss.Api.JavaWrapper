@@ -88,7 +88,7 @@ public class OntologyProperty {
             }
             else
             {
-                if (this.value != null && this.name.equals(property.getName()) && this.value.equals(property.getValue()))
+                if (this.value != null && property != null && this.name.equals(property.getName()) && this.value.equals(property.getValue()))
                 {
                     return true;
                 }
