@@ -5521,8 +5521,25 @@ public class ResourceApi extends GnossApiWrapper{
 			throw new GnossAPIException("Error while trying to download the file " + fileName);			
 		}
 		finally {
-			CerrarInputStream(is);
-			CerrarFileOutputStream(fos);
+			if(is != null) {
+				try {
+					is.close();	
+				}
+				catch(IOException ex) {
+					throw new GnossAPIException("Error trying to close the stream");
+				}				
+			}
+			
+			if(fos != null) {
+				try {
+					fos.close();
+				}
+				catch(IOException ex) {
+					throw new GnossAPIException("Error trying to close the stream");
+				}
+			}
+			//CerrarInputStream(is);
+			//CerrarFileOutputStream(fos);
 		}
 	}
 

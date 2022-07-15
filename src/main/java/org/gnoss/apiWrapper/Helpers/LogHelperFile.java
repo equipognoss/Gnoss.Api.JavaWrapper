@@ -146,7 +146,7 @@ public class LogHelperFile implements ILogHelper {
             catch(Exception ex){
                 try {
 					Thread.sleep(500);
-				} catch (InterruptedException e) {
+				} catch (Exception e) {
 					
 				}
                 if(numberWriteErrors > 0){
