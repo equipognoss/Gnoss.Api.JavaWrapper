@@ -1699,6 +1699,8 @@ public class ResourceApi extends GnossApiWrapper{
 	}
 
 	private String LoadComplexSemanticResourceInt(ComplexOntologyResource resource, boolean hierarquicalCategories, boolean isLast, int numAttemps, String communityShortName, String rdfsPath) {
+		BufferedWriter bw = null;
+		FileWriter fw = null; 
 		try {
 			if (resource.getTextCategories() != null) {
 				if (hierarquicalCategories) {
@@ -1739,9 +1741,7 @@ public class ResourceApi extends GnossApiWrapper{
 
 				String rdfFile = rdfsPath + "/" + GetOntologyNameWithOutExtensionFromUrlOntology(resource.getOntology().getOntologyUrl()) + "/" + resource.getId() + ".rdf";
 				File file = new File(rdfFile);
-				if (!file.exists()){
-					BufferedWriter bw = null;
-					FileWriter fw = null; 
+				if (!file.exists()){					
 					try {
 						fw = new FileWriter(file);
 						bw = new BufferedWriter(fw);
@@ -1750,26 +1750,8 @@ public class ResourceApi extends GnossApiWrapper{
 					catch (Exception e) {
 						LogHelper.getInstance().Error("Error writing the rdf file of the resource: \tID: " + resource.getId() + ". Title: " + resource.getTitle() +". Message: " + e.getMessage());
 					}
-					finally {						
-						try {
-							if(fw != null) {
-								fw.close();
-							}
-						}catch (IOException e) {
-							// Error al cerrar el stream
-						}		
-						
-						try {
-							if(bw != null) {
-								bw.close();
-							}
-						}catch (IOException e) {
-							// Error al cerrar el stream
-						}										
-					}					
 				}	
 			}
-
 			resource.setGnossId(documentId);
 		} catch (GnossAPICategoryException gacex) {
 			LogHelper.getInstance().Error("Error loading the resource: \tID: " + resource.getId() + ". Title: " + resource.getTitle() +". Message: " + gacex.getMessage());
@@ -1778,6 +1760,23 @@ public class ResourceApi extends GnossApiWrapper{
 		catch (Exception ex) {
 			LogHelper.getInstance().Error("Error loading the resource: \tID: " + resource.getId() + ". Title: " + resource.getTitle() +". Message: " + ex.getMessage());
 
+		}
+		finally {						
+			try {
+				if(fw != null) {
+					fw.close();
+				}
+			}catch (IOException e) {
+				// Error al cerrar el stream
+			}		
+			
+			try {
+				if(bw != null) {
+					bw.close();
+				}
+			}catch (IOException e) {
+				// Error al cerrar el stream
+			}
 		}
 		return resource.getGnossId();
 	}
