@@ -1750,22 +1750,22 @@ public class ResourceApi extends GnossApiWrapper{
 					catch (Exception e) {
 						LogHelper.getInstance().Error("Error writing the rdf file of the resource: \tID: " + resource.getId() + ". Title: " + resource.getTitle() +". Message: " + e.getMessage());
 					}
-					finally {
-						try {
-							if(bw != null) {
-								bw.close();
-							}
-						}catch (IOException e) {
-							// Error al cerrar el stream
-						}			
-
+					finally {						
 						try {
 							if(fw != null) {
 								fw.close();
 							}
 						}catch (IOException e) {
 							// Error al cerrar el stream
-						}					
+						}		
+						
+						try {
+							if(bw != null) {
+								bw.close();
+							}
+						}catch (IOException e) {
+							// Error al cerrar el stream
+						}										
 					}					
 				}	
 			}
