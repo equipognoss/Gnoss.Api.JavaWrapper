@@ -5526,7 +5526,6 @@ public class ResourceApi extends GnossApiWrapper{
 					is.close();	
 				}
 				catch(IOException ex) {
-					throw new GnossAPIException("Error trying to close the stream");
 				}				
 			}
 			
@@ -5534,8 +5533,7 @@ public class ResourceApi extends GnossApiWrapper{
 				try {
 					fos.close();
 				}
-				catch(IOException ex) {
-					throw new GnossAPIException("Error trying to close the stream");
+				catch(IOException ex) {					
 				}
 			}
 			//CerrarInputStream(is);
