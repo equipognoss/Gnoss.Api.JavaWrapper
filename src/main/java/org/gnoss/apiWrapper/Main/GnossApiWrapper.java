@@ -141,6 +141,7 @@ public class GnossApiWrapper {
     	String developerEmail = "";
     	
     	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    	factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
     	DocumentBuilder builder = factory.newDocumentBuilder();
     	Document xmlDocument = builder.parse(new File(filePath));
     	
@@ -233,11 +234,9 @@ public class GnossApiWrapper {
 
 			try {
 				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+				dbFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
 				DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 				Document doc = dBuilder.parse(file);
-				
-				
-
 			} catch (Exception ex) {
 
 			}

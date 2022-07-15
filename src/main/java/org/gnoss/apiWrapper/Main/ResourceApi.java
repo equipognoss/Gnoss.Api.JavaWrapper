@@ -187,6 +187,7 @@ public class ResourceApi extends GnossApiWrapper{
 	@Override
 	protected void ReadConfigFile(String filePath) throws ParserConfigurationException, SAXException, IOException, GnossAPIException{
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document xmlDocument = builder.parse(new File(filePath));
 
