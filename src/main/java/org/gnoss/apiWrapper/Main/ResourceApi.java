@@ -468,8 +468,23 @@ public class ResourceApi extends GnossApiWrapper{
 						throw new GnossAPIException("Error writing the rdf file");
 					}
 					finally {
-						CerrarBufferedWriter(bufferedWriter);
-						CerrarFileWriter(fileWriter);					
+						try {
+							if(bufferedWriter != null) {
+								bufferedWriter.close();
+							}	
+						}
+						catch (IOException e) {
+							//Ocurre un error al cerrar el stream
+						}
+						
+						try {
+							if(fileWriter != null) {
+								fileWriter.close();
+							}	
+						}
+						catch (IOException e) {
+							//Ocurre un error al cerrar el writer							
+						}					
 					}
 				}
 			}
@@ -1736,8 +1751,21 @@ public class ResourceApi extends GnossApiWrapper{
 						LogHelper.getInstance().Error("Error writing the rdf file of the resource: \tID: " + resource.getId() + ". Title: " + resource.getTitle() +". Message: " + e.getMessage());
 					}
 					finally {
-						CerrarBufferedWriter(bw);
-						CerrarFileWriter(fw);						
+						try {
+							if(bw != null) {
+								bw.close();
+							}
+						}catch (IOException e) {
+							// Error al cerrar el stream
+						}			
+
+						try {
+							if(fw != null) {
+								fw.close();
+							}
+						}catch (IOException e) {
+							// Error al cerrar el stream
+						}					
 					}					
 				}	
 			}
@@ -5472,10 +5500,37 @@ public class ResourceApi extends GnossApiWrapper{
 			this._logHelper.Debug("Error downloading file: "+urlRdf+". Error "+ex.getMessage());
 		}
 		finally {
-			CerrarInputStream(is);
-			CerrarFileOutputStream(fos);
-			CerrarBufferedReader(br);
-			CerrarFileReader(fr);
+			try {
+				if(is != null) {
+					is.close();
+				}
+			}catch (IOException e) {
+				// Error al cerrar el stream
+			}			
+			
+			try {
+				if(fos != null) {
+					fos.close();
+				}
+			}catch (IOException e) {
+				// Error al cerrar el stream
+			}			
+
+			try {
+				if(br != null) {
+					br.close();
+				}
+			}catch (IOException e) {
+				// Error al cerrar el stream
+			}			
+
+			try {
+				if(fr != null) {
+					fr.close();
+				}
+			}catch (IOException e) {
+				// Error al cerrar el stream
+			}			
 		}
 		return rdf_final;
 	}
@@ -5536,8 +5591,6 @@ public class ResourceApi extends GnossApiWrapper{
 				catch(IOException ex) {					
 				}
 			}
-			//CerrarInputStream(is);
-			//CerrarFileOutputStream(fos);
 		}
 	}
 
@@ -5581,96 +5634,6 @@ public class ResourceApi extends GnossApiWrapper{
 		}
 		else {
 			this._logHelper.Debug("The main image of the resources "+resourceId+ " has been deleted");
-		}
-	}
-	
-	/**
-	 * Cierra y controla la excepción de los fileOutputStream
-	 * @param fileOutputStream
-	 * @throws GnossAPIException 
-	 */
-	private void CerrarFileOutputStream(FileOutputStream fileOutputStream) throws GnossAPIException {
-		try {
-			if(fileOutputStream != null) {
-				fileOutputStream.close();	
-			}
-		} catch (IOException e) {
-			throw new GnossAPIException("Error while try to close the stream");
-		}
-	}
-	
-	/**
-	 * Cierra y controla la excepción de los InputStream
-	 * @param fileOutputStream
-	 * @throws GnossAPIException 
-	 */
-	private void CerrarInputStream(InputStream inputStream) throws GnossAPIException {
-		try {
-			if(inputStream != null) {
-				inputStream.close();
-			}
-		} catch (IOException e) {
-			throw new GnossAPIException("Error while try to close the stream");
-		}
-	}
-	
-	/**
-	 * Cierra y controla la excepción de los bufferedReader
-	 * @param bufferedReader
-	 * @throws GnossAPIException 
-	 */
-	private void CerrarBufferedReader(BufferedReader bufferedReader) throws GnossAPIException {
-		try {
-			if(bufferedReader != null) {
-				bufferedReader.close();
-			}
-		} catch (IOException e) {
-			throw new GnossAPIException("Error while try to close the reader");
-		}
-	}
-	
-	/**
-	 * Cierra y controla la excepción de los fileReader
-	 * @param fileReader
-	 * @throws GnossAPIException 
-	 */
-	private void CerrarFileReader(FileReader fileReader) throws GnossAPIException {
-		try {
-			if(fileReader != null) {
-				fileReader.close();
-			}
-		} catch (IOException e) {
-			throw new GnossAPIException("Error while try to close the reader");
-		}
-	}
-	
-	/**
-	 * Cierra y controla la excepción de los bufferedWriter
-	 * @param bufferedWriter
-	 * @throws GnossAPIException 
-	 */
-	private void CerrarBufferedWriter(BufferedWriter bufferedWriter) throws GnossAPIException {
-		try {
-			if(bufferedWriter != null) {
-				bufferedWriter.close();
-			}
-		} catch (IOException e) {
-			throw new GnossAPIException("Error while trying to close the buffer");
-		}
-	}
-	
-	/**
-	 * Cierra y controla la excepción de los FileWriter
-	 * @param fileWriter
-	 * @throws GnossAPIException 
-	 */
-	private void CerrarFileWriter(FileWriter fileWriter) throws GnossAPIException {
-		try {
-			if(fileWriter != null) {
-				fileWriter.close();	
-			}
-		} catch (IOException e) {
-			throw new GnossAPIException("Error while try to close the file writer");
 		}
 	}
 }
