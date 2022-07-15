@@ -5610,7 +5610,7 @@ public class ResourceApi extends GnossApiWrapper{
 				bufferedReader.close();
 			}
 		} catch (IOException e) {
-			throw new GnossAPIException("Error while try to close the stream");
+			throw new GnossAPIException("Error while try to close the reader");
 		}
 	}
 	
@@ -5625,21 +5625,22 @@ public class ResourceApi extends GnossApiWrapper{
 				fileReader.close();
 			}
 		} catch (IOException e) {
-			throw new GnossAPIException("Error while try to close the stream");
+			throw new GnossAPIException("Error while try to close the reader");
 		}
 	}
 	
 	/**
 	 * Cierra y controla la excepción de los bufferedWriter
 	 * @param bufferedWriter
+	 * @throws GnossAPIException 
 	 */
-	private void CerrarBufferedWriter(BufferedWriter bufferedWriter) {
+	private void CerrarBufferedWriter(BufferedWriter bufferedWriter) throws GnossAPIException {
 		try {
 			if(bufferedWriter != null) {
 				bufferedWriter.close();
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new GnossAPIException("Error while trying to close the buffer");
 		}
 	}
 	
@@ -5654,7 +5655,7 @@ public class ResourceApi extends GnossApiWrapper{
 				fileWriter.close();	
 			}
 		} catch (IOException e) {
-			throw new GnossAPIException("Error while try to close the stream");
+			throw new GnossAPIException("Error while try to close the file writer");
 		}
 	}
 }
