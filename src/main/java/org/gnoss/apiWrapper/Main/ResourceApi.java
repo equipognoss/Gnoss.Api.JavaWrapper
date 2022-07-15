@@ -444,7 +444,7 @@ public class ResourceApi extends GnossApiWrapper{
 			resource.setUploaded(true);
 
 			LogHelper.getInstance().Debug("Loaded: \tID: " + resource.getId() + "\tTitle: " + resource.getTitle() + "\tResourceID: " + resource.getGnossId());
-			if(resource.getShortGnossId() != UUID.fromString("00000000-0000-0000-0000-000000000000") && documentId != resource.getGnossId()){
+			if(resource.getShortGnossId() != UUID.fromString("00000000-0000-0000-0000-000000000000") && !documentId.equals(resource.getGnossId())){
 				LogHelper.getInstance().Info("Resource loaded with the id: " + documentId + "\nThe IDGnoss provided to the method is different from the returned by the API");
 			}
 
@@ -467,8 +467,12 @@ public class ResourceApi extends GnossApiWrapper{
 						throw new GnossAPIException("Error writing the rdf file");
 					}
 					finally {
-						bufferedWriter.close();
-						fileWriter.close();
+						if(bufferedWriter != null) {
+							bufferedWriter.close();	
+						}
+						if(fileWriter != null) {
+							fileWriter.close();	
+						}						
 					}
 				}
 			}
@@ -720,13 +724,13 @@ public class ResourceApi extends GnossApiWrapper{
 						if(propOntoImage != null) {
 							
 						
-						String prefijoPredicado = propOntoImage.getName().split(CharArrayDelimiters.Colon.toString())[0];
-						String nombreEtiquetaSinPrefijo = propOntoImage.getName().split(CharArrayDelimiters.Colon.toString())[1];
+						String prefijoPredicado = propOntoImage.getName().split(Arrays.toString(CharArrayDelimiters.Colon))[0];
+						String nombreEtiquetaSinPrefijo = propOntoImage.getName().split(Arrays.toString(CharArrayDelimiters.Colon))[1];
 						String nombreImagen = propOntoImage.getValue().toString();
 						String predicado = "";
 						for(String prefix : resource.getOntology().getPrefixList()){
 							if(prefix.contains("xmlns:" + prefijoPredicado)){
-								predicado = prefix.split(CharArrayDelimiters.Equal.toString())[1].toString().replace("\"", "") + nombreEtiquetaSinPrefijo;
+								predicado = prefix.split(Arrays.toString(CharArrayDelimiters.Equal))[1].toString().replace("\"", "") + nombreEtiquetaSinPrefijo;
 							}
 						}
 
@@ -1312,12 +1316,9 @@ public class ResourceApi extends GnossApiWrapper{
 
 			LogHelper.getInstance().Debug("Ended resource triples list modification");
 		}
-		catch(Exception ex){
-			PrepareAttachedToLog(model.getResource_attached_files());
-			Gson jsonUtilities = new Gson();
-			String json = jsonUtilities.toJson(model);
-			LogHelper.getInstance().Error("Error modifying resource triple list. \r\n: Json: " + model);
-			throw new Exception("Error modifying resource triple list. \r\n: Json: " + model);
+		catch(Exception ex){			
+			LogHelper.getInstance().Error("Error modifying resource triple list. \r\n");
+			throw new Exception("Error modifying resource triple list. \r\n");
 		}
 	}
 
@@ -1649,7 +1650,7 @@ public class ResourceApi extends GnossApiWrapper{
 					values.add(mT.getPredicate());
 					values.add(mT.getNewValue());
 					values.add(acido);
-					valuesList.add((String[])values.toArray());
+					valuesList.add((String[])values.toArray(new String[0]));
 				}
 				try{
 					String url = getApiUrl() + "/secondary-entity/modify-triple-list";
@@ -1657,7 +1658,7 @@ public class ResourceApi extends GnossApiWrapper{
 					model.setCommunity_short_name(communityShortName);
 					model.setSecondary_ontology_url(_ontologyUrl);
 					model.setSecondary_entity(secondaryEntityId);
-					model.setTriple_list((String[][])valuesList.toArray());
+					model.setTriple_list((String[][])valuesList.toArray(new String[0][]));
 					WebRequestPostWithJsonObject(url, model);
 
 					valuesList = new ArrayList<String[]>();
@@ -1736,7 +1737,9 @@ public class ResourceApi extends GnossApiWrapper{
 						LogHelper.getInstance().Error("Error writing the rdf file of the resource: \tID: " + resource.getId() + ". Title: " + resource.getTitle() +". Message: " + e.getMessage());
 					}
 					finally {
-						bw.close();
+						if(bw != null) {
+							bw.close();	
+						}
 					}					
 				}	
 			}
@@ -1889,7 +1892,7 @@ public class ResourceApi extends GnossApiWrapper{
 
 			for(ThesaurusCategory category : CommunityApiWrapper.getCommunityCategories()){
 				if(!StringUtils.isEmpty(category.getCategory_name()) && category.getCategory_name().contains("|||")){
-					categoryList = category.getCategory_name().split(separator.toString(), -1);
+					categoryList = category.getCategory_name().split(Arrays.toString(separator), -1);
 					for(int i = 0; i< categoryList.length; i++){
 						String valor = categoryList[i].substring(0, categoryList[i].indexOf("@"));
 						for(String cat : notHierarquicalCategoriesList){
@@ -1970,9 +1973,8 @@ public class ResourceApi extends GnossApiWrapper{
 
 			for(ThesaurusCategory category : categoryList){
 				if(!StringUtils.isEmpty(category.getCategory_name()) && category.getCategory_name().contains("|||")){
-					categories = category.getCategory_name().split(separator.toString(), -1);
+					categories = category.getCategory_name().split(Arrays.toString(separator), -1);
 					for(int i = 0; i < categories.length; i++){
-						String value = categories[i].substring(0, categories[i].indexOf("@"));
 						for(String cat : notHierarquicalCategoriesList){
 							if(categories[i].substring(0, categories[i].indexOf("@")).equals(cat)){
 								if(resultList == null){
@@ -2627,7 +2629,6 @@ public class ResourceApi extends GnossApiWrapper{
 					auxiliaryEntityTriplesToInsert.remove(docID);
 				}
 			}
-
 		}
 
 		int i=0;
@@ -2646,30 +2647,20 @@ public class ResourceApi extends GnossApiWrapper{
 
 				this._logHelper.Debug("Object "+ docID);
 
-				if(result.containsKey(docID)) {
-					result.get(docID);
-				}
-				else {
+				if(!result.containsKey(docID)) {					
 					result.put(docID, true);
 				}
 			}
-
 			catch(Exception ex) {
 				this._logHelper.Error("Resource "+docID+ ": "+ex.getMessage());
 				valuesList= new ArrayList<ModifyResourceTriple>();
 
-				if(result.containsKey(docID)) {
-					result.get(docID);
-				}
-				else {
+				if(!result.containsKey(docID)) {
 					result.put(docID, false);
 				}
 			}
-
-
 		}
 		return result;
-
 	}
 
 
@@ -4174,7 +4165,7 @@ public class ResourceApi extends GnossApiWrapper{
 
 		model.setCategories(listaCategorias);
 		model.setResource_url(rec.DownloadUrl);
-		model.setResource_file(rec.AttachedFile.toString());
+		model.setResource_file(Arrays.toString(rec.AttachedFile));
 		model.setCreator_is_author(rec.getCreatorIsAuthor());
 		model.setAuthors(rec.getAuthor());
 		model.setAuto_tags_title_text(rec.getAutomaticTagsTextFromTitle());
@@ -4234,7 +4225,7 @@ public class ResourceApi extends GnossApiWrapper{
 			for(String nombre : rec.getAttachedFilesName()) {
 				SemanticAttachedResource adjunto = new SemanticAttachedResource();
 				adjunto.setFile_rdf_property(nombre);
-				int s=Integer.parseInt(rec.getAttachedFiles().get(k).toString());
+				int s = Integer.parseInt(Arrays.toString(rec.getAttachedFiles().get(k)));
 				adjunto.setFile_property_type( (short) s);
 				adjunto.setRdf_attacherd_file(rec.getAttachedFiles().get(k));
 				adjunto.setDelete_file(rec.getAttachedFiles().get(k) == null);
@@ -4461,9 +4452,7 @@ public class ResourceApi extends GnossApiWrapper{
 						}
 						valuesList.add(triple);
 					}
-					if(resources.containsKey(docID)) {
-						resources.put(docID, valuesList);
-					}else {
+					if(!resources.containsKey(docID)) {
 						resources.put(docID, valuesList);
 					}
 					toModify.remove(docID);
@@ -4496,9 +4485,7 @@ public class ResourceApi extends GnossApiWrapper{
 						}
 						valuesList.add(triple);
 					}
-					if(resources.containsKey(docID)) {
-						resources.put(docID, valuesList);
-					}else {
+					if(!resources.containsKey(docID)) {
 						resources.put(docID, valuesList);
 					}
 					toInsert.remove(docID);	
@@ -4528,10 +4515,7 @@ public class ResourceApi extends GnossApiWrapper{
 
 						valuesList.add(triple);
 					}
-					if(resources.containsKey(docID)) {
-						resources.put(docID, valuesList);
-					}
-					else {
+					if(!resources.containsKey(docID)) {
 						resources.put(docID, valuesList);
 					}
 					auxiliaryEntityTriplesToInsert.remove(docID);
@@ -4553,17 +4537,13 @@ public class ResourceApi extends GnossApiWrapper{
 
 				this._logHelper.Debug("Object: "+docID);
 
-				if(result.containsKey(docID)) {
-					result.get(docID).equals(true);
-				}else {
+				if(!result.containsKey(docID)) {					
 					result.put(docID, true);
 				}
 			}catch(Exception ex) {
 				this._logHelper.Error("Resource "+docID+": "+ex.getMessage());
 				valuesList= new ArrayList<ModifyResourceTriple>();
-				if(result.containsKey(docID)) {
-					result.get(docID).equals(false);
-				}else {
+				if(!result.containsKey(docID)) {					
 					result.put(docID, false);
 				}
 			}
@@ -4646,7 +4626,7 @@ public class ResourceApi extends GnossApiWrapper{
 			resource.setUploaded(true);
 			this._logHelper.Debug("Loaded "+resource.getGnossId()+"\t Title: "+resource.getTitle()+ "\t ResourceID : "+documentId+ this.getClass().getSimpleName());
 
-			if(documentId!= resource.getGnossId()) {
+			if(!documentId.equals(resource.getGnossId())) {
 				throw new GnossAPIException("Resource loaded with the id :"+ documentId+ "\n The IDGnpss provided to the method is different from the returned by the API");
 			}
 
@@ -5008,21 +4988,16 @@ public class ResourceApi extends GnossApiWrapper{
 		else {
 			if(listToModify!=null && property.equals("sioc_t:Tag")) {
 				for(String identificador : listToModify) {
-					if(identificador.isEmpty()) {
+					if(!identificador.isEmpty()) {
 						newObject+=identificador.trim()+",";
-					}else {
-						newObject +=identificador.trim()+",";
 					}
 				}
 			}
 		}
 		if(categoriesIdentifiers!=null) {
 			for(UUID identifier : categoriesIdentifiers) {
-				if(identifier.equals(UUID.fromString(""))) {
+				if(!identifier.equals(UUID.fromString(""))) {
 					newObject+=identifier.toString()+",";
-				}
-				else {
-					newObject += identifier.toString()+",";
 				}
 			}
 		}
@@ -5402,17 +5377,14 @@ public class ResourceApi extends GnossApiWrapper{
 	public ArrayList<Multilanguage> ShortMultimediaTitleDescriptionString (ArrayList<Multilanguage> listToOrder){
 		String mainLanguage=CommunityApiWrapper.getCommunityMainLanguage();
 
-		if(mainLanguage=="") {
+		if(mainLanguage.isEmpty()) {
 			mainLanguage=Languages.Spanish;
-		}
-		else if(mainLanguage==null) {
-			mainLanguage=Languages.Spanish;
-		}
+		}		
 
 		Multilanguage firstElement = new Multilanguage();
 
 		for(Multilanguage titleDescription : listToOrder) {
-			if(titleDescription.getLanguage()==mainLanguage) {
+			if(titleDescription.getLanguage().equals(mainLanguage)) {
 				firstElement=titleDescription;
 			}
 		}
@@ -5493,17 +5465,26 @@ public class ResourceApi extends GnossApiWrapper{
 			client.head().header("User-Agent", "User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36 gnossspider");
 			client.head().header("Authorization", "Authorization: OAuth \n"+ GetStringForUrl(resourceUrl));
 
-			file.delete();
-
+			if(!file.delete()){
+				this._logHelper.Debug("The file: C:/recurso.txt cant be deleted");	
+			}
 		}
 		catch(Exception ex) {
 			this._logHelper.Debug("Error downloading file: "+urlRdf+". Error "+ex.getMessage());
 		}
 		finally {
-			fr.close();
-			br.close();
-			is.close();
-			fos.close();
+			if(fr != null) {
+				fr.close();	
+			}
+			if(br != null) {
+				br.close();	
+			}
+			if(is != null) {
+				is.close();	
+			}
+			if(fos != null) {
+				fos.close();	
+			}
 		}
 		return rdf_final;
 	}
@@ -5541,7 +5522,7 @@ public class ResourceApi extends GnossApiWrapper{
 
 		}
 	}*/
-	public void DownloadFile(String URL, String fileName) throws IOException {
+	public void DownloadFile(String URL, String fileName) throws IOException, GnossAPIException {
 
 		URL url= new URL(URL);
 		URLConnection urlCon=url.openConnection();
@@ -5557,11 +5538,15 @@ public class ResourceApi extends GnossApiWrapper{
 			}
 		}
 		catch (Exception e) {
-			new GnossAPIException("Error while trying to download the file " + fileName);			
+			throw new GnossAPIException("Error while trying to download the file " + fileName);			
 		}
 		finally {
-			is.close();
-			fos.close();
+			if(is != null) {
+				is.close();	
+			}
+			if(fos != null) {
+				fos.close();	
+			}
 		}
 	}
 

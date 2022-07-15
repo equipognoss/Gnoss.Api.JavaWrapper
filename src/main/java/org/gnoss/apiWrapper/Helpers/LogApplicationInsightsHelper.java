@@ -208,17 +208,18 @@ public class LogApplicationInsightsHelper implements ILogHelper {
 				System.out.println(completeMessage);
 				bw.write(completeMessage);
 				bw.flush();
-				bw.close();
 				
 			}catch(IOException ex){
 				ex.printStackTrace();
+				if(numberWriteErrors>0) {
+					numberWriteErrors--;
+					Write(logLevels, className, memberName, message, numberWriteErrors);
+				}
+			}			
+			finally {
 				try {
-					Thread.sleep(500);
-					if(numberWriteErrors>0) {
-						numberWriteErrors--;
-						Write(logLevels, className, memberName, message, numberWriteErrors);
-					}
-				} catch (InterruptedException e) {
+					bw.close();
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}

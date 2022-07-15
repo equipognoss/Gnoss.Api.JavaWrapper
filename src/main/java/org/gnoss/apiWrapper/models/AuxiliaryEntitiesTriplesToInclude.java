@@ -10,8 +10,6 @@ import org.gnoss.apiWrapper.Excepciones.GnossAPIArgumentException;
  *
  */
 public class AuxiliaryEntitiesTriplesToInclude {
-
-	private String _predicate;
 	
 	private String value;
 	private String predicate;
@@ -56,7 +54,7 @@ public class AuxiliaryEntitiesTriplesToInclude {
 	 * @return String predicate
 	 */
 	public String getPredicate() {
-		return _predicate;
+		return predicate;
 	}
 	/**
 	 * Sets the predicate of the auxiliary entity
@@ -65,12 +63,12 @@ public class AuxiliaryEntitiesTriplesToInclude {
 	 */
 	public void setPredicate(String predicate) throws GnossAPIArgumentException {
 		if(value.contains("|")) {
-			this._predicate=value;
+			this.predicate=value;
 			
 		}else {
 			throw new GnossAPIArgumentException("The label must be complete, with complete namespace of the auxiliary entity property + | + complete namespace of the property to load");
 		}
-		this._predicate = value;
+		this.predicate = value;
 		
 	}
 

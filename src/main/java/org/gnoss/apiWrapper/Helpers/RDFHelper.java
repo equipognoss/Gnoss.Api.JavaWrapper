@@ -29,7 +29,7 @@ public class RDFHelper {
 							value=eltos.get(0).getName();
 							
 						}else {
-							if(elto.getName().equals(localName) && elto.getNamespace().toString().equals(nameSpaceName) &&(elto.getAttributeValue(filterAttribute)==filterAttributeValue)){
+							if(elto.getName().equals(localName) && elto.getNamespace().toString().equals(nameSpaceName) &&(elto.getAttributeValue(filterAttribute).equals(filterAttributeValue))){
 								eltos.add(elto);
 								value=eltos.get(0).getName();
 							}
@@ -48,7 +48,7 @@ public class RDFHelper {
 								value=eltos.get(0).getName();
 							}
 						}else if(filterAttribute!=null && !filterAttributeValue.isEmpty()){
-							if(elto.getName().equals(localName) && elto.getAttributeValue(filterAttribute)==filterAttributeValue ) {
+							if(elto.getName().equals(localName) && elto.getAttributeValue(filterAttribute).equals(filterAttributeValue)) {
 								eltos.add(elto);
 								value=eltos.get(0).getName();
 							}

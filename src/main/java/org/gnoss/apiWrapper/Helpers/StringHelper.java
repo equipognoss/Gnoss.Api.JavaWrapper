@@ -24,7 +24,6 @@ public class StringHelper {
 	private static Pattern mReplace_I_Accents= Pattern.compile("[Í|Ì|Ï|Î]");
 	private static Pattern mReplace_O_Accents= Pattern.compile("[Ó|Ò|Ö|Ô]");
 	private static Pattern mReplace_U_Accents= Pattern.compile("[Ú|Ù|Ü|Û]");
-	private static Pattern mRegexQuitarHtml= Pattern.compile("<(.|\n)*?>");
 	
 	
 	/**

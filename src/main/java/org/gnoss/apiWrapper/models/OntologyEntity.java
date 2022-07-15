@@ -84,7 +84,7 @@ public class OntologyEntity {
         boolean hasProperties = false;
         for (OntologyProperty prop : _properties) {
             if (prop.getClass().equals(DataTypes.OntologyPropertyString.getClass())) {
-                if (prop.getValue() != null && !StringUtils.isEmpty(prop.getValue().toString()) && !StringUtils.isEmpty(prop.getValue().toString())) {
+                if (prop.getValue() != null && !StringUtils.isEmpty(prop.getValue().toString())) {
                     hasProperties = true;
                     break;
                 }
@@ -98,7 +98,7 @@ public class OntologyEntity {
                     }
                 }
             } else if (prop.getClass().equals(DataTypes.OntologyPropertyDate.getClass())) {
-                if (prop.getValue() != null && !StringUtils.isEmpty(prop.getValue().toString()) && !StringUtils.isEmpty(prop.getValue().toString()) && !prop.getValue().toString().equals("00000000000000")) {
+                if (prop.getValue() != null && !StringUtils.isEmpty(prop.getValue().toString()) && !prop.getValue().toString().equals("00000000000000")) {
                     hasProperties = true;
                     break;
                 }

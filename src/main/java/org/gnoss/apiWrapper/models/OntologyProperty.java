@@ -65,18 +65,17 @@ public class OntologyProperty {
             
     @Override
     public boolean equals(java.lang.Object obj){
-        Object object = obj;
-        if (object != null && object.getClass() != this.getClass())
+        if (obj != null && obj.getClass() != this.getClass())
         {
             return false;
         }
-        else if(object == this){
+        else if(obj == this){
             return true;
         }
         else
         {
-            OntologyProperty property = (OntologyProperty) object;
-            if (property.getLanguage()!=null && !property.getLanguage().isEmpty())
+            OntologyProperty property = (OntologyProperty) obj;
+            if (property != null && property.getLanguage()!=null && !property.getLanguage().isEmpty())
             {
                 if (this.name.equals(property.getName()) && this.value.equals(property.getValue()) && this.language.equals(property.getLanguage()))
                 {

@@ -195,7 +195,7 @@ public class UserApi extends GnossApiWrapper{
 		try {
 			String url= getApiUrl()+"/user/get-profile-role-in-organization?profile_id="+profileId+"&community_short_name="+getCommunityShortName();
 			profileRol=WebRequest("GET", url);
-			profileRol.trim();
+			profileRol = profileRol.trim();
 			this._logHelper.Debug("The profile role of "+profileId+ " in" +getCommunityShortName()+ " is"+ profileRol);
 			
 		}catch(Exception ex) {
@@ -212,7 +212,6 @@ public class UserApi extends GnossApiWrapper{
 	 * @throws Exception exception 
 	 */
 	public User CreateUserWaitingForActivate(User user) throws Exception {
-
 		Gson jsonUtilities = new Gson();
 		String json = jsonUtilities.toJson(user);
 		
@@ -254,8 +253,8 @@ public class UserApi extends GnossApiWrapper{
 					
 			String response = WebRequest("POST", url, json, "application/json");
 			Gson gson = new Gson();
-			user = gson.fromJson(response, new User().getClass());
-			if (user != null) {
+			createdUser = gson.fromJson(response, new User().getClass());
+			if (createdUser != null) {
 				this._logHelper.Debug(
 						"The user " + createdUser.getName() + " " + createdUser.getLas_name() + " has been obteined succesfully");
 			} else {
@@ -296,7 +295,7 @@ public class UserApi extends GnossApiWrapper{
 			try {
 				String url= getApiUrl()+"/user/generate-forgotten-password-url?login="+loginOrEmail+"&community_short_name="+getCommunityShortName();
 				link= WebRequest("GET", url);
-				link.trim();
+				link = link.trim();
 				this._logHelper.Debug("Forgotten password url generated" +link);
 			}catch(Exception ex) {
 				this._logHelper.Error("Error generationg forgotten password url for user "+loginOrEmail+":" +ex.getMessage() );

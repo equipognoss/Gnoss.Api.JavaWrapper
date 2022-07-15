@@ -52,10 +52,10 @@ public class TaxonomyOntology extends BaseOntology{
         	String rdfFile=null;
         	
         	WriteRdfHeader();
-        	if(getRdfType()==""|| getRdfType()==null || getRdfType().isEmpty() ) {
+        	if(getRdfType() == null || getRdfType().isEmpty() ) {
         		throw new GnossAPIArgumentException("Required. It can't be null or empty, RdfType");
         	}
-        	else if(getRdfsLabel()=="" || getRdfsLabel()==null || getRdfsLabel().isEmpty()){
+        	else if(getRdfsLabel()==null || getRdfsLabel().isEmpty()){
         		throw new GnossAPIArgumentException("Required. It can't be null or empty, RdfsLabel");
         	}
         	else {
@@ -84,8 +84,12 @@ public class TaxonomyOntology extends BaseOntology{
     		throw new GnossAPIException(e.getMessage());
 		}
     	finally {
-    		fileWriter.close();
-    		b2.close();
+    		if(fileWriter != null) {
+    			fileWriter.close();	
+    		}
+    		if(b2 != null) {
+        		b2.close();    			
+    		}
     	}
     	return DC;
     }	
@@ -162,17 +166,19 @@ public class TaxonomyOntology extends BaseOntology{
 		}
 		
 	}
+	
 	private void WritePropertyList(List<OntologyProperty> propertyList, UUID resourceId) throws IOException {
 		if (resourceId== null) {
 			if(propertyList!=null ) {
 				for(OntologyProperty prop: propertyList) {
-					if(prop.getName()!= null || !prop.getName().isEmpty() && prop.getValue()!=null && !prop.getName().equals(DataTypes.OntologyPropertyImage.getClass())) {
+					if(prop.getName()!= null || !prop.getName().isEmpty() && prop.getValue()!=null && !prop.getName().equals(DataTypes.OntologyPropertyImage.toString())) {
 						Write(prop.getName(), prop.getValue().toString(), prop.getLanguage());
 					}
 				}
 			}
 		}
 	}
+	
 	public String get_rdfFile() throws IOException, GnossAPIException {
 		this._rdfFile=GenerateRDF();
 		return _rdfFile;
@@ -204,7 +210,9 @@ public class TaxonomyOntology extends BaseOntology{
 			throw new GnossAPIException(e.getMessage());
 		}
 		finally {
-			Reader.close();
+			if(Reader != null) {
+				Reader.close();	
+			}
 		}
 		
 		return _stringRdfFile;

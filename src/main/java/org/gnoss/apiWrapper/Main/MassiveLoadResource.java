@@ -2,14 +2,10 @@ package org.gnoss.apiWrapper.Main;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.security.MessageDigest;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,11 +31,6 @@ public class MassiveLoadResource extends ResourceApi {
 	private ILogHelper _logHelper;
 	
 	/**
-	 * Massive data load identifier
-	 */
-	private UUID massiveLoadId;
-	
-	/**
 	 * Massive data load name
 	 */
 	private String loadName;
@@ -53,17 +44,7 @@ public class MassiveLoadResource extends ResourceApi {
 	 * Massive load identifier
 	 */
 	private UUID MassiveLoadIdentifier;
-	
-	/**
-	 * Massive data load name
-	 */
-	private String LoadName;
-	
-	/**
-	 * Directory path of the files
-	 */
-	private String FilesDirectory;
-	
+
 	/**
 	 * Number of resources and files
 	 */
@@ -198,9 +179,9 @@ public class MassiveLoadResource extends ResourceApi {
 			}
 
 			this.onlyPrepareMassiveLoad = pOnlyPrepareMassiveLoad;
-			FilesDirectory = pFilesDirectory;
+			filesDirectory = pFilesDirectory;
 			Uri = pUrl;
-			LoadName = pName;
+			loadName = pName;
 			MassiveLoadIdentifier = UUID.randomUUID();
 
 			CreateMassiveDataLoad();
@@ -236,7 +217,7 @@ public class MassiveLoadResource extends ResourceApi {
 	 * @throws Exception Exception
 	 */
 	public void UploadPrepareMassiveLoad(UUID pMassiveLoadIdentifier) throws Exception {
-		File directory = new File(FilesDirectory);
+		File directory = new File(filesDirectory);
 		if (directory.exists()) {
 			String[] fileList = directory.list();
 			String fileName = "";
@@ -270,8 +251,9 @@ public class MassiveLoadResource extends ResourceApi {
 	 * Create a new package massive data load
 	 * 
 	 * @param resource Interface of the Gnoss Methods
+	 * @throws IOException 
 	 */
-	public void AddResourceToPackage(IGnossOCBase resource) {
+	public void AddResourceToPackage(IGnossOCBase resource) throws IOException {
 		FileOutputStream fileOutputStreamAcid = null;
 		FileOutputStream fileOutputStreamOntology = null;
 		FileOutputStream fileOutputStreamSearch = null;
@@ -285,13 +267,13 @@ public class MassiveLoadResource extends ResourceApi {
 			ArrayList<String> searchTriples = resource.ToSearchGraphTriples(this);
 			HashMap<UUID, String> acidData = resource.ToAcidData(this);
 
-			String pathOntology = FilesDirectory.concat(File.separator).concat(getOntologyNameWithoutExtension())
+			String pathOntology = filesDirectory.concat(File.separator).concat(getOntologyNameWithoutExtension())
 					.concat("_").concat(MassiveLoadIdentifier.toString()).concat("_")
 					.concat(counter.get(getOntologyNameWithoutExtension()).getFileCount() + "").concat(".nq");
-			String pathSearch = FilesDirectory.concat(File.separator).concat(getOntologyNameWithoutExtension())
+			String pathSearch = filesDirectory.concat(File.separator).concat(getOntologyNameWithoutExtension())
 					.concat("_search_").concat(MassiveLoadIdentifier.toString()).concat("_")
 					.concat(counter.get(getOntologyNameWithoutExtension()).getFileCount() + "").concat(".nq");
-			String pathAcid = FilesDirectory.concat(File.separator).concat(getOntologyNameWithoutExtension())
+			String pathAcid = filesDirectory.concat(File.separator).concat(getOntologyNameWithoutExtension())
 					.concat("_acid_").concat(MassiveLoadIdentifier.toString()).concat("_")
 					.concat(counter.get(getOntologyNameWithoutExtension()).getFileCount() + "").concat(".txt");
 
@@ -304,9 +286,7 @@ public class MassiveLoadResource extends ResourceApi {
 				streamOntology = new OutputStreamWriter(fileOutputStreamOntology, Charset.forName("UTF-8"));
 				streamSearch = new OutputStreamWriter(fileOutputStreamSearch, Charset.forName("UTF-8"));
 				
-				fileOutputStreamAcid.close();
-				fileOutputStreamOntology.close();
-				fileOutputStreamSearch.close();
+				
 			}
 
 			for (String triple : ontologyTriples) {
@@ -340,6 +320,11 @@ public class MassiveLoadResource extends ResourceApi {
 			LogHelper.getInstance()
 					.Error("Error creating the package of massive data load. \n".concat(ex.getMessage()));
 		}		
+		finally {
+			fileOutputStreamAcid.close();
+			fileOutputStreamOntology.close();
+			fileOutputStreamSearch.close();
+		}
 	}
 
 	/**
@@ -385,7 +370,7 @@ public class MassiveLoadResource extends ResourceApi {
 
 			model = new MassiveDataLoadResource();
 			model.setLoad_id(MassiveLoadIdentifier);
-			model.setName(LoadName);
+			model.setName(loadName);
 			model.setCommunity_name(getCommunityShortName());
 
 			WebRequestPostWithJsonObject(url, model);
@@ -434,13 +419,13 @@ public class MassiveLoadResource extends ResourceApi {
 			if (isDebugMode) {
 				CloseStreams();
 
-				File ontologyFile = new File(FilesDirectory.concat(File.separator).concat(getOntologyNameWithoutExtension())
+				File ontologyFile = new File(filesDirectory.concat(File.separator).concat(getOntologyNameWithoutExtension())
 						.concat("_").concat(massiveLoadFilesIdentifier.toString()).concat("_")
 						.concat(counter.get(getOntologyNameWithoutExtension()).getFileCount() + "").concat(".nq"));
-				File searchFile = new File(FilesDirectory.concat(File.separator).concat(getOntologyNameWithoutExtension())
+				File searchFile = new File(filesDirectory.concat(File.separator).concat(getOntologyNameWithoutExtension())
 						.concat("_search_").concat(massiveLoadFilesIdentifier.toString()).concat("_")
 						.concat(counter.get(getOntologyNameWithoutExtension()).getFileCount() + "").concat(".nq"));
-				File acidFile = new File(FilesDirectory.concat(File.separator).concat(getOntologyNameWithoutExtension())
+				File acidFile = new File(filesDirectory.concat(File.separator).concat(getOntologyNameWithoutExtension())
 						.concat("_acid_").concat(massiveLoadFilesIdentifier.toString()).concat("_")
 						.concat(counter.get(getOntologyNameWithoutExtension()).getFileCount() + "").concat(".txt"));
 
@@ -552,7 +537,7 @@ public class MassiveLoadResource extends ResourceApi {
 	 * @return LoadName Name of the ontology to load
 	 */
 	public String getLoadName() {
-		return LoadName;
+		return loadName;
 	}
 
 	/**
@@ -561,7 +546,7 @@ public class MassiveLoadResource extends ResourceApi {
 	 * @param loadName New ontology's name
 	 */
 	public void setLoadName(String loadName) {
-		this.LoadName = loadName;
+		this.loadName = loadName;
 	}
 
 	/**
@@ -579,7 +564,7 @@ public class MassiveLoadResource extends ResourceApi {
 	 * @return Pathe where the files will be
 	 */
 	public String getFilesDirectory() {
-		return FilesDirectory;
+		return filesDirectory;
 	}
 
 	/**
@@ -588,7 +573,7 @@ public class MassiveLoadResource extends ResourceApi {
 	 * @param filesDirectory New path where the files will be
 	 */
 	public void setFilesDirectory(String filesDirectory) {
-		FilesDirectory = filesDirectory;
+		this.filesDirectory = filesDirectory;
 	}
 
 	/**

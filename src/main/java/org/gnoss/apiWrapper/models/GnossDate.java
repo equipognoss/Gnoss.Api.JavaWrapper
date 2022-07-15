@@ -9,17 +9,10 @@ import org.gnoss.apiWrapper.Excepciones.GnossAPIDateException;
 import org.gnoss.apiWrapper.Helpers.DateTypes;
 
 public class GnossDate {
-	
-	//region Members
-	private String _millenniumRoman;
-    private String _centuryRoman;
-    private String _day;
-    private String _month;
-    private String _year;
-    
+	   
     private int millenium;
     private int century;
-    private String milleniumRoman;
+    private String millenniumRoman;
     private String normDate;
     private String precisionDate;
     private String typeDate;
@@ -104,14 +97,14 @@ public class GnossDate {
    		 	}
    		 	for(Matcher  s: lista) {
    		 		if(americanFormat) {
-   		 			this.setMonth(s.group(1).toString());
-   		 			this.setDay(s.group(2).toString());
-   		 			this.setDay(s.group(3).toString());
+   		 			this.setMonth(s.group(2).toString());
+   		 			this.setDay(s.group(1).toString());
+   		 			this.setYear(s.group(3).toString());
    		 		}
    		 		else {
-   		 		this.setMonth(s.group(1).toString());
+   		 			this.setMonth(s.group(1).toString());
 		 			this.setDay(s.group(2).toString());
-		 			this.setDay(s.group(3).toString());
+		 			this.setYear(s.group(3).toString());
    		 		}
    		 	}
     	}
@@ -213,9 +206,9 @@ public class GnossDate {
     }
     
     private void Initialize() {
-    	 _day = "00";
-         _month = "00";
-         _year = "0000";
+    	 day = "00";
+         month = "00";
+         year = "0000";
          setHour("00"); 
          setMinutes("00"); 
          setSeconds("00");
@@ -223,11 +216,11 @@ public class GnossDate {
          setCentury(0); 
          setMillenium(0);
 
-         _millenniumRoman = null;
+         millenniumRoman = null;
          setNormDate(null); 
          setPrecisionDate(null); 
          setTypeDate(null); 
-         _centuryRoman = null;
+         centuryRoman = null;
     }
     
     /**
@@ -512,15 +505,15 @@ public class GnossDate {
 	 * @return _milleniumRoman _milleniumRoman
 	 */
 	public String getMilleniumRoman() {
-		return _millenniumRoman;
+		return millenniumRoman;
 	}
 	/**
 	 * Sets the millenium in roman numbers
 	 * @param milleniumRoman _milleniumRoman
 	 */
 	public void setMilleniumRoman(String milleniumRoman) {
-		this._millenniumRoman=getMilleniumRoman();
-		this.millenium = RomanToDecimal(_millenniumRoman);
+		this.millenniumRoman=getMilleniumRoman();
+		this.millenium = RomanToDecimal(millenniumRoman);
 	}
 	/**
 	 * Gets the normalized date with the pattern yyyyMMddhhmmss
@@ -569,29 +562,29 @@ public class GnossDate {
 	 * @return _centuryRoman _centuryRoman
 	 */
 	public String getCenturyRoman() {
-		return _centuryRoman;
+		return centuryRoman;
 	}
 	/**
 	 * Sets the century in roman numbers
 	 * @param centuryRoman _centuryRoman
 	 */
 	public void setCenturyRoman(String centuryRoman) {
-		this._centuryRoman=getCenturyRoman();
-		this.century = RomanToDecimal(_centuryRoman);
+		this.centuryRoman=getCenturyRoman();
+		this.century = RomanToDecimal(centuryRoman);
 	}
 	/**
 	 * Gets the day (2 digits)
 	 * @return _day _day
 	 */
 	public String getDay() {
-		return _day;
+		return day;
 	}
 	/**
 	 * Sets the day (2 digits)
 	 * @param day _day
 	 */
 	public void setDay(String day) {
-		this._day=CompleteStringZerosAtLeftWithLimit(getDay(), 2);
+		this.day=CompleteStringZerosAtLeftWithLimit(getDay(), 2);
 		UpdateNormalizeDate();
 	}
 	/**
@@ -599,7 +592,7 @@ public class GnossDate {
 	 * @return _month _month
 	 */
 	public String getMonth() {
-		return _month;
+		return month;
 	}
 	/**
 	 * Set the month (2 digits)
@@ -608,53 +601,53 @@ public class GnossDate {
 	public void setMonth(String month) {
 		if (getMonth().toLowerCase().equals("enero"))
         {
-            _month = "01";
+            month = "01";
         }
         else if (getMonth().toLowerCase().equals("febrero"))
         {
-            _month = "02";
+            month = "02";
         }
         else if (getMonth().toLowerCase().equals("marzo"))
         {
-            _month = "03";
+            month = "03";
         }
         else if (getMonth().toLowerCase().equals("abril"))
         {
-            _month = "04";
+            month = "04";
         }
         else if (getMonth().toLowerCase().equals("mayo"))
         {
-            _month = "05";
+            month = "05";
         }
         else if (getMonth().toLowerCase().equals("junio"))
         {
-            _month = "06";
+            month = "06";
         }
         else if (getMonth().toLowerCase().equals("julio"))
         {
-            _month = "07";
+            month = "07";
         }
         else if (getMonth().toLowerCase().equals("agosto"))
         {
-            _month = "08";
+            month = "08";
         }
         else if (getMonth().toLowerCase().equals("septiembre"))
         {
-            _month = "09";
+            month = "09";
         }
         else if (getMonth().toLowerCase().equals("octubre"))
         {
-            _month = "10";
+            month = "10";
         }
         else if (getMonth().toLowerCase().equals("noviembre"))
         {
-            _month = "11";
+            month = "11";
         }
         else if (getMonth().toLowerCase().equals("diciembre"))
         {
-            _month = "12";
+            month = "12";
         }else {
-        	_month=CompleteStringZerosAtLeftWithLimit(getMonth(), 2);
+        	month=CompleteStringZerosAtLeftWithLimit(getMonth(), 2);
         }
 		UpdateNormalizeDate();
 	}
@@ -663,14 +656,14 @@ public class GnossDate {
 	 * @return _year _year
 	 */
 	public String getYear() {
-		return _year;
+		return year;
 	}
 	/**
 	 * Set the year (4 digits)
 	 * @param year _year
 	 */
 	public void setYear(String year) {
-		this._year=CompleteStringZerosAtLeftWithLimit(getYear(), 4);
+		this.year=CompleteStringZerosAtLeftWithLimit(getYear(), 4);
 		UpdateNormalizeDate();
 	}
 	/**

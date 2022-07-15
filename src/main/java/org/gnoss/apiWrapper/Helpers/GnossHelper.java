@@ -5,6 +5,7 @@
  */
 package org.gnoss.apiWrapper.Helpers;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 /**
@@ -18,7 +19,7 @@ public class GnossHelper {
     }
     
     public static UUID GetResourceID(String largeID){
-        String[] splittedID = largeID.split(CharArrayDelimiters.Underscore.toString());
+        String[] splittedID = largeID.split(Arrays.toString(CharArrayDelimiters.Underscore));
         try{
             return UUID.fromString(splittedID[splittedID.length - 2]);
         }

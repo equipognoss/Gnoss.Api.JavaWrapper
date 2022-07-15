@@ -19,6 +19,7 @@ import java.io.File;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.UUID;
 import java.net.URI;
 
@@ -232,7 +233,7 @@ public class ComplexOntologyResource extends BaseResource {
     	sb.append("\n");
     	sb.append("\t Description"+ getDescription());
     	sb.append("\n");
-    	sb.append("\t Tags"+ getTags().toString());
+    	sb.append("\t Tags"+ Arrays.toString(getTags()));
     	sb.append("\n");
     	sb.append("\t TextCategories"+ getCategoriesIds().toString());
     	sb.append("\n");
@@ -493,7 +494,7 @@ public class ComplexOntologyResource extends BaseResource {
 				getOntology().setEntities(new ArrayList<OntologyEntity>());
 				getOntology().getEntities().add(entity);
 			}
-			if(AttachedFilesType.size()>0 && AttachedFiles.size()>0 && AttachedFilesType.size()>0) {
+			if(AttachedFilesType.size() > 0 && AttachedFiles.size() > 0) {
 				entity.getProperties().add(new StringOntologyProperty(filePredicate, fileName, language));
 			}
 		}

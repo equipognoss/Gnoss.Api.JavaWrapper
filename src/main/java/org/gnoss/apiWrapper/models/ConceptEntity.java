@@ -16,13 +16,11 @@ public class ConceptEntity  extends SecondaryEntity{
 	private String _rootIdentifier;
 	private String _nameIdentifier;
 	private String _parentNameIdentifier;
-	private String _conceptEntityGnossId=null;
-	private String _parentGnossId=null;
 	
 	private String graphsUrl;
 	private int level;
 	private String parentGnossId;
-	private String ConceptEntityGnossId;
+	private String conceptEntityGnossId;
 	private String parentIdentifier;
 	private List<ConceptEntity> subEntities;
 	private String identifier;
@@ -31,17 +29,13 @@ public class ConceptEntity  extends SecondaryEntity{
 		super();
 		// TODO Auto-generated constructor stub
 		Properties properties= new Properties();
-		level=1;
-		if(dcSource.isEmpty()|| dcSource==null || dcSource==" "|| prefLabelDictionary== null || identifierNameRoot==null ||identifierNameRoot==" " || identifier==null ||identifier==" " || identifier.isEmpty()  ) {
+		this.level = 1;
+		if(dcSource.isEmpty()|| dcSource==null || dcSource.equals(" ") || prefLabelDictionary== null || identifierNameRoot==null ||identifierNameRoot.equals(" ") || identifier==null || identifier.equals(" ") || identifier.isEmpty()  ) {
 			logHelper.getInstance().Error("RequiredParameterConstructor", this.getClass().getName()); //DUDA
 			throw new GnossAPIException ("RequiredParameteronstructor");
 		}
 		this._prefLabelDictionary=prefLabelDictionary;
-		
-		
-		// rdf:type and rdfs:lbel are always the same 
-		String RdfType="http://www.w3.org/2008/05/skos#Concept";
-		String RdfsLabel="http://www.w3.org/2008/05/skos#Concept";
+				
 		_rootIdentifier= identifierNameRoot;
 		_nameIdentifier=identifier.replace('.', '_');
 		_parentNameIdentifier=parentIdentifier;
@@ -86,13 +80,13 @@ public class ConceptEntity  extends SecondaryEntity{
 	public String getParentGnossId() {
 		
 		if(this._parentNameIdentifier!= null && !this._parentNameIdentifier.isEmpty()) {
-			this._parentGnossId= this._rootIdentifier+"_"+this._parentNameIdentifier;
-			this._parentGnossId= this.graphsUrl+" "+ this._parentGnossId;
+			this.parentGnossId= this._rootIdentifier+"_"+this._parentNameIdentifier;
+			this.parentGnossId= this.graphsUrl+" "+ this.parentGnossId;
 		}
 		else {
-			this._parentGnossId= null;
+			this.parentGnossId = null;
 		}
-		return _parentGnossId;
+		return parentGnossId;
 	}
 
 	public void setParentGnossId(String parentGnossId) {
@@ -100,21 +94,21 @@ public class ConceptEntity  extends SecondaryEntity{
 	}
 
 	public String getConceptEntityGnossId() {
-		this._conceptEntityGnossId=this.graphsUrl+" "+ this.identifier;
-		return _conceptEntityGnossId;
+		this.conceptEntityGnossId=this.graphsUrl+" "+ this.identifier;
+		return conceptEntityGnossId;
 	}
 
 	public void setConceptEntityGnossId(String conceptEntityGnossId) {
-		ConceptEntityGnossId = conceptEntityGnossId;
+		this.conceptEntityGnossId = conceptEntityGnossId;
 	}
 
 	public String getParentIdentifier() {
-		return _parentNameIdentifier;
+		return parentIdentifier;
 	}
 
 	public void setParentIdentifier(String parentIdentifier) {
-		this._parentGnossId= this._rootIdentifier+" "+ this._parentNameIdentifier;
-		this._parentGnossId= this.graphsUrl+" "+ this._parentGnossId;
+		this.parentGnossId= this._rootIdentifier+" "+ this._parentNameIdentifier;
+		this.parentGnossId= this.graphsUrl+" "+ this.parentGnossId;
 		this.parentIdentifier = parentIdentifier;
 	}
 
@@ -128,7 +122,7 @@ public class ConceptEntity  extends SecondaryEntity{
 	@Override
 	public String getIdentifier() {
 		super.setIdentifier(this._rootIdentifier+"_"+this._nameIdentifier);
-		this._conceptEntityGnossId=this.graphsUrl+ super.getIdentifier();
+		this.conceptEntityGnossId=this.graphsUrl+ super.getIdentifier();
 		return super.getIdentifier();
 	}
 	@Override

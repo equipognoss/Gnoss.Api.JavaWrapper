@@ -6,6 +6,7 @@
 package org.gnoss.apiWrapper.Helpers;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.time.LocalDateTime;
@@ -41,8 +42,9 @@ public class LogHelperFile implements ILogHelper {
         if(LogHelper.getLogLevel().compareTo(LogLevels.TRACE) <= 0){
             try {
                 Write(LogLevels.TRACE, className, memberName, message);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(LogHelperFile.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(LogHelperFile.class.getName()).log(Level.SEVERE, null, ex);            
+				ex.printStackTrace();
             }
         }
     }
@@ -59,9 +61,10 @@ public class LogHelperFile implements ILogHelper {
         if(LogHelper.getLogLevel().compareTo(LogLevels.DEBUG) <= 0){
             try {
                 Write(LogLevels.DEBUG, className, memberName, message);
-            } catch (InterruptedException ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(LogHelperFile.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            	ex.printStackTrace();
+			}
         }
     }
     
@@ -77,9 +80,10 @@ public class LogHelperFile implements ILogHelper {
         if(LogHelper.getLogLevel().compareTo(LogLevels.INFO) <= 0){
             try {
                 Write(LogLevels.INFO, className, memberName, message);
-            } catch (InterruptedException ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(LogHelperFile.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            	ex.printStackTrace();
+			}
         }
     }
     
@@ -95,9 +99,10 @@ public class LogHelperFile implements ILogHelper {
         if(LogHelper.getLogLevel().compareTo(LogLevels.WARN) <= 0){
             try {
                 Write(LogLevels.WARN, className, memberName, message);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(LogHelperFile.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } catch (Exception ex) {
+                Logger.getLogger(LogHelperFile.class.getName()).log(Level.SEVERE, null, ex);            
+				ex.printStackTrace();
+			}
         }
     }
     
@@ -113,9 +118,10 @@ public class LogHelperFile implements ILogHelper {
         if(LogHelper.getLogLevel().compareTo(LogLevels.ERROR) <= 0){
             try {
                 Write(LogLevels.ERROR, className, memberName, message);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(LogHelperFile.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } catch (Exception ex) {
+                Logger.getLogger(LogHelperFile.class.getName()).log(Level.SEVERE, null, ex);            
+				ex.printStackTrace();
+			}
         }
     }
     
@@ -131,9 +137,10 @@ public class LogHelperFile implements ILogHelper {
         if(LogHelper.getLogLevel().compareTo(LogLevels.FATAL) <= 0){
             try {
                 Write(LogLevels.FATAL, className, memberName, message);
-            } catch (InterruptedException ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(LogHelperFile.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            	ex.printStackTrace();
+			}
         }
     }
     
@@ -147,7 +154,7 @@ public class LogHelperFile implements ILogHelper {
     
     //Private methods
     
-    private void Write(LogLevels logLevel, String className, String memberName, String message, int numberWriteErrors) throws InterruptedException{
+    private void Write(LogLevels logLevel, String className, String memberName, String message, int numberWriteErrors) throws InterruptedException, IOException{
         if(_isActivated){
             OutputStreamWriter sw = null;
             OutputStream os = null;
@@ -166,11 +173,7 @@ public class LogHelperFile implements ILogHelper {
                 os = new FileOutputStream(absolutePath);
                 sw = new OutputStreamWriter(os);
                 System.out.println(completeMessage);
-                sw.write(completeMessage);
-                sw.flush();
-                sw.close();
-                os.flush();
-                os.close();
+                sw.write(completeMessage);               
             }
             catch(Exception ex){
                 Thread.sleep(500);
@@ -179,10 +182,16 @@ public class LogHelperFile implements ILogHelper {
                     Write(logLevel, className, memberName, message, numberWriteErrors);
                 }
             }
+            finally {
+            	sw.flush();
+                sw.close();
+                os.flush();
+                os.close();
+            }
         }
     }
     
-    private void Write(LogLevels logLevel, String className, String memberName, String message) throws InterruptedException {
+    private void Write(LogLevels logLevel, String className, String memberName, String message) throws InterruptedException, IOException {
         Write(logLevel, className, memberName, message, 3);
     }
     

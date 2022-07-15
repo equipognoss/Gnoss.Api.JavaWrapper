@@ -300,7 +300,7 @@ public abstract class BaseResource {
                 this._title = "";
             }
         }
-        if (title != "")
+        if (!title.isEmpty())
         {
             this._title = title;
         }
