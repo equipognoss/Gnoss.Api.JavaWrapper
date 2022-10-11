@@ -134,7 +134,7 @@ public class OntologyEntity {
             if (RdfType.contains("#")) {
                 Items = RdfType.substring(RdfType.lastIndexOf("#") + 1);
             } else if (RdfType.contains("/")) {
-                Items = RdfType.substring(RdfType.lastIndexOf("#") + 1);
+                Items = RdfType.substring(RdfType.lastIndexOf("/") + 1);
             } else {
                 Items = RdfType;
             }

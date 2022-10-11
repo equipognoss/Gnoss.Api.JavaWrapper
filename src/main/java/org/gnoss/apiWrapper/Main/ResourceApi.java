@@ -3298,7 +3298,7 @@ public class ResourceApi extends GnossApiWrapper{
 				readers.setCommunity_short_name(getCommunityShortName());
 				readers.setPublish_home(publishHome);
 				readers.setReaders_list(readers_list);
-				readers.setVisibility( Integer.parseInt(visibility.toString()));
+				readers.setVisibility( visibility.ordinal());
 
 			}
 			WebRequestPostWithJsonObject(url, readers);
