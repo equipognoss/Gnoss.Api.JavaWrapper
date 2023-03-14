@@ -125,8 +125,7 @@ public class ResourceApi extends GnossApiWrapper{
 	private String _loadIdentifier; 
 	private final int _DEFAULT_LOCK_DURATION = 60;
 	private final int _DEFAULT_TIMEOUT_LOCK = 60;
-	private ILogHelper _logHelper;
-
+	
 	//Properties
 	private String DeveloperEmail;
 	private String OntologyName;
@@ -2670,14 +2669,14 @@ public class ResourceApi extends GnossApiWrapper{
 				ModifyTripleList(docID, valuesList, getLoadIdentifier(), publishHome, null, null, endOfLoad);
 				valuesList= new ArrayList<ModifyResourceTriple>();
 
-				this._logHelper.Debug("Object "+ docID);
+				_logHelper.Debug("Object "+ docID);
 
 				if(!result.containsKey(docID)) {					
 					result.put(docID, true);
 				}
 			}
 			catch(Exception ex) {
-				this._logHelper.Error("Resource "+docID+ ": "+ex.getMessage());
+				_logHelper.Error("Resource "+docID+ ": "+ex.getMessage());
 				valuesList= new ArrayList<ModifyResourceTriple>();
 
 				if(!result.containsKey(docID)) {
@@ -2731,10 +2730,10 @@ public class ResourceApi extends GnossApiWrapper{
 			String url= getApiUrl()+"/resource/get-pending-actions?ontology_name="+ontology+"&community_short_name="+getCommunityShortName();
 			String response=WebRequest("GET", url, "application/json");
 			int pendingActions=Integer.parseInt(response);
-			this._logHelper.Debug("The ontology "+ontology+ " has "+ pendingActions +" pending actions");
+			_logHelper.Debug("The ontology "+ontology+ " has "+ pendingActions +" pending actions");
 			return pendingActions;
 		}catch(Exception ex) {
-			this._logHelper.Error("There has been an error trying to know if there are outstanding resources "+ex.getMessage());
+			_logHelper.Error("There has been an error trying to know if there are outstanding resources "+ex.getMessage());
 			throw ex;
 		}
 	}
@@ -2751,9 +2750,9 @@ public class ResourceApi extends GnossApiWrapper{
 		try {
 			String url=getApiUrl()+"/resource/get-community-short-name-by-resource_id?resource_id="+resourceID;
 			communityShortName=WebRequest("GET", url, "application/x-www-form-urlencoded");
-			this._logHelper.Debug("The community short name for the resource "+resourceID+ " is "+communityShortName);
+			_logHelper.Debug("The community short name for the resource "+resourceID+ " is "+communityShortName);
 		}catch(Exception ex) {
-			this._logHelper.Error("Error getting the community short name "+ex.getMessage());
+			_logHelper.Error("Error getting the community short name "+ex.getMessage());
 			throw ex;
 		}
 		return communityShortName;
@@ -2777,17 +2776,17 @@ public class ResourceApi extends GnossApiWrapper{
 				result= gson.fromJson(response, Boolean.class); 
 
 				if(result) {
-					this._logHelper.Debug("The user "+userId+" is allowed to edit the resource "+resourceId+" in "+getCommunityShortName());
+					_logHelper.Debug("The user "+userId+" is allowed to edit the resource "+resourceId+" in "+getCommunityShortName());
 
 				}else {
-					this._logHelper.Debug("The user "+userId+" is not allowed to edit the resource "+resourceId+" in "+getCommunityShortName());
+					_logHelper.Debug("The user "+userId+" is not allowed to edit the resource "+resourceId+" in "+getCommunityShortName());
 				}
 			}catch(Exception ex) {
-				this._logHelper.Error(ex.getMessage());
+				_logHelper.Error(ex.getMessage());
 				throw ex;
 			}
 		}else {
-			this._logHelper.Error("Any of this are null or empty: resourceId, userId");
+			_logHelper.Error("Any of this are null or empty: resourceId, userId");
 		}
 		return result;
 	}
@@ -2811,16 +2810,16 @@ public class ResourceApi extends GnossApiWrapper{
 				result= gson.fromJson(response, Boolean.class); 
 
 				if(result) {
-					this._logHelper.Debug("The user "+userId+" is allowed to edit the resource "+resourceId+" in "+getCommunityShortName());
+					_logHelper.Debug("The user "+userId+" is allowed to edit the resource "+resourceId+" in "+getCommunityShortName());
 				}else {
-					this._logHelper.Debug("The user "+userId+" is not allowed to edit the resource "+resourceId+" in "+getCommunityShortName());
+					_logHelper.Debug("The user "+userId+" is not allowed to edit the resource "+resourceId+" in "+getCommunityShortName());
 				}
 			}catch(Exception ex) {
-				this._logHelper.Error(ex.getMessage());
+				_logHelper.Error(ex.getMessage());
 				throw ex;
 			}
 		}else {
-			this._logHelper.Error("Any of this are null or empty: resourceId, userId");
+			_logHelper.Error("Any of this are null or empty: resourceId, userId");
 		}
 		return result;
 	}
@@ -2841,10 +2840,10 @@ public class ResourceApi extends GnossApiWrapper{
 			visibilidad= gson.fromJson(result, ResourceVisibility.class);
 
 			if(visibilidad==null) {
-				this._logHelper.Error("Resource visibility not obtained "+resourceId);
+				_logHelper.Error("Resource visibility not obtained "+resourceId);
 			}
 		}catch(Exception ex) {
-			this._logHelper.Error("Error getting the visibility of "+resourceId+": "+ex.getMessage());
+			_logHelper.Error("Error getting the visibility of "+resourceId+": "+ex.getMessage());
 			throw ex;
 		}
 		return visibilidad;
@@ -2883,7 +2882,7 @@ public class ResourceApi extends GnossApiWrapper{
 			listaIds= gson.fromJson(result, (Type) new ArrayList<UUID>());
 
 		}catch(Exception ex) {
-			this._logHelper.Error("Error getting the related resources of "+resourceId+ ": "+ex.getMessage());
+			_logHelper.Error("Error getting the related resources of "+resourceId+ ": "+ex.getMessage());
 			throw ex;
 		}
 		return listaIds;
@@ -2903,10 +2902,10 @@ public class ResourceApi extends GnossApiWrapper{
 			String result=WebRequest("GET", url, "application/x-www-form-urlencoded");
 			Gson gson = new Gson();
 			listaDocs= gson.fromJson(result, (Type) new HashMap<String, List<UUID>>());
-			this._logHelper.Debug("The user id "+userId+" publisher "+result);
+			_logHelper.Debug("The user id "+userId+" publisher "+result);
 
 		}catch(Exception ex) {
-			this._logHelper.Error("Error getting the shared communities of  "+userId+ ": "+ex.getMessage());
+			_logHelper.Error("Error getting the shared communities of  "+userId+ ": "+ex.getMessage());
 			throw ex;
 		}
 		return  listaDocs;
@@ -2926,9 +2925,9 @@ public class ResourceApi extends GnossApiWrapper{
 			String result=WebRequest("GET", url, "application/x-www-form-urlencoded");
 			Gson gson = new Gson();
 			valor= gson.fromJson(result, String.class);
-			this._logHelper.Debug("The proyect id "+proyectoId+ " have styles path "+result);
+			_logHelper.Debug("The proyect id "+proyectoId+ " have styles path "+result);
 		}catch(Exception ex) {
-			this._logHelper.Error("Error getting the shared communities of "+proyectoId+": "+ex.getMessage());
+			_logHelper.Error("Error getting the shared communities of "+proyectoId+": "+ex.getMessage());
 			throw ex;
 		}
 		return valor;
@@ -2947,9 +2946,9 @@ public class ResourceApi extends GnossApiWrapper{
 			String result=WebRequest("GET", url, "application/x-www-form-urlencoded");
 			Gson gson = new Gson();
 			communities= gson.fromJson(result, (Type) new ArrayList<String>());
-			this._logHelper.Debug("The resource "+resourceId+ " has been shared in "+result);
+			_logHelper.Debug("The resource "+resourceId+ " has been shared in "+result);
 		}catch(Exception ex) {
-			this._logHelper.Error("Error getting the shared communities of "+resourceId+": "+ex.getMessage());
+			_logHelper.Error("Error getting the shared communities of "+resourceId+": "+ex.getMessage());
 			throw ex;
 		}
 		return communities;
@@ -2971,12 +2970,12 @@ public class ResourceApi extends GnossApiWrapper{
 			readers= gson.fromJson(response, KeyReaders.class);
 
 			if(readers!=null) {
-				this._logHelper.Debug("Resource readers of "+resourceId+": "+response);
+				_logHelper.Debug("Resource readers of "+resourceId+": "+response);
 			}else {
-				this._logHelper.Error("Couldn´t get readers of:" +resourceId);
+				_logHelper.Error("Couldn´t get readers of:" +resourceId);
 			}
 		}catch(Exception ex) {
-			this._logHelper.Error("Error getting the resources of "+resourceId+ ": "+ex.getMessage());
+			_logHelper.Error("Error getting the resources of "+resourceId+ ": "+ex.getMessage());
 			throw ex;
 		}
 		return readers;
@@ -3003,13 +3002,13 @@ public class ResourceApi extends GnossApiWrapper{
 			unshared= gson.fromJson(response, Boolean.class);
 
 			if(unshared) {
-				this._logHelper.Debug("Resource "+resourceId+ " unshared from "+communityShortName);
+				_logHelper.Debug("Resource "+resourceId+ " unshared from "+communityShortName);
 			}else {
-				this._logHelper.Debug("Resource "+resourceId+ " not unshared from "+communityShortName);
+				_logHelper.Debug("Resource "+resourceId+ " not unshared from "+communityShortName);
 			}
 		}
 		catch(Exception ex) {
-			this._logHelper.Error("Error trying to unsare the resource "+resourceId+" from "+communityShortName+": "+ex.getMessage());
+			_logHelper.Error("Error trying to unsare the resource "+resourceId+" from "+communityShortName+": "+ex.getMessage());
 			throw ex;
 		}
 		return unshared;
@@ -3047,12 +3046,12 @@ public class ResourceApi extends GnossApiWrapper{
 			success= gson.fromJson(response, Boolean.class);
 
 			if(success) {
-				this._logHelper.Debug("Triples inserted in "+resourceId+ ": "+"JsonConvert.SerializeObject(triplesToInsert");
+				_logHelper.Debug("Triples inserted in "+resourceId+ ": "+"JsonConvert.SerializeObject(triplesToInsert");
 			}else {
-				this._logHelper.Debug("Triples not  inserted in "+resourceId+ ": "+"JsonConvert.SerializeObject(triplesToInsert");
+				_logHelper.Debug("Triples not  inserted in "+resourceId+ ": "+"JsonConvert.SerializeObject(triplesToInsert");
 			}
 		}catch(Exception ex) {
-			this._logHelper.Error("Error trying to insert propertiess into "+resourceId+ ": "+ex.getMessage() +". \r\n :Json: JsonConvert.SerializeObject(triplesToInsert)");
+			_logHelper.Error("Error trying to insert propertiess into "+resourceId+ ": "+ex.getMessage() +". \r\n :Json: JsonConvert.SerializeObject(triplesToInsert)");
 			throw ex;
 		}
 		return success;
@@ -3084,12 +3083,12 @@ public class ResourceApi extends GnossApiWrapper{
 			success= gson.fromJson(response, Boolean.class);
 
 			if(success) {
-				this._logHelper.Debug("Triples deleted in "+resourceId+ ": "+"JsonConvert.SerializeObject(triplesToInsert");
+				_logHelper.Debug("Triples deleted in "+resourceId+ ": "+"JsonConvert.SerializeObject(triplesToInsert");
 			}else {
-				this._logHelper.Debug("Triples not  deleted in "+resourceId+ ": "+"JsonConvert.SerializeObject(triplesToInsert");
+				_logHelper.Debug("Triples not  deleted in "+resourceId+ ": "+"JsonConvert.SerializeObject(triplesToInsert");
 			}
 		}catch(Exception ex) {
-			this._logHelper.Error("Error trying to delete propertiess into "+resourceId+ ": "+ex.getMessage() +". \r\n :Json: JsonConvert.SerializeObject(triplesToInsert)");
+			_logHelper.Error("Error trying to delete propertiess into "+resourceId+ ": "+ex.getMessage() +". \r\n :Json: JsonConvert.SerializeObject(triplesToInsert)");
 			throw ex;
 		}
 		return success;
@@ -3110,13 +3109,13 @@ public class ResourceApi extends GnossApiWrapper{
 			editorsList= gson.fromJson(response, (Type) new ArrayList<KeyEditors>());
 
 			if(editorsList!=null && editorsList.size()>0) {
-				this._logHelper.Debug("Editors of the resources "+gson1.toJson(resourceId_list)+": "+response);
+				_logHelper.Debug("Editors of the resources "+gson1.toJson(resourceId_list)+": "+response);
 			}
 			else {
-				this._logHelper.Debug("There is no Editors for the resources "+gson1.toJson(resourceId_list));
+				_logHelper.Debug("There is no Editors for the resources "+gson1.toJson(resourceId_list));
 			}
 		}catch(Exception ex) {
-			this._logHelper.Error("Error getting the editors of the resources "+gson1.toJson(resourceId_list)+". Error description: "+ex.getMessage());
+			_logHelper.Error("Error getting the editors of the resources "+gson1.toJson(resourceId_list)+". Error description: "+ex.getMessage());
 		}
 		return editorsList;
 	}
@@ -3144,13 +3143,13 @@ public class ResourceApi extends GnossApiWrapper{
 			urlList= gson.fromJson(response, (Type) new ArrayList<ResponseGetUrl>());
 
 			if(urlList!=null && urlList.size()==0) {
-				this._logHelper.Debug("Downloads urls of the resources "+gson1.toJson(resourceId_list)+": "+response);
+				_logHelper.Debug("Downloads urls of the resources "+gson1.toJson(resourceId_list)+": "+response);
 			}else {
-				this._logHelper.Debug("There is no download  url for the resources "+gson1.toJson(resourceId_list));
+				_logHelper.Debug("There is no download  url for the resources "+gson1.toJson(resourceId_list));
 			}
 
 		}catch(Exception ex) {
-			this._logHelper.Error("Error getting the download urls  of the resources "+gson1.toJson(resourceId_list)+": Error description"+ex.getMessage());
+			_logHelper.Error("Error getting the download urls  of the resources "+gson1.toJson(resourceId_list)+": Error description"+ex.getMessage());
 			throw ex;
 		}
 
@@ -3182,12 +3181,12 @@ public class ResourceApi extends GnossApiWrapper{
 			urlList= gson.fromJson(response, (Type) new ArrayList<ResponseGetUrl>());
 
 			if(urlList!=null && urlList.size()==0) {
-				this._logHelper.Debug("Urls of the resources "+gson1.toJson(parameters)+": "+response);
+				_logHelper.Debug("Urls of the resources "+gson1.toJson(parameters)+": "+response);
 			}else {
-				this._logHelper.Debug("There is no urls for the resources "+gson1.toJson(parameters));
+				_logHelper.Debug("There is no urls for the resources "+gson1.toJson(parameters));
 			}
 		}catch(Exception ex) {
-			this._logHelper.Error("Error getting the download urls  of the resources "+gson1.toJson(resourceId_list)+": Error description"+ex.getMessage());
+			_logHelper.Error("Error getting the download urls  of the resources "+gson1.toJson(resourceId_list)+": Error description"+ex.getMessage());
 			throw ex;
 		}
 
@@ -3217,9 +3216,9 @@ public class ResourceApi extends GnossApiWrapper{
 				readers.setVisibility( Integer.parseInt(visibility.toString()));
 			}
 			WebRequestPostWithJsonObject(url, readers);
-			this._logHelper.Debug("Ended resource readers setting");
+			_logHelper.Debug("Ended resource readers setting");
 		}catch(Exception ex) {
-			this._logHelper.Error("Error setting resource "+resourceId+" readers. \r\n json:" +gson1.toJson(readers)+": Error description"+ex.getMessage());
+			_logHelper.Error("Error setting resource "+resourceId+" readers. \r\n json:" +gson1.toJson(readers)+": Error description"+ex.getMessage());
 			throw ex;
 		}
 	}
@@ -3244,9 +3243,9 @@ public class ResourceApi extends GnossApiWrapper{
 
 			}
 			WebRequestPostWithJsonObject(url, readers);
-			this._logHelper.Debug("Ended resource readers setting");
+			_logHelper.Debug("Ended resource readers setting");
 		}catch(Exception ex) {
-			this._logHelper.Error("Error setting resource "+resourceId+" readers. \r\n json:" +gson1.toJson(readers)+": Error description"+ex.getMessage());
+			_logHelper.Error("Error setting resource "+resourceId+" readers. \r\n json:" +gson1.toJson(readers)+": Error description"+ex.getMessage());
 			throw ex;
 		}
 	}
@@ -3271,9 +3270,9 @@ public class ResourceApi extends GnossApiWrapper{
 
 			}
 			WebRequestPostWithJsonObject(url, readers);
-			this._logHelper.Debug("Ended resource readers setting");
+			_logHelper.Debug("Ended resource readers setting");
 		}catch(Exception ex) {
-			this._logHelper.Error("Error setting resource "+resourceId+" readers. \r\n json:" +gson1.toJson(readers)+": Error description"+ex.getMessage());
+			_logHelper.Error("Error setting resource "+resourceId+" readers. \r\n json:" +gson1.toJson(readers)+": Error description"+ex.getMessage());
 			throw ex;
 
 		}
@@ -3302,9 +3301,9 @@ public class ResourceApi extends GnossApiWrapper{
 
 			}
 			WebRequestPostWithJsonObject(url, readers);
-			this._logHelper.Debug("Ended resource readers setting");
+			_logHelper.Debug("Ended resource readers setting");
 		}catch(Exception ex) {
-			this._logHelper.Error("Error setting resource "+resourceId+" readers. \r\n json:" +gson1.toJson(readers)+": Error description"+ex.getMessage());
+			_logHelper.Error("Error setting resource "+resourceId+" readers. \r\n json:" +gson1.toJson(readers)+": Error description"+ex.getMessage());
 			throw ex;
 		}
 	}
@@ -3331,9 +3330,9 @@ public class ResourceApi extends GnossApiWrapper{
 
 			}
 			WebRequestPostWithJsonObject(url, readers);
-			this._logHelper.Debug("Ended resource readers setting");
+			_logHelper.Debug("Ended resource readers setting");
 		}catch(Exception ex) {
-			this._logHelper.Error("Error setting resource "+resourceId+" readers. \r\n json:" +gson1.toJson(readers)+": Error description"+ex.getMessage());
+			_logHelper.Error("Error setting resource "+resourceId+" readers. \r\n json:" +gson1.toJson(readers)+": Error description"+ex.getMessage());
 			throw ex;
 		}
 	}
@@ -3359,9 +3358,9 @@ public class ResourceApi extends GnossApiWrapper{
 
 			}
 			WebRequestPostWithJsonObject(url, readers);
-			this._logHelper.Debug("Ended resource readers setting");
+			_logHelper.Debug("Ended resource readers setting");
 		}catch(Exception ex) {
-			this._logHelper.Error("Error setting resource "+resourceId+" readers. \r\n json:" +gson1.toJson(readers)+": Error description"+ex.getMessage());
+			_logHelper.Error("Error setting resource "+resourceId+" readers. \r\n json:" +gson1.toJson(readers)+": Error description"+ex.getMessage());
 			throw ex;
 		}
 	}
@@ -3388,9 +3387,9 @@ public class ResourceApi extends GnossApiWrapper{
 
 			}
 			WebRequestPostWithJsonObject(url, vote);
-			this._logHelper.Debug("Ended resource readers setting");
+			_logHelper.Debug("Ended resource readers setting");
 		}catch(Exception ex) {
-			this._logHelper.Error("Error setting resource "+pDocumentoID+" readers. \r\n json:" +gson1.toJson(vote)+": Error description"+ex.getMessage());
+			_logHelper.Error("Error setting resource "+pDocumentoID+" readers. \r\n json:" +gson1.toJson(vote)+": Error description"+ex.getMessage());
 			throw ex;
 		}
 	}
@@ -3415,13 +3414,13 @@ public class ResourceApi extends GnossApiWrapper{
 			emailsList= gson.fromJson(response, (Type) new HashMap<UUID, String>());
 
 			if(emailsList!=null && emailsList.size()==0) {
-				this._logHelper.Debug("Urls of resources "+gson1.toJson(resourceId_list)+": "+response);
+				_logHelper.Debug("Urls of resources "+gson1.toJson(resourceId_list)+": "+response);
 			}
 			else {
-				this._logHelper.Debug("There is no Urls of resources "+gson1.toJson(resourceId_list));
+				_logHelper.Debug("There is no Urls of resources "+gson1.toJson(resourceId_list));
 			}
 		}catch(Exception ex) {
-			this._logHelper.Error("Error getting the Urls of resources "+gson1.toJson(resourceId_list)+": "+ex.getMessage());
+			_logHelper.Error("Error getting the Urls of resources "+gson1.toJson(resourceId_list)+": "+ex.getMessage());
 			throw ex;
 		}
 		return emailsList;
@@ -3449,7 +3448,7 @@ public class ResourceApi extends GnossApiWrapper{
 			categoriesList= gson.fromJson(response, (Type) new ArrayList<ResponseGetCategories>());
 
 			if(categoriesList!=null && categoriesList.size()==resourceId_list.size()) {
-				this._logHelper.Debug("Categories of resources "+gson1.toJson(resourceId_list)+": "+response);
+				_logHelper.Debug("Categories of resources "+gson1.toJson(resourceId_list)+": "+response);
 			}else {
 				List<UUID> listaRecursosSinCategoria=null;
 				int i=0;
@@ -3463,11 +3462,11 @@ public class ResourceApi extends GnossApiWrapper{
 				if(i==0) {
 					listaRecursosSinCategoria=resourceId_list;
 				}
-				this._logHelper.Debug("There is no categories for resources "+gson1.toJson(listaRecursosSinCategoria));
+				_logHelper.Debug("There is no categories for resources "+gson1.toJson(listaRecursosSinCategoria));
 
 			}
 		}catch(Exception ex) {
-			this._logHelper.Error("Error getting the categories of resources: "+gson1.toJson(resourceId_list)+". Error descripcion "+ex.getMessage());
+			_logHelper.Error("Error getting the categories of resources: "+gson1.toJson(resourceId_list)+". Error descripcion "+ex.getMessage());
 		}
 		return categoriesList;
 	}
@@ -3489,7 +3488,7 @@ public class ResourceApi extends GnossApiWrapper{
 			tagsList= gson.fromJson(response, (Type) new ArrayList<ResponseGetTags>());
 
 			if(tagsList!=null && tagsList.size()==resourceId_list.size()) {
-				this._logHelper.Debug("Tags of resources "+ gson.toJson(resourceId_list)+ ":"+ response);
+				_logHelper.Debug("Tags of resources "+ gson.toJson(resourceId_list)+ ":"+ response);
 			}
 			else {
 				List<UUID> listaRecursosSinTags=null;
@@ -3504,11 +3503,11 @@ public class ResourceApi extends GnossApiWrapper{
 				if(i==0) {
 					listaRecursosSinTags=resourceId_list;
 				}
-				this._logHelper.Debug("There is no tags for resources "+gson.toJson(resourceId_list));
+				_logHelper.Debug("There is no tags for resources "+gson.toJson(resourceId_list));
 
 			}
 		}catch(Exception ex) {
-			this._logHelper.Error("Error getting the tags of resources :"+gson.toJson(resourceId_list)+" Error description "+ex.getMessage());
+			_logHelper.Error("Error getting the tags of resources :"+gson.toJson(resourceId_list)+" Error description "+ex.getMessage());
 			throw ex;
 		}
 		return tagsList;
@@ -3531,13 +3530,13 @@ public class ResourceApi extends GnossApiWrapper{
 			mainImagesList=gson.fromJson(response, (Type) new  ArrayList<ResponseGetMainImage>());
 
 			if(mainImagesList!=null && mainImagesList.size()==0) {
-				this._logHelper.Debug("Main images of resources "+gson.toJson(resourceId_list)+":"+response);
+				_logHelper.Debug("Main images of resources "+gson.toJson(resourceId_list)+":"+response);
 
 			}else {
-				this._logHelper.Debug("There is no main images for resources: "+gson.toJson(resourceId_list));
+				_logHelper.Debug("There is no main images for resources: "+gson.toJson(resourceId_list));
 			}
 		}catch(Exception ex) {
-			this._logHelper.Error("Error getting thhe main images of resources: "+ gson.toJson(resourceId_list)+". Error description: " +ex.getMessage());
+			_logHelper.Error("Error getting thhe main images of resources: "+ gson.toJson(resourceId_list)+". Error description: " +ex.getMessage());
 			throw ex;
 		}
 		return mainImagesList;
@@ -3560,12 +3559,12 @@ public class ResourceApi extends GnossApiWrapper{
 			resource= gson.fromJson(response, (Type) new HashMap<UUID, AumentedReading>());
 
 			if(resource!=null) {
-				this._logHelper.Debug("Increased reading obtained");
+				_logHelper.Debug("Increased reading obtained");
 			}else {
-				this._logHelper.Debug("Error getting increased reading");
+				_logHelper.Debug("Error getting increased reading");
 			}
 		}catch(Exception ex) {
-			this._logHelper.Error("Error getting the increades reading "+ex.getMessage());
+			_logHelper.Error("Error getting the increades reading "+ex.getMessage());
 			throw ex;
 		}
 		return resource;
@@ -3581,13 +3580,13 @@ public class ResourceApi extends GnossApiWrapper{
 			resource=gson.fromJson(response, Resource.class);
 
 			if(resource!=null) {
-				this._logHelper.Debug("Resource "+resourceId+" obtained");
+				_logHelper.Debug("Resource "+resourceId+" obtained");
 
 			}else {
-				this._logHelper.Debug("Error getting the resource "+resourceId);
+				_logHelper.Debug("Error getting the resource "+resourceId);
 			}
 		}catch(Exception ex) {
-			this._logHelper.Error("Error getting the resource "+resourceId+", "+ex.getMessage());
+			_logHelper.Error("Error getting the resource "+resourceId+", "+ex.getMessage());
 			throw ex;
 		}
 		return resource;
@@ -3606,12 +3605,12 @@ public class ResourceApi extends GnossApiWrapper{
 			rdf=WebRequest("GET", url, "application/json");
 
 			if(!StringUtils.isBlank(rdf) || !rdf.isEmpty()) {
-				this._logHelper.Debug("Rdf obtained for the resource "+resourceId);
+				_logHelper.Debug("Rdf obtained for the resource "+resourceId);
 			}else {
-				this._logHelper.Debug("There is no rdf for the resource "+resourceId);
+				_logHelper.Debug("There is no rdf for the resource "+resourceId);
 			}
 		}catch(Exception ex) {
-			this._logHelper.Error("Error getting the rdf for the resource "+resourceId);
+			_logHelper.Error("Error getting the rdf for the resource "+resourceId);
 			throw ex;
 		}
 		return rdf;
@@ -3633,10 +3632,10 @@ public class ResourceApi extends GnossApiWrapper{
 			insertAttribute.setValue(value);
 			WebRequestPostWithJsonObject(url, insertAttribute);
 
-			this._logHelper.Debug("Ended inserting the value: "+value+" in the graph: "+graph);
+			_logHelper.Debug("Ended inserting the value: "+value+" in the graph: "+graph);
 
 		}catch(Exception ex) {
-			this._logHelper.Error("Error inserting value:"+value+" in the graph "+graph+". Error description: "+ex.getMessage());
+			_logHelper.Error("Error inserting value:"+value+" in the graph "+graph+". Error description: "+ex.getMessage());
 			throw ex;
 		}
 	}
@@ -3659,12 +3658,12 @@ public class ResourceApi extends GnossApiWrapper{
 
 			String response=WebRequestPostWithJsonObject(urlMethod, model);
 			exists=gson.fromJson(response, Boolean.class);
-			this._logHelper.Debug("Ended resource persistent deleting");
+			_logHelper.Debug("Ended resource persistent deleting");
 
 
 		}
 		catch(Exception ex) {
-			this._logHelper.Error("Error on a searching of an url. \r\n:  Json "+gson.toJson(model)+", "+ ex.getMessage());
+			_logHelper.Error("Error on a searching of an url. \r\n:  Json "+gson.toJson(model)+", "+ ex.getMessage());
 			throw ex;
 
 		}
@@ -3692,10 +3691,10 @@ public class ResourceApi extends GnossApiWrapper{
 
 			WebRequestPostWithJsonObject(url, model);
 			loaded=true;
-			this._logHelper.Debug("Ended link resources");
+			_logHelper.Debug("Ended link resources");
 		}
 		catch(Exception ex) {
-			this._logHelper.Error("Error linked resource "+resourceId+". \r\n Json: "+gson.toJson(model)+", "+ex.getMessage());
+			_logHelper.Error("Error linked resource "+resourceId+". \r\n Json: "+gson.toJson(model)+", "+ex.getMessage());
 			throw ex;
 		}
 		return loaded;
@@ -3724,11 +3723,11 @@ public class ResourceApi extends GnossApiWrapper{
 			model.setPublisher_email(publisher_email);
 
 			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("Ended resource sharing");
+			_logHelper.Debug("Ended resource sharing");
 			shared=true;
 		}
 		catch(Exception ex) {
-			this._logHelper.Error("Error sharing resource "+resourceId+ ". \r\n: Json:"+gson.toJson(model)+", "+ex.getMessage());
+			_logHelper.Error("Error sharing resource "+resourceId+ ". \r\n: Json:"+gson.toJson(model)+", "+ex.getMessage());
 			throw ex;
 		}
 		return shared;
@@ -3748,11 +3747,11 @@ public class ResourceApi extends GnossApiWrapper{
 		try {
 			String url=getApiUrl()+"/resource/share-resources";
 			WebRequestPostWithJsonObject(url, parameters);
-			this._logHelper.Debug("Ended resource sharing");
+			_logHelper.Debug("Ended resource sharing");
 			shared=true;
 		}
 		catch(Exception ex) {
-			this._logHelper.Error("Error sharing resources. \r\n: Json: "+gson.toJson(parameters));
+			_logHelper.Error("Error sharing resources. \r\n: Json: "+gson.toJson(parameters));
 			throw ex;
 		}
 
@@ -3778,11 +3777,11 @@ public class ResourceApi extends GnossApiWrapper{
 			model.setPath(path);
 
 			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("Ended resource main image setting");
+			_logHelper.Debug("Ended resource main image setting");
 			setted=true;
 		}
 		catch(Exception ex) {
-			this._logHelper.Error("Error setting resource main image "+resourceId+". \r\n: Json: "+gson.toJson(model)+", "+ex.getMessage());
+			_logHelper.Error("Error setting resource main image "+resourceId+". \r\n: Json: "+gson.toJson(model)+", "+ex.getMessage());
 			throw ex;
 		}
 		return setted;
@@ -3818,13 +3817,13 @@ public class ResourceApi extends GnossApiWrapper{
 
 			UUID comentId=UUID.fromString(response);
 			if(comentId!=null) {
-				this._logHelper.Debug("Ended resource "+resourceId+" comment: "+comentId);
+				_logHelper.Debug("Ended resource "+resourceId+" comment: "+comentId);
 			}else {
-				this._logHelper.Debug("Error comenting resource "+resourceId);
+				_logHelper.Debug("Error comenting resource "+resourceId);
 			}
 			return comentId;
 		}catch(Exception ex) {
-			this._logHelper.Error("Error comenting resource "+resourceId+". \r\n: Json: "+gson.toJson(model)+", "+ex.getMessage());
+			_logHelper.Error("Error comenting resource "+resourceId+". \r\n: Json: "+gson.toJson(model)+", "+ex.getMessage());
 			throw ex;
 		}
 
@@ -3859,7 +3858,7 @@ public class ResourceApi extends GnossApiWrapper{
 
 			return metakeywords;
 		} catch(Exception ex) {
-			this._logHelper.Error("Error getting metakeywords from resource " + resourceID + ". \r\n: Json: "+gson.toJson(metakeywordsModel)+", "+ex.getMessage());
+			_logHelper.Error("Error getting metakeywords from resource " + resourceID + ". \r\n: Json: "+gson.toJson(metakeywordsModel)+", "+ex.getMessage());
 			throw ex;
 		}
 	}
@@ -3879,14 +3878,14 @@ public class ResourceApi extends GnossApiWrapper{
 			resourceId=WebRequestPostWithJsonObject(url, parameters);
 
 			if(!resourceId.isEmpty() || !StringUtils.isBlank(resourceId)) {
-				this._logHelper.Debug("Basic ontology resource created: "+resourceId);
+				_logHelper.Debug("Basic ontology resource created: "+resourceId);
 			}
 			else {
-				this._logHelper.Debug("Basic ontology resource not created: "+gson.toJson(parameters));
+				_logHelper.Debug("Basic ontology resource not created: "+gson.toJson(parameters));
 			}
 		}
 		catch(Exception ex) {
-			this._logHelper.Error("Error trying to create a basic ontology resource. \r\n Error description: "+ex.getMessage()+ ".\r\n Json: "+gson.toJson(parameters));
+			_logHelper.Error("Error trying to create a basic ontology resource. \r\n Error description: "+ex.getMessage()+ ".\r\n Json: "+gson.toJson(parameters));
 			throw ex;
 		}
 		return resourceId;
@@ -3945,12 +3944,12 @@ public class ResourceApi extends GnossApiWrapper{
 			WebRequestPostWithJsonObject(url, massiveLoad);
 
 			if(!StringUtils.isBlank(resourceId) || !resourceId.isEmpty()) {
-				this._logHelper.Debug("Complex ontology resource created: "+resourceId);
+				_logHelper.Debug("Complex ontology resource created: "+resourceId);
 			}else {
-				this._logHelper.Debug("Massive Complex ontology resource not created: "+gson.toJson(massiveLoad));
+				_logHelper.Debug("Massive Complex ontology resource not created: "+gson.toJson(massiveLoad));
 			}
 		}catch(Exception ex) {
-			this._logHelper.Error("Error trying to create a Massive complex ontology resource. \r\n Error description: "+ex.getMessage()+". \r\n Json: "+gson.toJson(massiveLoad));
+			_logHelper.Error("Error trying to create a Massive complex ontology resource. \r\n Error description: "+ex.getMessage()+". \r\n Json: "+gson.toJson(massiveLoad));
 			throw ex;
 		}
 
@@ -3970,11 +3969,11 @@ public class ResourceApi extends GnossApiWrapper{
 			String url=getApiUrl()+"/resource/modify-basic-ontology-resource";
 			String response=WebRequestPostWithJsonObject(url, parameters);
 
-			this._logHelper.Debug("Ended resource main image setting");
+			_logHelper.Debug("Ended resource main image setting");
 			modified=gson.fromJson(response, Boolean.class);
 
 		}catch(Exception ex) {
-			this._logHelper.Error("Error modifying resource "+parameters.resource_id +". \r\n Json: "+gson.toJson(parameters)+", "+ex.getMessage());
+			_logHelper.Error("Error modifying resource "+parameters.resource_id +". \r\n Json: "+gson.toJson(parameters)+", "+ex.getMessage());
 			throw ex; 
 		}
 		return modified;
@@ -4010,11 +4009,11 @@ public class ResourceApi extends GnossApiWrapper{
 			model.setEnd_of_load(endOfLoad);
 
 			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("Ended resource triples list modification");
+			_logHelper.Debug("Ended resource triples list modification");
 
 
 		}catch(Exception ex) {
-			this._logHelper.Error("Error modifying resource triples list. \r\n: Json: " + gson.toJson(model) + ", " + ex.getMessage());
+			_logHelper.Error("Error modifying resource triples list. \r\n: Json: " + gson.toJson(model) + ", " + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -4032,7 +4031,7 @@ public class ResourceApi extends GnossApiWrapper{
 			WebRequestPostWithJsonObject(url, parameters);
 		}
 		catch(Exception ex) {
-			this._logHelper.Error("Error modifying massive triples. \r\n: Json: "+gson.toJson(parameters)+", "+ex.getMessage());
+			_logHelper.Error("Error modifying massive triples. \r\n: Json: "+gson.toJson(parameters)+", "+ex.getMessage());
 			throw ex;
 		}
 	}
@@ -4054,7 +4053,7 @@ public class ResourceApi extends GnossApiWrapper{
 			token=gson.fromJson(token, String.class);
 			SetLockTokenForResource(resourceId, token);
 		}catch(Exception ex) {
-			this._logHelper.Error("Error, the document "+resourceId+" can´t be locked. "+ ex.getMessage());
+			_logHelper.Error("Error, the document "+resourceId+" can´t be locked. "+ ex.getMessage());
 			throw ex;
 		}
 	}
@@ -4073,7 +4072,7 @@ public class ResourceApi extends GnossApiWrapper{
 			WebRequest("POST", url);
 			SetLockTokenForResource(resourceId, null);
 		}catch(Exception ex) {
-			this._logHelper.Error("Error, the document "+resourceId+ " can´t be unlocked. "+ex.getMessage());
+			_logHelper.Error("Error, the document "+resourceId+ " can´t be unlocked. "+ex.getMessage());
 			throw ex;
 		}
 	}
@@ -4092,7 +4091,7 @@ public class ResourceApi extends GnossApiWrapper{
 		try {
 			return gson.fromJson(WebRequest("GET", url), Boolean.class);
 		}catch(Exception ex) {
-			this._logHelper.Error("Error, we couldn´t verify if resource "+resourceId+" was locked. "+ex.getMessage());
+			_logHelper.Error("Error, we couldn´t verify if resource "+resourceId+" was locked. "+ex.getMessage());
 			throw ex;
 		}
 	}
@@ -4113,10 +4112,10 @@ public class ResourceApi extends GnossApiWrapper{
 			String response=WebRequest("GET", url);
 			resources=gson.fromJson(response, (Type) new ArrayList<UUID>());
 
-			this._logHelper.Debug("Resources obtained of the community "+communityShortName+" from date "+searchDate);
+			_logHelper.Debug("Resources obtained of the community "+communityShortName+" from date "+searchDate);
 
 		}catch(Exception ex) {
-			this._logHelper.Error("Error getting the resources of "+communityShortName+" from date "+searchDate);
+			_logHelper.Error("Error getting the resources of "+communityShortName+" from date "+searchDate);
 			throw ex;
 		}
 
@@ -4142,13 +4141,13 @@ public class ResourceApi extends GnossApiWrapper{
 			resource=gson.fromJson(response, ResourceNoveltiesModel.class);
 
 			if(resource!=null) {
-				this._logHelper.Debug("Obtained the resource "+resourceId+" of the community "+communityShortName+" from date "+searchDate);
+				_logHelper.Debug("Obtained the resource "+resourceId+" of the community "+communityShortName+" from date "+searchDate);
 			}
 			else {
-				this._logHelper.Debug("The resource "+resourceId+" could not be obtained of the community "+communityShortName+" from date "+searchDate);
+				_logHelper.Debug("The resource "+resourceId+" could not be obtained of the community "+communityShortName+" from date "+searchDate);
 			}
 		}catch(Exception ex) {
-			this._logHelper.Error("Error getting  the resource "+resourceId+" of the community "+communityShortName+" from date "+searchDate);
+			_logHelper.Error("Error getting  the resource "+resourceId+" of the community "+communityShortName+" from date "+searchDate);
 			throw ex;
 		}
 		return resource;
@@ -4328,14 +4327,14 @@ public class ResourceApi extends GnossApiWrapper{
 						endOfLoad=true;
 					}
 					ModifyTripleList(docID, listaValores, getLoadIdentifier(), publishHome, null, null, endOfLoad, userId);
-					this._logHelper.Debug(procesedNumber+" of "+resourceTriples.size()+". Object: "+docID+". Resource: "+resourceTriples.get(docID).toArray());
+					_logHelper.Debug(procesedNumber+" of "+resourceTriples.size()+". Object: "+docID+". Resource: "+resourceTriples.get(docID).toArray());
 					toModify.remove(docID);
 
 					if(!result.containsKey(docID)) {						
 						result.put(docID, true);
 					}
 				}catch(Exception ex) {
-					this._logHelper.Error("Resource "+docID+": "+ex.getMessage());
+					_logHelper.Error("Resource "+docID+": "+ex.getMessage());
 
 					if(!result.containsKey(docID)) {						
 						result.put(docID, false);
@@ -4344,7 +4343,7 @@ public class ResourceApi extends GnossApiWrapper{
 
 
 			}
-			this._logHelper.Debug("******************** Lap number: "+attempNumber +"finished");
+			_logHelper.Debug("******************** Lap number: "+attempNumber +"finished");
 		}
 
 		return result;
@@ -4388,14 +4387,14 @@ public class ResourceApi extends GnossApiWrapper{
 						endOfLoad=true;
 					}
 					ModifyTripleList(docID, listaValores, getLoadIdentifier(), publishHome, null, null, endOfLoad, usuarioId);
-					this._logHelper.Debug(procesedNumber+" of "+resourceTriples.size()+". Object: "+docID+". Resource: "+resourceTriples.get(docID).toArray());
+					_logHelper.Debug(procesedNumber+" of "+resourceTriples.size()+". Object: "+docID+". Resource: "+resourceTriples.get(docID).toArray());
 					toInsert.remove(docID);
 
 					if(!result.containsKey(docID)) {
 						result.put(docID, true);
 					}
 				}catch(Exception ex) {
-					this._logHelper.Error("Resource "+docID+": "+ex.getMessage());
+					_logHelper.Error("Resource "+docID+": "+ex.getMessage());
 
 					if(!result.containsKey(docID)) {
 						result.put(docID, false);
@@ -4404,7 +4403,7 @@ public class ResourceApi extends GnossApiWrapper{
 
 
 			}
-			this._logHelper.Debug("******************** Lap number: "+attempNumber +"finished");
+			_logHelper.Debug("******************** Lap number: "+attempNumber +"finished");
 		}
 		return result;
 
@@ -4560,13 +4559,13 @@ public class ResourceApi extends GnossApiWrapper{
 				ModifyTripleList(docID, valuesList, getLoadIdentifier(), publishHome, null, null, endOfLoad);
 				valuesList= new ArrayList<ModifyResourceTriple>();
 
-				this._logHelper.Debug("Object: "+docID);
+				_logHelper.Debug("Object: "+docID);
 
 				if(!result.containsKey(docID)) {					
 					result.put(docID, true);
 				}
 			}catch(Exception ex) {
-				this._logHelper.Error("Resource "+docID+": "+ex.getMessage());
+				_logHelper.Error("Resource "+docID+": "+ex.getMessage());
 				valuesList= new ArrayList<ModifyResourceTriple>();
 				if(!result.containsKey(docID)) {					
 					result.put(docID, false);
@@ -4611,15 +4610,15 @@ public class ResourceApi extends GnossApiWrapper{
 						endOfLoad=true;
 					}
 					ModifyTripleList(docID, listaValores, getLoadIdentifier(), publishHome, null, null, endOfLoad, userId);
-					this._logHelper.Debug(processedNumber+" of "+resourceTriples.size()+" Object: "+docID+". Resource: "+resourceTriples.get(docID).toArray());
+					_logHelper.Debug(processedNumber+" of "+resourceTriples.size()+" Object: "+docID+". Resource: "+resourceTriples.get(docID).toArray());
 					pDiccionarioInsertar.remove(docID);
 					inserted=true;
 				}
 				catch(Exception ex) {
-					this._logHelper.Error("Resource "+docID+" : "+ex.getMessage());
+					_logHelper.Error("Resource "+docID+" : "+ex.getMessage());
 				}
 			}
-			this._logHelper.Debug("******************** Lap number: "+attempNumber+ " finished");
+			_logHelper.Debug("******************** Lap number: "+attempNumber+ " finished");
 		}
 		return inserted; 
 	}
@@ -4635,7 +4634,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 * @throws Exception exception 
 	 */
 	private void LoadBasicOntologyResourceInt (BasicOntologyResource resource, boolean hierarquicalCategories, TiposDocumentacion resourceType, boolean isLast) throws Exception {
-		this._logHelper.Trace("******************** Begin Load"+ this.getClass().getSimpleName());
+		_logHelper.Trace("******************** Begin Load"+ this.getClass().getSimpleName());
 
 		if(((resource.getCategoriesIds()!=null && resource.getCategoriesIds().size()==0) || resource.getCategoriesIds()==null )  && resource.getTextCategories()!=null && resource.getTextCategories().size()>0) {
 			if(hierarquicalCategories) {
@@ -4649,19 +4648,19 @@ public class ResourceApi extends GnossApiWrapper{
 			LoadResourceParams model= GetResourceModelOfBasicOntologyResource(getCommunityShortName(), resource, isLast, (short) i);
 			String documentId=CreateBasicOntologyResource(model);
 			resource.setUploaded(true);
-			this._logHelper.Debug("Loaded "+resource.getGnossId()+"\t Title: "+resource.getTitle()+ "\t ResourceID : "+documentId+ this.getClass().getSimpleName());
+			_logHelper.Debug("Loaded "+resource.getGnossId()+"\t Title: "+resource.getTitle()+ "\t ResourceID : "+documentId+ this.getClass().getSimpleName());
 
 			if(!documentId.equals(resource.getGnossId())) {
 				throw new GnossAPIException("Resource loaded with the id :"+ documentId+ "\n The IDGnpss provided to the method is different from the returned by the API");
 			}
 
 		}catch(GnossAPIException ex) {
-			this._logHelper.Info("Resource "+resource.getId()+ ". Title: "+resource.getTitle()+". Message: "+ex.getMessage()+ " "+this.getClass().getSimpleName());
+			_logHelper.Info("Resource "+resource.getId()+ ". Title: "+resource.getTitle()+". Message: "+ex.getMessage()+ " "+this.getClass().getSimpleName());
 		}
 		catch(Exception ex) {
-			this._logHelper.Error("ERROR at : "+resource.getId()+". Titile: "+resource.getTitle()+". Message: "+ex.getMessage()+" "+this.getClass().getSimpleName());
+			_logHelper.Error("ERROR at : "+resource.getId()+". Titile: "+resource.getTitle()+". Message: "+ex.getMessage()+" "+this.getClass().getSimpleName());
 		}
-		this._logHelper.Debug("******************** End Load "+this.getClass().getSimpleName());
+		_logHelper.Debug("******************** End Load "+this.getClass().getSimpleName());
 	}
 
 
@@ -4677,7 +4676,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 * @throws GnossAPICategoryException Gnoss API Category Exception 
 	 */
 	private void LoadBasicOntologyResourceIntVideo(BasicOntologyResource resource, boolean hierarquicalCategories, TiposDocumentacion resourceType, boolean isLast) throws MalformedURLException, IOException, GnossAPIException, GnossAPICategoryException {
-		this._logHelper.Trace("******************** Begin Load "+this.getClass().getSimpleName());
+		_logHelper.Trace("******************** Begin Load "+this.getClass().getSimpleName());
 		Gson gson= new Gson();
 
 		if(hierarquicalCategories) {
@@ -4698,12 +4697,12 @@ public class ResourceApi extends GnossApiWrapper{
 
 			}
 			resource.setShortGnossId(UUID.fromString(documentId));
-			this._logHelper.Debug("Loaded: "+resource.getId()+" \t Title: "+resource.getTitle()+" \t ResourceID: "+documentId+" "+this.getClass().getSimpleName());
+			_logHelper.Debug("Loaded: "+resource.getId()+" \t Title: "+resource.getTitle()+" \t ResourceID: "+documentId+" "+this.getClass().getSimpleName());
 		}
 		catch(Exception ex) {
-			this._logHelper.Error("Error at: "+resource.getId()+". Title: "+resource.getTitle()+". Message: "+ex.getMessage()+" "+this.getClass().getSimpleName());
+			_logHelper.Error("Error at: "+resource.getId()+". Title: "+resource.getTitle()+". Message: "+ex.getMessage()+" "+this.getClass().getSimpleName());
 		}
-		this._logHelper.Debug("******************** End Load "+this.getClass().getSimpleName());
+		_logHelper.Debug("******************** End Load "+this.getClass().getSimpleName());
 	}
 
 	private void LoadBasicOntologyResourceListInt(ArrayList<BasicOntologyResource> resourceList, boolean hierarquicalCategories, TiposDocumentacion resourceType, int numAttemps) {
@@ -4717,7 +4716,7 @@ public class ResourceApi extends GnossApiWrapper{
 
 		while(resourcesToLoad!=null && resourcesToLoad.size()>0 && attempNumber<= numAttemps) {
 			attempNumber++;
-			this._logHelper.Trace("******************** Begin lap number: "+attempNumber+" "+this.getClass().getSimpleName());
+			_logHelper.Trace("******************** Begin lap number: "+attempNumber+" "+this.getClass().getSimpleName());
 
 			for(BasicOntologyResource rec : resourceList) {
 				processedNumber++;
@@ -4725,14 +4724,14 @@ public class ResourceApi extends GnossApiWrapper{
 					LoadBasicOntologyResourceInt(rec, hierarquicalCategories, resourceType, processedNumber==resourceList.size());
 
 					if(rec.isUploaded()) {
-						this._logHelper.Debug("Loaded: "+processedNumber+" of "+resourceList.size()+" \t ID: "+rec.getId()+" \t Title: "+rec.getTitle());
+						_logHelper.Debug("Loaded: "+processedNumber+" of "+resourceList.size()+" \t ID: "+rec.getId()+" \t Title: "+rec.getTitle());
 					}
 					resourcesToLoad.remove(rec);
 				}
 				catch(Exception ex) {
-					this._logHelper.Error("ERROR in : "+processedNumber+" of "+resourceList.size()+ "\t ID: "+rec.getId()+ "  Title: "+rec.getTitle()+". Message: "+ex.getMessage());
+					_logHelper.Error("ERROR in : "+processedNumber+" of "+resourceList.size()+ "\t ID: "+rec.getId()+ "  Title: "+rec.getTitle()+". Message: "+ex.getMessage());
 				}
-				this._logHelper.Debug("******************** Finished lap number: "+attempNumber+" "+this.getClass().getSimpleName());
+				_logHelper.Debug("******************** Finished lap number: "+attempNumber+" "+this.getClass().getSimpleName());
 			}
 		}
 	}
@@ -4748,21 +4747,21 @@ public class ResourceApi extends GnossApiWrapper{
 
 		while(resourcesToLoad!=null && resourcesToLoad.size()>0 && attempNumber<=numAttemps) {
 			attempNumber++;
-			this._logHelper.Trace("******************** Begin lap number: "+attempNumber+", "+this.getClass().getSimpleName());
+			_logHelper.Trace("******************** Begin lap number: "+attempNumber+", "+this.getClass().getSimpleName());
 
 			for(BasicOntologyResource rec : resourceList) {
 				proccessedNumber++;
 
 				try {
 					LoadBasicOntologyResourceInt(rec, hierarquicalCategories, resourceType, proccessedNumber==resourceList.size());
-					this._logHelper.Debug("Loaded: "+proccessedNumber+" of "+resourceList.size()+"\t ID: "+rec.getId()+" \t Title: "+rec.getTitle());
+					_logHelper.Debug("Loaded: "+proccessedNumber+" of "+resourceList.size()+"\t ID: "+rec.getId()+" \t Title: "+rec.getTitle());
 					resourcesToLoad.remove(rec);
 				}
 				catch(Exception ex) {
-					this._logHelper.Error("ERROR in: "+proccessedNumber+" of "+resourceList.size()+"\t ID: "+rec.getId()+". Title: "+rec.getTitle()+". Mensaje: "+ex.getMessage()+", "+this.getClass().getSimpleName());
+					_logHelper.Error("ERROR in: "+proccessedNumber+" of "+resourceList.size()+"\t ID: "+rec.getId()+". Title: "+rec.getTitle()+". Mensaje: "+ex.getMessage()+", "+this.getClass().getSimpleName());
 				}
 			}
-			this._logHelper.Debug("******************** Finished lap number: "+attempNumber+", "+this.getClass().getSimpleName());
+			_logHelper.Debug("******************** Finished lap number: "+attempNumber+", "+this.getClass().getSimpleName());
 		}
 	}
 
@@ -4780,7 +4779,7 @@ public class ResourceApi extends GnossApiWrapper{
 			resource.setUploaded(ModifyBasicOntologyResource(model));
 		}
 		catch(Exception ex) {
-			this._logHelper.Error("The basic Ontology resource with  id: "+resource.getGnossId()+" has not been modified, "+ex.getMessage());
+			_logHelper.Error("The basic Ontology resource with  id: "+resource.getGnossId()+" has not been modified, "+ex.getMessage());
 
 		}
 	}
@@ -4803,7 +4802,7 @@ public class ResourceApi extends GnossApiWrapper{
 		while(resourcesToModify!=null && resourcesToModify.size()>0 && attempNumber<numAttemps) {
 			attempNumber++;
 			if(numAttemps>1) {
-				this._logHelper.Trace("******************** Begin lap number: "+attempNumber, this.getClass().getSimpleName());
+				_logHelper.Trace("******************** Begin lap number: "+attempNumber, this.getClass().getSimpleName());
 			}
 
 			for(BasicOntologyResource rec : resourceList){
@@ -4814,11 +4813,11 @@ public class ResourceApi extends GnossApiWrapper{
 					resourcesToModify.remove(rec);
 				}
 				catch(Exception ex) {
-					this._logHelper.Error("ERROR at: "+processedNumber+" of "+resourceList.size()+"\t ID: "+rec.getId()+". Title. "+rec.getTitle()+". Message: "+ex.getMessage(), this.getClass().getSimpleName());
+					_logHelper.Error("ERROR at: "+processedNumber+" of "+resourceList.size()+"\t ID: "+rec.getId()+". Title. "+rec.getTitle()+". Message: "+ex.getMessage(), this.getClass().getSimpleName());
 				}
 			}
 			if(numAttemps>1) {
-				this._logHelper.Trace("******************** Lap number: "+attempNumber+" finalizada ", this.getClass().getSimpleName());
+				_logHelper.Trace("******************** Lap number: "+attempNumber+" finalizada ", this.getClass().getSimpleName());
 			}
 		}
 
@@ -4849,7 +4848,7 @@ public class ResourceApi extends GnossApiWrapper{
 		while(resourceList!=null && resourceList.size()>0 && resourcesToModify>0 && attempNumber<numAttemps) {
 			attempNumber++;
 			if(numAttemps>1) {
-				this._logHelper.Trace("******************** Begin lap number: "+attempNumber, this.getClass().getSimpleName());
+				_logHelper.Trace("******************** Begin lap number: "+attempNumber, this.getClass().getSimpleName());
 			}
 			for(ComplexOntologyResource rec : resourceList1) {
 				processedNumber++;
@@ -4857,14 +4856,14 @@ public class ResourceApi extends GnossApiWrapper{
 				try {
 					ModifyComplexSemanticResourceWithOntologyAndCommunity(rec, hierarquicalCategories, processedNumber==resourceList.size(), ontology, communityShortName);
 					resourcesToModify--;
-					this._logHelper.Debug("There are "+resourcesToModify+ " resources left to modify");
+					_logHelper.Debug("There are "+resourcesToModify+ " resources left to modify");
 				}
 				catch(Exception ex) {
-					this._logHelper.Error("ERROR at: "+processedNumber+" of "+resourceList.size()+"\t ID: "+rec.getId()+". Title: "+rec.getTitle()+". Message: "+ex.getMessage(), this.getClass().getSimpleName());
+					_logHelper.Error("ERROR at: "+processedNumber+" of "+resourceList.size()+"\t ID: "+rec.getId()+". Title: "+rec.getTitle()+". Message: "+ex.getMessage(), this.getClass().getSimpleName());
 				}
 			}
 			if(numAttemps>1) {
-				this._logHelper.Trace("******************** Lap number: "+attempNumber+" finalizada ", this.getClass().getSimpleName());
+				_logHelper.Trace("******************** Lap number: "+attempNumber+" finalizada ", this.getClass().getSimpleName());
 			}
 		}
 	}
@@ -4881,7 +4880,7 @@ public class ResourceApi extends GnossApiWrapper{
 	private void ModifyComplexSemanticResourceWithOntologyAndCommunity(ComplexOntologyResource rec,
 			boolean hierarquicalCategories, boolean b, String ontology, String communityShortName) {
 
-		this._logHelper.Trace("******************** Begin the resource modification: "+rec.getGnossId(), this.getClass().getSimpleName(), getCommunityShortName());
+		_logHelper.Trace("******************** Begin the resource modification: "+rec.getGnossId(), this.getClass().getSimpleName(), getCommunityShortName());
 		try {
 			if(rec.getTextCategories()!=null) {
 				if(hierarquicalCategories) {
@@ -4897,13 +4896,13 @@ public class ResourceApi extends GnossApiWrapper{
 			rec.setModified(ModifyComplexOntologyResource(model));
 
 			if(rec.isModified()) {
-				this._logHelper.Debug("Successfully modified the resource with id: "+rec.getId()+" and Gnoss identifier "+rec.getShortGnossId()+" belonging to the ontology '"+ontologyUrl+"' and RdfType='"+rec.getOntology().getRdfType()+"'", this.getClass().getSimpleName());
+				_logHelper.Debug("Successfully modified the resource with id: "+rec.getId()+" and Gnoss identifier "+rec.getShortGnossId()+" belonging to the ontology '"+ontologyUrl+"' and RdfType='"+rec.getOntology().getRdfType()+"'", this.getClass().getSimpleName());
 			}else {
-				this._logHelper.Error("The resources with id: "+rec.getShortGnossId()+" of the ontology '"+ontologyUrl+"' hhas not been modified.", this.getClass().getSimpleName());
+				_logHelper.Error("The resources with id: "+rec.getShortGnossId()+" of the ontology '"+ontologyUrl+"' hhas not been modified.", this.getClass().getSimpleName());
 			}
 		}
 		catch(Exception ex ) {
-			this._logHelper.Error("The resource with id "+rec.getGnossId()+" has not been modified, "+ex.getMessage());
+			_logHelper.Error("The resource with id "+rec.getGnossId()+" has not been modified, "+ex.getMessage());
 		}
 	}
 
@@ -4929,7 +4928,7 @@ public class ResourceApi extends GnossApiWrapper{
 		while(resourceList!=null && resourceList.size()>0 && resourcesToModify>0 && attempNumber<numAttemps) {
 			attempNumber++;
 			if(numAttemps>1) {
-				this._logHelper.Trace("******************** Begin lap number: "+attempNumber, this.getClass().getSimpleName());
+				_logHelper.Trace("******************** Begin lap number: "+attempNumber, this.getClass().getSimpleName());
 			}
 			for(ComplexOntologyResource rec : resourceList1) {
 				processedNumber++;
@@ -4937,14 +4936,14 @@ public class ResourceApi extends GnossApiWrapper{
 				try {
 					ModifyComplexOntologyResource(rec, hierarquicalCategories, processedNumber==resourceList.size());
 					resourcesToModify--;
-					this._logHelper.Debug("There are "+resourcesToModify+" resources left to modify.");
+					_logHelper.Debug("There are "+resourcesToModify+" resources left to modify.");
 				}
 				catch(Exception ex) {
-					this._logHelper.Error("Error at: "+processedNumber+" of "+resourceList.size()+"\t ID: "+rec.getId()+". Title: "+rec.getTitle()+". Mesage: "+ex.getMessage(), this.getClass().getSimpleName());
+					_logHelper.Error("Error at: "+processedNumber+" of "+resourceList.size()+"\t ID: "+rec.getId()+". Title: "+rec.getTitle()+". Mesage: "+ex.getMessage(), this.getClass().getSimpleName());
 				}
 			}
 			if(numAttemps>1) {
-				this._logHelper.Trace("******************** Finished lap number: "+attempNumber, this.getClass().getSimpleName());
+				_logHelper.Trace("******************** Finished lap number: "+attempNumber, this.getClass().getSimpleName());
 			}
 
 		}
@@ -4974,7 +4973,7 @@ public class ResourceApi extends GnossApiWrapper{
 		while(resourceList!=null && resourceList.size()>0 && resourcesToModify>0 && attempNumber<numAttemps) {
 			attempNumber++;
 			if(numAttemps>1) {
-				this._logHelper.Trace("******************** Begin lap number: "+attempNumber, this.getClass().getSimpleName());
+				_logHelper.Trace("******************** Begin lap number: "+attempNumber, this.getClass().getSimpleName());
 			}
 			for(ComplexOntologyResource rec : resourceList1) {
 				processedNumber++;
@@ -4982,21 +4981,21 @@ public class ResourceApi extends GnossApiWrapper{
 				try {
 					ModifyComplexSemanticResourceCommunityShortName(rec, hierarquicalCategories, processedNumber==resourceList.size(), communityShortName);
 					resourcesToModify--;
-					this._logHelper.Debug("There are "+resourcesToModify+" resources left to modify.");
+					_logHelper.Debug("There are "+resourcesToModify+" resources left to modify.");
 				}
 				catch(Exception ex) {
-					this._logHelper.Error("Error at: "+processedNumber+" of "+resourceList.size()+"\t ID: "+rec.getId()+". Title: "+rec.getTitle()+". Mesage: "+ex.getMessage(), this.getClass().getSimpleName());
+					_logHelper.Error("Error at: "+processedNumber+" of "+resourceList.size()+"\t ID: "+rec.getId()+". Title: "+rec.getTitle()+". Mesage: "+ex.getMessage(), this.getClass().getSimpleName());
 				}
 			}
 			if(numAttemps>1) {
-				this._logHelper.Trace("******************** Finished lap number: "+attempNumber, this.getClass().getSimpleName());
+				_logHelper.Trace("******************** Finished lap number: "+attempNumber, this.getClass().getSimpleName());
 			}
 
 		}
 	}
 
 	public void ModifyCategoriesTagsComplexOntologyResource(UUID resourceID, String property, ArrayList<String> listToModify, boolean hierarquicalCategories ) throws Exception {
-		this._logHelper.Debug("******************** Start modification: ", this.getClass().getSimpleName());
+		_logHelper.Debug("******************** Start modification: ", this.getClass().getSimpleName());
 		List<UUID> categoriesIdentifiers=null;
 		String newObject="";
 
@@ -5028,7 +5027,7 @@ public class ResourceApi extends GnossApiWrapper{
 		}
 		ModifyProperty(resourceID, property, newObject);
 		Calendar c1 = Calendar.getInstance();
-		this._logHelper.Debug("The resource '"+resourceID+"' has been modifies correctly ..."+c1 );
+		_logHelper.Debug("The resource '"+resourceID+"' has been modifies correctly ..."+c1 );
 	}
 
 
@@ -5080,7 +5079,7 @@ public class ResourceApi extends GnossApiWrapper{
 			}
 			if(removeTripleList.size()>0) {
 				ModifyTripleList(resourceId, triplesList, getLoadIdentifier(), publishHome, null, resourceAttachedFiles, true);
-				this._logHelper.Debug("Modified resource with attached. ResourceId: "+resourceId);
+				_logHelper.Debug("Modified resource with attached. ResourceId: "+resourceId);
 			}
 		}
 
@@ -5125,7 +5124,7 @@ public class ResourceApi extends GnossApiWrapper{
 			ModifyTripleList(resourceId, triplesList, getLoadIdentifier(), publishHome, null, resourceAttachedFiles, true);
 		}
 
-		this._logHelper.Debug("Modified the resource with attached file: "+resourceId);
+		_logHelper.Debug("Modified the resource with attached file: "+resourceId);
 	}
 
 	/**
@@ -5168,7 +5167,7 @@ public class ResourceApi extends GnossApiWrapper{
 			ModifyTripleList(resourceId, triplesList, getLoadIdentifier(), publishHome, null, resourceAttachedFiles, true);
 
 		}
-		this._logHelper.Debug("Modified the resource with attached image: "+resourceId);
+		_logHelper.Debug("Modified the resource with attached image: "+resourceId);
 	}
 
 
@@ -5200,7 +5199,7 @@ public class ResourceApi extends GnossApiWrapper{
 		}
 		while(originalResourceList!=null && resourcesToModify>0 && attempNumber<=numAttemp) {
 			attempNumber++;
-			this._logHelper.Trace("******************** Starts lap number: "+attempNumber, this.getClass().getSimpleName());
+			_logHelper.Trace("******************** Starts lap number: "+attempNumber, this.getClass().getSimpleName());
 
 			for(ComplexOntologyResource resource : originalResourceList) {
 				processedNumber++;
@@ -5209,15 +5208,15 @@ public class ResourceApi extends GnossApiWrapper{
 						Delete(resource.getShortGnossId(), getLoadIdentifier(), processedNumber==originalResourceList.size());
 						numResourcesLeft--;
 
-						this._logHelper.Debug("Successfully deleted the resource with ID: "+resource.getGnossId()+". "+numResourcesLeft +"resources left", this.getClass().getSimpleName());
+						_logHelper.Debug("Successfully deleted the resource with ID: "+resource.getGnossId()+". "+numResourcesLeft +"resources left", this.getClass().getSimpleName());
 						resource.setDeleted(true);
 						break;
 					}
 				}catch(Exception ex) {
-					this._logHelper.Error("ERROR deleting: "+processedNumber+" of "+originalResourceList.size()+"\t ID: "+resource.getGnossId()+". Message: "+ex.getMessage(), this.getClass().getSimpleName());
+					_logHelper.Error("ERROR deleting: "+processedNumber+" of "+originalResourceList.size()+"\t ID: "+resource.getGnossId()+". Message: "+ex.getMessage(), this.getClass().getSimpleName());
 				}
 			}
-			this._logHelper.Debug("******************** Finished lap number: "+attempNumber, this.getClass().getSimpleName());
+			_logHelper.Debug("******************** Finished lap number: "+attempNumber, this.getClass().getSimpleName());
 			originalResourceList= new ArrayList<ComplexOntologyResource>();
 			originalResourceList=resourcesToDelete;
 			resourceList=originalResourceList;
@@ -5273,7 +5272,7 @@ public class ResourceApi extends GnossApiWrapper{
 
 		while(originalResourceList!=null && resourcesToModify>0 && attempNumber<= numAttemps) {
 			attempNumber++;
-			this._logHelper.Trace("******************** Starts lap number: "+attempNumber, this.getClass().getSimpleName());
+			_logHelper.Trace("******************** Starts lap number: "+attempNumber, this.getClass().getSimpleName());
 
 			for(ComplexOntologyResource resource : resourceList1) {
 				processedNumber++;
@@ -5285,14 +5284,14 @@ public class ResourceApi extends GnossApiWrapper{
 					while (true) {
 						resource.setDeleted(PersistentDelete(resource.getShortGnossId(), deletedAttached, last));
 						numResourcesLeft--;
-						this._logHelper.Debug("Successfully deleted the resource with ID: "+resource.getGnossId()+". "+numResourcesLeft+" resources left", this.getClass().getSimpleName());
+						_logHelper.Debug("Successfully deleted the resource with ID: "+resource.getGnossId()+". "+numResourcesLeft+" resources left", this.getClass().getSimpleName());
 						break;
 					}
 				}catch(Exception ex) {
-					this._logHelper.Error("ERROR deleting: "+processedNumber+" of "+originalResourceList.size()+"\t ID: "+resource.getGnossId()+". Message: "+ex.getMessage(), this.getClass().getSimpleName());
+					_logHelper.Error("ERROR deleting: "+processedNumber+" of "+originalResourceList.size()+"\t ID: "+resource.getGnossId()+". Message: "+ex.getMessage(), this.getClass().getSimpleName());
 				}
 			}
-			this._logHelper.Debug("******************** Finished lap number: "+attempNumber, this.getClass().getSimpleName());
+			_logHelper.Debug("******************** Finished lap number: "+attempNumber, this.getClass().getSimpleName());
 			originalResourceList= new ArrayList<ComplexOntologyResource>();
 			originalResourceList=resourcesToDelete;
 		}
@@ -5310,7 +5309,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 */
 	public void LoadBasicOntologyResourceListIntNote(ArrayList<BasicOntologyResource> resourceList, boolean hierarquicalCategories, int numAttemps) {
 		LoadBasicOntologyResourceListInt(resourceList, hierarquicalCategories, TiposDocumentacion.note, numAttemps);
-		this._logHelper.Debug("Resources succesfully loaded. End of load");
+		_logHelper.Debug("Resources succesfully loaded. End of load");
 	}
 
 
@@ -5322,7 +5321,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 */
 	public void LoadBasicOntologyResourceListLink(ArrayList<BasicOntologyResource> resourceList, boolean hierarquicalCategories, int numAttemps) {
 		LoadBasicOntologyResourceListInt(resourceList, hierarquicalCategories, TiposDocumentacion.hyperlink, numAttemps);
-		this._logHelper.Debug("Resources succesfully loaded. End of load");
+		_logHelper.Debug("Resources succesfully loaded. End of load");
 	}
 
 
@@ -5334,7 +5333,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 */
 	public void LoadBasicOntologyResourceListFile(ArrayList<BasicOntologyResource> resourceList, boolean hierarquicalCategories, int numAttemps) {
 		LoadBasicOntologyResourceListInt(resourceList, hierarquicalCategories, TiposDocumentacion.server_file, numAttemps);
-		this._logHelper.Debug("Resources succesfully loaded. End of load");
+		_logHelper.Debug("Resources succesfully loaded. End of load");
 	}
 
 
@@ -5346,7 +5345,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 */
 	public void LoadBasicOntologyResourceListLinkVideo(ArrayList<BasicOntologyResource> resourceList, boolean hierarquicalCategories, int numAttemps) {
 		LoadBasicOntologyResourceListIntVideo(resourceList, hierarquicalCategories, TiposDocumentacion.hyperlink, numAttemps);
-		this._logHelper.Debug("Resources succesfully loaded. End of load");
+		_logHelper.Debug("Resources succesfully loaded. End of load");
 	}
 
 
@@ -5358,7 +5357,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 */
 	public void LoadBasicOntologyResourceListVideo (ArrayList<BasicOntologyResource> resourceList, boolean hierarquicalCategories, int numAttemps) {
 		LoadBasicOntologyResourceListInt( resourceList, hierarquicalCategories, TiposDocumentacion.video, numAttemps);
-		this._logHelper.Debug("Resources succesfully loaded. End of load");
+		_logHelper.Debug("Resources succesfully loaded. End of load");
 	}
 
 	//endRegion
@@ -5492,11 +5491,11 @@ public class ResourceApi extends GnossApiWrapper{
 			client.head().header("Authorization", "Authorization: OAuth \n"+ GetStringForUrl(resourceUrl));
 
 			if(!file.delete()){
-				this._logHelper.Debug("The file: C:/recurso.txt cant be deleted");	
+				_logHelper.Debug("The file: C:/recurso.txt cant be deleted");	
 			}
 		}
 		catch(Exception ex) {
-			this._logHelper.Debug("Error downloading file: "+urlRdf+". Error "+ex.getMessage());
+			_logHelper.Debug("Error downloading file: "+urlRdf+". Error "+ex.getMessage());
 		}
 		finally {
 			try {
@@ -5629,10 +5628,10 @@ public class ResourceApi extends GnossApiWrapper{
 		setMainImage(resourceId, image);
 
 		if(!image.isEmpty()) {
-			this._logHelper.Debug("Correct main image setting of resource "+resourceId+", of the new main image is  "+sizes.get(0)+"and itrs name is "+imageName);
+			_logHelper.Debug("Correct main image setting of resource "+resourceId+", of the new main image is  "+sizes.get(0)+"and itrs name is "+imageName);
 		}
 		else {
-			this._logHelper.Debug("The main image of the resources "+resourceId+ " has been deleted");
+			_logHelper.Debug("The main image of the resources "+resourceId+ " has been deleted");
 		}
 	}
 }

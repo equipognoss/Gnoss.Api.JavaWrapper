@@ -86,7 +86,7 @@ public class GnossApiWrapper {
     protected String executableLocation = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
 
     private OAuthInfo _oauth = null;
-    private ILogHelper mLog;
+    protected ILogHelper _logHelper;
 
     //Properties
     private String CommunityShortName;
@@ -104,7 +104,7 @@ public class GnossApiWrapper {
     public GnossApiWrapper(OAuthInfo oauth, String communityShortName) {
         _oauth = oauth;
         CommunityShortName = communityShortName;
-        this.mLog = LogHelper.getInstance();
+        this._logHelper = LogHelper.getInstance();
     }
 
     /**
@@ -119,7 +119,7 @@ public class GnossApiWrapper {
      */
     public GnossApiWrapper(String configFilePath) throws GnossAPIException, ParserConfigurationException, SAXException, IOException {
         LoadConfigFile(configFilePath);
-        this.mLog = LogHelper.getInstance();
+        this._logHelper = LogHelper.getInstance();
     }
 
     //Methods
@@ -584,11 +584,11 @@ public class GnossApiWrapper {
 
     //Getters and Setters
     public ILogHelper getLog() {
-        return mLog;
+        return _logHelper;
     }
 
     public void setLog(ILogHelper log) {
-        mLog = log;
+    	_logHelper = log;
     }
     
     public String getApiUrl(){
