@@ -3485,8 +3485,8 @@ public class ResourceApi extends GnossApiWrapper{
 			String url=getApiUrl()+"/resource/get-tags";
 			String response = WebRequestPostWithJsonObject(url, resourceId_list);
 
-			tagsList= gson.fromJson(response, (Type) new ArrayList<ResponseGetTags>());
-
+			tagsList= gson.fromJson(response, new TypeToken<ArrayList<ResponseGetTags>>() {}.getType());
+			
 			if(tagsList!=null && tagsList.size()==resourceId_list.size()) {
 				_logHelper.Debug("Tags of resources "+ gson.toJson(resourceId_list)+ ":"+ response);
 			}
