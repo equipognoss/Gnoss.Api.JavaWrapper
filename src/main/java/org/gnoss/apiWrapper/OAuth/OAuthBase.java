@@ -14,14 +14,19 @@ import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.SignatureException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Random;
+import java.util.TimeZone;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -260,11 +265,20 @@ public class OAuthBase {
      * @return Timestamp TimeStamp for the signature
      */
     private String GenerateTimeStamp() {
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime baseDate = LocalDateTime.of(1970, Month.JANUARY, 1, 0, 0);
-        Duration duration = Duration.between(baseDate, now);
-        Long diff = duration.getSeconds();
-        return diff.toString();
+    	try {
+        	SimpleDateFormat dateFormatUtc = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        	dateFormatUtc.setTimeZone(TimeZone.getTimeZone("UTC"));
+			Date dateTimeNowUtc = dateFormatUtc.parse(dateFormatUtc.format(new Date()));
+			Long timestamp = dateTimeNowUtc.getTime() / 1000;			//Timestamp in seconds -- getTime() return the timestamp in miliseconds
+			return timestamp.toString();
+		} catch (ParseException e) {
+			LocalDateTime nowUtc = LocalDateTime.now().atOffset(ZoneOffset.UTC).toLocalDateTime();			
+	        LocalDateTime baseDate = LocalDateTime.of(1970, Month.JANUARY, 1, 0, 0);
+	        Duration duration = Duration.between(baseDate, nowUtc);
+	        Long diff = duration.getSeconds(); //Timestamp in seconds
+	        return diff.toString();
+		}
+
     }
 
     /**
