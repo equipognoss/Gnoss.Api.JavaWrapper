@@ -4,29 +4,32 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Paraneters for add a user in a organization group
- * @author Andrea
- *
+ * Parameters for add a user in a organization group
+ * @author GNOSS
  */
 public class ParamsAddUserGroups {
-	private UUID uder_id;
+	
+	private UUID user_id;
 	private String organization_short_name;
 	private List<String> groups_short_names;
+	private String login;
 	
 	/**
 	 * User identifier
 	 * @return user identifier
 	 */
-	public UUID getUder_id() {
-		return uder_id;
+	public UUID getUser_id() {
+		return user_id;
 	}
+	
 	/**
 	 * User identifier
 	 * @param uder_id user Id
 	 */
-	public void setUder_id(UUID uder_id) {
-		this.uder_id = uder_id;
+	public void setUser_id(UUID uder_id) {
+		this.user_id = uder_id;
 	}
+	
 	/**
 	 * Organization short name
 	 * @return organization name 
@@ -34,6 +37,7 @@ public class ParamsAddUserGroups {
 	public String getOrganization_short_name() {
 		return organization_short_name;
 	}
+	
 	/**
 	 * Organization short name 
 	 * @param organization_short_name Organization short name 
@@ -41,6 +45,7 @@ public class ParamsAddUserGroups {
 	public void setOrganization_short_name(String organization_short_name) {
 		this.organization_short_name = organization_short_name;
 	}
+	
 	/**
 	 * Groups where the user is going to be added 
 	 * @return list of groups where the user is going to be added
@@ -48,6 +53,7 @@ public class ParamsAddUserGroups {
 	public List<String> getGroups_short_names() {
 		return groups_short_names;
 	}
+	
 	/**
 	 * Groups where the user is going to be added
 	 * @param groups_short_names Groups short names 
@@ -56,5 +62,19 @@ public class ParamsAddUserGroups {
 		this.groups_short_names = groups_short_names;
 	}
 	
-
+	/**
+	 * User short name or email
+	 * @return login
+	 */
+	public String getLogin() {
+		return login;
+	}
+	
+	/**
+	 * User short name or email
+	 * @param login login
+	 */
+	public void setLogin(String login) {
+		this.login = login;
+	}
 }

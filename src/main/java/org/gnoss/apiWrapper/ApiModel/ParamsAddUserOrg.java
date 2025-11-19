@@ -5,29 +5,31 @@ import java.util.UUID;
 
 /**
  * Parameters for add a user in a organization
- * @author Andrea
- *
+ * @author GNOSS
  */
 public class ParamsAddUserOrg {
 	private UUID user_id;
 	private String organization_short_name;
 	private String position;
 	private List<String> communities_short_names;
+	private String login;
 	
 	/**
 	 * User identifier
 	 * @return user identifier 
 	 */
-	public UUID getUder_id() {
+	public UUID getUser_id() {
 		return user_id;
 	}
+	
 	/**
 	 * User identifier
 	 * @param user_id user Id 
 	 */
-	public void setUder_id(UUID user_id) {
+	public void setUser_id(UUID user_id) {
 		this.user_id = user_id;
 	}
+	
 	/**
 	 * Organization short name 
 	 * @return Organization name 
@@ -35,6 +37,7 @@ public class ParamsAddUserOrg {
 	public String getOrganization_short_name() {
 		return organization_short_name;
 	}
+	
 	/**
 	 * Organization short name 
 	 * @param organization_short_name Organization short name  
@@ -42,6 +45,7 @@ public class ParamsAddUserOrg {
 	public void setOrganization_short_name(String organization_short_name) {
 		this.organization_short_name = organization_short_name;
 	}
+	
 	/**
 	 * User position in the organization
 	 * @return user position 
@@ -49,6 +53,7 @@ public class ParamsAddUserOrg {
 	public String getPosition() {
 		return position;
 	}
+	
 	/**
 	 * User position in the organization 
 	 * @param position Position 
@@ -56,6 +61,7 @@ public class ParamsAddUserOrg {
 	public void setPosition(String position) {
 		this.position = position;
 	}
+	
 	/**
 	 * Communities short names where the user is going to be added (The organization must be member of all of them)
 	 * @return List of communities names 
@@ -63,11 +69,28 @@ public class ParamsAddUserOrg {
 	public List<String> getCommunities_short_names() {
 		return communities_short_names;
 	}
+	
 	/**
 	 * Communities short names where the user is going to be added (The organization must be member of all of them)
 	 * @param communities_short_names Communities short names 
 	 */
 	public void setCommunities_short_names(List<String> communities_short_names) {
 		this.communities_short_names = communities_short_names;
-	} 
+	}
+	
+	/**
+	 * User short name or email
+	 * @return login
+	 */
+	public String getLogin() {
+		return login;
+	}
+	
+	/**
+	 * User short name or email
+	 * @param login login
+	 */
+	public void setLogin(String login) {
+		this.login = login;
+	}
 }
