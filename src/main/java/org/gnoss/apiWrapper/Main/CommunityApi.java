@@ -58,14 +58,14 @@ public class CommunityApi extends GnossApiWrapper{
     
     //Members
     private ArrayList<ThesaurusCategory> _communityCategories;
-    private OAuthInfo _oauth = null;
-    private ILogHelper _logHelper;
+    //private OAuthInfo _oauth = null;
+    //private ILogHelper _logHelper;
     
     //Properties
     private ArrayList<ThesaurusCategory> CommunityCategories;
-    private String CommunityShortName;
-    private String ApiUrl;
-    private OAuthInfo OAuthInstance;
+    //private String CommunityShortName;  
+    //private String ApiUrl;
+    //private OAuthInfo OAuthInstance;
     
     
     //Constructors

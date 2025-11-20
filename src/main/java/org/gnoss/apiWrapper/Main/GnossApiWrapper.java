@@ -85,11 +85,11 @@ public class GnossApiWrapper {
     //The executable location
     protected String executableLocation = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
 
-    private OAuthInfo _oauth = null;
+    protected OAuthInfo _oauth = null;
     protected ILogHelper _logHelper;
 
     //Properties
-    private String CommunityShortName;
+    protected String CommunityShortName;
     private boolean UsarVariablesEntorno;
     private String AffinityToken;
 
@@ -454,13 +454,12 @@ public class GnossApiWrapper {
     }
 
     private void SetOauthHeader(HttpURLConnection webRequest) throws MalformedURLException {
-        //TODO        
-        String singUrl = webRequest.getURL().toString();
-        if (!StringUtils.isEmpty(webRequest.getURL().getQuery())) {
-            singUrl = webRequest.getURL().getPath().replace(webRequest.getURL().getQuery(), "");
+        String signUrl = webRequest.getURL().toString();
+        if (signUrl.contains("?")) {
+            signUrl = signUrl.substring(0, signUrl.indexOf('?'));
         }
-        OAuthInfo OAuth2 = new OAuthInfo(singUrl, getOAuthInstance().getToken(), getOAuthInstance().getTokenSecret(), getOAuthInstance().getConsumerKey(),
-        		getOAuthInstance().getConsumerSecret(), getOAuthInstance().getDeveloperEmail());
+        OAuthInfo OAuth2 = new OAuthInfo(signUrl, getOAuthInstance().getToken(), getOAuthInstance().getTokenSecret(), getOAuthInstance().getConsumerKey(),
+                getOAuthInstance().getConsumerSecret(), getOAuthInstance().getDeveloperEmail());
         String[] partesUrlOAuth = OAuth2.getSignedUrl().split("\\?");
         partesUrlOAuth = partesUrlOAuth[1].split("&");
         String consumer_key = partesUrlOAuth[0].split("=")[1];
@@ -470,11 +469,8 @@ public class GnossApiWrapper {
         String nonce = partesUrlOAuth[4].split("=")[1];
         String version = partesUrlOAuth[5].split("=")[1];
         String signature = partesUrlOAuth[6].split("=")[1];
-        String oauth = "OAuth realm=\"Example\", oauth_consumer_key=\"" + consumer_key + "\", oauth_token=\""
-                + token + "\", oauth_signature_method=\"" + method + "\", oauth_signature=\""
-                + signature + "\", oauth_timestamp=\"" + timestamp + "\", oauth_nonce=\"" + nonce
-                + "\", oauth_version=\"" + version + "\"";
-
+        String oauth = String.format("OAuth realm=\"Example\", oauth_consumer_key=\"%s\", oauth_token=\"%s\", oauth_signature_method=\"%s\", oauth_signature=\"%s\", oauth_timestamp=\"%s\", oauth_nonce=\"%s\", oauth_version=\"%s\"", 
+                consumer_key, token, method, signature, timestamp, nonce, version);
         webRequest.setRequestProperty("Authorization", oauth);
     }
 

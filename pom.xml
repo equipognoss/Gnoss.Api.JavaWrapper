@@ -34,8 +34,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>25</maven.compiler.source>
+    <maven.compiler.target>25</maven.compiler.target>
     <sonar.organization>equipognoss</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
   </properties>
@@ -110,11 +110,6 @@
     <artifactId>httpclient</artifactId>
     <version>4.5.13</version>
 </dependency>
-	<dependency>
-    <groupId>org.apache.commons</groupId>
-    <artifactId>commons-lang3</artifactId>
-    <version>3.9</version>
-</dependency>
 
   </dependencies>
   <distributionManagement>
@@ -176,17 +171,6 @@
         </execution>
       </executions>
     </plugin>
-	<plugin>
-	  <groupId>org.sonatype.plugins</groupId>
-	  <artifactId>nexus-staging-maven-plugin</artifactId>
-	  <version>1.6.7</version>
-	  <extensions>true</extensions>
-	  <configuration>
-		 <serverId>ossrh</serverId>
-		 <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-		 <autoReleaseAfterClose>true</autoReleaseAfterClose>
-	  </configuration>
-	</plugin>
   </plugins>
 </build>
 </project>
