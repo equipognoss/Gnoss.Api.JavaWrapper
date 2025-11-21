@@ -1,12 +1,13 @@
 package org.gnoss.apiWrapper.models;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import org.gnoss.apiWrapper.Excepciones.GnossAPIException;
 
 public class SecondaryResource {
 	//Members
-	private String _rdfFile;
+	private byte[] _rdfFile;
 	private String _stringRdfFile;
 	
 	//Properties
@@ -47,17 +48,17 @@ public class SecondaryResource {
 		Deleted = deleted;
 	}
 	
-	public String getRdfFile() throws IOException, GnossAPIException{
+	public byte[] getRdfFile() throws IOException, GnossAPIException{
 		_rdfFile = SecondaryOntology.GenerateRDF();		
 		return _rdfFile;
 	}
 	
-	public void setRdfFile(String rdfFile){
+	public void setRdfFile(byte[] rdfFile){
 		_rdfFile = rdfFile;
 	}
 	
 	public String getStringRdfFile() throws IOException, GnossAPIException{
 		_rdfFile = SecondaryOntology.GenerateRDF();
-		return _rdfFile;
+	    return new String(_rdfFile, StandardCharsets.UTF_8);
 	}
 }

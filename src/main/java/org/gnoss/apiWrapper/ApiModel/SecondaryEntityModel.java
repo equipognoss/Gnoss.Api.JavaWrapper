@@ -4,7 +4,7 @@ public class SecondaryEntityModel {
 	private String ontology_url;
 	private String community_short_name;
 	private String entity_id;
-	private String rdf;
+	private byte[] rdf;
 	
 	public String getOntology_url() {
 		return ontology_url;
@@ -24,10 +24,10 @@ public class SecondaryEntityModel {
 	public void setEntity_id(String entity_id) {
 		this.entity_id = entity_id;
 	}
-	public String getRdf() {
+	public byte[] getRdf() {
 		return rdf;
 	}
-	public void setRdf(String rdf) {
+	public void setRdf(byte[] rdf) {
 		this.rdf = rdf;
 	}
 }

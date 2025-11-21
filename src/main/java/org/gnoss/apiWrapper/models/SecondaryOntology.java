@@ -1,5 +1,6 @@
 package org.gnoss.apiWrapper.models;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -34,50 +35,64 @@ public class SecondaryOntology extends BaseOntology{
 
 	//Public methods
 	@Override
-	public String GenerateRDF() throws IOException, GnossAPIException{
-		setStringBuilder(new StringBuilder());
-		StringBuilder stringBuilder = getStringBuilder();
-		byte[] rdfFile = null;
-		WriteRdfHeader();
-		HashMap<UUID, OntologyEntity> entitiesDictionary = EntityListToEntityDictionary();
-		HashMap<String, SecondaryEntity> secondaryEntityDictionary = SecondaryEntityListToSecondaryEntityDictionary();
-		if(StringUtils.isEmpty(getRdfType())){
-			throw new GnossAPIArgumentException("RdfType can't be null or empty");
-		}
-		else if(StringUtils.isEmpty(getRdfsLabel())){
-			throw new GnossAPIArgumentException("RdfsLabel can't be null or empty");
-		}
-		else{
-			String linea = "<rdf:Description rdf:about=\"" + getIdentifier() + "\">\n";
-			stringBuilder.append(linea);
-			if(!StringUtils.isEmpty(getRdfType())){
-				 Write("rdf:type", getRdfType());
-                 Write("rdfs:label", getRdfsLabel());
-			}
-			else{
-				throw new GnossAPIArgumentException("RdfType and RdfLabel are required, they can't be null or empty");
-			}
-			
-			WritePropertyList(getProperties(), UUID.fromString("00000000-0000-0000-0000-000000000000"));
-			WriteEntityFirstDescription(entitiesDictionary, _resourceId);
-			WriteSecondaryEntityFirstDescription(secondaryEntityDictionary);
-			stringBuilder.append("</rdf:Description>\n");
-			
-			//Additional description
-			WriteEntityAdditionalDescription(entitiesDictionary, _resourceId);
-			
-			WriteSecondaryEntityFirstDescription(secondaryEntityDictionary);
-			
-			stringBuilder.append("</rdf:RDF>\n");			
-		}
-		
-		 rdfFile = stringBuilder.toString().getBytes(StandardCharsets.UTF_8);
-         
-         byte[] base64Encoded = Base64.encodeBase64(rdfFile);
-         
-         String rdfDecoded = new String(base64Encoded, StandardCharsets.UTF_8);
-		
-		return rdfDecoded;
+	public byte[] GenerateRDF() throws IOException, GnossAPIException{
+		// Initialize output stream and string builder
+	    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	    setStringBuilder(new StringBuilder());
+	    StringBuilder stringBuilder = getStringBuilder();
+	    byte[] rdfFile = null;
+	    
+	    // Write RDF header
+	    WriteRdfHeader();
+	    
+	    // Convert entity lists to dictionaries
+	    HashMap<UUID, OntologyEntity> entitiesDictionary = EntityListToEntityDictionary();
+	    HashMap<String, SecondaryEntity> secondaryEntityDictionary = SecondaryEntityListToSecondaryEntityDictionary();
+	    
+	    // Validate required fields
+	    if (StringUtils.isEmpty(getRdfType()) || StringUtils.isBlank(getRdfType())) {
+	        throw new GnossAPIArgumentException("Required. It can't be null or empty", "RdfType");
+	    } else if (StringUtils.isEmpty(getRdfsLabel()) || StringUtils.isBlank(getRdfsLabel())) {
+	        throw new GnossAPIArgumentException("Required. It can't be null or empty", "RdfsLabel");
+	    } else {
+	        // First Description (Global description)
+	        String line = String.format("<rdf:Description rdf:about=\"%sitems/%s\">\n", 
+	        		getGrahpsUrl(), getIdentifier());
+	        stringBuilder.append(line);
+	        
+	        if (!StringUtils.isEmpty(getRdfType()) && !StringUtils.isEmpty(getRdfsLabel())) {
+	            Write("rdf:type", getRdfType());
+	            Write("rdfs:label", getRdfsLabel());
+	        } else {
+	            throw new GnossAPIException("RdfType and RdfLabel are required, they can't be null or empty");
+	        }
+	        
+	        // Write properties
+	        WritePropertyList(getProperties(), UUID.fromString("00000000-0000-0000-0000-000000000000"));
+	        
+	        // Write entity first description
+	        WriteEntityFirstDescription(entitiesDictionary, _resourceId);
+	        
+	        // Write secondary entity first description
+	        WriteSecondaryEntityFirstDescription(secondaryEntityDictionary);
+	        
+	        // Close first description
+	        stringBuilder.append("</rdf:Description>\n");
+	        
+	        // Additional Descriptions
+	        WriteEntityAdditionalDescription(entitiesDictionary, _resourceId);
+	        
+	        // Write secondary entity additional description
+	        WriteSecondaryEntityAdditionalDescription(secondaryEntityDictionary);
+	        
+	        // Close RDF
+	        stringBuilder.append("</rdf:RDF>\n");
+	        
+	        // Convert to byte array
+	        rdfFile = stringBuilder.toString().getBytes(StandardCharsets.UTF_8);
+	    }
+	    
+	    return rdfFile;
 	}
 	
 	@Override

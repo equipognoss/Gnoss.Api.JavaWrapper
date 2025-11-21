@@ -114,48 +114,60 @@ public class Ontology extends BaseOntology {
     
     
     @Override
-    public String GenerateRDF() throws IOException, GnossAPIException {
+    public byte[] GenerateRDF() throws IOException, GnossAPIException {
+        // Initialize StringBuilder
         StringBuilder stringBuilder = new StringBuilder();
         super.setStringBuilder(stringBuilder);
- 
-        try {
-            WriteRdfHeader();
-        } catch (IOException ex) {
-            Logger.getLogger(Ontology.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        
+        // Write RDF header
+        WriteRdfHeader();
+        
+        // Convert entity list to dictionary
         HashMap<UUID, OntologyEntity> entitiesDictionary = EntityListToEntityDictionary();
         byte[] rdfFile = null;
-
-        if (StringUtils.isEmpty(getRdfType())) {
-            throw new GnossAPIArgumentException("Required. RdfType can't be null or empty");
-        }
-        else if(StringUtils.isEmpty(getRdfsLabel())){
-            throw new GnossAPIArgumentException("Required. RdfsLabel can't be null or empty");
-        }
-        else{
-            String linea = "<rdf:Description rdf:about=\"" + super.getIdentifier() + "\">\n";
-            stringBuilder.append(linea);
+        
+        // Validate required fields
+        if (StringUtils.isBlank(getRdfType()) || StringUtils.isEmpty(getRdfType())) {
+            throw new GnossAPIArgumentException("Required. It can't be null or empty", "RdfType");
+        } else if (StringUtils.isBlank(getRdfsLabel()) || StringUtils.isEmpty(getRdfsLabel())) {
+            throw new GnossAPIArgumentException("Required. It can't be null or empty", "RdfsLabel");
+        } else {
+            // First Description (Global description)
+            String line = String.format("<rdf:Description rdf:about=\"%s\">\n", super.getIdentifier());
+            stringBuilder.append(line);
+            
             Write("rdf:type", getRdfType());
             Write("rdfs:label", getRdfsLabel());
-            WritePropertyList(getProperties(), ResourceId);
-            if(entitiesDictionary == null || entitiesDictionary.size() == 0){
-            	stringBuilder.append("</rdf:Description>\n");
+            
+            WritePropertyList(getProperties(), getResourceId());
+            
+            if (entitiesDictionary == null || entitiesDictionary.isEmpty()) {
+                stringBuilder.append("</rdf:Description>\n");
             }
-            WriteEntityFirstDescription(entitiesDictionary, ResourceId, true);
-
-            WriteEntityAdditionalDescription(entitiesDictionary, ResourceId);
-            stringBuilder.append("</rdf:RDF>");
             
+            WriteEntityFirstDescription(entitiesDictionary, getResourceId(), true);
+            
+            // Additional Descriptions
+            WriteEntityAdditionalDescription(entitiesDictionary, getResourceId());
+            
+            stringBuilder.append("</rdf:RDF>\n");
+            
+            // Convert to byte array
             rdfFile = stringBuilder.toString().getBytes(StandardCharsets.UTF_8);
-            
-            byte[] base64Encoded = Base64.encodeBase64(rdfFile);
-            
-            String rdfDecoded = new String(base64Encoded, StandardCharsets.UTF_8);
-            
-            return rdfDecoded;
-            //return rdfFile;
         }
+        
+        return rdfFile;
+    }
+
+    /**
+     * Gets the RDF file as a string
+     * @return RDF content as string
+     * @throws IOException if there's an I/O error
+     * @throws GnossAPIException if there's a validation error
+     */
+    public String getStringRdfFile() throws IOException, GnossAPIException {
+        byte[] rdfBytes = GenerateRDF();
+        return new String(rdfBytes, StandardCharsets.UTF_8);
     }
 
     @Override

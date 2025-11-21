@@ -1,50 +1,169 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.gnoss.apiWrapper.ApiModel;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
- *
+ * Parameters for loading a resource
  * @author salopez
  */
 public class LoadResourceParams {
+    
+    /**
+     * Community short name
+     */
     public String community_short_name;
+    
+    /**
+     * Resource identifier
+     */
     public UUID resource_id;
+    
+    /**
+     * Resource title
+     */
     public String title;
+    
+    /**
+     * Resource description
+     */
     public String description;
-    public ArrayList<String> tags;
-    public ArrayList<UUID> categories;
+    
+    /**
+     * Resource tags
+     */
+    public List<String> tags;
+    
+    /**
+     * Resource categories
+     */
+    public List<UUID> categories;
+    
+    /**
+     * Resource type
+     */
     public short resource_type;
+    
+    /**
+     * Resource url
+     */
     public String resource_url;
-    public String resource_file;
-    public ArrayList<SemanticAttachedResource> resource_attached_files;
+    
+    /**
+     * Resource attached file
+     */
+    public byte[] resource_file;
+    
+    /**
+     * Resource attached files
+     */
+    public List<SemanticAttachedResource> resource_attached_files;
+    
+    /**
+     * True if the resource creator is the author
+     */
     public boolean creator_is_author;
+    
+    /**
+     * Resource authors (comma separated)
+     */
     public String authors;
+    
+    /**
+     * Tags auto extracted of title
+     */
     public String auto_tags_title_text;
+    
+    /**
+     * Tags auto extracted of description
+     */
     public String auto_tags_description_text;
+    
+    /**
+     * True if a screenshot of the resource must be generated
+     */
     public boolean create_screenshot;
+    
+    /**
+     * Url to make a screenshot
+     */
     public String url_screenshot;
+    
+    /**
+     * Screenshot predicate
+     */
     public String predicate_screenshot;
-    public ArrayList<Integer> screenshot_sizes;
+    
+    /**
+     * Screenshot possible sizes
+     */
+    public List<Integer> screenshot_sizes;
+    
+    /**
+     * Priority of the upload
+     */
     public int priority;
+    
+    /**
+     * Resource visibility
+     */
     public short visibility;
-    public ArrayList<ReaderEditor> reader_list;
-    public ArrayList<ReaderEditor> editor_list;
+    
+    /**
+     * Resource readers list
+     */
+    public List<ReaderEditor> readers_list;
+    
+    /**
+     * Resource editors list
+     */
+    public List<ReaderEditor> editors_list;
+    
+    /**
+     * Resource creation date
+     */
     public Date creation_date;
+    
+    /**
+     * Resource publisher email
+     */
     public String publisher_email;
+    
+    /**
+     * True if the resource must be published in the home of the community
+     */
     public boolean publish_home;
-    public String load_id;
+    
+    /**
+     * Path of the resource main image
+     */
     public String main_image;
+    
+    /**
+     * True if it's the end of the load
+     */
     public boolean end_of_load;
+    
+    /**
+     * True if the resource must be versioned
+     */
     public boolean create_version;
+    
+    /**
+     * The canonical url for the resource
+     */
     public String canonical_url;
-
+    
+    /**
+     * Augmented reading
+     */
+    public AumentedReading aumented_reading;
+    
+    
+    // Getters and Setters
+    
     public String getCommunity_short_name() {
         return community_short_name;
     }
@@ -77,19 +196,19 @@ public class LoadResourceParams {
         this.description = description;
     }
 
-    public ArrayList<String> getTags() {
+    public List<String> getTags() {
         return tags;
     }
 
-    public void setTags(ArrayList<String> tags) {
+    public void setTags(List<String> tags) {
         this.tags = tags;
     }
 
-    public ArrayList<UUID> getCategories() {
+    public List<UUID> getCategories() {
         return categories;
     }
 
-    public void setCategories(ArrayList<UUID> categories) {
+    public void setCategories(List<UUID> categories) {
         this.categories = categories;
     }
 
@@ -109,19 +228,19 @@ public class LoadResourceParams {
         this.resource_url = resource_url;
     }
 
-    public String getResource_file() {
+    public byte[] getResource_file() {
         return resource_file;
     }
 
-    public void setResource_file(String resource_file) {
+    public void setResource_file(byte[] resource_file) {
         this.resource_file = resource_file;
     }
 
-    public ArrayList<SemanticAttachedResource> getResource_attached_files() {
+    public List<SemanticAttachedResource> getResource_attached_files() {
         return resource_attached_files;
     }
 
-    public void setResource_attached_files(ArrayList<SemanticAttachedResource> resource_attached_files) {
+    public void setResource_attached_files(List<SemanticAttachedResource> resource_attached_files) {
         this.resource_attached_files = resource_attached_files;
     }
 
@@ -181,11 +300,11 @@ public class LoadResourceParams {
         this.predicate_screenshot = predicate_screenshot;
     }
 
-    public ArrayList<Integer> getScreenshot_sizes() {
+    public List<Integer> getScreenshot_sizes() {
         return screenshot_sizes;
     }
 
-    public void setScreenshot_sizes(ArrayList<Integer> screenshot_sizes) {
+    public void setScreenshot_sizes(List<Integer> screenshot_sizes) {
         this.screenshot_sizes = screenshot_sizes;
     }
 
@@ -205,20 +324,20 @@ public class LoadResourceParams {
         this.visibility = visibility;
     }
 
-    public ArrayList<ReaderEditor> getReader_list() {
-        return reader_list;
+    public List<ReaderEditor> getReaders_list() {
+        return readers_list;
     }
 
-    public void setReader_list(ArrayList<ReaderEditor> reader_list) {
-        this.reader_list = reader_list;
+    public void setReaders_list(List<ReaderEditor> readers_list) {
+        this.readers_list = readers_list;
     }
 
-    public ArrayList<ReaderEditor> getEditor_list() {
-        return editor_list;
+    public List<ReaderEditor> getEditors_list() {
+        return editors_list;
     }
 
-    public void setEditor_list(ArrayList<ReaderEditor> editor_list) {
-        this.editor_list = editor_list;
+    public void setEditors_list(List<ReaderEditor> editors_list) {
+        this.editors_list = editors_list;
     }
 
     public Date getCreation_date() {
@@ -243,14 +362,6 @@ public class LoadResourceParams {
 
     public void setPublish_home(boolean publish_home) {
         this.publish_home = publish_home;
-    }
-
-    public String getLoad_id() {
-        return load_id;
-    }
-
-    public void setLoad_id(String load_id) {
-        this.load_id = load_id;
     }
 
     public String getMain_image() {
@@ -284,6 +395,12 @@ public class LoadResourceParams {
     public void setCanonical_url(String canonical_url) {
         this.canonical_url = canonical_url;
     }
-    
-    
+
+    public AumentedReading getAumented_reading() {
+        return aumented_reading;
+    }
+
+    public void setAumented_reading(AumentedReading aumented_reading) {
+        this.aumented_reading = aumented_reading;
+    }
 }

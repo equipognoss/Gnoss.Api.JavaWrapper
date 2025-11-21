@@ -5,6 +5,7 @@ public class SparqlQuery {
 	private String community_short_name;
 	private String query_select;
 	private String query_where;
+	private boolean use_virtuoso_balancer;
 	
 	public String getOntology() {
 		return ontology;
@@ -30,4 +31,10 @@ public class SparqlQuery {
 	public void setQuery_where(String query_where) {
 		this.query_where = query_where;
 	}
+	public boolean isUse_virtuoso_balancer() {
+        return use_virtuoso_balancer;
+    }
+    public void setUse_virtuoso_balancer(boolean use_virtuoso_balancer) {
+        this.use_virtuoso_balancer = use_virtuoso_balancer;
+    }
 }

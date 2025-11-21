@@ -6,9 +6,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.gnoss.apiWrapper.Excepciones.GnossAPIArgumentException;
 import org.gnoss.apiWrapper.Excepciones.GnossAPIException;
 import org.gnoss.apiWrapper.Helpers.DataTypes;
@@ -32,7 +34,7 @@ public class TaxonomyOntology extends BaseOntology{
     private final String RDF_TYPE_COLLECTION = "http://www.w3.org/2008/05/skos#Collection";
     private final String RDFS_LABEL_COLLECTION = "http://www.w3.org/2008/05/skos#Collection";
     
-    private String _rdfFile;
+    private byte[] _rdfFile;
     private String _stringRdfFile;
     private List<ConceptEntity> conceptEntities;
     private StringBuilder file;
@@ -43,49 +45,62 @@ public class TaxonomyOntology extends BaseOntology{
      * 
      */
     @Override
-    public  String GenerateRDF() throws IOException, GnossAPIException {
-    	File file= new File("file.txt");
-    	FileWriter fileWriter = null;
-    	try {
-    		fileWriter = new FileWriter(file);
-        	
-        	WriteRdfHeader();
-        	if(getRdfType() == null || getRdfType().isEmpty() ) {
-        		throw new GnossAPIArgumentException("Required. It can't be null or empty, RdfType");
-        	}
-        	else if(getRdfsLabel()==null || getRdfsLabel().isEmpty()){
-        		throw new GnossAPIArgumentException("Required. It can't be null or empty, RdfsLabel");
-        	}
-        	else {
-        		fileWriter.write("<rdf:Description rdf:about=\"" +getIdentifier()+"\">");
-        		if(getRdfType()!= null || getRdfType().isEmpty() || getRdfsLabel()!=null || getRdfsLabel().isEmpty()) {
-        			Write("rdf:type", getRdfType());
-    				Write("rdfs:label",getRdfsLabel());
-        		}
-        		else {
-        			throw new GnossAPIException("RdfType and RdfLabel are required, they can't be null or empty");
-        		}
-        		WritePropertyList(getProperties(), UUID.randomUUID());
-        		WriteConceptEntitiesFirstDescription(conceptEntities);
-        		fileWriter.write(conceptEntities.toString());
-        		fileWriter.write("</rdf:Description>");
-        		
-        		WriteConceptEntitiesAdditionalDescription(conceptEntities);
-        		
-        		fileWriter.write("</rdf:RDF>");
-        		
-        		fileWriter.flush();
-        	}
-    	}
-    	catch (Exception e) {
-    		throw new GnossAPIException(e.getMessage());
-		}
-    	finally {
-    		if(fileWriter != null) {
-    			fileWriter.close();	
-    		}
-    	}
-    	return DC;
+    public byte[] GenerateRDF() throws IOException, GnossAPIException {
+        // Initialize StringBuilder for building RDF content
+        setStringBuilder(new StringBuilder());
+        StringBuilder stringBuilder = getStringBuilder();
+        byte[] rdfFile = null;
+        
+        // Write RDF header
+        WriteRdfHeader();
+        
+        // Validate required fields
+        if (StringUtils.isEmpty(getRdfType()) || StringUtils.isBlank(getRdfType())) {
+            throw new GnossAPIArgumentException("Required. It can't be null or empty", "RdfType");
+        } else if (StringUtils.isEmpty(getRdfsLabel()) || StringUtils.isBlank(getRdfsLabel())) {
+            throw new GnossAPIArgumentException("Required. It can't be null or empty", "RdfsLabel");
+        } else {
+            // First Description (Global description)
+            stringBuilder.append(String.format("<rdf:Description rdf:about=\"%s\">\n", getIdentifier()));
+            
+            if (!StringUtils.isEmpty(getRdfType()) && !StringUtils.isEmpty(getRdfsLabel())) {
+                Write("rdf:type", getRdfType());
+                Write("rdfs:label", getRdfsLabel());
+            } else {
+                throw new GnossAPIException("RdfType and RdfLabel are required, they can't be null or empty");
+            }
+            
+            // Write properties
+            WritePropertyList(getProperties(), UUID.fromString("00000000-0000-0000-0000-000000000000"));
+            
+            // Write concept entities first description
+            WriteConceptEntitiesFirstDescription(getConceptEntities());
+            
+            // Close first description
+            stringBuilder.append("</rdf:Description>\n");
+            
+            // Additional Descriptions
+            WriteConceptEntitiesAdditionalDescription(getConceptEntities());
+            
+            // Close RDF
+            stringBuilder.append("</rdf:RDF>\n");
+            
+            // Convert to byte array
+            rdfFile = stringBuilder.toString().getBytes(StandardCharsets.UTF_8);
+        }
+        
+        return rdfFile;
+    }
+
+    /**
+     * Gets the RDF file as a string
+     * @return RDF content as string
+     * @throws IOException if there's an I/O error
+     * @throws GnossAPIException if there's a validation error
+     */
+    public String getStringRdfFile() throws IOException, GnossAPIException {
+        byte[] rdfBytes = GenerateRDF();
+        return new String(rdfBytes, StandardCharsets.UTF_8);
     }	
     
     private void WriteConceptEntitiesAdditionalDescription(List<ConceptEntity> conceptEntityList) throws GnossAPIArgumentException, IOException {
@@ -173,12 +188,12 @@ public class TaxonomyOntology extends BaseOntology{
 		}
 	}
 	
-	public String get_rdfFile() throws IOException, GnossAPIException {
+	public byte[] get_rdfFile() throws IOException, GnossAPIException {
 		this._rdfFile=GenerateRDF();
 		return _rdfFile;
 	}
 	
-	public void set_rdfFile(String _rdfFile) {
+	public void set_rdfFile(byte[] _rdfFile) {
 		this._rdfFile = _rdfFile;
 	}
 	/**

@@ -21,7 +21,8 @@ public class ModifyResourceTripleListParams {
     private String charge_id;
     private String main_image;
     private boolean end_of_load;
-
+    private UUID user_id;
+    
     public String getCommunity_short_name() {
         return community_short_name;
     }
@@ -86,4 +87,11 @@ public class ModifyResourceTripleListParams {
         this.end_of_load = end_of_load;
     }
     
+    public void setUser_id(UUID user_id) {
+    	this.user_id = user_id;
+    }
+    
+    public UUID getUser_id() {
+    	return this.user_id;
+    }
 }

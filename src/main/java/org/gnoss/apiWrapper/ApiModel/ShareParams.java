@@ -14,6 +14,7 @@ public class ShareParams {
 	private UUID resource_id;
 	private List<UUID> categories;
 	private String publisher_email;
+	private UUID userId;
 	
 	/**
 	 * Community short name where the resource is going to be publisher
@@ -65,6 +66,11 @@ public class ShareParams {
 		this.publisher_email = publisher_email;
 	}
 	
-	
+	public UUID getUserId() {
+        return userId;
+    }
 
+    public void setUserId(UUID userId) {
+        this.userId = userId;
+    }
 }

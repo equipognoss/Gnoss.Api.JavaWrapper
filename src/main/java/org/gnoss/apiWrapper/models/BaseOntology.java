@@ -263,7 +263,7 @@ public abstract class BaseOntology {
         WriteEntityFirstDescription(entityDictionary, resourceId, false);
     }
     
-    protected String GenerateRDF() throws GnossAPIArgumentException, IOException, GnossAPIException{
+    protected byte[] GenerateRDF() throws GnossAPIArgumentException, IOException, GnossAPIException{
         return null;
     }
 

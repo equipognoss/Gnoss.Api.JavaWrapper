@@ -17,6 +17,8 @@ public class CommentParams {
 	private UUID parent_comment_id;
 	private Date comment_date;
 	private boolean pusblish_home;
+	private UUID UserId;
+	private String login;
 	
 	/**
 	 * Community short name
@@ -117,4 +119,20 @@ public class CommentParams {
 		this.pusblish_home = pusblish_home;
 	}
 	
+	public UUID getUserId() {
+        return UserId;
+    }
+
+    public void setUserId(UUID userId) {
+        UserId = userId;
+    }
+	
+	
+	public String getLogin() {
+		return this.login;
+	}
+	
+	public void setLogin(String login) {
+		this.login = login;
+	}
 }
