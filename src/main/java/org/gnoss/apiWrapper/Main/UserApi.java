@@ -17,7 +17,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.lang3.StringUtils;
 import org.gnoss.apiWrapper.ApiModel.ParamsAddUserGroups;
 import org.gnoss.apiWrapper.ApiModel.ParamsAddUserOrg;
-import org.gnoss.apiWrapper.ApiModel.ParamsChangeVisibility;
 import org.gnoss.apiWrapper.ApiModel.ParamsDeleteUserOrgGroup;
 import org.gnoss.apiWrapper.ApiModel.ParamsLoginPassword;
 import org.gnoss.apiWrapper.ApiModel.ParamsUserCommunity;
@@ -26,6 +25,7 @@ import org.gnoss.apiWrapper.ApiModel.Userlite;
 import org.gnoss.apiWrapper.ApiModel.UserNovertiesModel;
 import org.gnoss.apiWrapper.Excepciones.GnossAPIException;
 import org.gnoss.apiWrapper.Helpers.AdministrationPageType;
+import org.gnoss.apiWrapper.Helpers.Constants;
 import org.gnoss.apiWrapper.Helpers.ILogHelper;
 import org.gnoss.apiWrapper.Helpers.LogHelper;
 import org.gnoss.apiWrapper.OAuth.OAuthInfo;
@@ -129,7 +129,6 @@ public class UserApi extends GnossApiWrapper {
 		try {
 			String url = getApiUrl() + "/user/get-by-email?email=" + email + "&community_short_name=" + getCommunityShortName();
 			String response = WebRequest("GET", url, "application/json");
-			Gson gson = new Gson();
 			user = gson.fromJson(response, User.class);
 			if (user != null) {
 				this._logHelper.Debug("The user " + user.getName() + " " + user.getLast_name() + " has been obtained successfully");
@@ -152,7 +151,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @throws IOException IO Exception 
 	 * @throws GnossAPIException Gnoss API Exception 
 	 */
-	public boolean ValidatePassword(String user, String password) throws MalformedURLException, IOException, GnossAPIException {
+	public boolean validatePassword(String user, String password) throws MalformedURLException, IOException, GnossAPIException {
 		boolean validPassword = false;
 		
 		if (StringUtils.isBlank(user) || StringUtils.isBlank(password)) {
@@ -170,7 +169,6 @@ public class UserApi extends GnossApiWrapper {
 			String postData = jsonUtilities.toJson(model);
 	        
 			String respuesta = WebRequest("POST", url, postData, "application/json");
-			Gson gson = new Gson();
 			validPassword = gson.fromJson(respuesta, boolean.class);
 			
 			if (validPassword) {
@@ -211,7 +209,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @return User data
 	 * @throws Exception exception 
 	 */
-	public User CreateUserWaitingForActivate(User user) throws Exception {
+	public User createUserWaitingForActivate(User user) throws Exception {
 		Gson jsonUtilities = new Gson();
 		String json = jsonUtilities.toJson(user);
 		User createdUser = null;
@@ -219,7 +217,6 @@ public class UserApi extends GnossApiWrapper {
 		try {
 			String url = getApiUrl() + "/user/create-user-waiting-for-activate";
 			String response = WebRequest("POST", url, json, "application/json");
-			Gson gson = new Gson();
 			createdUser = gson.fromJson(response, User.class);
 			if (createdUser != null) {
 				this._logHelper.Debug("User created: " + createdUser.getName() + " " + createdUser.getLast_name());
@@ -239,7 +236,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @return User data
 	 * @throws Exception exception 
 	 */
-	public User CreateUser(User user) throws Exception {
+	public User createUser(User user) throws Exception {
 		Gson jsonUtilities = new Gson();
 		String json = jsonUtilities.toJson(user);
 		User createdUser = null;
@@ -247,7 +244,6 @@ public class UserApi extends GnossApiWrapper {
 		try {
 			String url = getApiUrl() + "/user/create-user";
 			String response = WebRequest("POST", url, json, "application/json");
-			Gson gson = new Gson();
 			createdUser = gson.fromJson(response, User.class);
 			if (createdUser != null) {
 				this._logHelper.Debug("User created: " + createdUser.getName() + " " + createdUser.getLast_name());
@@ -268,7 +264,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @param groupShortName Short name of the group which the user will be deleted
 	 * @throws Exception exception
 	 */
-	public void DeleteUserFromOrganizationGroup(UUID userId, String organizationShortName, String groupShortName) throws Exception {
+	public void deleteUserFromOrganizationGroup(UUID userId, String organizationShortName, String groupShortName) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/delete-user-from-organization-group";
 			ParamsDeleteUserOrgGroup model = new ParamsDeleteUserOrgGroup();
@@ -291,7 +287,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @param groupShortName Short name of the group which the user will be deleted
 	 * @throws Exception exception
 	 */
-	public void DeleteUserFromOrganizationGroup(String shortNameOrEmail, String organizationShortName, String groupShortName) throws Exception {
+	public void deleteUserFromOrganizationGroup(String shortNameOrEmail, String organizationShortName, String groupShortName) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/delete-user-from-organization-group";
 			ParamsDeleteUserOrgGroup model = new ParamsDeleteUserOrgGroup();
@@ -313,11 +309,10 @@ public class UserApi extends GnossApiWrapper {
 	 * @return User identifier
 	 * @throws Exception exception
 	 */
-	public UUID GetUserIdByLogin(String login) throws Exception {
+	public UUID getUserIdByLogin(String login) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/get-user-id-by-login?pLogin=" + login;
 			String response = WebRequest("GET", url);
-			Gson gson = new Gson();
 			UUID userId = gson.fromJson(response, UUID.class);
 			return userId;
 		} catch (Exception ex) {
@@ -332,11 +327,10 @@ public class UserApi extends GnossApiWrapper {
 	 * @return User data
 	 * @throws Exception exception
 	 */
-	public User GetUserByAccreditationDocument(String accreditationDocument) throws Exception {
+	public User getUserByAccreditationDocument(String accreditationDocument) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/get-user-by-accreditation-document?pValorDocumentoAcreditativo=" + accreditationDocument + "&pNombreCorto=" + getCommunityShortName();
 			String response = WebRequest("GET", url);
-			Gson gson = new Gson();
 			return gson.fromJson(response, User.class);
 		} catch (Exception ex) {
 			this._logHelper.Error("Error getting person by accreditation document " + accreditationDocument + ": \r\n" + ex.getMessage());
@@ -351,11 +345,10 @@ public class UserApi extends GnossApiWrapper {
 	 * @return True if the operation was successful
 	 * @throws Exception exception
 	 */
-	public boolean SetAccreditationDocumentByUser(String accreditationDocument, UUID userId) throws Exception {
+	public boolean setAccreditationDocumentByUser(String accreditationDocument, UUID userId) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/set-accreditation-document-by-user?pValorDocumentoAcreditativo=" + accreditationDocument + "&pUserID=" + userId;
 			String response = WebRequest("POST", url);
-			Gson gson = new Gson();
 			return gson.fromJson(response, boolean.class);
 		} catch (Exception ex) {
 			this._logHelper.Error("Error setting accreditation document " + accreditationDocument + " to person with id " + userId + ": \r\n" + ex.getMessage());
@@ -370,29 +363,13 @@ public class UserApi extends GnossApiWrapper {
 	 * @return True if the operation was successful
 	 * @throws Exception exception
 	 */
-	public boolean SetAccreditationDocumentByUser(String accreditationDocument, String shortNameOrEmail) throws Exception {
+	public boolean setAccreditationDocumentByUser(String accreditationDocument, String shortNameOrEmail) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/set-accreditation-document-by-user?pValorDocumentoAcreditativo=" + accreditationDocument + "&pLogin=" + shortNameOrEmail;
 			String response = WebRequest("POST", url);
-			Gson gson = new Gson();
 			return gson.fromJson(response, boolean.class);
 		} catch (Exception ex) {
 			this._logHelper.Error("Error setting accreditation document " + accreditationDocument + " to person " + shortNameOrEmail + ": \r\n" + ex.getMessage());
-			throw ex;
-		}
-	}
-	
-	/**
-	 * Verify user
-	 * @param loginOrEmail Login or email of the user
-	 * @throws Exception exception 
-	 */
-	public void VerificarUsuario(String loginOrEmail) throws Exception {
-		try {
-			String url = getApiUrl() + "/user/verify-user?login=" + loginOrEmail;
-			WebRequest("POST", url, "", "application/json");
-		} catch (Exception ex) {
-			this._logHelper.Error("Error validation user " + loginOrEmail + " from the community " + getCommunityShortName() + ": \r\n " + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -403,7 +380,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @return URL to recover the password of a user
 	 * @throws Exception exception 
 	 */
-	public String GenerateForgottenPasswordUrl(String loginOrEmail) throws Exception {
+	public String generateForgottenPasswordUrl(String loginOrEmail) throws Exception {
 		String link = "";
 		if (!StringUtils.isBlank(loginOrEmail)) {
 			try {
@@ -425,7 +402,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @return URL to recover the password of a user
 	 * @throws Exception exception 
 	 */
-	public String GenerateForgottenPasswordUrl(UUID userId) throws Exception {
+	public String generateForgottenPasswordUrl(UUID userId) throws Exception {
 		String link = "";
 		if (userId != null) {
 			try {
@@ -446,7 +423,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @param user User data
 	 * @throws Exception exception
 	 */
-	public void ModifyUser(User user) throws Exception {
+	public void modifyUser(User user) throws Exception {
 		Gson jsonUtilities = new Gson();
 		String json = jsonUtilities.toJson(user);
 		
@@ -465,7 +442,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @param userShortName User short name to delete
 	 * @throws Exception exception
 	 */
-	public void DeleteUserFromCommunity(String userShortName) throws Exception {
+	public void deleteUserFromCommunity(String userShortName) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/delete-user-from-community";
 			ParamsUserCommunity model = new ParamsUserCommunity();
@@ -488,7 +465,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @param userId User's identifier
 	 * @throws Exception exception
 	 */
-	public void DeleteUserFromCommunity(UUID userId) throws Exception {
+	public void deleteUserFromCommunity(UUID userId) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/delete-user-from-community";
 			ParamsUserCommunity model = new ParamsUserCommunity();
@@ -511,7 +488,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @param userId User identifier to delete
 	 * @throws Exception exception
 	 */
-	public void DeleteUser(UUID userId) throws Exception {
+	public void deleteUser(UUID userId) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/delete-user?user_ID=" + userId;
 			WebRequestPostWithJsonObject(url, userId);
@@ -530,7 +507,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @param communitiesShortNames Communities' short names that will be included
 	 * @throws Exception exception
 	 */
-	public void AddUserToOrganization(UUID userId, String organizationShortName, String position, List<String> communitiesShortNames) throws Exception {
+	public void addUserToOrganization(UUID userId, String organizationShortName, String position, List<String> communitiesShortNames) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/add-user-to-organization";
 			ParamsAddUserOrg model = new ParamsAddUserOrg();
@@ -558,7 +535,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @param communitiesShortNames Communities' short names that will be included
 	 * @throws Exception exception
 	 */
-	public void AddUserToOrganization(String shortNameOrEmail, String organizationShortName, String position, List<String> communitiesShortNames) throws Exception {
+	public void addUserToOrganization(String shortNameOrEmail, String organizationShortName, String position, List<String> communitiesShortNames) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/add-user-to-organization";
 			ParamsAddUserOrg model = new ParamsAddUserOrg();
@@ -579,39 +556,13 @@ public class UserApi extends GnossApiWrapper {
 	}
 	
 	/**
-	 * Changes user visibility in a community 
-	 * @param userId User ID
-	 * @param communitiesId Communities' Id 
-	 * @param visibility User's visibility
-	 * @throws Exception exception
-	 */
-	public void ChangeVisibilityUserCommunities(UUID userId, List<UUID> communitiesId, boolean visibility) throws Exception {
-		try {
-			String url = getApiUrl() + "/user/change-user-visibility";
-			ParamsChangeVisibility model = new ParamsChangeVisibility();
-			model.setUser_id(userId);
-			model.setCommunities_Id(communitiesId);
-			model.setVisibility(visibility);
-			
-			Gson jsonUtilities = new Gson();
-			String postData = jsonUtilities.toJson(model);
-			
-			WebRequest("POST", url, postData, "application/json");
-			this._logHelper.Debug("User " + userId + " changed visibility in the communities: " + communitiesId.toString());
-		} catch (Exception ex) {
-			this._logHelper.Error("Error changing user " + userId + " visibility in the communities: " + communitiesId.toString() + ": " + ex.getMessage());
-			throw ex;
-		}
-	}
-	
-	/**
 	 * Add a user to organization groups
 	 * @param userId User ID
 	 * @param organizationShortName Organization short name 
 	 * @param groupsShortNames Groups short names that will be included 
 	 * @throws Exception exception
 	 */
-	public void AddUserToOrganizationGroup(UUID userId, String organizationShortName, List<String> groupsShortNames) throws Exception {
+	public void addUserToOrganizationGroup(UUID userId, String organizationShortName, List<String> groupsShortNames) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/add-user-to-organization-group";
 			ParamsAddUserGroups model = new ParamsAddUserGroups();
@@ -637,7 +588,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @param groupsShortNames Groups short names that will be included 
 	 * @throws Exception exception
 	 */
-	public void AddUserToOrganizationGroup(String shortNameOrEmail, String organizationShortName, List<String> groupsShortNames) throws Exception {
+	public void addUserToOrganizationGroup(String shortNameOrEmail, String organizationShortName, List<String> groupsShortNames) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/add-user-to-organization-group";
 			ParamsAddUserGroups model = new ParamsAddUserGroups();
@@ -668,7 +619,6 @@ public class UserApi extends GnossApiWrapper {
 			String url = getApiUrl() + "/user/get-users-by-id";
 			String result = WebRequestPostWithJsonObject(url, listaIds);
 			
-			Gson gson = new Gson();
 			Type type = new TypeToken<HashMap<UUID, Userlite>>(){}.getType();
 			users = gson.fromJson(result, type);
 			this._logHelper.Debug("Users obtained by Ids");
@@ -691,7 +641,6 @@ public class UserApi extends GnossApiWrapper {
 			String url = getApiUrl() + "/user/get-users-by-shortname-or-email";
 			String result = WebRequestPostWithJsonObject(url, lista);
 			
-			Gson gson = new Gson();
 			Type type = new TypeToken<HashMap<UUID, Userlite>>(){}.getType();
 			users = gson.fromJson(result, type);
 			this._logHelper.Debug("Users obtained by short name or email");
@@ -729,7 +678,6 @@ public class UserApi extends GnossApiWrapper {
 			String url = getApiUrl() + "/user/get-modified-users?community_short_name=" + getCommunityShortName() + "&search_date=" + searchDate;
 			String response = WebRequest("GET", url);
 			
-			Gson gson = new Gson();
 			Type type = new TypeToken<ArrayList<UUID>>(){}.getType();
 			users = gson.fromJson(response, type);
 			
@@ -752,7 +700,6 @@ public class UserApi extends GnossApiWrapper {
 		try {
 			String url = getApiUrl() + "/user/get-admin-communities?login=" + login;
 			String response = WebRequest("GET", url);
-			Gson gson = new Gson();
 			Type type = new TypeToken<ArrayList<String>>(){}.getType();
 			communities = gson.fromJson(response, type);
 			this._logHelper.Debug("Communities obtained for user " + login);
@@ -774,7 +721,6 @@ public class UserApi extends GnossApiWrapper {
 		try {
 			String url = getApiUrl() + "/user/get-admin-communities?user_id=" + userId;
 			String response = WebRequest("GET", url);
-			Gson gson = new Gson();
 			Type type = new TypeToken<ArrayList<String>>(){}.getType();
 			communities = gson.fromJson(response, type);
 			this._logHelper.Debug("Communities obtained for user " + userId);
@@ -801,7 +747,6 @@ public class UserApi extends GnossApiWrapper {
 			}
 			String url = getApiUrl() + "/user/get-user-novelties?user_id=" + userId + "&community_short_name=" + getCommunityShortName() + "&search_date=" + searchDate;
 			String response = WebRequest("GET", url, "application/x-www-form-urlencoded");
-			Gson gson = new Gson();
 			user = gson.fromJson(response, UserNovertiesModel.class);
 			
 			if (user != null) {
@@ -832,7 +777,6 @@ public class UserApi extends GnossApiWrapper {
 			}
 			String url = getApiUrl() + "/user/get-user-novelties?login=" + shortNameOrEmail + "&community_short_name=" + getCommunityShortName() + "&search_date=" + searchDate;
 			String response = WebRequest("GET", url, "application/x-www-form-urlencoded");
-			Gson gson = new Gson();
 			user = gson.fromJson(response, UserNovertiesModel.class);
 			
 			if (user != null) {
@@ -853,12 +797,11 @@ public class UserApi extends GnossApiWrapper {
 	 * @return UserID from cookie
 	 * @throws Exception exception
 	 */
-	public UUID GetUserIDFromCookie(String cookie) throws Exception {
+	public UUID getUserIDFromCookie(String cookie) throws Exception {
 		UUID userID = null;
 		try {
 			String url = getApiUrl() + "/user/get-user-cookie?pCookie=" + cookie;
 			String response = WebRequest("GET", url, "application/x-www-form-urlencoded");
-			Gson gson = new Gson();
 			userID = gson.fromJson(response, UUID.class);
 		} catch (Exception ex) {
 			this._logHelper.Error("Error getting the user from the cookie: " + ex.getMessage());
@@ -882,9 +825,26 @@ public class UserApi extends GnossApiWrapper {
 		}
 		
 		String url = getApiUrl() + "/user/generate-login-token-for-email?email=" + email + "&longLiveToken=" + longLiveToken;
-		String result = WebRequest("POST", url, "application/json");
+		String result = WebRequest("POST", url, "application/json");	 
+		String token = gson.fromJson(result, String.class);
+		return token;
+	}
+	
+	/**
+	 * Gets a single use token or a long live token to use it in a login action
+	 * @param email
+	 * @return
+	 * @throws GnossAPIException
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 */
+	public String getLoginTokenForEmail(String email) throws GnossAPIException, MalformedURLException, IOException {
+		if (StringUtils.isBlank(email)) {
+			throw new GnossAPIException("The email can't be null or empty");
+		}
 		
-		Gson gson = new Gson();
+		String url = getApiUrl() + "/user/generate-login-token-for-email?email=" + email + "&longLiveToken=" + false;
+		String result = WebRequest("POST", url, "application/json");
 		String token = gson.fromJson(result, String.class);
 		return token;
 	}
@@ -899,14 +859,31 @@ public class UserApi extends GnossApiWrapper {
 	 * @throws IOException IO Exception 
 	 */
 	public String getLoginTokenForEmail(UUID userId, boolean longLiveToken) throws GnossAPIException, MalformedURLException, IOException {
-		if (userId == null) {
+		if (userId == null || userId.equals(Constants.UUID_EMPTY)) {
 			throw new GnossAPIException("The user id can't be null");
 		}
 		
 		String url = getApiUrl() + "/user/generate-login-token-for-email?user_id=" + userId + "&longLiveToken=" + longLiveToken;
 		String result = WebRequest("POST", url, "application/json");
+		String token = gson.fromJson(result, String.class);
+		return token;
+	}
+	
+	/**
+	 * Gets a single use token or a long live token to use it in a login action
+	 * @param userId
+	 * @return
+	 * @throws GnossAPIException
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 */
+	public String getLoginTokenForEmail(UUID userId) throws GnossAPIException, MalformedURLException, IOException {
+		if (userId == null || userId.equals(Constants.UUID_EMPTY)) {
+			throw new GnossAPIException("The user id can't be null");
+		}
 		
-		Gson gson = new Gson();
+		String url = getApiUrl() + "/user/generate-login-token-for-email?user_id=" + userId + "&longLiveToken=" + false;
+		String result = WebRequest("POST", url, "application/json"); 
 		String token = gson.fromJson(result, String.class);
 		return token;
 	}
@@ -921,14 +898,31 @@ public class UserApi extends GnossApiWrapper {
 	 * @throws IOException IO Exception 
 	 */
 	public String getEmailByToken(UUID token, boolean deleteSingleToken) throws GnossAPIException, MalformedURLException, IOException {
-		if (token == null) {
+		if (token == null || token.equals(Constants.UUID_EMPTY)) {
 			throw new GnossAPIException("The token can't be null");
 		}
 		
 		String url = getApiUrl() + "/user/get-email-by-token?token=" + token + "&deleteSingleUseToken=" + deleteSingleToken;
 		String result = WebRequest("GET", url, "application/json");
+		String email = gson.fromJson(result, String.class);
+		return email;
+	}
+	
+	/**
+	 * Gets the email associated to a token
+	 * @param token token 
+	 * @return Email associated to the token
+	 * @throws GnossAPIException Gnoss API Exception 
+	 * @throws MalformedURLException Mal Formed URL Exception 
+	 * @throws IOException IO Exception 
+	 */
+	public String getEmailByToken(UUID token) throws GnossAPIException, MalformedURLException, IOException {
+		if (token == null || token.equals(Constants.UUID_EMPTY)) {
+			throw new GnossAPIException("The token can't be null");
+		}
 		
-		Gson gson = new Gson();
+		String url = getApiUrl() + "/user/get-email-by-token?token=" + token + "&deleteSingleUseToken=" + false;
+		String result = WebRequest("GET", url, "application/json");
 		String email = gson.fromJson(result, String.class);
 		return email;
 	}
@@ -938,7 +932,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @param userId User's identifier
 	 * @throws Exception Exception 
 	 */
-	public void BlockUser(UUID userId) throws Exception {
+	public void blockUser(UUID userId) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/block?user_id=" + userId;
 			WebRequest("POST", url);
@@ -953,7 +947,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @param shortNameOrEmail User's short name or email
 	 * @throws Exception Exception 
 	 */
-	public void BlockUser(String shortNameOrEmail) throws Exception {
+	public void blockUser(String shortNameOrEmail) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/block?login=" + shortNameOrEmail;
 			WebRequest("POST", url);
@@ -968,7 +962,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @param userId user's identifier
 	 * @throws Exception exception 
 	 */
-	public void UnblockUser(UUID userId) throws Exception {
+	public void unblockUser(UUID userId) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/unblock?user_id=" + userId;
 			WebRequest("POST", url);
@@ -983,7 +977,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @param shortNameOrEmail user's short name or email
 	 * @throws Exception exception 
 	 */
-	public void UnblockUser(String shortNameOrEmail) throws Exception {
+	public void unblockUser(String shortNameOrEmail) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/unblock?login=" + shortNameOrEmail;
 			WebRequest("POST", url);
@@ -1000,7 +994,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @param socialNetwork Social Network (like Facebook, Instagram, Twitter ...)
 	 * @throws Exception exception
 	 */
-	public void AddSocialNetworkLogin(UUID userId, String socialNetworkUserId, String socialNetwork) throws Exception {
+	public void addSocialNetworkLogin(UUID userId, String socialNetworkUserId, String socialNetwork) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/add-social-network-login?user_id=" + userId + 
 					"&social_network_user_id=" + URLEncoder.encode(socialNetworkUserId, StandardCharsets.UTF_8) + 
@@ -1019,7 +1013,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @param socialNetwork Social Network (like Facebook, Instagram, Twitter ...)
 	 * @throws Exception exception
 	 */
-	public void AddSocialNetworkLogin(String shortNameOrEmail, String socialNetworkUserId, String socialNetwork) throws Exception {
+	public void addSocialNetworkLogin(String shortNameOrEmail, String socialNetworkUserId, String socialNetwork) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/add-social-network-login?login=" + shortNameOrEmail + 
 					"&social_network_user_id=" + URLEncoder.encode(socialNetworkUserId, StandardCharsets.UTF_8) + 
@@ -1038,7 +1032,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @param socialNetwork Social network (Like Facebook, Twitter, Instagram...)
 	 * @throws Exception exception
 	 */
-	public void ModifySocialNetworkLogin(UUID userId, String socialNetworkUserId, String socialNetwork) throws Exception {
+	public void modifySocialNetworkLogin(UUID userId, String socialNetworkUserId, String socialNetwork) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/modify-social-network-login?user_id=" + userId + 
 					"&social_network_user_id=" + URLEncoder.encode(socialNetworkUserId, StandardCharsets.UTF_8) + 
@@ -1057,7 +1051,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @param socialNetwork Social network (Like Facebook, Twitter, Instagram...)
 	 * @throws Exception exception
 	 */
-	public void ModifySocialNetworkLogin(String shortNameOrEmail, String socialNetworkUserId, String socialNetwork) throws Exception {
+	public void modifySocialNetworkLogin(String shortNameOrEmail, String socialNetworkUserId, String socialNetwork) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/modify-social-network-login?login=" + shortNameOrEmail + 
 					"&social_network_user_id=" + URLEncoder.encode(socialNetworkUserId, StandardCharsets.UTF_8) + 
@@ -1082,9 +1076,7 @@ public class UserApi extends GnossApiWrapper {
 			String url = getApiUrl() + "/user/get-user_id-by-social-network-login?social_network_user_id=" + 
 					URLEncoder.encode(socialNetworkUserId, StandardCharsets.UTF_8) + 
 					"&social_network=" + URLEncoder.encode(socialNetwork, StandardCharsets.UTF_8);
-			String result = WebRequest("GET", url, "application/json");
-			
-			Gson gson = new Gson();
+			String result = WebRequest("GET", url, "application/json"); 
 			user_id = gson.fromJson(result, UUID.class);
 		} catch (Exception ex) {
 			this._logHelper.Error("The social network login " + socialNetworkUserId + " at " + socialNetwork + " could not be found");
@@ -1100,14 +1092,13 @@ public class UserApi extends GnossApiWrapper {
 	 * @return Boolean True if the user exists 
 	 * @throws Exception exception
 	 */
-	public boolean ExistsSocialNetworkLogin(String socialNetworkUserId, String socialNetwork) throws Exception {
+	public boolean existsSocialNetworkLogin(String socialNetworkUserId, String socialNetwork) throws Exception {
 		boolean exists = false;
 		try {
 			String url = getApiUrl() + "/user/exists-social-network-login?social_network_user_id=" + 
 					URLEncoder.encode(socialNetworkUserId, StandardCharsets.UTF_8) + 
 					"&social_network=" + URLEncoder.encode(socialNetwork, StandardCharsets.UTF_8);
 			String result = WebRequest("GET", url, "application/json");
-			Gson gson = new Gson();
 			exists = gson.fromJson(result, boolean.class);
 		} catch (Exception ex) {
 			this._logHelper.Error("The social network login " + socialNetworkUserId + " at " + socialNetwork + " could not be found");
@@ -1122,12 +1113,11 @@ public class UserApi extends GnossApiWrapper {
 	 * @return Email list that already exists in the database
 	 * @throws Exception exception
 	 */
-	public List<String> ExistsEmails(List<String> emails) throws Exception {
+	public List<String> existsEmails(List<String> emails) throws Exception {
 		List<String> lista = null;
 		try {
 			String url = getApiUrl() + "/user/exists-email-in-database";
 			String result = WebRequestPostWithJsonObject(url, emails);
-			Gson gson = new Gson();
 			Type type = new TypeToken<ArrayList<String>>(){}.getType();
 			lista = gson.fromJson(result, type);
 		} catch (Exception ex) {
@@ -1143,7 +1133,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @return Photo path or null if the user has no photo
 	 * @throws Exception exception
 	 */
-	public String GetUserPhoto(UUID userId) throws Exception {
+	public String getUserPhoto(UUID userId) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/get-user-photo?user_id=" + userId;
 			return WebRequest("POST", url);
@@ -1159,7 +1149,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @return Photo path or null if the user has no photo
 	 * @throws Exception exception
 	 */
-	public String GetUserPhoto(String shortNameOrEmail) throws Exception {
+	public String getUserPhoto(String shortNameOrEmail) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/get-user-photo?login=" + shortNameOrEmail;
 			return WebRequest("POST", url);
@@ -1180,7 +1170,6 @@ public class UserApi extends GnossApiWrapper {
 		try {
 			String url = getApiUrl() + "/user/get-groups-per-community?user_id=" + userId + "&community_short_name=" + getCommunityShortName();
 			String result = WebRequest("GET", url, "application/json");
-			Gson gson = new Gson();
 			Type type = new TypeToken<ArrayList<String>>(){}.getType();
 			lista = gson.fromJson(result, type);
 		} catch (Exception ex) {
@@ -1200,8 +1189,7 @@ public class UserApi extends GnossApiWrapper {
 		List<String> lista = null;
 		try {
 			String url = getApiUrl() + "/user/get-groups-per-community?login=" + shortNameOrEmail + "&community_short_name=" + getCommunityShortName();
-			String result = WebRequest("GET", url, "application/json");
-			Gson gson = new Gson();
+			String result = WebRequest("GET", url, "application/json"); 
 			Type type = new TypeToken<ArrayList<String>>(){}.getType();
 			lista = gson.fromJson(result, type);
 		} catch (Exception ex) {
@@ -1218,7 +1206,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @return Social network login of the user
 	 * @throws Exception exception
 	 */
-	public String GetSocialNetworkLoginByUserId(String socialNetwork, UUID userId) throws Exception {
+	public String getSocialNetworkLoginByUserId(String socialNetwork, UUID userId) throws Exception {
 		String socialNetworkLogin = null;
 		try {
 			String url = getApiUrl() + "/user/get-social-network-login-by-user_id?user_id=" + userId + 
@@ -1239,7 +1227,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @return Social network login of the user
 	 * @throws Exception exception
 	 */
-	public String GetSocialNetworkLoginByShortNameOrEmail(String socialNetwork, String shortNameOrEmail) throws Exception {
+	public String getSocialNetworkLoginByShortNameOrEmail(String socialNetwork, String shortNameOrEmail) throws Exception {
 		String socialNetworkLogin = null;
 		try {
 			String url = getApiUrl() + "/user/get-social-network-login-by-user_id?login=" + shortNameOrEmail + 
@@ -1258,7 +1246,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @param userId User identifier
 	 * @throws Exception exception
 	 */
-	public void AddCmsAdminRolToUser(UUID userId) throws Exception {
+	public void addCmsAdminRolToUser(UUID userId) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/add-permission?user_id=" + userId + "&community_short_name=" + getCommunityShortName() + "&admin_page_type=" + AdministrationPageType.Page.getValue();
 			WebRequest("POST", url);
@@ -1273,7 +1261,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @param shortNameOrEmail User short name or email
 	 * @throws Exception exception
 	 */
-	public void AddCmsAdminRolToUser(String shortNameOrEmail) throws Exception {
+	public void addCmsAdminRolToUser(String shortNameOrEmail) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/add-permission?login=" + shortNameOrEmail + "&community_short_name=" + getCommunityShortName() + "&admin_page_type=" + AdministrationPageType.Page.getValue();
 			WebRequest("POST", url);
@@ -1288,7 +1276,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @param userId User identifier
 	 * @throws Exception exception
 	 */
-	public void RemoveCmsAdminRolToUser(UUID userId) throws Exception {
+	public void removeCmsAdminRolToUser(UUID userId) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/remove-permission?user_id=" + userId + "&community_short_name=" + getCommunityShortName() + "&admin_page_type=" + AdministrationPageType.Page.getValue();
 			WebRequest("POST", url);
@@ -1303,7 +1291,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @param shortNameOrEmail User short name or email
 	 * @throws Exception exception
 	 */
-	public void RemoveCmsAdminRolToUser(String shortNameOrEmail) throws Exception {
+	public void removeCmsAdminRolToUser(String shortNameOrEmail) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/remove-permission?login=" + shortNameOrEmail + "&community_short_name=" + getCommunityShortName() + "&admin_page_type=" + AdministrationPageType.Page.getValue();
 			WebRequest("POST", url);
@@ -1318,7 +1306,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @param personId Person identifier
 	 * @throws Exception exception
 	 */
-	public void ClearPersonCache(UUID personId) throws Exception {
+	public void clearPersonCache(UUID personId) throws Exception {
 		try {
 			String url = getApiUrl() + "/cache/invalidar-caches-locales?pPersonaID=" + personId;
 			WebRequest("POST", url);
@@ -1333,7 +1321,7 @@ public class UserApi extends GnossApiWrapper {
 	 * @param shortNameOrEmail Person short name or email
 	 * @throws Exception exception
 	 */
-	public void ClearPersonCache(String shortNameOrEmail) throws Exception {
+	public void clearPersonCache(String shortNameOrEmail) throws Exception {
 		try {
 			String url = getApiUrl() + "/cache/invalidar-caches-locales?login=" + shortNameOrEmail;
 			WebRequest("POST", url);
