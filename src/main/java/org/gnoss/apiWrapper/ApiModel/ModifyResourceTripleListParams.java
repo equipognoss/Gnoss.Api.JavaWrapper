@@ -6,6 +6,7 @@
 package org.gnoss.apiWrapper.ApiModel;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -15,7 +16,7 @@ import java.util.UUID;
 public class ModifyResourceTripleListParams {
     private String community_short_name;
     private UUID resource_id;
-    private ArrayList<ModifyResourceTriple> resource_triples;
+    private List<ModifyResourceTriple> resource_triples;
     private ArrayList<SemanticAttachedResource> resource_attached_files;
     private boolean publish_home;
     private String charge_id;
@@ -39,11 +40,11 @@ public class ModifyResourceTripleListParams {
         this.resource_id = resource_id;
     }
 
-    public ArrayList<ModifyResourceTriple> getResource_triples() {
+    public List<ModifyResourceTriple> getResource_triples() {
         return resource_triples;
     }
 
-    public void setResource_triples(ArrayList<ModifyResourceTriple> resource_triples) {
+    public void setResource_triples(List<ModifyResourceTriple> resource_triples) {
         this.resource_triples = resource_triples;
     }
 
