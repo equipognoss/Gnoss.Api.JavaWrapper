@@ -672,7 +672,7 @@ public class ResourceApi extends GnossApiWrapper{
 							}
 						}
 
-						modifyTripleList(resource.getShortGnossId(), triplesList, getLoadIdentifier(), resource.getPublishInHome(), resource.getMainImage(), resourceAttachedFiles, true);
+						modifyTripleList(resource.getShortGnossId(), triplesList, resource.getPublishInHome(), resource.getMainImage(), resourceAttachedFiles, true);
 						}
 						else {
 							LogHelper.getInstance().Error("ERROR geting the ontology property of the resource's image: " + resource.getId() + ". Title: " + resource.getTitle());
@@ -1095,7 +1095,7 @@ public class ResourceApi extends GnossApiWrapper{
 					if(i == contResource){
 						endOfLoad = true;
 					}
-					modifyTripleList(docID, listaValores, getLoadIdentifier(), publishHome, null, null, endOfLoad);
+					modifyTripleList(docID, listaValores, publishHome, null, null, endOfLoad);
 
 					LogHelper.getInstance().Debug(processedNumber + "of" + resourceTriples.size() + "Object: " + docID + ". Resource: " + resourceTriples.get(docID).toArray());
 					toInsert.remove(docID);
@@ -1176,7 +1176,7 @@ public class ResourceApi extends GnossApiWrapper{
 					if(i == contResources){
 						endOfLoad = true;
 					}
-					modifyTripleList(docID, listaValores, getLoadIdentifier(), publishHome, null, null, endOfLoad);
+					modifyTripleList(docID, listaValores, publishHome, null, null, endOfLoad);
 
 					LogHelper.getInstance().Debug(processedNumer + " of " + resourceTriples.size() + ". Object: " + docID + ".Resource: " + resourceTriples.get(docID).toArray());
 					toModify.remove(docID);
@@ -1213,13 +1213,12 @@ public class ResourceApi extends GnossApiWrapper{
 	 * @param endOfLoad Indicates the resource modified is the last and it must deletes cache
 	 * @throws Exception Exception 
 	 */
-	public void modifyTripleList(UUID resourceID, ArrayList<ModifyResourceTriple> tripleList, String loadId, boolean publishHome, String mainImage, ArrayList<SemanticAttachedResource> resourceAttachedFiles, boolean endOfLoad) throws Exception{
+	public void modifyTripleList(UUID resourceID, ArrayList<ModifyResourceTriple> tripleList, boolean publishHome, String mainImage, ArrayList<SemanticAttachedResource> resourceAttachedFiles, boolean endOfLoad) throws Exception{
 		ModifyResourceTripleListParams model = null;
 		try{
 			String url = getApiUrl() + "/resource/modify-triple-list";
 			model = new ModifyResourceTripleListParams();
 			model.setResource_triples(tripleList);
-			model.setCharge_id(loadId);
 			model.setResource_id(resourceID);
 			model.setCommunity_short_name(getCommunityShortName());
 			model.setPublish_home(publishHome);
@@ -2324,7 +2323,7 @@ public class ResourceApi extends GnossApiWrapper{
 					if(i == contResources){
 						endOfLoad = true;
 					}
-					modifyTripleList(docID, listaValores, getLoadIdentifier(), publishHome, null, null, endOfLoad);
+					modifyTripleList(docID, listaValores, publishHome, null, null, endOfLoad);
 
 					LogHelper.getInstance().Debug(processedNumber + " of " + resourceTriples.size() + " Object: " + docID + ". Resource: " + resourceTriples.get(docID).toArray());
 					toDelete.remove(docID);
@@ -2664,11 +2663,7 @@ public class ResourceApi extends GnossApiWrapper{
 
 					// If exists, replace the value list. Else, add the value list
 
-					if(resources.containsKey(docID)) {
-						resources.get(docID).addAll(valuesList);
-					}else {
-						resources.put(docID, valuesList);
-					}
+					resources.put(docID, valuesList);
 					toModify.remove(docID);
 
 				}
@@ -2704,12 +2699,7 @@ public class ResourceApi extends GnossApiWrapper{
 
 						valuesList.add(triple);
 					}
-					if(resources.containsKey(docID)) {
-						resources.get(docID).addAll(valuesList);
-					}
-					else {
-						resources.put(docID, valuesList);
-					}
+					resources.put(docID, valuesList);
 					toInsert.remove(docID);
 				}
 			}
@@ -2742,11 +2732,7 @@ public class ResourceApi extends GnossApiWrapper{
 						valuesList.add(triple);
 					}
 
-					if(resources.containsKey(docID)) {
-						resources.get(docID).addAll(valuesList);
-					}else {
-						resources.put(docID, valuesList);
-					}
+					resources.put(docID, valuesList);
 					auxiliaryEntityTriplesToInsert.remove(docID);
 				}
 			}
@@ -4809,7 +4795,7 @@ public class ResourceApi extends GnossApiWrapper{
 				if(i==constResources) {
 					endOfLoad=true;
 				}
-				modifyTripleList(docID, valuesList, getLoadIdentifier(), publishHome, null, null, endOfLoad);
+				modifyTripleList(docID, valuesList, publishHome, null, null, endOfLoad);
 				valuesList= new ArrayList<ModifyResourceTriple>();
 
 				_logHelper.Debug("Object: "+docID);
@@ -4958,7 +4944,7 @@ public class ResourceApi extends GnossApiWrapper{
 		_logHelper.Debug("******************** End Load "+this.getClass().getSimpleName());
 	}
 
-	private void LoadBasicOntologyResourceListInt(ArrayList<BasicOntologyResource> resourceList, boolean hierarquicalCategories, TiposDocumentacion resourceType, int numAttemps) {
+	private void loadBasicOntologyResourceListInt(ArrayList<BasicOntologyResource> resourceList, boolean hierarquicalCategories, TiposDocumentacion resourceType, int numAttemps) {
 
 		int processedNumber=0;
 		ArrayList<BasicOntologyResource> originalResourceList = new ArrayList<BasicOntologyResource>();
@@ -4993,7 +4979,7 @@ public class ResourceApi extends GnossApiWrapper{
 	    loadBasicOntologyResourceIntVideo(resource, hierarchicalCategories, resourceType, false);
 	}
 	
-	private void LoadBasicOntologyResourceListIntVideo(ArrayList<BasicOntologyResource> resourceList, boolean hierarquicalCategories, TiposDocumentacion resourceType, int numAttemps) {
+	private void loadBasicOntologyResourceListIntVideo(ArrayList<BasicOntologyResource> resourceList, boolean hierarquicalCategories, TiposDocumentacion resourceType, int numAttemps) {
 		int proccessedNumber=0;
 		ArrayList<BasicOntologyResource> originalResourceList= new ArrayList<BasicOntologyResource>();
 		originalResourceList=resourceList;
@@ -5336,7 +5322,7 @@ public class ResourceApi extends GnossApiWrapper{
 				}
 			}
 			if(removeTripleList.size()>0) {
-				modifyTripleList(resourceId, triplesList, getLoadIdentifier(), publishHome, null, resourceAttachedFiles, true);
+				modifyTripleList(resourceId, triplesList, publishHome, null, resourceAttachedFiles, true);
 				_logHelper.Debug("Modified resource with attached. ResourceId: "+resourceId);
 			}
 		}
@@ -5381,7 +5367,7 @@ public class ResourceApi extends GnossApiWrapper{
 				resourceAttachedFiles.add(attach);
 			}
 			
-			modifyTripleList(resourceId, triplesList, getLoadIdentifier(), publishHome, null, resourceAttachedFiles, true);
+			modifyTripleList(resourceId, triplesList, publishHome, null, resourceAttachedFiles, true);
 		}
 
 		_logHelper.Debug("Modified the resource with attached file: "+resourceId);
@@ -5424,7 +5410,7 @@ public class ResourceApi extends GnossApiWrapper{
 				i++;
 				resourceAttachedFiles.add(attach);
 			}
-			modifyTripleList(resourceId, triplesList, getLoadIdentifier(), publishHome, null, resourceAttachedFiles, true);
+			modifyTripleList(resourceId, triplesList, publishHome, null, resourceAttachedFiles, true);
 
 		}
 		_logHelper.Debug("Modified the resource with attached image: "+resourceId);
@@ -5564,7 +5550,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 * @param numAttemps Default 5. Number of retries loading of the failed load of a resource
 	 */
 	public void loadBasicOntologyResourceListIntNote(ArrayList<BasicOntologyResource> resourceList, boolean hierarquicalCategories, int numAttemps) {
-		LoadBasicOntologyResourceListInt(resourceList, hierarquicalCategories, TiposDocumentacion.note, numAttemps);
+		loadBasicOntologyResourceListInt(resourceList, hierarquicalCategories, TiposDocumentacion.note, numAttemps);
 		_logHelper.Debug("Resources succesfully loaded. End of load");
 	}
 
@@ -5576,7 +5562,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 * @param numAttemps Default 2. Number of retries loading of the failed load of a resource
 	 */
 	public void loadBasicOntologyResourceListLink(ArrayList<BasicOntologyResource> resourceList, boolean hierarquicalCategories, int numAttemps) {
-		LoadBasicOntologyResourceListInt(resourceList, hierarquicalCategories, TiposDocumentacion.hyperlink, numAttemps);
+		loadBasicOntologyResourceListInt(resourceList, hierarquicalCategories, TiposDocumentacion.hyperlink, numAttemps);
 		_logHelper.Debug("Resources succesfully loaded. End of load");
 	}
 
@@ -5588,7 +5574,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 * @param numAttemps Default 5. Number of retries loading of the failed load of a resource
 	 */
 	public void loadBasicOntologyResourceListFile(ArrayList<BasicOntologyResource> resourceList, boolean hierarquicalCategories, int numAttemps) {
-		LoadBasicOntologyResourceListInt(resourceList, hierarquicalCategories, TiposDocumentacion.server_file, numAttemps);
+		loadBasicOntologyResourceListInt(resourceList, hierarquicalCategories, TiposDocumentacion.server_file, numAttemps);
 		_logHelper.Debug("Resources succesfully loaded. End of load");
 	}
 
@@ -5600,7 +5586,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 * @param numAttemps Default 5. Number of retries loading of the failed load of a resource
 	 */
 	public void loadBasicOntologyResourceListLinkVideo(ArrayList<BasicOntologyResource> resourceList, boolean hierarquicalCategories, int numAttemps) {
-		LoadBasicOntologyResourceListIntVideo(resourceList, hierarquicalCategories, TiposDocumentacion.hyperlink, numAttemps);
+		loadBasicOntologyResourceListIntVideo(resourceList, hierarquicalCategories, TiposDocumentacion.hyperlink, numAttemps);
 		_logHelper.Debug("Resources succesfully loaded. End of load");
 	}
 
@@ -5614,7 +5600,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 * @param numAttemps Default 5. Number of retries loading of the failed load of a resource
 	 */
 	public void loadBasicOntologyResourceListVideo (ArrayList<BasicOntologyResource> resourceList, boolean hierarquicalCategories, int numAttemps) {
-		LoadBasicOntologyResourceListInt( resourceList, hierarquicalCategories, TiposDocumentacion.video, numAttemps);
+		loadBasicOntologyResourceListInt( resourceList, hierarquicalCategories, TiposDocumentacion.video, numAttemps);
 		_logHelper.Debug("Resources succesfully loaded. End of load");
 	}
 
