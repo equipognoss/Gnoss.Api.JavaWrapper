@@ -10,6 +10,12 @@ import org.gnoss.apiWrapper.Helpers.LogHelperLogstash;
 import org.gnoss.apiWrapper.Helpers.LogLevels;
 import org.gnoss.apiWrapper.OAuth.OAuthInfo;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -17,9 +23,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -38,7 +46,7 @@ import org.jdom2.xpath.XPath;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
+import java.nio.charset.StandardCharsets;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -353,17 +361,66 @@ public class GnossApiWrapper {
     	return WebRequest(httpMethod, url, "", "", "", null);
     }
     
+    /**
+     * Make a POST request with JSON object
+     * @param url URL to make the request
+     * @param model Object model to serialize as JSON
+     * @param acceptHeader Accept header (optional)
+     * @return Response from the server
+     * @throws IOException IO exception
+     * @throws GnossAPIException Gnoss API exception
+     */
     protected String WebRequestPostWithJsonObject(String url, Object model, String acceptHeader) throws IOException, GnossAPIException {
         HashMap<String, String> otherHeaders = new HashMap<>();
         SendLockTokenForResource(model, otherHeaders);
 
-        Gson jsonUtilities = new Gson();
-        
+        Gson jsonUtilities = new GsonBuilder()
+                .registerTypeHierarchyAdapter(byte[].class, new JsonSerializer<byte[]>() {
+                    @Override
+                    public JsonElement serialize(byte[] src, Type typeOfSrc, JsonSerializationContext context) {
+                        return new JsonPrimitive(Base64.getEncoder().encodeToString(src));
+                    }
+                })
+                .create();
         String json = jsonUtilities.toJson(model);
-        
-        HttpURLConnection webRequest = PrepareWebRequest("POST", url, json, "application/json; charset=UTF-8", acceptHeader, otherHeaders);
 
-        return ReadWebResponse(webRequest.getInputStream());
+        HttpURLConnection webRequest = PrepareWebRequest("POST", url, json, "application/json", acceptHeader, otherHeaders);
+
+        try {
+            // Intentar obtener la respuesta exitosa
+            InputStream inputStream = webRequest.getInputStream();
+            UpdateLockTokenForResource(webRequest, model);
+            return ReadWebResponse(inputStream);
+        } catch (IOException ex) {
+            // Manejar error de respuesta del servidor
+            String message = null;
+            try {
+                InputStream errorStream = webRequest.getErrorStream();
+                if (errorStream != null) {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(errorStream, StandardCharsets.UTF_8));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line);
+                    }
+                    message = sb.toString();
+                    reader.close();
+                    
+                    if (this._logHelper != null) {
+                    	this._logHelper.Error(String.format("%s. \r\nResponse: %s", ex.getMessage(), message));
+                    }
+                }
+            } catch (Exception e) {
+                // Error leyendo el error response
+            }
+            
+            if (message != null && !message.isEmpty()) {
+                throw new GnossAPIException(message);
+            }
+            
+            // Error leyendo el error response, lanzar la excepción original
+            throw ex;
+        }
     }
 
     protected String ReadWebResponse(InputStream inputStream) throws GnossAPIException, IOException {
@@ -406,6 +463,18 @@ public class GnossApiWrapper {
         return message;
     }
     
+    /**
+     * Request an url with an oauth sign
+     * @param httpMethod Http method (GET, POST, PUT...)
+     * @param url Url to make the request
+     * @param postData (Optional) Post data to send in the body request
+     * @param contentType (Optional) Content type of the postData
+     * @param acceptHeader (Optional) Accept header
+     * @param otherHeaders (Optional) Additional request headers
+     * @return HttpURLConnection configured request
+     * @throws MalformedURLException exception
+     * @throws IOException exception
+     */
     protected HttpURLConnection PrepareWebRequest(String httpMethod, String url, String postData, String contentType, String acceptHeader, HashMap<String, String> otherHeaders) throws MalformedURLException, IOException {
         HttpURLConnection webRequest = null;
         OutputStreamWriter requestWriter = null;
@@ -413,17 +482,15 @@ public class GnossApiWrapper {
         URL iurl = new URL(url);
         webRequest = (HttpURLConnection) iurl.openConnection();
         webRequest.setRequestMethod(httpMethod);
-        webRequest.setConnectTimeout(800000);
+        webRequest.setConnectTimeout(3600000); // Cambiado a 3600000 como en C#
+        webRequest.setRequestProperty("User-Agent", GenerarUserAgent());
 
         SetHeaders(webRequest, contentType, acceptHeader, otherHeaders);
-        //webRequest.send("Content-Length", postData.length());
-        //webRequest.setFixedLengthStreamingMode(postData.length());
-        webRequest.setRequestProperty("Accept-Charset", "UTF-8");
+        
         if (httpMethod.equals("POST") || httpMethod.equals("PUT") || httpMethod.equals("DELETE")) {
-        	webRequest.setDoOutput(true);
-            //requestWriter = new OutputStreamWriter(webRequest.getOutputStream(), "UTF-8");
-        	requestWriter = new OutputStreamWriter(webRequest.getOutputStream(), "UTF-8");
-            try {          	            	
+            webRequest.setDoOutput(true);
+            requestWriter = new OutputStreamWriter(webRequest.getOutputStream(), StandardCharsets.UTF_8);
+            try {
                 requestWriter.write(postData);
             } finally {
                 requestWriter.close();
@@ -432,6 +499,32 @@ public class GnossApiWrapper {
         }
 
         return webRequest;
+    }
+    
+    /**
+     * Generate the UserAgent
+     * @return The custom UserAgent
+     */
+    public static String GenerarUserAgent() {
+        String osName = System.getProperty("os.name");
+        String osVersion = System.getProperty("os.version");
+        String osArch = System.getProperty("os.arch");
+        String OSVersion = osName + " " + osVersion + " " + osArch;
+        
+        // Obtener la versión del paquete actual
+        String assemblyVersion = "1.0.0"; // Versión por defecto
+        
+        try {
+            Package pkg = GnossApiWrapper.class.getPackage();
+            if (pkg != null && pkg.getImplementationVersion() != null) {
+                assemblyVersion = pkg.getImplementationVersion();
+            }
+        } catch (Exception e) {
+            // Si no se puede obtener la versión, usar la por defecto
+        }
+        
+        return String.format("Mozilla/5.0 (%s) +https://www.gnoss.com GNOSSApiWrapper.Java/%s", 
+                            OSVersion, assemblyVersion);
     }
 
     private void SetHeaders(HttpURLConnection webRequest, String contentType, String acceptHeader, HashMap<String, String> otherHeaders) throws MalformedURLException {
@@ -480,6 +573,22 @@ public class GnossApiWrapper {
             String token = GetLockTokenForResource(resourceID);
             if (!StringUtils.isEmpty(token)) {
                 otherHeaders.put("X-Correlation-ID", token);
+            }
+        }
+    }
+    /**
+     * Update lock token for resource from response
+     * @param webResponse HTTP response connection
+     * @param model Model object
+     */
+    private void UpdateLockTokenForResource(HttpURLConnection webResponse, Object model) {
+        if (webResponse != null) {
+            String lockToken = webResponse.getHeaderField("X-Correlation-ID");
+            if (lockToken != null && !lockToken.isEmpty()) {
+                UUID resourceId = GetResourceIdFromModel(model);
+                if (resourceId != null) {
+                    SetLockTokenForResource(resourceId, lockToken);
+                }
             }
         }
     }

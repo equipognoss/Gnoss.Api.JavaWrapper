@@ -37,6 +37,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -1067,7 +1068,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 */
 	public UUID getCommunityId() throws Exception {
 		try {
-			String url = getApiUrl() + "/community/get-community-id?community_short_name=" + URLEncoder.encode(CommunityShortName);
+			String url = getApiUrl() + "/community/get-community-id?community_short_name=" + URLEncoder.encode(CommunityShortName, StandardCharsets.UTF_8);
 			String response = WebRequest("GET", url, "application/json");
 			Gson gson = new Gson();
 			return gson.fromJson(response, UUID.class); 
@@ -1125,7 +1126,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 */
 	public void RefreshCMSComponent(UUID componentId) throws Exception {
 		try {
-			String url = getApiUrl() + "/community/refresh-cms-component?component_id=" + componentId.toString() + "&community_short_name=" + URLEncoder.encode(CommunityShortName);
+			String url = getApiUrl() + "/community/refresh-cms-component?component_id=" + componentId.toString() + "&community_short_name=" + URLEncoder.encode(CommunityShortName, StandardCharsets.UTF_8);
 			WebRequest("POST", url);
 		} catch(Exception ex) {
 			this._logHelper.Error("The component id " + componentId + " of the community '" + CommunityShortName + "' could not be refreshed");
@@ -1140,7 +1141,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 */
 	public void RefreshAllCMSComponents() throws Exception {
 		try {
-			String url = getApiUrl() + "/community/refresh-all-cms-components?community_short_name=" + URLEncoder.encode(CommunityShortName);
+			String url = getApiUrl() + "/community/refresh-all-cms-components?community_short_name=" + URLEncoder.encode(CommunityShortName, StandardCharsets.UTF_8);
 			WebRequest("POST", url);
 		} catch(Exception ex) {
 			this._logHelper.Error("The components of the community '" + CommunityShortName + "' could not be refreshed");
@@ -1156,7 +1157,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 */
 	public CommunityInfoModel GetCommunityInfo() throws Exception {
 		try {
-			String url = getApiUrl() + "/community/get-community-information?community_short_name=" + URLEncoder.encode(CommunityShortName);
+			String url = getApiUrl() + "/community/get-community-information?community_short_name=" + URLEncoder.encode(CommunityShortName, StandardCharsets.UTF_8);
 			String response = WebRequest("GET", url, "application/json");
 			Gson gson = new Gson();
 			return gson.fromJson(response, CommunityInfoModel.class); 
@@ -1296,21 +1297,20 @@ public class CommunityApi extends GnossApiWrapper{
 	 * Get a text in other language
 	 * @param language Language of the text
 	 * @param textoID ID of the text
+	 * @return String with the text in the specified language
 	 * @throws Exception exception
 	 */
-	public void GetTextByLanguage(String language, String textoID) throws Exception {
-		try {
-			String url = getApiUrl() + "/community/get-text-by-language";
-			GetTextByLanguageModel model = new GetTextByLanguageModel();
-			{
-				model.setCommunity_short_name(CommunityShortName);
-				model.setLanguage(language);
-				model.setTexto_id(textoID);
-			}
-			WebRequestPostWithJsonObject(url, model);
-		} catch(Exception ex) {
-			this._logHelper.Error("Error getting the text by the data given: " + ex.getMessage());
-			throw ex;
-		}
+	public String GetTextByLanguage(String language, String textoID) throws Exception {
+	    try {
+	        String url = getApiUrl() + "/community/get-text-by-language?community_short_name=" + URLEncoder.encode(CommunityShortName, StandardCharsets.UTF_8) + "&language=" + URLEncoder.encode(language, StandardCharsets.UTF_8) + "&texto_id=" + URLEncoder.encode(textoID, StandardCharsets.UTF_8);
+	        String response = WebRequest("GET", url, "application/json");
+	        if (response != null) {
+	            response = response.trim().replaceAll("^\"|\"$", "");
+	        }
+	        return response;
+	    } catch(Exception ex) {
+	        this._logHelper.Error("Error getting the text by the data given: " + ex.getMessage());
+	        throw ex;
+	    }
 	}
 }
