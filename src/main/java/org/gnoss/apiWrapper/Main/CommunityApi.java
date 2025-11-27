@@ -21,7 +21,7 @@ import org.gnoss.apiWrapper.ApiModel.GroupOrgCommunityModel;
 import org.gnoss.apiWrapper.ApiModel.LinkParentCommunityModel;
 import org.gnoss.apiWrapper.ApiModel.MemberModel;
 import org.gnoss.apiWrapper.ApiModel.MembersGroupCommunityModel;
-import org.gnoss.apiWrapper.ApiModel.TextosTraducidosIdiomas;
+import org.gnoss.apiWrapper.ApiModel.TextosTraducidosIdioma;
 import org.gnoss.apiWrapper.ApiModel.ThesaurusCategory;
 import org.gnoss.apiWrapper.ApiModel.ThesaurusModel;
 import org.gnoss.apiWrapper.ApiModel.UploadContentModel;
@@ -50,6 +50,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * Wrapper for GNOSS community API
@@ -109,7 +110,8 @@ public class CommunityApi extends GnossApiWrapper{
     	
     	String response = WebRequest("GET", url, "", "", "application/json");
     	Gson gson = new Gson();
-    	ArrayList<ThesaurusCategory> communityCategoriesWithoutHierarchy = gson.fromJson(response, new ArrayList<ThesaurusCategory>().getClass());
+    	Type listType = new TypeToken<ArrayList<ThesaurusCategory>>(){}.getType();
+    	ArrayList<ThesaurusCategory> communityCategoriesWithoutHierarchy = gson.fromJson(response, listType);
     	
     	LogHelper.getInstance().Debug("Loaded the categories of the community " + community_short_name);
     	LoadChildrenCategories(communityCategoriesWithoutHierarchy);
@@ -395,7 +397,8 @@ public class CommunityApi extends GnossApiWrapper{
 			String response = WebRequest("GET", url);
 			
 			Gson gson = new Gson();
-			return lista = gson.fromJson(response, (Type) new ArrayList<String>());
+			Type tipo = new TypeToken<ArrayList<UserCommunity>>(){}.getType();
+			return lista = gson.fromJson(response, tipo);
 			
 		} catch(Exception ex) {
 			this._logHelper.Error("Error creating community " + json + ":\r\n" + ex.getMessage());
@@ -414,8 +417,13 @@ public class CommunityApi extends GnossApiWrapper{
 		try {
 			String url = getApiUrl() + "/community/get-thesaurus?community_short_name=" + CommunityShortName;
 			String response = WebRequest("GET", url);
-			Gson gson = new Gson();
-			return gson.fromJson(response, String.class);
+			 if (response != null) {
+		            response = response.trim();
+		            if (response.startsWith("\"") && response.endsWith("\"")) {
+		                response = response.substring(1, response.length() - 1);
+		            }
+		        }
+			return response;
 			
 		} catch(Exception ex) {
 			this._logHelper.Error("Error getting the thesaurus from " + CommunityShortName + ": \r\n" + ex.getMessage());
@@ -706,7 +714,7 @@ public class CommunityApi extends GnossApiWrapper{
 				model.setCommunity_short_name(CommunityShortName);
 				model.setGroup_name(groupName);
 				model.setGroup_short_name(groupShortName);
-				model.setTagas(tags);
+				model.setTags(tags);
 				model.setMembers(members);
 				model.setDescription(description);
 				model.setSend_notification(sendNotification);
@@ -832,7 +840,8 @@ public class CommunityApi extends GnossApiWrapper{
 			String url = getApiUrl() + "/community/get-members-from-community-group?community_short_name=" + CommunityShortName + "&group_short_name=" + groupShortName;
 			String response = WebRequest("GET", url);
 			Gson gson = new Gson();
-			members = gson.fromJson(response, (Type) new ArrayList<String>());
+			Type tipo = new TypeToken<ArrayList<UUID>>(){}.getType();
+			members = gson.fromJson(response, tipo);
 			this._logHelper.Debug("Users obtained from group " + groupShortName + " of the community " + CommunityShortName);
 		} catch(Exception ex) {
 			this._logHelper.Error("Error obtaining users from group " + groupShortName + " of the community " + CommunityShortName + ": \r\n " + ex.getMessage());
@@ -854,7 +863,8 @@ public class CommunityApi extends GnossApiWrapper{
 			String url = getApiUrl() + "/community/get-members-organization-group?organization_short_name=" + organizationShortName + "&group_short_name=" + groupShortName;
 			String response = WebRequest("GET", url);
 			Gson gson = new Gson();
-			members = gson.fromJson(response, (Type) new ArrayList<String>());
+			Type tipo = new TypeToken<ArrayList<UUID>>(){}.getType();
+			members = gson.fromJson(response, tipo);
 			this._logHelper.Debug("Users obtained from group " + groupShortName + "of the organization " + organizationShortName);
 		} catch(Exception ex) {
 			this._logHelper.Error("Error obtaining users from group " + groupShortName + " of the organization " + organizationShortName + ": \r\n " + ex.getMessage());
@@ -933,7 +943,8 @@ public class CommunityApi extends GnossApiWrapper{
 			String url = getApiUrl() + "/community/get-community-groups?community_short_name=" + CommunityShortName;
 			String response = WebRequest("GET", url);
 			Gson gson = new Gson();
-			groups = gson.fromJson(response, (Type) new ArrayList<GroupCommunityModel>());
+			Type tipo = new TypeToken<ArrayList<GroupCommunityModel>>(){}.getType();
+			groups = gson.fromJson(response, tipo);
 			this._logHelper.Debug("Groups obteined from " + CommunityShortName);
 		} catch(Exception ex) {
 			this._logHelper.Error("Error obtaining groups from " + CommunityShortName + ": \r\n" + ex.getMessage());
@@ -977,7 +988,8 @@ public class CommunityApi extends GnossApiWrapper{
 			String url = getApiUrl() + "/community/get-extra-register-data?community_short_name=" + CommunityShortName;
 			String response = WebRequest("GET", url);
 			Gson gson = new Gson();
-			extraRegisterData = gson.fromJson(response, (Type) new ArrayList<ExtraRegisterData>());
+			Type tipo = new TypeToken<ArrayList<ExtraRegisterData>>(){}.getType();
+			extraRegisterData = gson.fromJson(response, tipo);
 			this._logHelper.Debug("Extra register data obtained from " + CommunityShortName);
 		} catch(Exception ex) {
 			this._logHelper.Error("Error obtaining extra register data from " + CommunityShortName + ": \r\n" + ex.getMessage());
@@ -1013,14 +1025,35 @@ public class CommunityApi extends GnossApiWrapper{
 			String url = getApiUrl() + "/community/get-community-personid-email?community_short_name=" + CommunityShortName;
 			String response = WebRequest("GET", url, "application/json");
 			Gson gson = new Gson();
-			return gson.fromJson(response, (Type) new HashMap<UUID, String>());
+			Type tipo = new TypeToken<HashMap<UUID, String>>(){}.getType();
+			return gson.fromJson(response, tipo);
 			
 		} catch(Exception ex) {
 			this._logHelper.Error("The person identifiers and emails of the community members '" + CommunityShortName + "' could not be obtained");
 			return null;
 		}
 	}
-
+	/**
+	 * Check if a load identifier is already registered
+	 * @param communityID Identifier of the community
+	 * @param organizationID Identifier of the organization
+	 * @return True if the load identifier is already registered
+	 */
+	public boolean refreshHeavyCache(UUID communityID, UUID organizationID) {
+	    try {
+	        String url = getApiUrl() + "/community/refresh-heavy-cache?community_id=" + communityID + 
+	                     "&organization_id=" + organizationID;
+	        
+	        WebRequestPostWithJsonObject(url, "");
+	        
+	        _logHelper.Trace("community " + communityID + ". Organization: " + organizationID);
+	        
+	        return true;
+	    } catch(Exception ex) {
+	        _logHelper.Error(ex.getMessage());
+	        return false;
+	    }
+	}
 	/**
 	 * Get translations for a community
 	 * @param community_id Community identifier
@@ -1028,12 +1061,13 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @param language Language
 	 * @return List of TextosTraducidosIdiomas
 	 */
-	public List<TextosTraducidosIdiomas> getTranslations(UUID community_id, String community_short_name, String language) {
+	public List<TextosTraducidosIdioma> getTranslations(UUID community_id, String community_short_name, String language) {
 		try {
 			String url = getApiUrl() + "/community/get-language-translations?community_id=" + community_id + "&community_short_name=" + community_short_name + "&language=" + language;
 			String response = WebRequest("GET", url, "application/json");
 			Gson gson = new Gson();
-			return gson.fromJson(response, (Type) new ArrayList<TextosTraducidosIdiomas>());
+	        Type listType = new TypeToken<ArrayList<TextosTraducidosIdioma>>(){}.getType();
+	        return gson.fromJson(response, listType);
 		} catch(Exception ex) {
 			this._logHelper.Error("The proyect could not be obtained");
 			return null;
@@ -1052,8 +1086,15 @@ public class CommunityApi extends GnossApiWrapper{
 		try {
 			String url = getApiUrl() + "/community/get-language-translation?community_id=" + community_id + "&community_short_name=" + community_short_name + "&language=" + language + "&text_id=" + text_id;
 			String response = WebRequest("GET", url, "application/json");
-			Gson gson = new Gson();
-			return gson.fromJson(response, String.class);
+			// Eliminar comillas dobles al inicio y final si existen
+	        if (response != null) {
+	            response = response.trim();
+	            if (response.startsWith("\"") && response.endsWith("\"")) {
+	                response = response.substring(1, response.length() - 1);
+	            }
+	        }
+	        
+	        return response;
 		} catch(Exception ex) {
 			this._logHelper.Error("The proyect could not be obtained");
 			return null;

@@ -8,7 +8,7 @@ public class CreateGroupCommunityModel {
 	private String group_short_name;
 	private String group_name;
 	private String description;
-	private List<String> tagas;
+	private List<String> tags;
 	private List<UUID> members;
 	private boolean send_notification;
 	public String getCommunity_short_name() {
@@ -35,11 +35,11 @@ public class CreateGroupCommunityModel {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public List<String> getTagas() {
-		return tagas;
+	public List<String> getTags() {
+		return tags;
 	}
-	public void setTagas(List<String> tagas) {
-		this.tagas = tagas;
+	public void setTags(List<String> tags) {
+		this.tags = tags;
 	}
 	public List<UUID> getMembers() {
 		return members;

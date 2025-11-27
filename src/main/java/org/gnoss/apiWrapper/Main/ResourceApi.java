@@ -5954,28 +5954,7 @@ public class ResourceApi extends GnossApiWrapper{
 	public List<String> getAutomaticLabelingTags(String title) throws GnossAPIArgumentException {
 	    return getAutomaticLabelingTags(title, "");
 	}
-
-	/**
-	 * Check if a load identifier is already registered
-	 * @param communityID Identifier of the community
-	 * @param organizationID Identifier of the organization
-	 * @return True if the load identifier is already registered
-	 */
-	public boolean refreshHeavyCache(UUID communityID, UUID organizationID) {
-	    try {
-	        String url = getApiUrl() + "/community/refresh-heavy-cache?community_id=" + communityID + 
-	                     "&organization_id=" + organizationID;
-	        
-	        WebRequestPostWithJsonObject(url, "");
-	        
-	        _logHelper.Trace("community " + communityID + ". Organization: " + organizationID);
-	        
-	        return true;
-	    } catch(Exception ex) {
-	        _logHelper.Error(ex.getMessage());
-	        return false;
-	    }
-	}
+	
 
 	/**
 	 * FlushDb of resource cache
