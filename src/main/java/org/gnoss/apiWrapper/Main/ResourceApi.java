@@ -20,6 +20,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.w3c.dom.Document;
@@ -1483,6 +1486,187 @@ public class ResourceApi extends GnossApiWrapper{
 		return SO;
 	}
 
+	/**
+     * Permite ejecutar una consulta virtuoso, estableciendo las partes 'SELECT' y 'WHERE' 
+     * de la consulta y el nombre del grafo
+     * 
+     * @param selectPart La parte 'SELECT' de la consulta
+     * @param wherePart La parte 'WHERE' de la consulta
+     * @param ontologiaName Nombre del grafo donde se ejecuta la consulta (sin extensión '.owl')
+     * @param useMasterServer Usar conexión master de virtuoso si es true y la conexión de afinidad si es false
+     * @return Map con el resultado de la consulta (equivalente a DataSet)
+     * @throws GnossAPIException Si hay error en la consulta
+     */
+    public Map<String, List<Map<String, String>>> virtuosoQueryDataSet(
+            String selectPart, 
+            String wherePart, 
+            String ontologiaName, 
+            boolean useMasterServer) throws GnossAPIException {
+        
+    	LogHelper.getInstance().Info(String.format("Entering the method: %s.%s", 
+                this.getClass().getName(), 
+                Thread.currentThread().getStackTrace()[1].getMethodName()));
+        
+        return virtuosoQueryIntDataSet(selectPart, wherePart, ontologiaName, useMasterServer);
+    }
+    
+    /**
+     * Sobrecarga con useMasterServer por defecto en true
+     * 
+     * @param selectPart La parte 'SELECT' de la consulta
+     * @param wherePart La parte 'WHERE' de la consulta
+     * @param ontologiaName Nombre del grafo donde se ejecuta la consulta (sin extensión '.owl')
+     * @return Map con el resultado de la consulta (equivalente a DataSet)
+     * @throws GnossAPIException Si hay error en la consulta
+     */
+    public Map<String, List<Map<String, String>>> virtuosoQueryDataSet(
+            String selectPart, 
+            String wherePart, 
+            String ontologiaName) throws GnossAPIException {
+        
+        return virtuosoQueryDataSet(selectPart, wherePart, ontologiaName, true);
+    }
+    
+    /**
+     * Permite ejecutar una consulta virtuoso, estableciendo las partes 'SELECT' y 'WHERE' 
+     * de la consulta y el identificador de la comunidad
+     * 
+     * @param selectPart La parte 'SELECT' de la consulta
+     * @param wherePart La parte 'WHERE' de la consulta
+     * @param communityId Identificador de la comunidad
+     * @param useMasterServer Usar conexión master de virtuoso si es true y la conexión de afinidad si es false
+     * @return Map con el resultado de la consulta (equivalente a DataSet)
+     * @throws GnossAPIException Si hay error en la consulta
+     */
+    public Map<String, List<Map<String, String>>> virtuosoQueryDataSet(
+            String selectPart, 
+            String wherePart, 
+            UUID communityId, 
+            boolean useMasterServer) throws GnossAPIException {
+        
+    	LogHelper.getInstance().Info(String.format("Entering the method: %s", this.getClass().getName()));
+        
+        return virtuosoQueryIntDataSet(selectPart, wherePart, communityId.toString(), useMasterServer);
+    }
+    
+    /**
+     * Sobrecarga con useMasterServer por defecto en true
+     * 
+     * @param selectPart La parte 'SELECT' de la consulta
+     * @param wherePart La parte 'WHERE' de la consulta
+     * @param communityId Identificador de la comunidad
+     * @return Map con el resultado de la consulta (equivalente a DataSet)
+     * @throws GnossAPIException Si hay error en la consulta
+     */
+    public Map<String, List<Map<String, String>>> virtuosoQueryDataSet(
+            String selectPart, 
+            String wherePart, 
+            UUID communityId) throws GnossAPIException {
+        
+        return virtuosoQueryDataSet(selectPart, wherePart, communityId, true);
+    }
+	
+	private Map<String, List<Map<String, String>>> virtuosoQueryIntDataSet(
+            String selectPart, String wherePart, String graph, boolean useMasterServer) 
+            throws GnossAPIException {
+        
+		LogHelper.getInstance().Trace("Entering in the method", this.getClass().getName());
+		LogHelper.getInstance().Trace(String.format("SELECT: %s", selectPart), this.getClass().getName());
+		LogHelper.getInstance().Trace(String.format("Grafo name: %s", graph), this.getClass().getName());
+		LogHelper.getInstance().Trace(String.format("WHERE: %s", wherePart), this.getClass().getName());
+        
+        Map<String, List<Map<String, String>>> dataSet = new HashMap<>();
+        
+        try {
+        	LogHelper.getInstance().Trace("Query start", this.getClass().getName());
+            
+            String url = String.format("%s/sparql-endpoint/querycsv", getApiUrl());
+            
+            SparqlQuery model = new SparqlQuery();
+            model.setOntology(graph);
+            model.setCommunity_short_name(getCommunityShortName());
+            model.setQuery_select(selectPart);
+            model.setQuery_where(wherePart);
+            model.setUse_virtuoso_balancer(useMasterServer);
+            
+            String response = WebRequestPostWithJsonObject(url, model);
+            
+            synchronized (dataSet) {
+                leerResultadosCSV(response, graph, dataSet);
+            }
+            
+            LogHelper.getInstance().Trace("Query end", this.getClass().getName());
+            
+        } catch (IOException ex) {
+            String errorDescription = "Error en la consulta";            
+            throw new GnossAPIException(
+                String.format("Could not make the query %s %s to the graph %s.\nError: %s",
+                    selectPart, wherePart, graph, errorDescription));
+        }
+        
+        LogHelper.getInstance().Trace("Leaving the method", this.getClass().getName());
+        return dataSet;
+    }
+	
+	private void leerResultadosCSV(String resultados, String nombreTabla, 
+            Map<String, List<Map<String, String>>> facetadoDS) {       
+        if (facetadoDS.containsKey(nombreTabla)) {
+            facetadoDS.get(nombreTabla).clear();
+        } else {
+            facetadoDS.put(nombreTabla, new ArrayList<>());
+        }
+        
+        if (resultados == null || resultados.trim().isEmpty()) {
+            return;
+        }
+        
+        String[] lineas = resultados.split("\n");
+        
+        if (lineas.length > 1) {
+            try {
+                // Usar Apache Commons CSV para parsear
+                byte[] byteArray = resultados.getBytes(StandardCharsets.UTF_8);
+                InputStream stream = new ByteArrayInputStream(byteArray);
+                Reader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
+                
+                CSVParser csvParser = CSVFormat.DEFAULT
+                        .withFirstRecordAsHeader()
+                        .withIgnoreEmptyLines()
+                        .withTrim()
+                        .parse(reader);
+                
+                List<Map<String, String>> tableData = facetadoDS.get(nombreTabla);
+                
+                for (CSVRecord record : csvParser) {
+                    Map<String, String> row = new HashMap<>();
+                    for (String header : csvParser.getHeaderNames()) {
+                        row.put(header, record.get(header));
+                    }
+                    tableData.add(row);
+                }
+                
+                csvParser.close();
+                
+            } catch (IOException e) {
+            	LogHelper.getInstance().Error("Error al parsear CSV");
+            }
+            
+        } else if (lineas.length == 1) {
+            // Solo hay cabeceras, crear estructura vacía con las columnas
+            String[] columnas = lineas[0].split(",");
+            List<Map<String, String>> tableData = facetadoDS.get(nombreTabla);
+            
+            // Crear un mapa vacío con las columnas como claves
+            // Esto mantiene la estructura de columnas aunque no haya datos
+            Map<String, String> emptyRow = new HashMap<>();
+            for (String columna : columnas) {
+                String nombreCol = columna.trim().replace("\"", "");
+                emptyRow.put(nombreCol, null);
+            }
+        }
+    }
+	
+	
 	public String loadComplexSemanticResource(ComplexOntologyResource resource, boolean hierarquicalCategories, boolean isLast, int numAttemps) {
 		return loadComplexSemanticResourceInt(resource, hierarquicalCategories, isLast, numAttemps, null, null);
 	}
