@@ -665,7 +665,7 @@ public class ResourceApi extends GnossApiWrapper{
 								SemanticAttachedResource adjunto = new SemanticAttachedResource();
 								adjunto.setFile_rdf_property(name);
 								adjunto.setFile_property_type((short)resource.getAttachedFilesType().get(i).getID());
-								adjunto.setRdf_attacherd_file(resource.getAttachedFiles().get(i));
+								adjunto.setRdf_attached_file(resource.getAttachedFiles().get(i));
 								adjunto.setDelete_file(resource.getAttachedFiles().get(i) == null);
 								i++;
 								resourceAttachedFiles.add(adjunto);
@@ -1062,53 +1062,61 @@ public class ResourceApi extends GnossApiWrapper{
 	}
 
 	private HashMap<UUID, Boolean> insertPropertiesLoadedResourcesInt(HashMap<UUID, ArrayList<TriplesToInclude>> resourceTriples, String communityShortName, int numAttemps, boolean publishHome){
-		HashMap<UUID, Boolean> result = new HashMap<UUID, Boolean>();
-		int processedNumber = 0;
-		int attempNumber = 0;
-		HashMap<UUID, ArrayList<TriplesToInclude>> toInsert = new HashMap<UUID, ArrayList<TriplesToInclude>>(resourceTriples);
-		while(toInsert != null && toInsert.size() > 0 && attempNumber < numAttemps){
-			int i = 0;
-			int contResource = resourceTriples.keySet().size();
-			for(UUID docID : resourceTriples.keySet()){
-				i++;
-				ArrayList<ModifyResourceTriple> listaValores = new ArrayList<ModifyResourceTriple>();
-				attempNumber++;
-				processedNumber++;
-				for(TriplesToInclude iT : resourceTriples.get(docID)){
-					ModifyResourceTriple triple = new ModifyResourceTriple();
-					triple.setOld_object(null);
-					triple.setPredicate(iT.getPredicate());
-					triple.setNew_object(iT.getNewValue());
-					triple.setGnoss_property(GnossResourceProperty.none);
+	    HashMap<UUID, Boolean> result = new HashMap<UUID, Boolean>();
+	    int processedNumber = 0;
+	    int attempNumber = 0;
+	    HashMap<UUID, ArrayList<TriplesToInclude>> toInsert = new HashMap<UUID, ArrayList<TriplesToInclude>>(resourceTriples);
+	    
+	    while(toInsert != null && toInsert.size() > 0 && attempNumber < numAttemps){
+	        int i = 0;
+	        int contResource = toInsert.keySet().size();
+	        
+	        Iterator<UUID> iterator = toInsert.keySet().iterator();
+	        
+	        while(iterator.hasNext()){
+	            UUID docID = iterator.next();
+	            i++;
+	            ArrayList<ModifyResourceTriple> listaValores = new ArrayList<ModifyResourceTriple>();
+	            attempNumber++;
+	            processedNumber++;
+	            
+	            for(TriplesToInclude iT : toInsert.get(docID)){
+	                ModifyResourceTriple triple = new ModifyResourceTriple();
+	                triple.setOld_object(null);
+	                triple.setPredicate(iT.getPredicate());
+	                triple.setNew_object(iT.getNewValue());
+	                triple.setGnoss_property(GnossResourceProperty.none);
 
-					if(iT.isTitle()){
-						triple.setGnoss_property(GnossResourceProperty.title);
-					}
-					else if(iT.isDescription()){
-						triple.setGnoss_property(GnossResourceProperty.description);
-					}
+	                if(iT.isTitle()){
+	                    triple.setGnoss_property(GnossResourceProperty.title);
+	                }
+	                else if(iT.isDescription()){
+	                    triple.setGnoss_property(GnossResourceProperty.description);
+	                }
 
-					listaValores.add(triple);
-				}
-				try{
-					boolean endOfLoad = false;
-					if(i == contResource){
-						endOfLoad = true;
-					}
-					modifyTripleList(docID, listaValores, publishHome, null, null, endOfLoad);
+	                listaValores.add(triple);
+	            }
+	            
+	            try{
+	                boolean endOfLoad = false;
+	                if(i == contResource){
+	                    endOfLoad = true;
+	                }
+	                modifyTripleList(docID, listaValores, publishHome, null, null, endOfLoad);
 
-					LogHelper.getInstance().Debug(processedNumber + "of" + resourceTriples.size() + "Object: " + docID + ". Resource: " + resourceTriples.get(docID).toArray());
-					toInsert.remove(docID);
-					result.put(docID, true);
-				}
-				catch(Exception ex){
-					LogHelper.getInstance().Error("Resource" + docID + " : " + ex.getMessage());
-					result.put(docID, false);
-				}
-			}
-			LogHelper.getInstance().Debug("******************** Lap number: " + attempNumber + " finished");
-		}
-		return result;
+	                LogHelper.getInstance().Debug(processedNumber + " of " + toInsert.size() + " Object: " + docID + ". Resource: " + toInsert.get(docID).toArray());
+	                
+	                iterator.remove();
+	                result.put(docID, true);
+	            }
+	            catch(Exception ex){
+	                LogHelper.getInstance().Error("Resource " + docID + " : " + ex.getMessage());
+	                result.put(docID, false);
+	            }
+	        }
+	        LogHelper.getInstance().Debug("******************** Lap number: " + attempNumber + " finished");
+	    }
+	    return result;
 	}
 
 	private HashMap<UUID, Boolean> insertPropertiesLoadedResourcesInt(HashMap<UUID, ArrayList<TriplesToInclude>> resourceTriples, String communityShortName, int numAttemps){
@@ -1140,57 +1148,64 @@ public class ResourceApi extends GnossApiWrapper{
 	}
 
 	private HashMap<UUID, Boolean> modifyPropertiesLoadedResourcesInt(HashMap<UUID, ArrayList<TriplesToModify>> resourceTriples, String communityShortName, int numAttemps, boolean publishHome){
-		HashMap<UUID, Boolean> result = new HashMap<UUID, Boolean>();
-		int processedNumer = 0;
-		int attempNumber = 0;
+	    HashMap<UUID, Boolean> result = new HashMap<UUID, Boolean>();
+	    int processedNumer = 0;
+	    int attempNumber = 0;
 
-		ArrayList<String> valores = new ArrayList<String>();
-		HashMap<UUID, ArrayList<TriplesToModify>> toModify = new HashMap<UUID, ArrayList<TriplesToModify>>(resourceTriples);
-		while(toModify != null && toModify.size() > 0 && attempNumber < numAttemps){
-			int i = 0;
-			int contResources = resourceTriples.keySet().size();
-			for(UUID docID : resourceTriples.keySet()){
-				i++;
-				ArrayList<ModifyResourceTriple> listaValores = new ArrayList<ModifyResourceTriple>();
-				attempNumber++;
-				processedNumer++;
-				for(TriplesToModify mT : resourceTriples.get(docID)){
-					ModifyResourceTriple triple = new ModifyResourceTriple();
-					triple.setOld_object(mT.getOldValue());
-					triple.setPredicate(mT.getPredicate());
-					triple.setNew_object(mT.getNewValue());
-					triple.setGnoss_property(GnossResourceProperty.none);
+	    ArrayList<String> valores = new ArrayList<String>();
+	    HashMap<UUID, ArrayList<TriplesToModify>> toModify = new HashMap<UUID, ArrayList<TriplesToModify>>(resourceTriples);
+	    
+	    while(toModify != null && toModify.size() > 0 && attempNumber < numAttemps){
+	        int i = 0;
+	        int contResources = toModify.keySet().size();
+	        
+	        Iterator<UUID> iterator = toModify.keySet().iterator();
+	        
+	        while(iterator.hasNext()){
+	            UUID docID = iterator.next();
+	            i++;
+	            ArrayList<ModifyResourceTriple> listaValores = new ArrayList<ModifyResourceTriple>();
+	            attempNumber++;
+	            processedNumer++;
+	           
+	            for(TriplesToModify mT : toModify.get(docID)){
+	                ModifyResourceTriple triple = new ModifyResourceTriple();
+	                triple.setOld_object(mT.getOldValue());
+	                triple.setPredicate(mT.getPredicate());
+	                triple.setNew_object(mT.getNewValue());
+	                triple.setGnoss_property(GnossResourceProperty.none);
 
-					if(mT.isTitle()){
-						triple.setGnoss_property(GnossResourceProperty.title);
-					}
-					else if(mT.isDescription()){
-						triple.setGnoss_property(GnossResourceProperty.description);
-					}
+	                if(mT.isTitle()){
+	                    triple.setGnoss_property(GnossResourceProperty.title);
+	                }
+	                else if(mT.isDescription()){
+	                    triple.setGnoss_property(GnossResourceProperty.description);
+	                }
 
-					listaValores.add(triple);
-				}
+	                listaValores.add(triple);
+	            }
 
-				try{
-					boolean endOfLoad = false;
-					if(i == contResources){
-						endOfLoad = true;
-					}
-					modifyTripleList(docID, listaValores, publishHome, null, null, endOfLoad);
+	            try{
+	                boolean endOfLoad = false;
+	                if(i == contResources){
+	                    endOfLoad = true;
+	                }
+	                modifyTripleList(docID, listaValores, publishHome, null, null, endOfLoad);
 
-					LogHelper.getInstance().Debug(processedNumer + " of " + resourceTriples.size() + ". Object: " + docID + ".Resource: " + resourceTriples.get(docID).toArray());
-					toModify.remove(docID);
-					result.put(docID, true);					
-				}
-				catch(Exception ex){
-					LogHelper.getInstance().Error("Resource " + docID + " : " + ex.getMessage());
-					result.put(docID, false);
-				}
-			}
-			LogHelper.getInstance().Debug("******************** Lap number: " + attempNumber + "finished");
-		}
+	                LogHelper.getInstance().Debug(processedNumer + " of " + toModify.size() + ". Object: " + docID + ". Resource: " + toModify.get(docID).toArray());
+	                
+	                iterator.remove();
+	                result.put(docID, true);
+	            }
+	            catch(Exception ex){
+	                LogHelper.getInstance().Error("Resource " + docID + " : " + ex.getMessage());
+	                result.put(docID, false);
+	            }
+	        }
+	        LogHelper.getInstance().Debug("******************** Lap number: " + attempNumber + " finished");
+	    }
 
-		return result;
+	    return result;
 	}
 
 	private HashMap<UUID, Boolean> modifyPropertiesLoadedResourcesInt(HashMap<UUID, ArrayList<TriplesToModify>> resourceTriples, String communityShortName, int numAttemps){
@@ -1297,7 +1312,7 @@ public class ResourceApi extends GnossApiWrapper{
 	private void prepareAttachedToLog(List<SemanticAttachedResource> resourceAttachedFiles){
 		if(resourceAttachedFiles != null){
 			for(SemanticAttachedResource adjunto : resourceAttachedFiles){
-				adjunto.setRdf_attacherd_file(null);
+				adjunto.setRdf_attached_file(null);
 			}
 		}
 	}
@@ -1586,29 +1601,36 @@ public class ResourceApi extends GnossApiWrapper{
 	}
 
 	public void deleteSecondaryEntitiesList(ArrayList<String> urlList, int numAttemps){
-		int processedNumber = 0;
-		int attempNumber = 0;
+	    int processedNumber = 0;
+	    int attempNumber = 0;
 
-		ArrayList<String> originalResourceList = new ArrayList<String>(urlList);
-		ArrayList<String> resourcesToDelete = new ArrayList<String>(urlList);
-		while(urlList != null && urlList.size() > 0 && attempNumber <= numAttemps){
-			attempNumber++;
-			LogHelper.getInstance().Trace("******************** Begin lap number: " + attempNumber);
-			for(String url : urlList){
-				try{
-					processedNumber++;
-					deleteSecondaryEntity(getOntologyUrl(), getCommunityShortName(), url);
-					LogHelper.getInstance().Debug("Successfully deleted the resource with ID: " + url);
-					resourcesToDelete.remove(url);
-				}
-				catch(Exception ex)
-				{
-					LogHelper.getInstance().Error("ERROR deleting: " + processedNumber + " of " + urlList.size() + "\tID: " + url + ". Message: " + ex.getMessage());
-				}
-			}
-			LogHelper.getInstance().Debug("******************** Finished lap number: " + attempNumber);
-			urlList = new ArrayList<String>(resourcesToDelete);
-		}
+	    ArrayList<String> originalResourceList = new ArrayList<String>(urlList);
+	    ArrayList<String> resourcesToDelete = new ArrayList<String>(urlList);
+	    
+	    while(resourcesToDelete != null && resourcesToDelete.size() > 0 && attempNumber <= numAttemps){
+	        attempNumber++;
+	        LogHelper.getInstance().Trace("******************** Begin lap number: " + attempNumber);
+	        
+	        Iterator<String> iterator = resourcesToDelete.iterator();
+	        processedNumber = 0;
+	        
+	        while(iterator.hasNext()){
+	            String url = iterator.next();
+	            
+	            try{
+	                processedNumber++;
+	                deleteSecondaryEntity(getOntologyUrl(), getCommunityShortName(), url);
+	                LogHelper.getInstance().Debug("Successfully deleted the resource with ID: " + url);
+	                
+	                iterator.remove();
+	            }
+	            catch(Exception ex)
+	            {
+	                LogHelper.getInstance().Error("ERROR deleting: " + processedNumber + " of " + resourcesToDelete.size() + "\tID: " + url + ". Message: " + ex.getMessage());
+	            }
+	        }
+	        LogHelper.getInstance().Debug("******************** Finished lap number: " + attempNumber);	        
+	    }
 	}
 
 	public void deleteSecondaryEntitiesList(ArrayList<String> urlList){
@@ -1623,39 +1645,42 @@ public class ResourceApi extends GnossApiWrapper{
 	public void deleteSecondaryEntitiesList(List<SecondaryResource> resourceList, int numAttempts) {
 	    int processedNumber = 0;
 	    int attemptNumber = 0;
-	    
-	    List<SecondaryResource> originalResourceList = new ArrayList<>(resourceList);
+
 	    List<SecondaryResource> resourcesToDelete = new ArrayList<>(resourceList);
-	    List<SecondaryResource> resultList = new ArrayList<>();
-	    
-	    while (resourceList != null && !resourceList.isEmpty() && attemptNumber <= numAttempts) {
+	    Set<SecondaryResource> successfullyDeleted = new HashSet<>(); // ✅ Usa Set para búsquedas O(1)
+
+	    while (!resourcesToDelete.isEmpty() && attemptNumber <= numAttempts) {
 	        attemptNumber++;
-	        
+
 	        if (this._logHelper != null) {
 	            this._logHelper.Debug(String.format("******************** Begin lap number: %d", attemptNumber));
 	        }
-	        
-	        // Create a copy to iterate (avoid ConcurrentModificationException)
-	        List<SecondaryResource> currentIteration = new ArrayList<>(resourceList);
-	        
-	        for (SecondaryResource resource : currentIteration) {
+
+	        Iterator<SecondaryResource> iterator = resourcesToDelete.iterator();
+
+	        while (iterator.hasNext()) {
+	            SecondaryResource resource = iterator.next();
 	            resource.setDeleted(false);
-	            
+
 	            try {
-	                processedNumber++;	                
-	                deleteSecondaryEntity(resource.getSecondaryOntology().getOntologyUrl(), getCommunityShortName(), resource.getId());	                
+	                processedNumber++;
+	                deleteSecondaryEntity(
+	                    resource.getSecondaryOntology().getOntologyUrl(), 
+	                    getCommunityShortName(), 
+	                    resource.getId()
+	                );
 	                resource.setDeleted(true);
-	                
-	                if (!resultList.contains(resource)) {
-	                    resultList.add(resource);
-	                }
-	                
+	                successfullyDeleted.add(resource);
+
 	                if (this._logHelper != null) {
-	                    this._logHelper.Debug(String.format("Successfully deleted the resource with ID: %s", resource.getId()));
+	                    this._logHelper.Debug(String.format(
+	                        "Successfully deleted the resource with ID: %s", 
+	                        resource.getId()
+	                    ));
 	                }
-	                
-	                resourcesToDelete.remove(resource);
-	                
+
+	                iterator.remove();
+
 	            } catch (Exception ex) {
 	                if (this._logHelper != null) {
 	                    this._logHelper.Error(String.format(
@@ -1668,24 +1693,15 @@ public class ResourceApi extends GnossApiWrapper{
 	                }
 	            }
 	        }
-	        
+
 	        if (this._logHelper != null) {
 	            this._logHelper.Debug(String.format("******************** Finished lap number: %d", attemptNumber));
 	        }
-	        
-	        resourceList.clear();
-	        resourceList.addAll(resourcesToDelete);
 	    }
-	    
-	    // Get resources that were not deleted (difference between original and result)
-	    List<SecondaryResource> notDeletedResources = originalResourceList.stream()
-	        .filter(resource -> !resultList.contains(resource))
-	        .collect(Collectors.toList());
-	    
-	    // Update resourceList with results
+
 	    resourceList.clear();
-	    resourceList.addAll(resultList);
-	    resourceList.addAll(notDeletedResources);
+	    resourceList.addAll(successfullyDeleted);
+	    resourceList.addAll(resourcesToDelete); // Los que quedaron sin eliminar
 	}
 
 	/**
@@ -1745,44 +1761,51 @@ public class ResourceApi extends GnossApiWrapper{
 	}
 
 	private void modifyPropertyLoadedSecondaryResourceInt(HashMap<String, ArrayList<TriplesToModify>> resourceTriples, String communityShortName, int numAttemps, boolean publishHome){
-		int processedNumber = 0;
-		int attempNumber = 0;
-		ArrayList<String[]> valuesList = new ArrayList<String[]>();
-		ArrayList<String> values = new ArrayList<String>();
-		HashMap<String, ArrayList<TriplesToModify>> toModify = new HashMap<String, ArrayList<TriplesToModify>>(resourceTriples);
-		while(toModify != null && toModify.size() > 0 && attempNumber < numAttemps){
-			for(String secondaryEntityId : resourceTriples.keySet()){
-				attempNumber++;
-				processedNumber++;
-				for(TriplesToModify mT : resourceTriples.get(secondaryEntityId)){
-					String acido = "0";
-					values = new ArrayList<String>();
-					values.add(mT.getOldValue());
-					values.add(mT.getPredicate());
-					values.add(mT.getNewValue());
-					values.add(acido);
-					valuesList.add((String[])values.toArray(new String[0]));
-				}
-				try{
-					String url = getApiUrl() + "/secondary-entity/modify-triple-list";
-					ModifyTripleListModel model = new ModifyTripleListModel();
-					model.setCommunity_short_name(communityShortName);
-					model.setSecondary_ontology_url(_ontologyUrl);
-					model.setSecondary_entity(secondaryEntityId);
-					model.setTriple_list((String[][])valuesList.toArray(new String[0][]));
-					WebRequestPostWithJsonObject(url, model);
+	    int processedNumber = 0;
+	    int attempNumber = 0;
+	    ArrayList<String[]> valuesList = new ArrayList<String[]>();
+	    ArrayList<String> values = new ArrayList<String>();
+	    HashMap<String, ArrayList<TriplesToModify>> toModify = new HashMap<String, ArrayList<TriplesToModify>>(resourceTriples);
+	    
+	    while(toModify != null && toModify.size() > 0 && attempNumber < numAttemps){
+	        Iterator<String> iterator = toModify.keySet().iterator();
+	        
+	        while(iterator.hasNext()){
+	            String secondaryEntityId = iterator.next();
+	            attempNumber++;
+	            processedNumber++;
+	            
+	            for(TriplesToModify mT : toModify.get(secondaryEntityId)){
+	                String acido = "0";
+	                values = new ArrayList<String>();
+	                values.add(mT.getOldValue());
+	                values.add(mT.getPredicate());
+	                values.add(mT.getNewValue());
+	                values.add(acido);
+	                valuesList.add((String[])values.toArray(new String[0]));
+	            }
+	            
+	            try{
+	                String url = getApiUrl() + "/secondary-entity/modify-triple-list";
+	                ModifyTripleListModel model = new ModifyTripleListModel();
+	                model.setCommunity_short_name(communityShortName);
+	                model.setSecondary_ontology_url(_ontologyUrl);
+	                model.setSecondary_entity(secondaryEntityId);
+	                model.setTriple_list((String[][])valuesList.toArray(new String[0][]));
+	                WebRequestPostWithJsonObject(url, model);
 
-					valuesList = new ArrayList<String[]>();
-					LogHelper.getInstance().Debug(processedNumber + " of " + resourceTriples.size() + " Object: " + secondaryEntityId + ". Resource: " + resourceTriples.get(secondaryEntityId).toArray());
-					toModify.remove(secondaryEntityId);
-				}
-				catch (Exception ex){
-					LogHelper.getInstance().Error("Resource " + secondaryEntityId + " : " + ex.getMessage());
-					valuesList = new ArrayList<String[]>();
-				}
-			}
-			LogHelper.getInstance().Debug("******************** Finished lap number: " + attempNumber);
-		}
+	                valuesList = new ArrayList<String[]>();
+	                LogHelper.getInstance().Debug(processedNumber + " of " + toModify.size() + " Object: " + secondaryEntityId + ". Resource: " + toModify.get(secondaryEntityId).toArray());
+	                
+	                iterator.remove();
+	            }
+	            catch (Exception ex){
+	                LogHelper.getInstance().Error("Resource " + secondaryEntityId + " : " + ex.getMessage());
+	                valuesList = new ArrayList<String[]>();
+	            }
+	        }
+	        LogHelper.getInstance().Debug("******************** Finished lap number: " + attempNumber);
+	    }
 	}
 
 	private void modifyPropertyLoadedSecondaryResourceInt(HashMap<String, ArrayList<TriplesToModify>> resourceTriples, String communityShortName, int numAttemps){
@@ -1920,7 +1943,7 @@ public class ResourceApi extends GnossApiWrapper{
 				SemanticAttachedResource adjunto = new SemanticAttachedResource();
 				adjunto.setFile_rdf_property(nombre);
 				adjunto.setFile_property_type((short)rec.getAttachedFilesType().get(i).getID());
-				adjunto.setRdf_attacherd_file(rec.getAttachedFiles().get(i));
+				adjunto.setRdf_attached_file(rec.getAttachedFiles().get(i));
 				adjunto.setDelete_file(rec.getAttachedFiles().get(i) == null);
 				i++;
 				List<SemanticAttachedResource> listaAuxiliar = model.getResource_attached_files();
@@ -1959,7 +1982,7 @@ public class ResourceApi extends GnossApiWrapper{
 
 		if (hierarquicalCategoriesList != null && hierarquicalCategoriesList.size() > 0) {
 			for (String cat : hierarquicalCategoriesList) {
-				ThesaurusCategory category = findHierarquicalCategoryNameInCategories(cat, CommunityApiWrapper.getCommunityCategories());
+				ThesaurusCategory category = findHierarquicalCategoryNameInCategories(cat, getCommunityApiWrapper().getCommunityCategories());
 				if (category != null) {
 					if (categories == null) {
 						categories = new ArrayList<UUID>();
@@ -1982,10 +2005,10 @@ public class ResourceApi extends GnossApiWrapper{
 		ArrayList<ThesaurusCategory> categories = null;
 
 		if(communityShortName.equals(getCommunityShortName())){
-			categories = CommunityApiWrapper.getCommunityCategories();
+			categories = getCommunityApiWrapper().getCommunityCategories();
 		}
 		else{
-			categories = CommunityApiWrapper.LoadCategories(communityShortName);
+			categories = getCommunityApiWrapper().LoadCategories(communityShortName);
 		}
 
 		if(hierarquicalCategoriesList != null && hierarquicalCategoriesList.size() > 0){
@@ -2013,7 +2036,7 @@ public class ResourceApi extends GnossApiWrapper{
 			String[] categoryList = null;
 			String[] separator = new String[]{ "|||" };
 
-			for(ThesaurusCategory category : CommunityApiWrapper.getCommunityCategories()){
+			for(ThesaurusCategory category : getCommunityApiWrapper().getCommunityCategories()){
 				if(!StringUtils.isEmpty(category.getCategory_name()) && category.getCategory_name().contains("|||")){
 					categoryList = category.getCategory_name().split(Arrays.toString(separator), -1);
 					for(int i = 0; i< categoryList.length; i++){
@@ -2029,7 +2052,7 @@ public class ResourceApi extends GnossApiWrapper{
 							}
 							else{
 								ThesaurusCategory thesaurusCategory = null; 
-								for(ThesaurusCategory thesCat : CommunityApiWrapper.getCommunityCategories()){
+								for(ThesaurusCategory thesCat : getCommunityApiWrapper().getCommunityCategories()){
 									if(thesCat.getCategory_name().equals(cat)){
 										thesaurusCategory = thesCat;    									
 									}
@@ -2050,7 +2073,7 @@ public class ResourceApi extends GnossApiWrapper{
 					for(String cat : notHierarquicalCategoriesList){
 						ThesaurusCategory thesaurusCategory = null;
 
-						for(ThesaurusCategory thesCat : CommunityApiWrapper.getCommunityCategories()){
+						for(ThesaurusCategory thesCat : getCommunityApiWrapper().getCommunityCategories()){
 							if(thesCat.getCategory_name().equals(cat)){
 								thesaurusCategory = thesCat;
 							}
@@ -2083,10 +2106,10 @@ public class ResourceApi extends GnossApiWrapper{
 		ArrayList<ThesaurusCategory> categoryList = null;
 
 		if(communityShortName.equals(getCommunityShortName())){
-			categoryList = CommunityApiWrapper.getCommunityCategories();
+			categoryList = getCommunityApiWrapper().getCommunityCategories();
 		}
 		else{
-			categoryList = CommunityApiWrapper.LoadCategories(getCommunityShortName());
+			categoryList = getCommunityApiWrapper().LoadCategories(getCommunityShortName());
 		}
 
 		ArrayList<UUID> resultList = null;
@@ -2290,55 +2313,63 @@ public class ResourceApi extends GnossApiWrapper{
 	}
 
 	private HashMap<UUID, Boolean> deletePropertiesLoadedResourcesInt(HashMap<UUID, ArrayList<RemoveTriples>> resourceTriples, String communityShortName, int numAttemps, boolean publishHome){
-		HashMap<UUID, Boolean> result = new HashMap<UUID, Boolean>();
-		int processedNumber = 0;
-		int attempNumber = 0;
-		HashMap<UUID, ArrayList<RemoveTriples>> toDelete = new HashMap<UUID, ArrayList<RemoveTriples>>(resourceTriples);
-		while(toDelete != null && toDelete.size() > 0 && attempNumber < numAttemps){
-			int i = 0;
-			int contResources = resourceTriples.keySet().size();
-			for(UUID docID : resourceTriples.keySet()){
-				i++;
-				ArrayList<ModifyResourceTriple> listaValores = new ArrayList<ModifyResourceTriple>();
-				processedNumber++;
-				attempNumber++;
-				for(RemoveTriples iT : resourceTriples.get(docID)){
-					ModifyResourceTriple triple = new ModifyResourceTriple();
-					triple.setOld_object(iT.getValue());
-					triple.setPredicate(iT.getPredicate());
-					triple.setNew_object(null);
-					triple.setGnoss_property(GnossResourceProperty.none);
+	    HashMap<UUID, Boolean> result = new HashMap<UUID, Boolean>();
+	    int processedNumber = 0;
+	    int attempNumber = 0;
+	    HashMap<UUID, ArrayList<RemoveTriples>> toDelete = new HashMap<UUID, ArrayList<RemoveTriples>>(resourceTriples);
+	    
+	    while(toDelete != null && toDelete.size() > 0 && attempNumber < numAttemps){
+	        int i = 0;
+	        int contResources = toDelete.keySet().size();
+	        
+	        Iterator<UUID> iterator = toDelete.keySet().iterator();
+	        
+	        while(iterator.hasNext()){
+	            UUID docID = iterator.next();
+	            i++;
+	            ArrayList<ModifyResourceTriple> listaValores = new ArrayList<ModifyResourceTriple>();
+	            processedNumber++;
+	            attempNumber++;
+	            
+	            for(RemoveTriples iT : toDelete.get(docID)){
+	                ModifyResourceTriple triple = new ModifyResourceTriple();
+	                triple.setOld_object(iT.getValue());
+	                triple.setPredicate(iT.getPredicate());
+	                triple.setNew_object(null);
+	                triple.setGnoss_property(GnossResourceProperty.none);
 
-					if(iT.isTitle()){
-						triple.setGnoss_property(GnossResourceProperty.title);
-					}
-					else if(iT.isDescription()){
-						triple.setGnoss_property(GnossResourceProperty.description);
-					}
+	                if(iT.isTitle()){
+	                    triple.setGnoss_property(GnossResourceProperty.title);
+	                }
+	                else if(iT.isDescription()){
+	                    triple.setGnoss_property(GnossResourceProperty.description);
+	                }
 
-					listaValores.add(triple);
-				}
-				try{
-					boolean endOfLoad = false;
-					if(i == contResources){
-						endOfLoad = true;
-					}
-					modifyTripleList(docID, listaValores, publishHome, null, null, endOfLoad);
+	                listaValores.add(triple);
+	            }
+	            
+	            try{
+	                boolean endOfLoad = false;
+	                if(i == contResources){
+	                    endOfLoad = true;
+	                }
+	                modifyTripleList(docID, listaValores, publishHome, null, null, endOfLoad);
 
-					LogHelper.getInstance().Debug(processedNumber + " of " + resourceTriples.size() + " Object: " + docID + ". Resource: " + resourceTriples.get(docID).toArray());
-					toDelete.remove(docID);
+	                LogHelper.getInstance().Debug(processedNumber + " of " + toDelete.size() + " Object: " + docID + ". Resource: " + toDelete.get(docID).toArray());
+	                
+	                iterator.remove();
 
-					result.put(docID, true);
-				}
-				catch (Exception ex){
-					LogHelper.getInstance().Error("Resource " + docID + " : " + ex.getMessage());
-					result.put(docID, false);
-				}
-			}
-			LogHelper.getInstance().Debug("******************** Lap number: " + attempNumber + " finished");
-		}
+	                result.put(docID, true);
+	            }
+	            catch (Exception ex){
+	                LogHelper.getInstance().Error("Resource " + docID + " : " + ex.getMessage());
+	                result.put(docID, false);
+	            }
+	        }
+	        LogHelper.getInstance().Debug("******************** Lap number: " + attempNumber + " finished");
+	    }
 
-		return result;
+	    return result;
 	}
 
 	/**
@@ -2593,177 +2624,178 @@ public class ResourceApi extends GnossApiWrapper{
 
 	private HashMap<UUID, Boolean> actionsOnPropertiesLoadedResourcesInt(HashMap<UUID, List<TriplesToModify>> resourceTriples, HashMap<UUID, List<RemoveTriples>> deleteList, HashMap<UUID, List<TriplesToInclude>> insertList, HashMap<UUID, List<AuxiliaryEntitiesTriplesToInclude>> auxiliaryEntitiesInsertTriplesList, String communityShortName, boolean publishHome){
 
-		HashMap<UUID, Boolean> result= new HashMap<UUID, Boolean>();
-		int processedNumber=0;
-		int attempNumber=0;
-		List<ModifyResourceTriple> valuesList = new ArrayList<ModifyResourceTriple>();
-		List<String> values = new ArrayList<String> ();
-		HashMap <UUID, List<ModifyResourceTriple>> resources = new HashMap<UUID, List<ModifyResourceTriple>>();
+	    HashMap<UUID, Boolean> result= new HashMap<UUID, Boolean>();
+	    int processedNumber=0;
+	    int attempNumber=0;
+	    List<ModifyResourceTriple> valuesList = new ArrayList<ModifyResourceTriple>();
+	    List<String> values = new ArrayList<String> ();
+	    HashMap <UUID, List<ModifyResourceTriple>> resources = new HashMap<UUID, List<ModifyResourceTriple>>();
+
+	    if(deleteList!=null) {
+	        HashMap<UUID, List<RemoveTriples>> toDelete = new HashMap<UUID, List<RemoveTriples>>(deleteList);
+	        while(toDelete!=null && toDelete.size()>0) {
+	            Iterator<UUID> iterator = toDelete.keySet().iterator();
+	            
+	            while(iterator.hasNext()) {
+	                UUID docID = iterator.next();
+	                valuesList= new ArrayList<ModifyResourceTriple>();
+	                processedNumber++;
+	                attempNumber++;
+
+	                for(RemoveTriples iT : toDelete.get(docID)) {
+	                    ModifyResourceTriple triple= new ModifyResourceTriple();
+	                    triple.setOld_object(iT.getValue());
+	                    triple.setPredicate(iT.getPredicate());
+	                    triple.setNew_object(null);
+	                    triple.setGnoss_property(GnossResourceProperty.none);
+
+	                    if(iT.isTitle()) {
+	                        triple.setGnoss_property(GnossResourceProperty.title);
+	                    }else if( iT.isDescription()) {
+	                        triple.setGnoss_property(GnossResourceProperty.description);
+	                    }
+	                    valuesList.add(triple);
+	                }
+	                resources.put(docID, valuesList);
+	                iterator.remove();
+	            }
+	        }
+	    }
+
+	    if(resourceTriples!=null) {
+	        HashMap<UUID, List<TriplesToModify>> toModify = new HashMap<UUID, List<TriplesToModify>>(resourceTriples);
+	        while(toModify!=null && toModify.size()>0) {
+	            Iterator<UUID> iterator = toModify.keySet().iterator();
+	            
+	            while(iterator.hasNext()) {
+	                UUID docID = iterator.next();
+	                valuesList=new ArrayList<ModifyResourceTriple>();
+
+	                // If exists, gets the values list to add the modified values
+	                if(resources.containsKey(docID)) {
+	                    valuesList.addAll(resources.get(docID));
+	                }
+	                processedNumber++;
+	                attempNumber++;
+	                
+	                for(TriplesToModify mT : toModify.get(docID)) {
+	                    ModifyResourceTriple triple= new ModifyResourceTriple();
+	                    triple.setOld_object(mT.getOldValue());
+	                    triple.setPredicate(mT.getPredicate());
+	                    triple.setNew_object(mT.getNewValue());
+	                    triple.setGnoss_property(GnossResourceProperty.none);
+
+	                    if(mT.isTitle()) {
+	                        triple.setGnoss_property(GnossResourceProperty.title);
+
+	                    }else if(mT.isDescription()) {
+	                        triple.setGnoss_property(GnossResourceProperty.description);
+	                    }
+
+	                    valuesList.add(triple);
+	                }
+
+	                resources.put(docID, valuesList);
+	                iterator.remove();
+	            }
+	        }
+	    }
+
+	    if(insertList!=null) {
+	        HashMap<UUID, List<TriplesToInclude>> toInsert = new HashMap<UUID, List<TriplesToInclude>>(insertList);
+	        while(toInsert!=null && toInsert.size()>0) {
+	            Iterator<UUID> iterator = toInsert.keySet().iterator();
+	            
+	            while(iterator.hasNext()) {
+	                UUID docID = iterator.next();
+	                valuesList= new ArrayList<ModifyResourceTriple>();
+
+	                if(resources.containsKey(docID)) {
+	                    valuesList.addAll(resources.get(docID));
+	                }
+	                processedNumber++;
+	                attempNumber++;
+
+	                for(TriplesToInclude iT : toInsert.get(docID)) {
+	                    ModifyResourceTriple triple= new ModifyResourceTriple();
+	                    triple.setOld_object(null);
+	                    triple.setPredicate(iT.getPredicate());
+	                    triple.setNew_object(iT.getNewValue());
+	                    triple.setGnoss_property(GnossResourceProperty.none);
+
+	                    if(iT.isTitle()) {
+	                        triple.setGnoss_property(GnossResourceProperty.title);
+	                    }
+	                    else if(iT.isDescription()) {
+	                        triple.setGnoss_property(GnossResourceProperty.description);
+	                    }
+
+	                    valuesList.add(triple);
+	                }
+	                resources.put(docID, valuesList);
+	                iterator.remove();
+	            }
+	        }
+	    }
 
 
-		//delete triples
+	    if(auxiliaryEntitiesInsertTriplesList!=null) {
+	        HashMap<UUID, List<AuxiliaryEntitiesTriplesToInclude>> auxiliaryEntityTriplesToInsert= new HashMap<UUID, List<AuxiliaryEntitiesTriplesToInclude>>(auxiliaryEntitiesInsertTriplesList);
+	        while(auxiliaryEntityTriplesToInsert!= null && auxiliaryEntityTriplesToInsert.size()>0) {
+	            Iterator<UUID> iterator = auxiliaryEntityTriplesToInsert.keySet().iterator();
+	            
+	            while(iterator.hasNext()) {
+	                UUID docID = iterator.next();
+	                valuesList= new ArrayList<ModifyResourceTriple>();
 
-		if(deleteList!=null) {
-			HashMap<UUID, List<RemoveTriples>> toDelete = new HashMap<UUID, List<RemoveTriples>>(deleteList);
-			while(toDelete!=null && toDelete.size()>0) {
-				for(UUID docID  : deleteList.keySet()) {
-					valuesList= new ArrayList<ModifyResourceTriple>();
-					processedNumber++;
-					attempNumber++;
+	                if(resources.containsKey(docID)) {
+	                    valuesList.addAll(resources.get(docID));
+	                }
+	                processedNumber++;
+	                attempNumber++;
 
-					for(RemoveTriples iT :deleteList.get(docID)) {
-						ModifyResourceTriple triple= new ModifyResourceTriple();
-						triple.setOld_object(iT.getValue());
-						triple.setPredicate(iT.getPredicate());
-						triple.setNew_object(null);
-						triple.setGnoss_property(GnossResourceProperty.none);
+	                for(AuxiliaryEntitiesTriplesToInclude iT : auxiliaryEntityTriplesToInsert.get(docID)) { 
+	                    ModifyResourceTriple triple = new ModifyResourceTriple();
+	                    triple.setOld_object(null);
+	                    triple.setPredicate(iT.getPredicate());
+	                    triple.setNew_object(GraphsUrl+"items/"+iT.getName()+"_"+docID+"_"+iT.getIdentifier()+"|"+iT.getValue());
+	                    triple.setGnoss_property(GnossResourceProperty.none);
 
-						if(iT.isTitle()) {
-							triple.setGnoss_property(GnossResourceProperty.title);
-						}else if( iT.isDescription()) {
-							triple.setGnoss_property(GnossResourceProperty.description);
-						}
-						valuesList.add(triple);
-					}
-					resources.put(docID, valuesList);
-					toDelete.remove(docID);
-				}
-			}
-		}
+	                    valuesList.add(triple);
+	                }
 
-		//Modify triples
-		if(resourceTriples!=null) {
-			HashMap<UUID, List<TriplesToModify>> toModify = new HashMap<UUID, List<TriplesToModify>>(resourceTriples);
-			while(toModify!=null && toModify.size()>0) {
-				for (UUID docID : resourceTriples.keySet()) {
-					valuesList=new ArrayList<ModifyResourceTriple>();
+	                resources.put(docID, valuesList);
+	                iterator.remove();
+	            }
+	        }
+	    }
 
-					// If exists, gets the values list to add the modified values
-					if(resources.containsKey(docID)) {
-						valuesList.addAll(resources.get(docID));
-					}
-					processedNumber++;
-					attempNumber++;
-					for(TriplesToModify mT : resourceTriples.get(docID)) {
-						ModifyResourceTriple triple= new ModifyResourceTriple();
-						triple.setOld_object(mT.getOldValue());
-						triple.setPredicate(mT.getPredicate());
-						triple.setNew_object(mT.getNewValue());
-						triple.setGnoss_property(GnossResourceProperty.none);
+	    int i=0;
+	    int contResources= resources.keySet().size();
+	    Iterator<UUID> finalIterator = resources.keySet().iterator();
 
-						if(mT.isTitle()) {
-							triple.setGnoss_property(GnossResourceProperty.title);
+	    while(finalIterator.hasNext()){
+	        UUID docID = finalIterator.next();
+	        i++;
+	        try {
+	            boolean endOfLoad=false;
+	            if(i==contResources) {
+	                endOfLoad=true;
+	            }
+	            modifyTripleList(docID, resources.get(docID), publishHome, null, null, endOfLoad, null);
 
-						}else if(mT.isDescription()) {
-							triple.setGnoss_property(GnossResourceProperty.description);
-						}
-
-						valuesList.add(triple);
-					}
-
-					// If exists, replace the value list. Else, add the value list
-
-					resources.put(docID, valuesList);
-					toModify.remove(docID);
-
-				}
-			}
-		}
-
-		//Insert Triples
-		if(insertList!=null) {
-			HashMap<UUID, List<TriplesToInclude>> toInsert = new HashMap<UUID, List<TriplesToInclude>>(insertList);
-			while(toInsert!=null && toInsert.size()>0) {
-				for(UUID docID : insertList.keySet()) {
-					valuesList= new ArrayList<ModifyResourceTriple>();
-
-					if(resources.containsKey(docID)) {
-						valuesList.addAll(resources.get(docID));
-					}
-					processedNumber++;
-					attempNumber++;
-
-					for(TriplesToInclude iT : insertList.get(docID)) {
-						ModifyResourceTriple triple= new ModifyResourceTriple();
-						triple.setOld_object(null);
-						triple.setPredicate(iT.getPredicate());
-						triple.setNew_object(iT.getNewValue());
-						triple.setGnoss_property(GnossResourceProperty.none);
-
-						if(iT.isTitle()) {
-							triple.setGnoss_property(GnossResourceProperty.title);
-						}
-						else if(iT.isDescription()) {
-							triple.setGnoss_property(GnossResourceProperty.description);
-						}
-
-						valuesList.add(triple);
-					}
-					resources.put(docID, valuesList);
-					toInsert.remove(docID);
-				}
-			}
-		}
-
-		//Insert auxiliary entity triples
-
-		if(auxiliaryEntitiesInsertTriplesList!=null) {
-			HashMap<UUID, List<AuxiliaryEntitiesTriplesToInclude>> auxiliaryEntityTriplesToInsert= new HashMap<UUID, List<AuxiliaryEntitiesTriplesToInclude>>(auxiliaryEntitiesInsertTriplesList);
-			while(auxiliaryEntityTriplesToInsert!= null && auxiliaryEntityTriplesToInsert.size()>0) {
-
-				for(UUID docID : auxiliaryEntitiesInsertTriplesList.keySet()) {
-
-					valuesList= new ArrayList<ModifyResourceTriple>();
-
-
-					if(resources.containsKey(docID)) {
-						valuesList.addAll(resources.get(docID));
-					}
-					processedNumber++;
-					attempNumber++;
-
-					for(AuxiliaryEntitiesTriplesToInclude iT : auxiliaryEntitiesInsertTriplesList.get(docID)) {
-						ModifyResourceTriple triple = new ModifyResourceTriple();
-						triple.setOld_object(null);
-						triple.setPredicate(iT.getPredicate());
-						triple.setNew_object(GraphsUrl+"items/"+iT.getName()+"_"+docID+"_"+iT.getIdentifier()+"|"+iT.getValue());
-						triple.setGnoss_property(GnossResourceProperty.none);
-
-						valuesList.add(triple);
-					}
-
-					resources.put(docID, valuesList);
-					auxiliaryEntityTriplesToInsert.remove(docID);
-				}
-			}
-		}
-
-		int i=0;
-		int contResources= resources.keySet().size();
-
-		for(UUID docID : resources.keySet()){
-			i++;
-			try {
-				boolean endOfLoad=false;
-				if(i==contResources) {
-					endOfLoad=true;
-				}
-				modifyTripleList(docID, valuesList, publishHome, null, null, endOfLoad, null);
-				valuesList= new ArrayList<ModifyResourceTriple>();
-
-				_logHelper.Debug("Object "+ docID);
-								
-				result.put(docID, true);				
-			}
-			catch(Exception ex) {
-				_logHelper.Error("Resource "+docID+ ": "+ex.getMessage());
-				valuesList= new ArrayList<ModifyResourceTriple>();
-				
-				result.put(docID, false);				
-			}
-		}
-		
-		return result;
+	            _logHelper.Debug("Object "+ docID);
+	                            
+	            result.put(docID, true);				
+	        }
+	        catch(Exception ex) {
+	            _logHelper.Error("Resource "+docID+ ": "+ex.getMessage());
+	            
+	            result.put(docID, false);				
+	        }
+	    }
+	    
+	    return result;
 	}
 
 
@@ -3035,7 +3067,8 @@ public class ResourceApi extends GnossApiWrapper{
 			String url=getApiUrl()+"/resource/get-related-resources?resource_id="+resourceId+"&community_short_name="+getCommunityShortName();
 			String result=WebRequest("GET", url, "application/x-www-form-urlencoded");
 			Gson gson = new Gson();
-			listaIds= gson.fromJson(result, (Type) new ArrayList<UUID>());
+			Type type = new TypeToken<ArrayList<UUID>>(){}.getType();
+			listaIds= gson.fromJson(result, type);
 
 		}catch(Exception ex) {
 			_logHelper.Error("Error getting the related resources of "+resourceId+ ": "+ex.getMessage());
@@ -3057,7 +3090,8 @@ public class ResourceApi extends GnossApiWrapper{
 			String url=getApiUrl()+"/resource/get-documents-published-by-user?user_id="+userId;
 			String result=WebRequest("GET", url, "application/x-www-form-urlencoded");
 			Gson gson = new Gson();
-			listaDocs= gson.fromJson(result, (Type) new HashMap<String, List<UUID>>());
+			Type type = new TypeToken<HashMap<String, List<UUID>>>(){}.getType();
+			listaDocs= gson.fromJson(result, type);
 			_logHelper.Debug("The user id "+userId+" publisher "+result);
 
 		}catch(Exception ex) {
@@ -3121,7 +3155,8 @@ public class ResourceApi extends GnossApiWrapper{
 			String url=getApiUrl()+"/resource/get-communities-resource-shared?resource_id="+resourceId;
 			String result=WebRequest("GET", url, "application/x-www-form-urlencoded");
 			Gson gson = new Gson();
-			communities= gson.fromJson(result, (Type) new ArrayList<String>());
+			Type type = new TypeToken<ArrayList<String>>(){}.getType();
+			communities= gson.fromJson(result, type);
 			_logHelper.Debug("The resource "+resourceId+ " has been shared in "+result);
 		}catch(Exception ex) {
 			_logHelper.Error("Error getting the shared communities of "+resourceId+": "+ex.getMessage());
@@ -3191,86 +3226,6 @@ public class ResourceApi extends GnossApiWrapper{
 	}
 
 	/**
-	 * Inserts properties in Triples format in a loaded resource
-	 *   /// To create a new secondary entity, this properties must be sent: 
-	 *   /// .- Property of the parent resource
-	 *   /// .- rdfType
-	 *   /// .- rdfLabel
-	 *   /// .- The property hasEntidad of the secondaryEntity: subject = GraphsUrl + resource, predicate = http://gnoss/hasEntidad, and object = the property binded with the parent resource
-	 *   /// .- The properties of the secondary entities
-	 * @param resourceId Resource identifier
-	 * @param tripleList List of Triple
-	 * @param publishHome True if this resource must appear in the community home
-	 * @param communityShortName Community short name where the resource is published
-	 * @return True if success
-	 * @throws Exception exception 
-	 */
-	public boolean insertPropertiesLoadedResource(UUID resourceId, List<Triple> tripleList, boolean publishHome, String communityShortName) throws Exception {
-		boolean success=false;
-		Triples triplesToInsert = new Triples(); {
-			triplesToInsert.setResource_id(resourceId);
-			triplesToInsert.setCommunity_short_name((communityShortName.isEmpty() || StringUtils.isBlank(communityShortName)) ? getCommunityShortName() : communityShortName);
-			triplesToInsert.setPublish_home(publishHome);
-			triplesToInsert.setTriples_list(tripleList);
-			triplesToInsert.setEnd_of_load(true);
-		}
-
-		try {
-			String url=getApiUrl()+"/resource/insert-props-loaded-resource";
-			String response=WebRequestPostWithJsonObject(url, triplesToInsert);
-			Gson gson = new Gson();
-			success= gson.fromJson(response, Boolean.class);
-
-			if(success) {
-				_logHelper.Debug("Triples inserted in "+resourceId+ ": "+"JsonConvert.SerializeObject(triplesToInsert");
-			}else {
-				_logHelper.Debug("Triples not  inserted in "+resourceId+ ": "+"JsonConvert.SerializeObject(triplesToInsert");
-			}
-		}catch(Exception ex) {
-			_logHelper.Error("Error trying to insert properties into "+resourceId+ ": "+ex.getMessage() +". \r\n :Json: JsonConvert.SerializeObject(triplesToInsert)");
-			throw ex;
-		}
-		return success;
-	}
-
-	/**
-	 * Delete a list of triples from a loaded resource
-	 * @param resourceId Resource identifier
-	 * @param tripleList List of Triple to delete
-	 * @param publishHome  True if this resource appeared in the community home
-	 * @param communityShortName Community short name where the resource is published
-	 * @return True if success
-	 * @throws Exception exception 
-	 */
-	public boolean deletePropertiesLoadedResource (UUID resourceId, List<Triple> tripleList, boolean publishHome, String communityShortName) throws Exception {
-		boolean success=false;
-		Triples triplesToInsert= new Triples();
-		{
-			triplesToInsert.setResource_id(resourceId);
-			triplesToInsert.setCommunity_short_name((communityShortName.isEmpty() || StringUtils.isBlank(communityShortName)) ? getCommunityShortName() : communityShortName);
-			triplesToInsert.setPublish_home(publishHome);
-			triplesToInsert.setTriples_list(tripleList);
-			triplesToInsert.setEnd_of_load(true);
-		}
-		try {
-			String url=getApiUrl()+"/resource/delete-props-loaded-resource";
-			String response=WebRequestPostWithJsonObject(url, triplesToInsert);
-			Gson gson = new Gson();
-			success= gson.fromJson(response, Boolean.class);
-
-			if(success) {
-				_logHelper.Debug("Triples deleted in "+resourceId+ ": "+"JsonConvert.SerializeObject(triplesToInsert");
-			}else {
-				_logHelper.Debug("Triples not  deleted in "+resourceId+ ": "+"JsonConvert.SerializeObject(triplesToInsert");
-			}
-		}catch(Exception ex) {
-			_logHelper.Error("Error trying to delete properties into "+resourceId+ ": "+ex.getMessage() +". \r\n :Json: JsonConvert.SerializeObject(triplesToInsert)");
-			throw ex;
-		}
-		return success;
-	}
-
-	/**
 	 * Gets the short names of resource editors and editors groups.
 	 * @param resourceId_list resources identifiers list
 	 * @return List with the short names of editors and editors groups
@@ -3282,7 +3237,8 @@ public class ResourceApi extends GnossApiWrapper{
 			String url=getApiUrl()+"/resource/get-editors";
 			String response=WebRequestPostWithJsonObject(url, resourceId_list);
 			Gson gson = new Gson();
-			editorsList= gson.fromJson(response, (Type) new ArrayList<KeyEditors>());
+			Type type = new TypeToken<ArrayList<KeyEditors>>(){}.getType();
+			editorsList= gson.fromJson(response, type);
 
 			if(editorsList!=null && editorsList.size()>0) {
 				_logHelper.Debug("Editors of the resources "+gson1.toJson(resourceId_list)+": "+response);
@@ -3316,7 +3272,8 @@ public class ResourceApi extends GnossApiWrapper{
 			}
 			String response= WebRequestPostWithJsonObject(url, parameters);
 			Gson gson = new Gson();
-			urlList= gson.fromJson(response, (Type) new ArrayList<ResponseGetUrl>());
+			Type type = new TypeToken<ArrayList<ResponseGetUrl>>(){}.getType();
+			urlList= gson.fromJson(response, type);
 
 			if(urlList!=null && urlList.size()==0) {
 				_logHelper.Debug("Downloads urls of the resources "+gson1.toJson(resourceId_list)+": "+response);
@@ -3354,7 +3311,8 @@ public class ResourceApi extends GnossApiWrapper{
 			}
 			String response= WebRequestPostWithJsonObject(url, parameters);
 			Gson gson = new Gson();
-			urlList= gson.fromJson(response, (Type) new ArrayList<ResponseGetUrl>());
+			Type type = new TypeToken<ArrayList<ResponseGetUrl>>(){}.getType();
+			urlList= gson.fromJson(response, type);
 
 			if(urlList!=null && urlList.size()==0) {
 				_logHelper.Debug("Urls of the resources "+gson1.toJson(parameters)+": "+response);
@@ -3389,7 +3347,7 @@ public class ResourceApi extends GnossApiWrapper{
 				readers.setCommunity_short_name(getCommunityShortName());
 				readers.setPublish_home(publishHome);
 				readers.setReaders_list(readers_list);
-				readers.setVisibility( Integer.parseInt(visibility.toString()));
+				readers.setVisibility(visibility.getID());
 			}
 			WebRequestPostWithJsonObject(url, readers);
 			_logHelper.Debug("Ended resource readers setting");
@@ -3426,7 +3384,7 @@ public class ResourceApi extends GnossApiWrapper{
 
 	/**
 	 * Remove the readers of the resource
-	 * @param resourceId Resorce identifier
+	 * @param resourceId Resource identifier
 	 * @param readers_list Resource readers
 	 * @throws Exception exception
 	 */
@@ -3523,10 +3481,7 @@ public class ResourceApi extends GnossApiWrapper{
 			{
 				readers.setResource_id(resourceId);
 				readers.setCommunity_short_name(getCommunityShortName());
-
 				readers.setReaders_list(readers_list);
-
-
 			}
 			WebRequestPostWithJsonObject(url, readers);
 			_logHelper.Debug("Ended resource readers setting");
@@ -3548,19 +3503,18 @@ public class ResourceApi extends GnossApiWrapper{
 		VotedParameters vote=null;
 		Gson gson1 = new Gson();
 		try {
-			String url=getApiUrl()+"/resource/add-editors";
+			String url=getApiUrl()+"/resource/vote-document";
 			vote= new VotedParameters();
 			{
 				vote.setUser_id(pIdentidadID);
 				vote.setVote_value(pValorVoto);
 				vote.setResource_id(pDocumentoID);
 				vote.setProject_id(pProyectoID);
-
 			}
 			WebRequestPostWithJsonObject(url, vote);
-			_logHelper.Debug("Ended resource readers setting");
+			_logHelper.Debug("Ended vote document setting");
 		}catch(Exception ex) {
-			_logHelper.Error("Error setting resource "+pDocumentoID+" readers. \r\n json:" +gson1.toJson(vote)+": Error description "+ex.getMessage());
+			_logHelper.Error("Error vote Document "+pDocumentoID+". \r\n json:" +gson1.toJson(vote)+": Error description "+ex.getMessage());
 			throw ex;
 		}
 	}
@@ -3582,7 +3536,8 @@ public class ResourceApi extends GnossApiWrapper{
 			String url=getApiUrl()+"/resource/get-creator-email";
 			String response=WebRequestPostWithJsonObject(url, model);
 			Gson gson = new Gson();
-			emailsList= gson.fromJson(response, (Type) new HashMap<UUID, String>());
+			Type type = new TypeToken<HashMap<UUID, String>>(){}.getType();
+			emailsList= gson.fromJson(response, type);
 
 			if(emailsList!=null && emailsList.size()==0) {
 				_logHelper.Debug("Urls of resources "+gson1.toJson(resourceId_list)+": "+response);
@@ -3616,7 +3571,8 @@ public class ResourceApi extends GnossApiWrapper{
 			String url=getApiUrl()+"/resource/get-categories";
 			String response=WebRequestPostWithJsonObject(url, parameters);
 			Gson gson = new Gson();
-			categoriesList= gson.fromJson(response, (Type) new ArrayList<ResponseGetCategories>());
+			Type type = new TypeToken<ArrayList<ResponseGetCategories>>(){}.getType();
+			categoriesList= gson.fromJson(response, type);
 
 			if(categoriesList!=null && categoriesList.size()==resourceId_list.size()) {
 				_logHelper.Debug("Categories of resources "+gson1.toJson(resourceId_list)+": "+response);
@@ -3698,7 +3654,8 @@ public class ResourceApi extends GnossApiWrapper{
 		try {
 			String url=getApiUrl()+"/resource/get-main-image";
 			String response=WebRequestPostWithJsonObject(url, resourceId_list);
-			mainImagesList=gson.fromJson(response, (Type) new  ArrayList<ResponseGetMainImage>());
+			Type type = new TypeToken<ArrayList<ResponseGetMainImage>>(){}.getType();
+			mainImagesList=gson.fromJson(response, type);
 
 			if(mainImagesList!=null && mainImagesList.size()==0) {
 				_logHelper.Debug("Main images of resources "+gson.toJson(resourceId_list)+":"+response);
@@ -3727,7 +3684,8 @@ public class ResourceApi extends GnossApiWrapper{
 		try {
 			String url=getApiUrl()+"/resource/get-increased-reading-by-resources";
 			String response= WebRequestPostWithJsonObject(url, resourceId_list);
-			resource= gson.fromJson(response, (Type) new HashMap<UUID, AumentedReading>());
+			Type type = new TypeToken<HashMap<UUID, String>>(){}.getType();
+			resource= gson.fromJson(response, type);
 
 			if(resource!=null) {
 				_logHelper.Debug("Increased reading obtained");
@@ -3866,7 +3824,7 @@ public class ResourceApi extends GnossApiWrapper{
 			model= new LinkedParams();
 			model.setResource_id(resourceId);
 			model.setResource_list_to_link(resourceListToLink);
-
+			model.setCommunity_short_name(getCommunityShortName());
 
 			WebRequestPostWithJsonObject(url, model);
 			loaded=true;
@@ -4007,7 +3965,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 * @return UUID comment identifier
 	 */
 	public UUID comment (UUID resourceId, String userShortName, String description, UUID parentCommentId, Date commentDate, boolean publishHome) throws Exception {
-		UUID commendId=UUID.fromString("");
+		UUID commendId=UUID.fromString("00000000-0000-0000-0000-000000000000");
 		CommentParams model=null;
 		Gson gson = new Gson();
 		try {
@@ -4023,7 +3981,7 @@ public class ResourceApi extends GnossApiWrapper{
 
 			String response=WebRequestPostWithJsonObject(url, model);
 
-			UUID comentId=UUID.fromString(response);
+			UUID comentId=UUID.fromString(response.replace("\"", ""));
 			if(comentId!=null) {
 				_logHelper.Debug("Ended resource "+resourceId+" comment: "+comentId);
 			}else {
@@ -4048,7 +4006,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 * @return UUID comment identifier
 	 */
 	public UUID comment(UUID resourceId, UUID user_Id, String description, UUID parentCommentId, Date commentDate, boolean publishHome) throws Exception {
-	    UUID commentId = UUID.fromString("");
+	    UUID commentId = UUID.fromString("00000000-0000-0000-0000-000000000000");
 	    CommentParams model = null;
 	    Gson gson = new Gson();
 	    try {
@@ -4064,7 +4022,7 @@ public class ResourceApi extends GnossApiWrapper{
 	        
 	        String response = WebRequestPostWithJsonObject(url, model);
 	        
-	        commentId = UUID.fromString(response);
+	        commentId = UUID.fromString(response.replace("\"", ""));
 	        if(commentId != null) {
 	            _logHelper.Debug("Ended resource " + resourceId + " comment: " + commentId);
 	        } else {
@@ -4187,7 +4145,7 @@ public class ResourceApi extends GnossApiWrapper{
 		String resourceId="";
 
 		try {
-			String url=getApiUrl()+"/resource/massive-complex-ontology-resource-creation";
+			String url=getApiUrl()+"/MassiveResource/massive-complex-ontology-resource-creation";
 			WebRequestPostWithJsonObject(url, massiveLoad);
 
 			if(!StringUtils.isBlank(resourceId) || !resourceId.isEmpty()) {
@@ -4357,7 +4315,8 @@ public class ResourceApi extends GnossApiWrapper{
 		try {
 			String url=getApiUrl()+"/resource/get-modified-resources?community_short_name="+getCommunityShortName()+"&search_date="+searchDate;
 			String response=WebRequest("GET", url);
-			resources=gson.fromJson(response, (Type) new ArrayList<UUID>());
+			Type type = new TypeToken<ArrayList<UUID>>(){}.getType();
+			resources=gson.fromJson(response, type);
 
 			_logHelper.Debug("Resources obtained of the community "+getCommunityShortName()+" from date "+searchDate);
 
@@ -4385,7 +4344,8 @@ public class ResourceApi extends GnossApiWrapper{
 		try {
 			String url=getApiUrl()+"/resource/get-resource-novelties?resource_id="+resourceId+"&community_short_name="+getCommunityShortName()+"&search_date="+searchDate;
 			String response = WebRequest("GET", url, "application/x-www-form-urlencoded");
-			resource=gson.fromJson(response, ResourceNoveltiesModel.class);
+			Type type = new TypeToken<ResourceNoveltiesModel>(){}.getType();
+			resource=gson.fromJson(response, type);
 
 			if(resource!=null) {
 				_logHelper.Debug("Obtained the resource "+resourceId+" of the community "+getCommunityShortName()+" from date "+searchDate);
@@ -4416,8 +4376,7 @@ public class ResourceApi extends GnossApiWrapper{
 		model.setCommunity_short_name(communityShortName);
 		model.setTitle(rec.getTitle());
 		model.setDescription(rec.getDescription());
-		ArrayList tags = new ArrayList<String>();
-		tags=(ArrayList) Arrays.asList(rec.getTags());
+		ArrayList<String> tags = new ArrayList<>(List.of(rec.getTags()));
 		model.setTags(tags);
 
 		ArrayList<UUID> listaCategorias = new ArrayList<UUID>();
@@ -4444,13 +4403,14 @@ public class ResourceApi extends GnossApiWrapper{
 		model.setCreate_screenshot(rec.GenerateSnapshot);
 		model.setUrl_screenshot(rec.DownloadUrl);
 
-		ArrayList Snap = new ArrayList<Integer>();
-		model.setScreenshot_sizes((ArrayList) Arrays.asList(rec.SnapshotSizes));
+		if(rec.SnapshotSizes != null) {
+			ArrayList<Integer> Snap = new ArrayList(List.of(rec.SnapshotSizes));
+			model.setScreenshot_sizes(Snap);
+		}
 		model.setEnd_of_load(pEsUltimo);
 		model.setCreation_date(rec.getCreationDate());
 		model.setPublish_home(rec.getPublishInHome());
-		String vis= rec.getVisibility().toString();
-		int i=Integer.parseInt(vis);
+		int i = rec.getVisibility().getID();
 		model.setVisibility( (short) i);
 		model.setEditors_list(rec.getEditorsGroups());
 		model.setReaders_list(rec.getReadersGroups());
@@ -4470,7 +4430,8 @@ public class ResourceApi extends GnossApiWrapper{
 		model.setResource_type( (short) i);
 
 		if(rec.getTags()!=null) {
-			model.setTags((ArrayList) Arrays.asList(rec.getTags()));
+			ArrayList<String> tags = new ArrayList<>(List.of(rec.getTags()));
+			model.setTags(tags);
 		}
 		if(pCrearVersion) {
 			model.setCreate_version(pCrearVersion);
@@ -4498,7 +4459,7 @@ public class ResourceApi extends GnossApiWrapper{
 				adjunto.setFile_rdf_property(nombre);
 				int s = Integer.parseInt(Arrays.toString(rec.getAttachedFiles().get(k)));
 				adjunto.setFile_property_type( (short) s);
-				adjunto.setRdf_attacherd_file(rec.getAttachedFiles().get(k));
+				adjunto.setRdf_attached_file(rec.getAttachedFiles().get(k));
 				adjunto.setDelete_file(rec.getAttachedFiles().get(k) == null);
 				k++;
 				model.resource_attached_files.add(adjunto);
@@ -4515,15 +4476,15 @@ public class ResourceApi extends GnossApiWrapper{
 		model.setPredicate_screenshot(rec.getScreenshotPredicate());
 
 		if(rec.getScreenshotSizes()!=null) {
-			model.setScreenshot_sizes((ArrayList) Arrays.asList(rec.getScreenshotSizes()));
+			ArrayList screenshots = new ArrayList<>(List.of(rec.getScreenshotSizes()));
+			model.setScreenshot_sizes(screenshots);
 		}
 
 		model.setEnd_of_load(pEsUltimo);
 		model.setCreation_date(rec.getCreationDate());
 		model.setPublisher_email(rec.getPublisherEmail());
 		model.setMain_image(rec.getMainImage());
-		String vis1= rec.getVisibility().toString();
-		int h=Integer.parseInt(vis1);
+		int h = rec.getVisibility().getID();
 		model.setVisibility( (short) h);
 		model.setEditors_list(rec.getEditorsGroups());
 		model.setReaders_list(rec.getReadersGroups());
@@ -4536,283 +4497,295 @@ public class ResourceApi extends GnossApiWrapper{
 	//region Common methods for basic and complex ontology resources
 	private HashMap<UUID, Boolean> modifyPropertiesLoadedResourcesInt(HashMap<UUID, ArrayList<TriplesToModify>> resourceTriples, String communityShortName, int numAttemps , boolean publishHome , UUID userId)
 	{
-		HashMap<UUID, Boolean> result= new HashMap<UUID, Boolean>();
-		int procesedNumber=0;
-		int attempNumber=0;
+	    HashMap<UUID, Boolean> result= new HashMap<UUID, Boolean>();
+	    int procesedNumber=0;
+	    int attempNumber=0;
 
-		ArrayList<String> valores= new ArrayList<String>();
-		HashMap<UUID, ArrayList<TriplesToModify>> toModify= new HashMap<UUID, ArrayList<TriplesToModify>>();
-		toModify=resourceTriples;
-		while(toModify!=null && toModify.size()>0 && attempNumber<numAttemps) {
-			int i=0;
-			int contResources=resourceTriples.keySet().size();
+	    ArrayList<String> valores= new ArrayList<String>();
+	    HashMap<UUID, ArrayList<TriplesToModify>> toModify= new HashMap<UUID, ArrayList<TriplesToModify>>(resourceTriples);
+	    
+	    while(toModify!=null && toModify.size()>0 && attempNumber<numAttemps) {
+	        int i=0;
+	        int contResources=toModify.keySet().size();
 
-			for(UUID docID : resourceTriples.keySet()) {
-				i++;
-				ArrayList<ModifyResourceTriple> listaValores= new ArrayList<ModifyResourceTriple>();
-				attempNumber++;
-				procesedNumber++;
-				for(TriplesToModify mT : resourceTriples.get(docID)) {
-					ModifyResourceTriple triple = new ModifyResourceTriple();
-					triple.setOld_object(mT.getOldValue());
-					triple.setPredicate(mT.getPredicate());
-					triple.setNew_object(mT.getNewValue());
-					triple.setGnoss_property(GnossResourceProperty.none);
+	        Iterator<UUID> iterator = toModify.keySet().iterator();
+	        
+	        while(iterator.hasNext()) {
+	            UUID docID = iterator.next();
+	            i++;
+	            ArrayList<ModifyResourceTriple> listaValores= new ArrayList<ModifyResourceTriple>();
+	            attempNumber++;
+	            procesedNumber++;
+	            
+	            for(TriplesToModify mT : toModify.get(docID)) {
+	                ModifyResourceTriple triple = new ModifyResourceTriple();
+	                triple.setOld_object(mT.getOldValue());
+	                triple.setPredicate(mT.getPredicate());
+	                triple.setNew_object(mT.getNewValue());
+	                triple.setGnoss_property(GnossResourceProperty.none);
 
-					if(mT.isTitle()) {
-						triple.setGnoss_property(GnossResourceProperty.title);
+	                if(mT.isTitle()) {
+	                    triple.setGnoss_property(GnossResourceProperty.title);
 
-					}else if(mT.isDescription()) {
-						triple.setGnoss_property(GnossResourceProperty.description);
-					}
-					listaValores.add(triple);
-				}
+	                }else if(mT.isDescription()) {
+	                    triple.setGnoss_property(GnossResourceProperty.description);
+	                }
+	                listaValores.add(triple);
+	            }
 
-				try {
-					boolean endOfLoad=false;
-					if(i==contResources) {
-						endOfLoad=true;
-					}
-					modifyTripleList(docID, listaValores, publishHome, null, null, endOfLoad, userId);
-					_logHelper.Debug(procesedNumber+" of "+resourceTriples.size()+". Object: "+docID+". Resource: "+resourceTriples.get(docID).toArray());
-					toModify.remove(docID);
+	            try {
+	                boolean endOfLoad=false;
+	                if(i==contResources) {
+	                    endOfLoad=true;
+	                }
+	                modifyTripleList(docID, listaValores, publishHome, null, null, endOfLoad, userId);
+	                _logHelper.Debug(procesedNumber+" of "+toModify.size()+". Object: "+docID+". Resource: "+toModify.get(docID).toArray());
+	                
+	                iterator.remove();
 
-					result.put(docID, true);
-				}catch(Exception ex) {
-					_logHelper.Error("Resource "+docID+": "+ex.getMessage());
+	                result.put(docID, true);
+	            }catch(Exception ex) {
+	                _logHelper.Error("Resource "+docID+": "+ex.getMessage());
 
-					result.put(docID, false);
-				}
+	                result.put(docID, false);
+	            }
+	        }
+	        _logHelper.Debug("******************** Lap number: "+attempNumber +" finished");
+	    }
 
-
-			}
-			_logHelper.Debug("******************** Lap number: "+attempNumber +"finished");
-		}
-
-		return result;
+	    return result;
 	}
 
 	private HashMap <UUID, Boolean> insertPropertiesLoadedResourcesInt(HashMap<UUID, ArrayList<TriplesToInclude>> resourceTriples, String communityShortName, int numAttemps, boolean publishHome, UUID usuarioId){
-		HashMap<UUID, Boolean> result= new HashMap<UUID, Boolean>();
-		int procesedNumber=0;
-		int attempNumber=0;
+	    HashMap<UUID, Boolean> result= new HashMap<UUID, Boolean>();
+	    int procesedNumber=0;
+	    int attempNumber=0;
 
-		HashMap<UUID, ArrayList<TriplesToInclude>> toInsert= new HashMap<UUID, ArrayList<TriplesToInclude>>();
-		toInsert=resourceTriples;
-		while(toInsert!=null && toInsert.size()>0 && attempNumber<numAttemps) {
-			int i=0;
-			int contResources=resourceTriples.keySet().size();
+	    HashMap<UUID, ArrayList<TriplesToInclude>> toInsert= new HashMap<UUID, ArrayList<TriplesToInclude>>(resourceTriples);
+	    
+	    while(toInsert!=null && toInsert.size()>0 && attempNumber<numAttemps) {
+	        int i=0;
+	        int contResources=toInsert.keySet().size();
 
-			for(UUID docID : resourceTriples.keySet()) {
-				i++;
-				ArrayList<ModifyResourceTriple> listaValores= new ArrayList<ModifyResourceTriple>();
-				attempNumber++;
-				procesedNumber++;
-				for(TriplesToInclude mT : resourceTriples.get(docID)) {
-					ModifyResourceTriple triple = new ModifyResourceTriple();
-					triple.setOld_object(null);
-					triple.setPredicate(mT.getPredicate());
-					triple.setNew_object(mT.getNewValue());
-					triple.setGnoss_property(GnossResourceProperty.none);
+	        Iterator<UUID> iterator = toInsert.keySet().iterator();
+	        
+	        while(iterator.hasNext()) {
+	            UUID docID = iterator.next();
+	            i++;
+	            ArrayList<ModifyResourceTriple> listaValores= new ArrayList<ModifyResourceTriple>();
+	            attempNumber++;
+	            procesedNumber++;
+	            
+	            for(TriplesToInclude mT : toInsert.get(docID)) {
+	                ModifyResourceTriple triple = new ModifyResourceTriple();
+	                triple.setOld_object(null);
+	                triple.setPredicate(mT.getPredicate());
+	                triple.setNew_object(mT.getNewValue());
+	                triple.setGnoss_property(GnossResourceProperty.none);
 
-					if(mT.isTitle()) {
-						triple.setGnoss_property(GnossResourceProperty.title);
+	                if(mT.isTitle()) {
+	                    triple.setGnoss_property(GnossResourceProperty.title);
 
-					}else if(mT.isDescription()) {
-						triple.setGnoss_property(GnossResourceProperty.description);
-					}
-					listaValores.add(triple);
-				}
+	                }else if(mT.isDescription()) {
+	                    triple.setGnoss_property(GnossResourceProperty.description);
+	                }
+	                listaValores.add(triple);
+	            }
 
-				try {
-					boolean endOfLoad=false;
-					if(i==contResources) {
-						endOfLoad=true;
-					}
-					modifyTripleList(docID, listaValores, publishHome, null, null, endOfLoad, usuarioId);
-					_logHelper.Debug(procesedNumber+" of "+resourceTriples.size()+". Object: "+docID+". Resource: "+resourceTriples.get(docID).toArray());
-					toInsert.remove(docID);
+	            try {
+	                boolean endOfLoad=false;
+	                if(i==contResources) {
+	                    endOfLoad=true;
+	                }
+	                modifyTripleList(docID, listaValores, publishHome, null, null, endOfLoad, usuarioId);
+	                _logHelper.Debug(procesedNumber+" of "+toInsert.size()+". Object: "+docID+". Resource: "+toInsert.get(docID).toArray());
+	                
+	                iterator.remove();
 
-					result.put(docID, true);
-				}catch(Exception ex) {
-					_logHelper.Error("Resource "+docID+": "+ex.getMessage());
+	                result.put(docID, true);
+	            }catch(Exception ex) {
+	                _logHelper.Error("Resource "+docID+": "+ex.getMessage());
 
-					result.put(docID, false);
-				}
-
-
-			}
-			_logHelper.Debug("******************** Lap number: "+attempNumber +"finished");
-		}
-		return result;
-
+	                result.put(docID, false);
+	            }
+	        }
+	        _logHelper.Debug("******************** Lap number: "+attempNumber +" finished");
+	    }
+	    return result;
 	}
 
 	private HashMap<UUID, Boolean> actionsPropertiesLoadedResourcesInt (HashMap<UUID, ArrayList<TriplesToModify>> resourceTriples, HashMap<UUID, ArrayList<RemoveTriples>> deleteList, HashMap<UUID, ArrayList<TriplesToInclude>>insertList,  HashMap<UUID, ArrayList<AuxiliaryEntitiesTriplesToInclude>> auxiliaryEntitiesInsertTriplesList, String communityShortName, boolean publishHome){
 
-		HashMap<UUID, Boolean> result= new HashMap<UUID, Boolean>();
-		int procesedNumber=0;
-		int attempNumber=0;
-		ArrayList<ModifyResourceTriple> valuesList= new ArrayList<ModifyResourceTriple>();
-		ArrayList<String> values = new ArrayList<String>();
-		HashMap<UUID, ArrayList<ModifyResourceTriple>> resources = new HashMap<UUID, ArrayList<ModifyResourceTriple>>();
+	    HashMap<UUID, Boolean> result= new HashMap<UUID, Boolean>();
+	    int procesedNumber=0;
+	    int attempNumber=0;
+	    ArrayList<ModifyResourceTriple> valuesList= new ArrayList<ModifyResourceTriple>();
+	    ArrayList<String> values = new ArrayList<String>();
+	    HashMap<UUID, ArrayList<ModifyResourceTriple>> resources = new HashMap<UUID, ArrayList<ModifyResourceTriple>>();
 
-		if(deleteList!=null) {
-			HashMap<UUID, ArrayList<RemoveTriples>> toDelete = new HashMap<UUID, ArrayList<RemoveTriples>>();
-			toDelete=deleteList;
-			while(toDelete!=null && toDelete.size()>0) {
-				for(UUID docID : deleteList.keySet()) {
-					valuesList= new ArrayList<ModifyResourceTriple>();
-					procesedNumber++;
-					attempNumber++;
+	    if(deleteList!=null) {
+	        HashMap<UUID, ArrayList<RemoveTriples>> toDelete = new HashMap<UUID, ArrayList<RemoveTriples>>(deleteList);
+	        
+	        while(toDelete!=null && toDelete.size()>0) {
+	            Iterator<UUID> iterator = toDelete.keySet().iterator();
+	            
+	            while(iterator.hasNext()) {
+	                UUID docID = iterator.next();
+	                valuesList= new ArrayList<ModifyResourceTriple>();
+	                procesedNumber++;
+	                attempNumber++;
 
-					for(RemoveTriples iT : deleteList.get(docID)) {
-						ModifyResourceTriple triple= new ModifyResourceTriple();
-						triple.setOld_object(iT.getValue());
-						triple.setPredicate(iT.getPredicate());
-						triple.setNew_object(null);
-						triple.setGnoss_property(GnossResourceProperty.none);
+	                for(RemoveTriples iT : toDelete.get(docID)) {
+	                    ModifyResourceTriple triple= new ModifyResourceTriple();
+	                    triple.setOld_object(iT.getValue());
+	                    triple.setPredicate(iT.getPredicate());
+	                    triple.setNew_object(null);
+	                    triple.setGnoss_property(GnossResourceProperty.none);
 
-						if(iT.isTitle()) {
-							triple.setGnoss_property(GnossResourceProperty.title);
+	                    if(iT.isTitle()) {
+	                        triple.setGnoss_property(GnossResourceProperty.title);
 
-						}else if(iT.isDescription()) {
-							triple.setGnoss_property(GnossResourceProperty.description);
-						}
-						valuesList.add(triple);
-					}
-					resources.put(docID, valuesList);
-					toDelete.remove(docID);
-				}
-			}
-		}
+	                    }else if(iT.isDescription()) {
+	                        triple.setGnoss_property(GnossResourceProperty.description);
+	                    }
+	                    valuesList.add(triple);
+	                }
+	                resources.put(docID, valuesList);
+	                iterator.remove();
+	            }
+	        }
+	    }
 
-		if(resourceTriples!=null) {
-			HashMap<UUID, ArrayList<TriplesToModify>> toModify = new HashMap<UUID, ArrayList<TriplesToModify>>();
-			toModify=resourceTriples;
-			while(toModify!=null && toModify.size()>0) {
-				for(UUID docID : resourceTriples.keySet()) {
-					valuesList= new ArrayList<ModifyResourceTriple>();
+	    if(resourceTriples!=null) {
+	        HashMap<UUID, ArrayList<TriplesToModify>> toModify = new HashMap<UUID, ArrayList<TriplesToModify>>(resourceTriples);
+	        
+	        while(toModify!=null && toModify.size()>0) {
+	            Iterator<UUID> iterator = toModify.keySet().iterator();
+	            
+	            while(iterator.hasNext()) {
+	                UUID docID = iterator.next();
+	                valuesList= new ArrayList<ModifyResourceTriple>();
 
-					if(resources.containsKey(docID)) {
-						valuesList.addAll(resources.get(docID));
-					}
-					procesedNumber++;
-					attempNumber++;
+	                if(resources.containsKey(docID)) {
+	                    valuesList.addAll(resources.get(docID));
+	                }
+	                procesedNumber++;
+	                attempNumber++;
 
-					for(TriplesToModify iT : resourceTriples.get(docID)) {
-						ModifyResourceTriple triple= new ModifyResourceTriple();
-						triple.setOld_object(iT.getOldValue());
-						triple.setPredicate(iT.getPredicate());
-						triple.setNew_object(iT.getNewValue());
-						triple.setGnoss_property(GnossResourceProperty.none);
+	                for(TriplesToModify iT : toModify.get(docID)) {
+	                    ModifyResourceTriple triple= new ModifyResourceTriple();
+	                    triple.setOld_object(iT.getOldValue());
+	                    triple.setPredicate(iT.getPredicate());
+	                    triple.setNew_object(iT.getNewValue());
+	                    triple.setGnoss_property(GnossResourceProperty.none);
 
-						if(iT.isTitle()) {
-							triple.setGnoss_property(GnossResourceProperty.title);
+	                    if(iT.isTitle()) {
+	                        triple.setGnoss_property(GnossResourceProperty.title);
 
-						}else if(iT.isDescription()) {
-							triple.setGnoss_property(GnossResourceProperty.description);
-						}
-						valuesList.add(triple);
-					}
-					if(!resources.containsKey(docID)) {
-						resources.put(docID, valuesList);
-					}
-					toModify.remove(docID);
-				}
-			}
-		}
+	                    }else if(iT.isDescription()) {
+	                        triple.setGnoss_property(GnossResourceProperty.description);
+	                    }
+	                    valuesList.add(triple);
+	                }
+	                resources.put(docID, valuesList);
+	                iterator.remove();
+	            }
+	        }
+	    }
 
-		if(insertList!=null) {
-			HashMap<UUID, ArrayList<TriplesToInclude>> toInsert = new HashMap<UUID, ArrayList<TriplesToInclude>>();
-			toInsert=insertList;
-			while(toInsert!=null && toInsert.size()>0) {
-				for(UUID docID : insertList.keySet()) {
-					valuesList= new ArrayList<ModifyResourceTriple>();
-					if(resources.containsKey(docID)) {
-						valuesList.addAll(resources.get(docID));
-					}
-					procesedNumber++;
-					attempNumber++;
-					for(TriplesToInclude iT : insertList.get(docID)) {
-						ModifyResourceTriple triple = new ModifyResourceTriple();
-						triple.setOld_object(null);
-						triple.setPredicate(iT.getPredicate());
-						triple.setNew_object(iT.getNewValue());
-						triple.setGnoss_property(GnossResourceProperty.none);
+	    if(insertList!=null) {
+	        HashMap<UUID, ArrayList<TriplesToInclude>> toInsert = new HashMap<UUID, ArrayList<TriplesToInclude>>(insertList);
+	        
+	        while(toInsert!=null && toInsert.size()>0) {
+	            Iterator<UUID> iterator = toInsert.keySet().iterator();
+	            
+	            while(iterator.hasNext()) {
+	                UUID docID = iterator.next();
+	                valuesList= new ArrayList<ModifyResourceTriple>();
+	                
+	                if(resources.containsKey(docID)) {
+	                    valuesList.addAll(resources.get(docID));
+	                }
+	                procesedNumber++;
+	                attempNumber++;
+	                
+	                for(TriplesToInclude iT : toInsert.get(docID)) {
+	                    ModifyResourceTriple triple = new ModifyResourceTriple();
+	                    triple.setOld_object(null);
+	                    triple.setPredicate(iT.getPredicate());
+	                    triple.setNew_object(iT.getNewValue());
+	                    triple.setGnoss_property(GnossResourceProperty.none);
 
-						if(iT.isTitle()) {
-							triple.setGnoss_property(GnossResourceProperty.title);
-						}else if(iT.isDescription()) {
-							triple.setGnoss_property(GnossResourceProperty.description);
-						}
-						valuesList.add(triple);
-					}
-					if(!resources.containsKey(docID)) {
-						resources.put(docID, valuesList);
-					}
-					toInsert.remove(docID);	
-				}
-			}
-		}
+	                    if(iT.isTitle()) {
+	                        triple.setGnoss_property(GnossResourceProperty.title);
+	                    }else if(iT.isDescription()) {
+	                        triple.setGnoss_property(GnossResourceProperty.description);
+	                    }
+	                    valuesList.add(triple);
+	                }
+	                resources.put(docID, valuesList);
+	                iterator.remove();
+	            }
+	        }
+	    }
 
-		if(auxiliaryEntitiesInsertTriplesList!=null) {
-			HashMap<UUID, ArrayList<AuxiliaryEntitiesTriplesToInclude>> auxiliaryEntityTriplesToInsert= new HashMap<UUID, ArrayList<AuxiliaryEntitiesTriplesToInclude>>();
-			auxiliaryEntityTriplesToInsert=auxiliaryEntitiesInsertTriplesList;
-			while(auxiliaryEntityTriplesToInsert!=null && auxiliaryEntityTriplesToInsert.size()>0) {
-				for(UUID docID : auxiliaryEntitiesInsertTriplesList.keySet()) {
-					valuesList= new ArrayList<ModifyResourceTriple>();
+	    if(auxiliaryEntitiesInsertTriplesList!=null) {
 
-					if(resources.containsKey(docID)) {
-						valuesList.addAll(resources.get(docID));
-					}
-					procesedNumber++;
-					attempNumber++;
+	        HashMap<UUID, ArrayList<AuxiliaryEntitiesTriplesToInclude>> auxiliaryEntityTriplesToInsert= new HashMap<UUID, ArrayList<AuxiliaryEntitiesTriplesToInclude>>(auxiliaryEntitiesInsertTriplesList);
+	        
+	        while(auxiliaryEntityTriplesToInsert!=null && auxiliaryEntityTriplesToInsert.size()>0) {
 
-					for(AuxiliaryEntitiesTriplesToInclude iT : auxiliaryEntitiesInsertTriplesList.get(docID)) {
-						ModifyResourceTriple triple= new ModifyResourceTriple();
-						triple.setOld_object(null);
-						triple.setPredicate(iT.getPredicate());
-						triple.setNew_object(getApiUrl()+"items/"+iT.getName()+"_"+docID+"_"+iT.getIdentifier()+"|"+iT.getValue());
-						triple.setGnoss_property(GnossResourceProperty.none);
+	            Iterator<UUID> iterator = auxiliaryEntityTriplesToInsert.keySet().iterator();
+	            
+	            while(iterator.hasNext()) {
+	                UUID docID = iterator.next();
+	                valuesList= new ArrayList<ModifyResourceTriple>();
 
-						valuesList.add(triple);
-					}
-					if(!resources.containsKey(docID)) {
-						resources.put(docID, valuesList);
-					}
-					auxiliaryEntityTriplesToInsert.remove(docID);
-				}
-			}
-		}
-		int i=0;
-		int constResources=resources.keySet().size();
+	                if(resources.containsKey(docID)) {
+	                    valuesList.addAll(resources.get(docID));
+	                }
+	                procesedNumber++;
+	                attempNumber++;
 
-		for(UUID docID : resources.keySet()) {
-			i++;
-			try {
-				boolean endOfLoad=false;
-				if(i==constResources) {
-					endOfLoad=true;
-				}
-				modifyTripleList(docID, valuesList, publishHome, null, null, endOfLoad);
-				valuesList= new ArrayList<ModifyResourceTriple>();
+	                for(AuxiliaryEntitiesTriplesToInclude iT : auxiliaryEntityTriplesToInsert.get(docID)) {
+	                    ModifyResourceTriple triple= new ModifyResourceTriple();
+	                    triple.setOld_object(null);
+	                    triple.setPredicate(iT.getPredicate());
+	                    triple.setNew_object(getApiUrl()+"items/"+iT.getName()+"_"+docID+"_"+iT.getIdentifier()+"|"+iT.getValue());
+	                    triple.setGnoss_property(GnossResourceProperty.none);
 
-				_logHelper.Debug("Object: "+docID);
+	                    valuesList.add(triple);
+	                }
+	                resources.put(docID, valuesList);
+	                iterator.remove();
+	            }
+	        }
+	    }
+	    
+	    int i=0;
+	    int constResources=resources.keySet().size();
 
-				if(!result.containsKey(docID)) {					
-					result.put(docID, true);
-				}
-			}catch(Exception ex) {
-				_logHelper.Error("Resource "+docID+": "+ex.getMessage());
-				valuesList= new ArrayList<ModifyResourceTriple>();
-				if(!result.containsKey(docID)) {					
-					result.put(docID, false);
-				}
-			}
-		}
+	    for(UUID docID : resources.keySet()) {
+	        i++;
+	        try {
+	            boolean endOfLoad=false;
+	            if(i==constResources) {
+	                endOfLoad=true;
+	            }
 
-		return result;		
+	            modifyTripleList(docID, resources.get(docID), publishHome, null, null, endOfLoad);
+
+	            _logHelper.Debug("Object: "+docID);
+
+	            result.put(docID, true);
+	        }catch(Exception ex) {
+	            _logHelper.Error("Resource "+docID+": "+ex.getMessage());
+	            
+	            result.put(docID, false);
+	        }
+	    }
+
+	    return result;		
 	}
 
 	private boolean insertAuxiliarEntityOnPropertiesLoadedResourceInt(HashMap<UUID, ArrayList<AuxiliaryEntitiesTriplesToInclude>> resourceTriples, String communityShortName, int numAttemps, boolean publishHome, UUID userId) {
@@ -4947,32 +4920,36 @@ public class ResourceApi extends GnossApiWrapper{
 	private void loadBasicOntologyResourceListInt(ArrayList<BasicOntologyResource> resourceList, boolean hierarquicalCategories, TiposDocumentacion resourceType, int numAttemps) {
 
 		int processedNumber=0;
-		ArrayList<BasicOntologyResource> originalResourceList = new ArrayList<BasicOntologyResource>();
-		ArrayList<BasicOntologyResource> resourcesToLoad= new ArrayList<BasicOntologyResource>();
-		originalResourceList=resourceList;
-		resourcesToLoad=resourceList;
-		int attempNumber=0;
+	    ArrayList<BasicOntologyResource> originalResourceList = new ArrayList<BasicOntologyResource>();
+	    ArrayList<BasicOntologyResource> resourcesToLoad= new ArrayList<BasicOntologyResource>(resourceList); // Copia la lista
+	    int attempNumber=0;
 
-		while(resourcesToLoad!=null && resourcesToLoad.size()>0 && attempNumber<= numAttemps) {
-			attempNumber++;
-			_logHelper.Trace("******************** Begin lap number: "+attempNumber+" "+this.getClass().getSimpleName());
+	    while(resourcesToLoad!=null && resourcesToLoad.size()>0 && attempNumber<= numAttemps) {
+	        attempNumber++;
+	        _logHelper.Trace("******************** Begin lap number: "+attempNumber+" "+this.getClass().getSimpleName());
 
-			for(BasicOntologyResource rec : resourceList) {
-				processedNumber++;
-				try {
-					loadBasicOntologyResourceInt(rec, hierarquicalCategories, resourceType, processedNumber==resourceList.size());
+	        Iterator<BasicOntologyResource> iterator = resourcesToLoad.iterator();
+	        processedNumber = 0;
+	        
+	        while(iterator.hasNext()) {
+	            BasicOntologyResource rec = iterator.next();
+	            processedNumber++;
+	            
+	            try {
+	                loadBasicOntologyResourceInt(rec, hierarquicalCategories, resourceType, processedNumber==resourceList.size());
 
-					if(rec.isUploaded()) {
-						_logHelper.Debug("Loaded: "+processedNumber+" of "+resourceList.size()+" \t ID: "+rec.getId()+" \t Title: "+rec.getTitle());
-					}
-					resourcesToLoad.remove(rec);
-				}
-				catch(Exception ex) {
-					_logHelper.Error("ERROR in : "+processedNumber+" of "+resourceList.size()+ "\t ID: "+rec.getId()+ "  Title: "+rec.getTitle()+". Message: "+ex.getMessage());
-				}
-				_logHelper.Debug("******************** Finished lap number: "+attempNumber+" "+this.getClass().getSimpleName());
-			}
-		}
+	                if(rec.isUploaded()) {
+	                    _logHelper.Debug("Loaded: "+processedNumber+" of "+resourceList.size()+" \t ID: "+rec.getId()+" \t Title: "+rec.getTitle());
+	                    iterator.remove();
+	                }
+	            }
+	            catch(Exception ex) {
+	                _logHelper.Error("ERROR in : "+processedNumber+" of "+resourceList.size()+ "\t ID: "+rec.getId()+ "  Title: "+rec.getTitle()+". Message: "+ex.getMessage());
+	            }
+	        }
+	        
+	        _logHelper.Debug("******************** Finished lap number: "+attempNumber+" "+this.getClass().getSimpleName());
+	    }
 	}
 
 	private void loadBasicOntologyResourceIntVideo(BasicOntologyResource resource, boolean hierarchicalCategories, TiposDocumentacion resourceType) throws MalformedURLException, IOException, GnossAPIException, GnossAPICategoryException {
@@ -4980,31 +4957,36 @@ public class ResourceApi extends GnossApiWrapper{
 	}
 	
 	private void loadBasicOntologyResourceListIntVideo(ArrayList<BasicOntologyResource> resourceList, boolean hierarquicalCategories, TiposDocumentacion resourceType, int numAttemps) {
-		int proccessedNumber=0;
-		ArrayList<BasicOntologyResource> originalResourceList= new ArrayList<BasicOntologyResource>();
-		originalResourceList=resourceList;
-		ArrayList<BasicOntologyResource> resourcesToLoad= new ArrayList<BasicOntologyResource>();
-		resourcesToLoad=resourceList;
-		int attempNumber=0;
+	    int proccessedNumber=0;
+	    ArrayList<BasicOntologyResource> originalResourceList= new ArrayList<BasicOntologyResource>();
+	    originalResourceList=resourceList;
+	    
+	    ArrayList<BasicOntologyResource> resourcesToLoad= new ArrayList<BasicOntologyResource>(resourceList);
+	    int attempNumber=0;
 
-		while(resourcesToLoad!=null && resourcesToLoad.size()>0 && attempNumber<=numAttemps) {
-			attempNumber++;
-			_logHelper.Trace("******************** Begin lap number: "+attempNumber+", "+this.getClass().getSimpleName());
+	    while(resourcesToLoad!=null && resourcesToLoad.size()>0 && attempNumber<=numAttemps) {
+	        attempNumber++;
+	        _logHelper.Trace("******************** Begin lap number: "+attempNumber+", "+this.getClass().getSimpleName());
 
-			for(BasicOntologyResource rec : resourceList) {
-				proccessedNumber++;
+	        Iterator<BasicOntologyResource> iterator = resourcesToLoad.iterator();
+	        proccessedNumber = 0;
+	        
+	        while(iterator.hasNext()) {
+	            BasicOntologyResource rec = iterator.next();
+	            proccessedNumber++;
 
-				try {
-					loadBasicOntologyResourceIntVideo(rec, hierarquicalCategories, resourceType, proccessedNumber==resourceList.size());
-					_logHelper.Debug("Loaded: "+proccessedNumber+" of "+resourceList.size()+"\t ID: "+rec.getId()+" \t Title: "+rec.getTitle());
-					resourcesToLoad.remove(rec);
-				}
-				catch(Exception ex) {
-					_logHelper.Error("ERROR in: "+proccessedNumber+" of "+resourceList.size()+"\t ID: "+rec.getId()+". Title: "+rec.getTitle()+". Mensaje: "+ex.getMessage()+", "+this.getClass().getSimpleName());
-				}
-			}
-			_logHelper.Debug("******************** Finished lap number: "+attempNumber+", "+this.getClass().getSimpleName());
-		}
+	            try {
+	                loadBasicOntologyResourceIntVideo(rec, hierarquicalCategories, resourceType, proccessedNumber==resourceList.size());
+	                _logHelper.Debug("Loaded: "+proccessedNumber+" of "+resourceList.size()+"\t ID: "+rec.getId()+" \t Title: "+rec.getTitle());
+	                
+	                iterator.remove();
+	            }
+	            catch(Exception ex) {
+	                _logHelper.Error("ERROR in: "+proccessedNumber+" of "+resourceList.size()+"\t ID: "+rec.getId()+". Title: "+rec.getTitle()+". Mensaje: "+ex.getMessage()+", "+this.getClass().getSimpleName());
+	            }
+	        }
+	        _logHelper.Debug("******************** Finished lap number: "+attempNumber+", "+this.getClass().getSimpleName());
+	    }
 	}
 	
 	public void modifyBasicOntologyResource(BasicOntologyResource resource, boolean hierarquicalCategories, boolean isLast) {
@@ -5034,35 +5016,40 @@ public class ResourceApi extends GnossApiWrapper{
 	 * @throws GnossAPICategoryException Gnoss API Category Exception 
 	 */
 	public void modifyBasicOntologyResourceList(ArrayList<BasicOntologyResource> resourceList, boolean hierarquicalCategories, int numAttemps) throws GnossAPICategoryException {
-		ArrayList<BasicOntologyResource> originalResourceList= new ArrayList<BasicOntologyResource>();
-		originalResourceList=resourceList;
-		ArrayList<BasicOntologyResource> resourcesToModify= new ArrayList<BasicOntologyResource>();
-		resourcesToModify=resourceList;
-		int processedNumber=0;
-		int attempNumber=0;
+	    ArrayList<BasicOntologyResource> originalResourceList= new ArrayList<BasicOntologyResource>();
+	    originalResourceList=resourceList;
+	    
+	    ArrayList<BasicOntologyResource> resourcesToModify= new ArrayList<BasicOntologyResource>(resourceList);
+	    int processedNumber=0;
+	    int attempNumber=0;
 
-		while(resourcesToModify!=null && resourcesToModify.size()>0 && attempNumber<numAttemps) {
-			attempNumber++;
-			if(numAttemps>1) {
-				_logHelper.Trace("******************** Begin lap number: "+attempNumber, this.getClass().getSimpleName());
-			}
+	    while(resourcesToModify!=null && resourcesToModify.size()>0 && attempNumber<numAttemps) {
+	        attempNumber++;
+	        if(numAttemps>1) {
+	            _logHelper.Trace("******************** Begin lap number: "+attempNumber, this.getClass().getSimpleName());
+	        }
+	        
+	        Iterator<BasicOntologyResource> iterator = resourcesToModify.iterator();
+	        processedNumber = 0;
+	        
+	        while(iterator.hasNext()) {
+	            BasicOntologyResource rec = iterator.next();
+	            processedNumber++;
 
-			for(BasicOntologyResource rec : resourceList){
-				processedNumber++;
-
-				try {
-					modifyBasicOntologyResource(rec, hierarquicalCategories, processedNumber==resourceList.size());
-					resourcesToModify.remove(rec);
-				}
-				catch(Exception ex) {
-					_logHelper.Error("ERROR at: "+processedNumber+" of "+resourceList.size()+"\t ID: "+rec.getId()+". Title. "+rec.getTitle()+". Message: "+ex.getMessage(), this.getClass().getSimpleName());
-				}
-			}
-			if(numAttemps>1) {
-				_logHelper.Trace("******************** Lap number: "+attempNumber+" finalizada ", this.getClass().getSimpleName());
-			}
-		}
-
+	            try {
+	                modifyBasicOntologyResource(rec, hierarquicalCategories, processedNumber==resourceList.size());
+	                
+	                iterator.remove();
+	            }
+	            catch(Exception ex) {
+	                _logHelper.Error("ERROR at: "+processedNumber+" of "+resourceList.size()+"\t ID: "+rec.getId()+". Title. "+rec.getTitle()+". Message: "+ex.getMessage(), this.getClass().getSimpleName());
+	            }
+	        }
+	        
+	        if(numAttemps>1) {
+	            _logHelper.Trace("******************** Lap number: "+attempNumber+" finalizada ", this.getClass().getSimpleName());
+	        }
+	    }
 	}
 
 	/**
@@ -5262,7 +5249,7 @@ public class ResourceApi extends GnossApiWrapper{
 		}
 		if(categoriesIdentifiers!=null) {
 			for(UUID identifier : categoriesIdentifiers) {
-				if(identifier.equals(UUID.fromString(""))) {
+				if(identifier.equals(UUID.fromString("00000000-0000-0000-0000-000000000000"))) {
 					newObject=identifier.toString()+",";
 				}else {
 					newObject+=identifier.toString()+",";
@@ -5290,8 +5277,7 @@ public class ResourceApi extends GnossApiWrapper{
 		String attachedPredicate="";
 		short attachedObjectType =-1;
 
-
-		if(!resourceId.equals(UUID.fromString(""))) {
+		if(!resourceId.equals(UUID.fromString("00000000-0000-0000-0000-000000000000"))) {
 			ArrayList<ModifyResourceTriple> triplesList = new ArrayList<ModifyResourceTriple>();
 			ArrayList<SemanticAttachedResource> resourceAttachedFiles= new ArrayList<SemanticAttachedResource>();
 
@@ -5301,7 +5287,7 @@ public class ResourceApi extends GnossApiWrapper{
 					attachedPredicate=tripleToDelete.getPredicate();
 					attachedObjectType=tripleToDelete.getObjectType();
 
-					if(!attachedValue.isEmpty() && !attachedPredicate.isEmpty() && attachedObjectType!=-1) {
+					if((attachedValue != null && !attachedValue.isEmpty()) && (attachedPredicate != null && !attachedPredicate.isEmpty()) && attachedObjectType!=-1) {
 						ModifyResourceTriple triple= new ModifyResourceTriple();
 						triple.setOld_object(attachedValue);
 						triple.setPredicate(attachedPredicate);
@@ -5313,11 +5299,10 @@ public class ResourceApi extends GnossApiWrapper{
 						SemanticAttachedResource attach= new SemanticAttachedResource();
 						attach.setFile_rdf_property(attachedValue);
 						attach.setFile_property_type(attachedObjectType);
-						attach.setRdf_attacherd_file(null);
+						attach.setRdf_attached_file(null);
 						attach.setDelete_file(true);
 
 						resourceAttachedFiles.add(attach);
-
 					}
 				}
 			}
@@ -5361,7 +5346,7 @@ public class ResourceApi extends GnossApiWrapper{
 				SemanticAttachedResource attach = new SemanticAttachedResource();
 				attach.setFile_rdf_property(name);
 				attach.setFile_property_type(filePropertiesTypeList.get(i));
-				attach.setRdf_attacherd_file(attachedFilesList.get(i));
+				attach.setRdf_attached_file(attachedFilesList.get(i));
 				attach.setDelete_file(attachedFilesList.get(i) == null);
 				i++;
 				resourceAttachedFiles.add(attach);
@@ -5405,7 +5390,7 @@ public class ResourceApi extends GnossApiWrapper{
 				SemanticAttachedResource attach= new SemanticAttachedResource();
 				attach.setFile_rdf_property(name);
 				attach.setFile_property_type(filePropertiesTypeList.get(i));
-				attach.setRdf_attacherd_file(attachedFilesList.get(i));
+				attach.setRdf_attached_file(attachedFilesList.get(i));
 				attach.setDelete_file(attachedFilesList.get(i) == null);
 				i++;
 				resourceAttachedFiles.add(attach);
@@ -5643,7 +5628,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 * @return The list with the main language in the first element
 	 */
 	public ArrayList<Multilanguage> shortMultimediaTitleDescriptionString(ArrayList<Multilanguage> listToOrder){
-		String mainLanguage=CommunityApiWrapper.getCommunityMainLanguage();
+		String mainLanguage=getCommunityApiWrapper().getCommunityMainLanguage();
 
 		if(mainLanguage == null || mainLanguage.isEmpty()) {
 			mainLanguage=Languages.Spanish;
@@ -5681,13 +5666,13 @@ public class ResourceApi extends GnossApiWrapper{
 	}
 
 	public void downloadFilesFromURL(String URL, String fileName) {
-		GnossWebClient webCLient= (GnossWebClient) WebClient.create();
+		//GnossWebClient webCLient= (GnossWebClient) WebClient.create();
 
 		try {
-			webCLient.head().header("Referer", "Referer:"+URL);
-			webCLient.head().header("User-Agent", "User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36 gnossspider");
-			String sign= getSignForUrl(URL);
-			webCLient.head().header("Authorization", "Authorization: OAuth \n"+ getStringForUrl(sign));
+			//webCLient.head().header("Referer", "Referer:"+URL);
+			//webCLient.head().header("User-Agent", "User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36 gnossspider");
+			//String sign= getSignForUrl(URL);
+			//webCLient.head().header("Authorization", "Authorization: OAuth \n"+ getStringForUrl(sign));
 			downloadFile(URL, fileName);
 		}catch(Exception ex) {
 
@@ -5838,7 +5823,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 */
 	public ArrayList<String> getCommunityMembersEmailList(){
 		ArrayList<String> emails= new ArrayList<String>();
-		HashMap<UUID, String> emailPerson =(HashMap<UUID, String>) CommunityApiWrapper.getCommunityPersonIDEmail();
+		HashMap<UUID, String> emailPerson =(HashMap<UUID, String>) getCommunityApiWrapper().getCommunityPersonIDEmail();
 
 		for(UUID personaId : emailPerson.keySet()) {
 			emails.add(emailPerson.get(personaId));
@@ -5981,7 +5966,7 @@ public class ResourceApi extends GnossApiWrapper{
 	public boolean modifyCategoriasRecursoInt(UUID pResourceID, List<UUID> pCategoriesIDs, String pCommunityShortName) {
 	    boolean modified = false;
 	    try {
-	        String url = getApiUrl() + "/resource/change-categories-resource";
+	        String url = getApiUrl() + "/resource/chage-categories-resource";
 	        
 	        ModifyResourceCategories parameters = new ModifyResourceCategories();
 	        parameters.setResource_id(pResourceID);

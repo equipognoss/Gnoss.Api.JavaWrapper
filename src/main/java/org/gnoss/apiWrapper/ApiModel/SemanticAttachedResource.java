@@ -12,7 +12,7 @@ package org.gnoss.apiWrapper.ApiModel;
 public class SemanticAttachedResource {
     private String file_rdf_property;
     private short file_property_type;
-    private byte[] rdf_attacherd_file;
+    private byte[] rdf_attached_file;
     private boolean delete_file;
 
     public String getFile_rdf_property() {
@@ -31,12 +31,12 @@ public class SemanticAttachedResource {
         this.file_property_type = file_property_type;
     }
 
-    public byte[] getRdf_attacherd_file() {
-        return rdf_attacherd_file;
+    public byte[] getRdf_attached_file() {
+        return rdf_attached_file;
     }
 
-    public void setRdf_attacherd_file(byte[] rdf_attacherd_file) {
-        this.rdf_attacherd_file = rdf_attacherd_file;
+    public void setRdf_attached_file(byte[] rdf_attached_file) {
+        this.rdf_attached_file = rdf_attached_file;
     }
 
     public boolean isDelete_file() {
