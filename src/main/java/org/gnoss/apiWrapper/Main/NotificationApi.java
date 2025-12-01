@@ -1,6 +1,7 @@
 package org.gnoss.apiWrapper.Main;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +23,9 @@ import java.util.UUID;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 import com.google.gson.Gson;
 
 /**
@@ -172,18 +176,29 @@ public class NotificationApi extends GnossApiWrapper {
      */
     public MailStateModel MailState(int mailID) throws Exception {
         try {
-            String url = getApiUrl() + "/notification/mail-state?mail_id=" + mailID;
-            String response = WebRequest("GET", url, "application/json");
-            
+        	String url = getApiUrl() + "/notification/mail-state?mail_id=" + mailID;            
+            String response = null;
+            try {
+                response = WebRequest("GET", url, "application/json");
+            } catch (Exception webEx) {
+                System.err.println("Error en WebRequest: " + webEx.getMessage());
+                throw webEx;
+            }
+
+            if (response == null || response.trim().isEmpty()) {
+                return new MailStateModel();
+            }
+
             Gson gson = new Gson();
-            Type mailStateType = new TypeToken<MailStateModel>(){}.getType();
-            MailStateModel mailStateModel = gson.fromJson(response, mailStateType);
-            
+            MailStateModel mailStateModel = gson.fromJson(response, MailStateModel.class);
+
             this._logHelper.Debug("Get mails sent with ID: " + mailID);
-            
+
             return mailStateModel;
-            
+
         } catch (Exception ex) {
+            System.err.println("ERROR MailState: " + ex.getMessage());
+            ex.printStackTrace();
             this._logHelper.Error("Error getting mails with ID: " + mailID + ": \r\n" + ex.getMessage());
             throw ex;
         }
@@ -199,16 +214,19 @@ public class NotificationApi extends GnossApiWrapper {
      */
     public void IngestNotificationHtml(UUID usuario, UUID comunidad, String contenidoNotificacion, Date fechaNotificacion) throws Exception {
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             String fechaFormateada = sdf.format(fechaNotificacion);
-            
-            String url = getApiUrl() + "/notification/ingest-notifications-html?usuario=" + usuario + "&comunidad=" + comunidad + "&contenidoNotificacion=" + contenidoNotificacion + "&fechaNotificacion=" + fechaFormateada;
-            
+
+            String url = getApiUrl() + "/notification/ingest-notifications-html?" +
+                         "usuario=" + usuario.toString() +
+                         "&comunidad=" + comunidad.toString() +
+                         "&contenidoNotificacion=" + URLEncoder.encode(contenidoNotificacion, StandardCharsets.UTF_8) +
+                         "&fechaNotificacion=" + URLEncoder.encode(fechaFormateada, StandardCharsets.UTF_8);
             WebRequest("POST", url);
-            
-            this._logHelper.Debug("HTML notification ingested for user: " + usuario);
-            
+            this._logHelper.Debug("Default notification ingested for user: " + usuario);
         } catch (Exception ex) {
+            System.err.println("ERROR: " + ex.getMessage());
+            ex.printStackTrace();
             this._logHelper.Error("Error ingesting HTML notification for user: " + usuario + ": \r\n" + ex.getMessage());
             throw ex;
         }
@@ -225,17 +243,24 @@ public class NotificationApi extends GnossApiWrapper {
      */
     public void IngestNotificationDefault(UUID usuario, UUID comunidad, String contenidoNotificacion, String urlNotificacion, Date fechaNotificacion) throws Exception {
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             String fechaFormateada = sdf.format(fechaNotificacion);
             
-            String url = getApiUrl() + "/notification/ingest-notifications-default?usuario=" + usuario + "&comunidad=" + comunidad + "&contenidoNotificacion=" + contenidoNotificacion + "&urlNotificacion=" + urlNotificacion + "&fechaNotificacion=" + fechaFormateada;
+            String url = getApiUrl() + "/notification/ingest-notifications-default?" +
+                         "usuario=" + usuario.toString() +
+                         "&comunidad=" + comunidad.toString() +
+                         "&contenidoNotificacion=" + URLEncoder.encode(contenidoNotificacion, StandardCharsets.UTF_8) +
+                         "&urlNotificacion=" + URLEncoder.encode(urlNotificacion, StandardCharsets.UTF_8) +
+                         "&fechaNotificacion=" + URLEncoder.encode(fechaFormateada, StandardCharsets.UTF_8);
             
             WebRequest("POST", url);
             
             this._logHelper.Debug("Default notification ingested for user: " + usuario);
             
         } catch (Exception ex) {
-            this._logHelper.Error("Error ingesting default notification for user: " + usuario + ": \r\n" + ex.getMessage());
+            System.err.println("ERROR: " + ex.getMessage());
+            ex.printStackTrace();
+            this._logHelper.Error("Error ingesting HTML notification for user: " + usuario + ": \r\n" + ex.getMessage());
             throw ex;
         }
     }

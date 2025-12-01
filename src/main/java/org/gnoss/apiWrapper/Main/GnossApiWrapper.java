@@ -324,19 +324,34 @@ public class GnossApiWrapper {
     		return respuesta;
     		
     	}
-    	catch(IOException ex){
-    		String message = null;
-    		try{
-    			message = ex.getMessage();
-    			LogHelper.getInstance().Error(message + ".\r\nResponse: " + message);
-    		}
-    		catch(Exception e){ }
-    		
-    		if(message == null || message.equals("")){
-    			throw new GnossAPIException(message);
-    		}
-    		
-    		return "ERROR at throw the exception:" + ex.getMessage();
+    	catch (IOException ex) {
+            String message = null;
+            try {
+                InputStream errorStream = webRequest.getErrorStream();
+                if (errorStream != null) {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(errorStream, StandardCharsets.UTF_8));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line);
+                    }
+                    message = sb.toString();
+                    reader.close();
+                } else {
+                    message = ex.getMessage();
+                }
+                
+                LogHelper.getInstance().Error(ex.getMessage() + ".\r\nResponse: " + message);
+            } catch (Exception e) {
+                message = ex.getMessage();
+            }
+
+            if (message != null && !message.isEmpty()) {
+                throw new GnossAPIException(message);
+            }
+
+            // NUNCA retornar un string de error, siempre lanzar la excepción
+            throw ex;
     	}
     }
     
