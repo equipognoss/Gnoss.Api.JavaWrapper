@@ -6212,4 +6212,64 @@ public class ResourceApi extends GnossApiWrapper{
 	public void modifySubtype(UUID resourceId, String ontologyName, String subtype, String previousType) {
 	    modifySubtype(resourceId, ontologyName, subtype, previousType, null);
 	}
+	
+	/**
+	 * Obtains the list of languages available to translate a resource
+	 * @return List of language codes (ISO 639-1)
+	 * @throws Exception 
+	 */
+	public List<String> getTranslationLanguages() throws Exception{
+		try {
+			 String url = getApiUrl() + "/resource/get-translation-languages";
+			 String response = WebRequest("GET", url);
+			 Gson jsonUtilities = new Gson();
+			 Type type = new TypeToken<List<String>>(){}.getType();
+			 List<String> languagesList = jsonUtilities.fromJson(response, type);
+			 if(languagesList != null && languagesList.size() > 0) {
+				 _logHelper.Debug("List of languages obtained");
+			 }else {
+				 _logHelper.Error("Error attempting to get the list of languages");
+			 }
+			 
+			 return languagesList;
+		} catch(Exception ex) {
+			_logHelper.Error("Error attempting to get the list of languages", ex.getMessage());
+			throw ex;
+		}
+	}
+	
+	/**
+	 * Initiates an asynchronous translation process of the resource to the selected languages from the original language
+	 * @param resourceId Resource identifier
+	 * @param originalLanguage Original language of the resource
+	 * @param targetLanguages List of language codes in ISO 639-1 format that the resource will be translated to
+	 * @return Identifier of the async translation progress
+	 * @throws Exception
+	 */
+	public UUID translateResource(UUID resourceId, String originalLanguage, List<String> targetLanguages) throws Exception {
+		try {
+			String url = getApiUrl() + "/resource/translate-resource";
+			TranslateResourceParams translateResourceParams = new TranslateResourceParams();
+			translateResourceParams.setResource_id(resourceId);
+			translateResourceParams.setOriginal_language(originalLanguage);
+			translateResourceParams.setTarget_languages(targetLanguages);
+			translateResourceParams.setCommunity_short_name(CommunityShortName);
+			
+			String response = WebRequestPostWithJsonObject(url, translateResourceParams).replaceAll("\"", "");
+			UUID translationID = null;
+			if(response != null){
+				StringUtilities strUtil = new StringUtilities();
+				response = strUtil.trimEnd(response, '"');
+				translationID = UUID.fromString(response);
+				_logHelper.Debug("The resource '"+resourceId+"' is being translated. Identifier '"+translationID+"' has been associated with the process to track the progress.");
+			}else {
+				_logHelper.Error("Error translating the resource '"+resourceId+"'.");
+			}
+			
+			return translationID;
+		} catch(Exception ex) {
+			_logHelper.Error("Error translating the resource '"+resourceId+"'.", ex.getMessage());
+			throw ex;
+		}
+	}
 }
