@@ -6215,7 +6215,7 @@ public class ResourceApi extends GnossApiWrapper{
 	
 	/**
 	 * Obtains the list of languages available to translate a resource
-	 * @return List of language codes (ISO 639-1)
+	 * @return List of language codes (BCP 47)
 	 * @throws Exception 
 	 */
 	public List<String> getTranslationLanguages() throws Exception{
@@ -6242,7 +6242,7 @@ public class ResourceApi extends GnossApiWrapper{
 	 * Initiates an asynchronous translation process of the resource to the selected languages from the original language
 	 * @param resourceId Resource identifier
 	 * @param originalLanguage Original language of the resource
-	 * @param targetLanguages List of language codes in ISO 639-1 format that the resource will be translated to
+	 * @param targetLanguages List of language codes in BCP 47 format that the resource will be translated to
 	 * @return Identifier of the async translation progress
 	 * @throws Exception
 	 */
