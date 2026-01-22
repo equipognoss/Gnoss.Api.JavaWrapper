@@ -2091,7 +2091,7 @@ public class ResourceApi extends GnossApiWrapper{
 		return urlOntology.substring(urlOntology.lastIndexOf(StringDelimiters.Slash) + StringDelimiters.Slash.length()).replace(".owl", "");
 	}
 
-	private LoadResourceParams getResourceModelOfComplexOntologyResource(String communityShortName, ComplexOntologyResource rec, boolean pCrearVersion, boolean pEsUltimo) throws IOException, GnossAPIException{
+	protected LoadResourceParams getResourceModelOfComplexOntologyResource(String communityShortName, ComplexOntologyResource rec, boolean pCrearVersion, boolean pEsUltimo) throws IOException, GnossAPIException{
 		LoadResourceParams model = new LoadResourceParams();
 		model.setResource_id(rec.getShortGnossId());
 		model.setCommunity_short_name(communityShortName);	
@@ -2161,7 +2161,7 @@ public class ResourceApi extends GnossApiWrapper{
 		return model;
 	}
 
-	private ArrayList<UUID> getHierarquicalCategoriesIdentifiersList(ArrayList<String> hierarquicalCategoriesList) throws MalformedURLException, IOException, GnossAPIException, GnossAPICategoryException {
+	protected ArrayList<UUID> getHierarquicalCategoriesIdentifiersList(ArrayList<String> hierarquicalCategoriesList) throws MalformedURLException, IOException, GnossAPIException, GnossAPICategoryException {
 		ArrayList<UUID> categories = null;
 
 		if (hierarquicalCategoriesList != null && hierarquicalCategoriesList.size() > 0) {
@@ -2183,7 +2183,7 @@ public class ResourceApi extends GnossApiWrapper{
 		return categories;
 	}
 
-	private ArrayList<UUID> getHierarquicalCategoriesIdentifiersList(ArrayList<String> hierarquicalCategoriesList, String communityShortName) throws GnossAPICategoryException, MalformedURLException, IOException, GnossAPIException {
+	protected ArrayList<UUID> getHierarquicalCategoriesIdentifiersList(ArrayList<String> hierarquicalCategoriesList, String communityShortName) throws GnossAPICategoryException, MalformedURLException, IOException, GnossAPIException {
 		ArrayList<UUID> resultList = null;
 
 		ArrayList<ThesaurusCategory> categories = null;
@@ -2214,7 +2214,7 @@ public class ResourceApi extends GnossApiWrapper{
 		return resultList;
 	}
 
-	private ArrayList<UUID> getNotHierarquicalCategoriesIdentifiersList(ArrayList<String> notHierarquicalCategoriesList) throws GnossAPICategoryException, MalformedURLException, IOException, GnossAPIException{
+	protected ArrayList<UUID> getNotHierarquicalCategoriesIdentifiersList(ArrayList<String> notHierarquicalCategoriesList) throws GnossAPICategoryException, MalformedURLException, IOException, GnossAPIException{
 		ArrayList<UUID> resultList = null;
 		if(notHierarquicalCategoriesList != null && notHierarquicalCategoriesList.size() > 0){
 			String[] categoryList = null;
@@ -2286,7 +2286,7 @@ public class ResourceApi extends GnossApiWrapper{
 		return resultList;
 	}
 
-	private ArrayList<UUID> getNotHierarquicalCategoriesIdentifiersList(ArrayList<String> notHierarquicalCategoriesList, String communityShortName) throws MalformedURLException, IOException, GnossAPIException, GnossAPICategoryException{
+	protected ArrayList<UUID> getNotHierarquicalCategoriesIdentifiersList(ArrayList<String> notHierarquicalCategoriesList, String communityShortName) throws MalformedURLException, IOException, GnossAPIException, GnossAPICategoryException{
 		ArrayList<ThesaurusCategory> categoryList = null;
 
 		if(communityShortName.equals(getCommunityShortName())){
@@ -4277,71 +4277,6 @@ public class ResourceApi extends GnossApiWrapper{
 			_logHelper.Error("Error trying to create a basic ontology resource. \r\n Error description: "+ex.getMessage()+ ".\r\n Json: "+gson.toJson(parameters));
 			throw ex;
 		}
-		return resourceId;
-	}
-
-
-	/**
-	 * Creates a complex Ontology resource 
-	 * @param parameters parameters
-	 * @param pCargaID cargaId
-	 * @param hierarquicalCategories hierarquical categories
-	 * @param communityShortName community short name 
-	 * @return Resource identifier UUID
-	 * @throws MalformedURLException Mal Formed Exception 
-	 * @throws IOException IO Exception
-	 * @throws GnossAPIException Gnoss API Exception 
-	 * @throws GnossAPICategoryException Gnoss API Category Exception 
-	 */
-	public String massiveComplexOntologyResourceCreation(List<ComplexOntologyResource> parameters, UUID pCargaID, boolean hierarquicalCategories, String communityShortName) throws MalformedURLException, IOException, GnossAPIException, GnossAPICategoryException {
-		List<LoadResourceParams> listaLoadResourceParams = new ArrayList<LoadResourceParams>();
-		Gson gson = new Gson();
-
-		for(ComplexOntologyResource resource : parameters) {
-			if(resource.getTextCategories()!=null) {
-				if(hierarquicalCategories) {
-					if(communityShortName.isEmpty() || StringUtils.isBlank(communityShortName)) {
-						resource.setCategoriesIds(getHierarquicalCategoriesIdentifiersList(resource.getTextCategories()));
-					}else {
-						resource.setCategoriesIds(getHierarquicalCategoriesIdentifiersList(resource.getTextCategories(), communityShortName));
-					}
-				}else {
-					if(communityShortName.isEmpty() || StringUtils.isBlank(communityShortName)) {
-						resource.setCategoriesIds(getNotHierarquicalCategoriesIdentifiersList(resource.getTextCategories()));
-					}else {
-						resource.setCategoriesIds(getNotHierarquicalCategoriesIdentifiersList(resource.getTextCategories(), communityShortName));
-					}
-				}
-			}
-			String documentId="";
-
-			if(communityShortName.isEmpty() || StringUtils.isBlank(communityShortName)) {
-				communityShortName=getCommunityShortName();
-			}
-			LoadResourceParams resourceParam=getResourceModelOfComplexOntologyResource(communityShortName, resource, false, false);
-			listaLoadResourceParams.add(resourceParam);
-			resource.setUploaded(true);
-		}
-
-		MassiveResourceLoad massiveLoad= new MassiveResourceLoad();
-		massiveLoad.setResources(listaLoadResourceParams);
-		massiveLoad.setLoad_id(pCargaID);
-		String resourceId="";
-
-		try {
-			String url=getApiUrl()+"/MassiveResource/massive-complex-ontology-resource-creation";
-			WebRequestPostWithJsonObject(url, massiveLoad);
-
-			if(!StringUtils.isBlank(resourceId) || !resourceId.isEmpty()) {
-				_logHelper.Debug("Complex ontology resource created: "+resourceId);
-			}else {
-				_logHelper.Debug("Massive Complex ontology resource not created: "+gson.toJson(massiveLoad));
-			}
-		}catch(Exception ex) {
-			_logHelper.Error("Error trying to create a Massive complex ontology resource. \r\n Error description: "+ex.getMessage()+". \r\n Json: "+gson.toJson(massiveLoad));
-			throw ex;
-		}
-
 		return resourceId;
 	}
 
