@@ -1242,28 +1242,28 @@ public class UserApi extends GnossApiWrapper {
 	}
 	
 	/**
-	 * Adds the community CMS admin rol to a user
+	 * Add the role to the user with userId identifier
 	 * @param userId User identifier
 	 * @throws Exception exception
 	 */
-	public void addCmsAdminRolToUser(UUID userId) throws Exception {
+	public void addRolToUser(UUID userId, UUID rolId) throws Exception {
 		try {
-			String url = getApiUrl() + "/user/add-permission?user_id=" + userId + "&community_short_name=" + getCommunityShortName() + "&admin_page_type=" + AdministrationPageType.Page.getValue();
+			String url = getApiUrl() + "/user/add-permission?user_id=" + userId + "&community_short_name=" + getCommunityShortName() + "&pRolID=" + rolId;
 			WebRequest("POST", url);
 		} catch (Exception ex) {
-			this._logHelper.Error("The community CMS admin rol could not be added to user '" + userId + "'");
+			this._logHelper.Error("The rol could not be added to user '" + userId + "'");
 			throw ex;
 		}
 	}
 	
 	/**
-	 * Adds the community CMS admin rol to a user
+	 * Add the role to the user with login shortNameOrEmail
 	 * @param shortNameOrEmail User short name or email
 	 * @throws Exception exception
 	 */
-	public void addCmsAdminRolToUser(String shortNameOrEmail) throws Exception {
+	public void addRolToUser(String shortNameOrEmail, UUID rolId) throws Exception {
 		try {
-			String url = getApiUrl() + "/user/add-permission?login=" + shortNameOrEmail + "&community_short_name=" + getCommunityShortName() + "&admin_page_type=" + AdministrationPageType.Page.getValue();
+			String url = getApiUrl() + "/user/add-permission?login=" + shortNameOrEmail + "&community_short_name=" + getCommunityShortName() + "&pRolID=" + rolId;
 			WebRequest("POST", url);
 		} catch (Exception ex) {
 			this._logHelper.Error("The community CMS admin rol could not be added to user '" + shortNameOrEmail + "'");
@@ -1272,13 +1272,13 @@ public class UserApi extends GnossApiWrapper {
 	}
 	
 	/**
-	 * Removes the community CMS Admin rol from a user
+	 * Delete the user's role with role identifier Id
 	 * @param userId User identifier
 	 * @throws Exception exception
 	 */
-	public void removeCmsAdminRolToUser(UUID userId) throws Exception {
+	public void removeRolToUser(UUID userId, UUID rolId) throws Exception {
 		try {
-			String url = getApiUrl() + "/user/remove-permission?user_id=" + userId + "&community_short_name=" + getCommunityShortName() + "&admin_page_type=" + AdministrationPageType.Page.getValue();
+			String url = getApiUrl() + "/user/remove-permission?user_id=" + userId + "&community_short_name=" + getCommunityShortName() + "&pRolID=" + rolId;
 			WebRequest("POST", url);
 		} catch (Exception ex) {
 			this._logHelper.Error("The community CMS admin rol could not be removed from user '" + userId + "'");
@@ -1287,13 +1287,13 @@ public class UserApi extends GnossApiWrapper {
 	}
 	
 	/**
-	 * Removes the community CMS Admin rol from a user
+	 * Delete the role of the user with login shortNameOrEmail
 	 * @param shortNameOrEmail User short name or email
 	 * @throws Exception exception
 	 */
-	public void removeCmsAdminRolToUser(String shortNameOrEmail) throws Exception {
+	public void removeRolToUser(String shortNameOrEmail, UUID rolId) throws Exception {
 		try {
-			String url = getApiUrl() + "/user/remove-permission?login=" + shortNameOrEmail + "&community_short_name=" + getCommunityShortName() + "&admin_page_type=" + AdministrationPageType.Page.getValue();
+			String url = getApiUrl() + "/user/remove-permission?login=" + shortNameOrEmail + "&community_short_name=" + getCommunityShortName() + "&pRolID=" + rolId;
 			WebRequest("POST", url);
 		} catch (Exception ex) {
 			this._logHelper.Error("The community CMS admin rol could not be removed from user '" + shortNameOrEmail + "'");
