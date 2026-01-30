@@ -79,7 +79,7 @@ public class OntologyEntity {
 
     
     
-    public boolean HasAnyPropertyWithData() {
+    public boolean hasAnyPropertyWithData() {
         
         boolean hasProperties = false;
         for (OntologyProperty prop : _properties) {
@@ -109,17 +109,17 @@ public class OntologyEntity {
         return hasProperties;
     }
 
-    public boolean HasRdfTypeDefined() {
+    public boolean hasRdfTypeDefined() {
         return !StringUtils.isEmpty(RdfType);
     }
 
-    public boolean HasRdfsLabelDefined() {
+    public boolean hasRdfsLabelDefined() {
         return !StringUtils.isEmpty(RdfType) && !StringUtils.isEmpty(RdfsLabel);
     }
 
-    public boolean HasRDFTypeAndRDFLabelDefined()
+    public boolean hasRDFTypeAndRDFLabelDefined()
     {
-        return HasRdfsLabelDefined();
+        return hasRdfsLabelDefined();
     }
     
     public String getRdfType() {

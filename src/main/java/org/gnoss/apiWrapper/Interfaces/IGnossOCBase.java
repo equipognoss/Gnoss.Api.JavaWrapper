@@ -20,7 +20,7 @@ public interface IGnossOCBase {
 	 * @param pResourceApi Api resource
 	 * @return List with the ontology triples
 	 */
-	ArrayList<String> ToOntologyGnossTriples(ResourceApi pResourceApi);
+	ArrayList<String> toOntologyGnossTriples(ResourceApi pResourceApi);
 	
 	/**
 	 * Generates the search graph triples
@@ -28,7 +28,7 @@ public interface IGnossOCBase {
 	 * @param pResourceApi Api resource
 	 * @return List with the search graph triples
 	 */
-	ArrayList<String> ToSearchGraphTriples(ResourceApi pResourceApi);
+	ArrayList<String> toSearchGraphTriples(ResourceApi pResourceApi);
 	
 	/**
 	 * Generates the sql server list dates
@@ -36,7 +36,7 @@ public interface IGnossOCBase {
 	 * @param resourceAPI Api Resource
 	 * @return The id of the document and the necessary dates for insert in sql server
 	 */
-	HashMap<UUID, String> ToAcidData(ResourceApi resourceAPI);
+	HashMap<UUID, String> toAcidData(ResourceApi resourceAPI);
 	
 	/**
 	 * Generates the object's URI
@@ -44,12 +44,12 @@ public interface IGnossOCBase {
 	 * @param resourceAPI Api resource
 	 * @return The object's URI
 	 */
-	String GetURI(ResourceApi resourceAPI);
+	String getURI(ResourceApi resourceAPI);
 	
 	/**
 	 * Gets the identifier of the resource
 	 * 
 	 * @return The resource identifier
 	 */
-	int GetID();
+	int getID();
 }

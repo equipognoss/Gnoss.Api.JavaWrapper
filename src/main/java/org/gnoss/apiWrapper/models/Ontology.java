@@ -114,16 +114,16 @@ public class Ontology extends BaseOntology {
     
     
     @Override
-    public byte[] GenerateRDF() throws IOException, GnossAPIException {
+    public byte[] generateRDF() throws IOException, GnossAPIException {
         // Initialize StringBuilder
         StringBuilder stringBuilder = new StringBuilder();
         super.setStringBuilder(stringBuilder);
         
         // Write RDF header
-        WriteRdfHeader();
+        writeRdfHeader();
         
         // Convert entity list to dictionary
-        HashMap<UUID, OntologyEntity> entitiesDictionary = EntityListToEntityDictionary();
+        HashMap<UUID, OntologyEntity> entitiesDictionary = entityListToEntityDictionary();
         byte[] rdfFile = null;
         
         // Validate required fields
@@ -136,19 +136,19 @@ public class Ontology extends BaseOntology {
             String line = String.format("<rdf:Description rdf:about=\"%s\">\n", super.getIdentifier());
             stringBuilder.append(line);
             
-            Write("rdf:type", getRdfType());
-            Write("rdfs:label", getRdfsLabel());
+            write("rdf:type", getRdfType());
+            write("rdfs:label", getRdfsLabel());
             
-            WritePropertyList(getProperties(), getResourceId());
+            writePropertyList(getProperties(), getResourceId());
             
             if (entitiesDictionary == null || entitiesDictionary.isEmpty()) {
                 stringBuilder.append("</rdf:Description>\n");
             }
             
-            WriteEntityFirstDescription(entitiesDictionary, getResourceId(), true);
+            writeEntityFirstDescription(entitiesDictionary, getResourceId(), true);
             
             // Additional Descriptions
-            WriteEntityAdditionalDescription(entitiesDictionary, getResourceId());
+            writeEntityAdditionalDescription(entitiesDictionary, getResourceId());
             
             stringBuilder.append("</rdf:RDF>\n");
             
@@ -166,12 +166,12 @@ public class Ontology extends BaseOntology {
      * @throws GnossAPIException if there's a validation error
      */
     public String getStringRdfFile() throws IOException, GnossAPIException {
-        byte[] rdfBytes = GenerateRDF();
+        byte[] rdfBytes = generateRDF();
         return new String(rdfBytes, StandardCharsets.UTF_8);
     }
 
     @Override
-    public void WritePropertyList(ArrayList<OntologyProperty> propertyList, UUID resourceId)throws IOException{
+    public void writePropertyList(ArrayList<OntologyProperty> propertyList, UUID resourceId)throws IOException{
         if(propertyList != null){
             for(OntologyProperty prop : propertyList){
                 if(!StringUtils.isEmpty(prop.getName()) && prop.getValue() != null){
@@ -180,16 +180,16 @@ public class Ontology extends BaseOntology {
                             String value = prop.getValue().toString().substring(prop.getValue().toString().lastIndexOf("/") + "/".length());
                             prop.setValue(value);
                         }
-                        prop.setValue(GnossHelper.GetImagePath(resourceId, prop.getValue().toString()));
+                        prop.setValue(GnossHelper.getImagePath(resourceId, prop.getValue().toString()));
                     }
                     if(prop instanceof ListStringOntologyProperty) {
                         ArrayList<String> listaValores = (ArrayList<String>)prop.getValue();
                         for(String valor : listaValores) {
-                            Write(prop.getName(), valor, prop.getLanguage());
+                            write(prop.getName(), valor, prop.getLanguage());
                         }
                     }
                     else {
-                        Write(prop.getName(), prop.getValue().toString(), prop.getLanguage());   
+                        write(prop.getName(), prop.getValue().toString(), prop.getLanguage());   
                     }
                 }
             }

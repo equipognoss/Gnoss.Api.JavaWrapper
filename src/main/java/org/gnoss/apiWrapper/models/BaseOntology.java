@@ -109,7 +109,7 @@ public abstract class BaseOntology {
     	
     }
     
-    protected HashMap<UUID, OntologyEntity> EntityListToEntityDictionary(ArrayList<OntologyEntity> entityList) {
+    protected HashMap<UUID, OntologyEntity> entityListToEntityDictionary(ArrayList<OntologyEntity> entityList) {
         HashMap<UUID, OntologyEntity> entityDictionary = null;
         if (entityList == null) {
             if (Entities != null) {
@@ -137,11 +137,11 @@ public abstract class BaseOntology {
         return entityDictionary;
     }
 
-    protected HashMap<UUID, OntologyEntity> EntityListToEntityDictionary() {
-        return EntityListToEntityDictionary(null);
+    protected HashMap<UUID, OntologyEntity> entityListToEntityDictionary() {
+        return entityListToEntityDictionary(null);
     }
 
-    protected void Write(String label, String value, String languageAttribute) throws IOException{
+    protected void write(String label, String value, String languageAttribute) throws IOException{
         if(!StringUtils.isEmpty(value)){
             if(value.endsWith(("\0"))){
                 value = value.replace("\0", "");
@@ -177,11 +177,11 @@ public abstract class BaseOntology {
         }
     }
     
-    protected void Write(String label, String value) throws IOException{
-        Write(label, value, null);
+    protected void write(String label, String value) throws IOException{
+        write(label, value, null);
     }
     
-    protected void WriteRdfHeader() throws IOException {
+    protected void writeRdfHeader() throws IOException {
         String txt = "";
 
         txt += "<rdf:RDF ";
@@ -193,18 +193,18 @@ public abstract class BaseOntology {
         StringBuilder.append(txt);
     }
 
-    protected void WriteEntityAdditionalDescription(HashMap<UUID, OntologyEntity> entityDictionary, UUID resourceId) throws IOException, GnossAPIException{
+    protected void writeEntityAdditionalDescription(HashMap<UUID, OntologyEntity> entityDictionary, UUID resourceId) throws IOException, GnossAPIException{
         if(entityDictionary != null){
             for(UUID id : entityDictionary.keySet()){
-                if((entityDictionary.get(id).HasAnyPropertyWithData()) || (entityDictionary.get(id).getEntities() != null && entityDictionary.get(id).getEntities().size() > 0) && entityDictionary.get(id).HasRDFTypeAndRDFLabelDefined()){
+                if((entityDictionary.get(id).hasAnyPropertyWithData()) || (entityDictionary.get(id).getEntities() != null && entityDictionary.get(id).getEntities().size() > 0) && entityDictionary.get(id).hasRDFTypeAndRDFLabelDefined()){
                     String line = "<rdf:Description rdf:about=\"" + GraphsUrl + "items/" + entityDictionary.get(id).getItems() + "_" + resourceId + "_" + id + "\">";
                     StringBuilder.append(line);
                     if(StringUtils.isEmpty(entityDictionary.get(id).getRdfsLabel()) || StringUtils.isEmpty(entityDictionary.get(id).getRdfType())){
                         throw new GnossAPIException("rdfType and rdfLabel are required, they can't be null or empty");
                     }
                     else{
-                        Write("rdf:type", entityDictionary.get(id).getRdfType());
-                        Write("rdfs:label", entityDictionary.get(id).getRdfsLabel());
+                        write("rdf:type", entityDictionary.get(id).getRdfType());
+                        write("rdfs:label", entityDictionary.get(id).getRdfsLabel());
                         
                         if(entityDictionary.get(id).getProperties() != null){
                             for(OntologyProperty prop : entityDictionary.get(id).getProperties()){
@@ -213,18 +213,18 @@ public abstract class BaseOntology {
                                         String value = prop.getValue().toString().substring(prop.getValue().toString().lastIndexOf("/") + "/".length());
                                         prop.setValue(value);
                                     }
-                                    prop.setValue(GnossHelper.GetImagePath(resourceId, prop.getValue().toString()));
+                                    prop.setValue(GnossHelper.getImagePath(resourceId, prop.getValue().toString()));
                                 }
                                 if(prop.getValue()!= null) {
                                 	// Write(prop.getName(), prop.getValue().toString(), prop.getLanguage());
                                 	if(prop instanceof ListStringOntologyProperty) {
                                         ArrayList<String> listaValores = (ArrayList<String>)prop.getValue();
                                         for(String valor : listaValores) {
-                                            Write(prop.getName(), valor, prop.getLanguage());
+                                            write(prop.getName(), valor, prop.getLanguage());
                                         }
                                     }
                                     else {
-                                        Write(prop.getName(), prop.getValue().toString(), prop.getLanguage());   
+                                        write(prop.getName(), prop.getValue().toString(), prop.getLanguage());   
                                     }
                                 }                               
                             }
@@ -233,9 +233,9 @@ public abstract class BaseOntology {
                             }
                         }
                         if(entityDictionary.get(id).getEntities() != null && entityDictionary.get(id).getEntities().size() > 0){
-                            HashMap<UUID, OntologyEntity> dicSubEnt = EntityListToEntityDictionary(entityDictionary.get(id).getEntities());
-                            WriteEntityFirstDescription(dicSubEnt, resourceId, true);
-                            WriteEntityAdditionalDescription(dicSubEnt, resourceId);
+                            HashMap<UUID, OntologyEntity> dicSubEnt = entityListToEntityDictionary(entityDictionary.get(id).getEntities());
+                            writeEntityFirstDescription(dicSubEnt, resourceId, true);
+                            writeEntityAdditionalDescription(dicSubEnt, resourceId);
                         }
                     }
                 }
@@ -243,12 +243,12 @@ public abstract class BaseOntology {
         }
     }
     
-    protected void WriteEntityFirstDescription(HashMap<UUID, OntologyEntity> entityDictionary, UUID resourceId, boolean includeCloseDescription) throws IOException{
+    protected void writeEntityFirstDescription(HashMap<UUID, OntologyEntity> entityDictionary, UUID resourceId, boolean includeCloseDescription) throws IOException{
         if(entityDictionary != null){
             for(UUID id : entityDictionary.keySet()){
-                if((entityDictionary.get(id).HasAnyPropertyWithData() || (entityDictionary.get(id).getEntities() != null && entityDictionary.get(id).getEntities().size() > 0)) && entityDictionary.get(id).HasRDFTypeAndRDFLabelDefined()){
+                if((entityDictionary.get(id).hasAnyPropertyWithData() || (entityDictionary.get(id).getEntities() != null && entityDictionary.get(id).getEntities().size() > 0)) && entityDictionary.get(id).hasRDFTypeAndRDFLabelDefined()){
                     String line = GraphsUrl + "items/" + entityDictionary.get(id).getItems() + "_" + resourceId + "_" + id;
-                    Write(entityDictionary.get(id).getLabel(), line);
+                    write(entityDictionary.get(id).getLabel(), line);
                 }
             }
             if (includeCloseDescription)
@@ -259,15 +259,15 @@ public abstract class BaseOntology {
        
     }
     
-    protected void WriteEntityFirstDescription(HashMap<UUID, OntologyEntity> entityDictionary, UUID resourceId) throws IOException{
-        WriteEntityFirstDescription(entityDictionary, resourceId, false);
+    protected void writeEntityFirstDescription(HashMap<UUID, OntologyEntity> entityDictionary, UUID resourceId) throws IOException{
+        writeEntityFirstDescription(entityDictionary, resourceId, false);
     }
     
-    protected byte[] GenerateRDF() throws GnossAPIArgumentException, IOException, GnossAPIException{
+    protected byte[] generateRDF() throws GnossAPIArgumentException, IOException, GnossAPIException{
         return null;
     }
 
-    protected void WritePropertyList(ArrayList<OntologyProperty> propertyList, UUID resourceId)throws IOException{ }
+    protected void writePropertyList(ArrayList<OntologyProperty> propertyList, UUID resourceId)throws IOException{ }
     
     public String getOntologyUrl() {
         return OntologyUrl;

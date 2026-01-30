@@ -64,128 +64,128 @@ public class LogApplicationInsightsHelper implements ILogHelper {
 	}
 
 	@Override
-	public void Trace(String message, String className, String memberName) {
+	public void trace(String message, String className, String memberName) {
 		// TODO Auto-generated method stub
 		if (LogHelper.getLogLevel().ordinal()<=LogLevels.TRACE.ordinal()) {
-			Write(LogLevels.TRACE, className, memberName, message,3);
+			write(LogLevels.TRACE, className, memberName, message,3);
 		}
 		
 	}
 
 
 	@Override
-	public void Trace(String message, String className) {
+	public void trace(String message, String className) {
 		// TODO Auto-generated method stub
-		Trace(message,className, "");
+		trace(message,className, "");
 	}
 
 	@Override
-	public void Trace(String message) {
+	public void trace(String message) {
 		// TODO Auto-generated method stub
-		Trace(message, "", "");
+		trace(message, "", "");
 	}
 
 	@Override
-	public void Debug(String message, String className, String memberName) {
+	public void debug(String message, String className, String memberName) {
 		// TODO Auto-generated method stub
 		if(LogHelper.getLogLevel().ordinal()<=LogLevels.DEBUG.ordinal()) {
-			Write(LogLevels.DEBUG, className, memberName, message,3);
+			write(LogLevels.DEBUG, className, memberName, message,3);
 		}
 	}
 
 	@Override
-	public void Debug(String message, String className) {
+	public void debug(String message, String className) {
 		// TODO Auto-generated method stub
-		Debug(message,className, "");
+		debug(message,className, "");
 	}
 
 	@Override
-	public void Debug(String message) {
+	public void debug(String message) {
 		// TODO Auto-generated method stub
-		Debug(message, "", "");
+		debug(message, "", "");
 	}
 
 	@Override
-	public void Info(String message, String className, String memberName) {
+	public void info(String message, String className, String memberName) {
 		// TODO Auto-generated method stub
 		if(LogHelper.getLogLevel().ordinal()<=LogLevels.INFO.ordinal()) {
-			Write(LogLevels.INFO, className, memberName, message,3);
+			write(LogLevels.INFO, className, memberName, message,3);
 		}
 	}
 
 	@Override
-	public void Info(String message, String className) {
+	public void info(String message, String className) {
 		// TODO Auto-generated method stub
-		Info(message, className, "");
+		info(message, className, "");
 	}
 
 	@Override
-	public void Info(String message) {
+	public void info(String message) {
 		// TODO Auto-generated method stub
-		Info(message, "", "");
+		info(message, "", "");
 	}
 
 	@Override
-	public void Warn(String message, String className, String memberName) {
+	public void warn(String message, String className, String memberName) {
 		// TODO Auto-generated method stub
 		if(LogHelper.getLogLevel().ordinal()<=LogLevels.ERROR.ordinal()) {
-			Write(LogLevels.ERROR, className, memberName, message, 3);
+			write(LogLevels.ERROR, className, memberName, message, 3);
 		}
 	}
 
 	@Override
-	public void Warn(String message, String className) {
+	public void warn(String message, String className) {
 		// TODO Auto-generated method stub
-		Warn(message, className, "");
+		warn(message, className, "");
 	}
 
 	@Override
-	public void Warn(String message) {
+	public void warn(String message) {
 		// TODO Auto-generated method stub
-		Warn(message, "", "");
+		warn(message, "", "");
 	}
 
 	@Override
-	public void Error(String message, String className, String memberName) {
+	public void error(String message, String className, String memberName) {
 		// TODO Auto-generated method stub
 		if(LogHelper.getLogLevel().ordinal()<=LogLevels.ERROR.ordinal()) {
-			Write(LogLevels.ERROR, className, memberName, message,3);
+			write(LogLevels.ERROR, className, memberName, message,3);
 		}
 	}
 
 	@Override
-	public void Error(String message, String className) {
+	public void error(String message, String className) {
 		// TODO Auto-generated method stub
-		Error(message, className, "");
+		error(message, className, "");
 	}
 
 	@Override
-	public void Error(String message) {
+	public void error(String message) {
 		// TODO Auto-generated method stub
-		Error(message, "", "");
+		error(message, "", "");
 	}
 
 	@Override
-	public void Fatal(String message, String className, String memberName) {
+	public void fatal(String message, String className, String memberName) {
 		// TODO Auto-generated method stub
 		if(LogHelper.getLogLevel().ordinal()<=LogLevels.FATAL.ordinal()) {
-			Write(LogLevels.FATAL, className, memberName, message,3);
+			write(LogLevels.FATAL, className, memberName, message,3);
 		}
 	}
 
 	@Override
-	public void Fatal(String message, String className) {
+	public void fatal(String message, String className) {
 		// TODO Auto-generated method stub
-		Fatal(message, className, "");
+		fatal(message, className, "");
 	}
 
 	@Override
-	public void Fatal(String message) {
-		Fatal(message, "", "");
+	public void fatal(String message) {
+		fatal(message, "", "");
 	}
 	
 	
-	private void Write(LogLevels logLevels, String className, String memberName, String message, int numberWriteErrors) {
+	private void write(LogLevels logLevels, String className, String memberName, String message, int numberWriteErrors) {
 		LocalDateTime localDateTime = LocalDateTime.now();
         DateTimeFormatter firstDateFormat = DateTimeFormatter.ofPattern("yyyy_MM_dd");
         DateTimeFormatter secondDateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -213,7 +213,7 @@ public class LogApplicationInsightsHelper implements ILogHelper {
 				ex.printStackTrace();
 				if(numberWriteErrors>0) {
 					numberWriteErrors--;
-					Write(logLevels, className, memberName, message, numberWriteErrors);
+					write(logLevels, className, memberName, message, numberWriteErrors);
 				}
 			}			
 			finally {
@@ -228,11 +228,11 @@ public class LogApplicationInsightsHelper implements ILogHelper {
 			if (UtilTelemetry.isEstaConfiguradaTelemetria() && !LogHelper.getLogLocation().equals(LogsAndTracesLocation.File)) {
 				try {
 					if (logLevels.ordinal()<LogLevels.ERROR.ordinal()) {
-						UtilTelemetry.EnviarTelemetriaTraza(completeMessage, null, null, false);
+						UtilTelemetry.enviarTelemetriaTraza(completeMessage, null, null, false);
 						
 					}else {
 						Exception ex = new Exception(completeMessage);
-						UtilTelemetry.EnviarTelemetriaExcepcion(ex, completeMessage, false);
+						UtilTelemetry.enviarTelemetriaExcepcion(ex, completeMessage, false);
 					}
 				}catch(Exception e) {
 					e.printStackTrace();

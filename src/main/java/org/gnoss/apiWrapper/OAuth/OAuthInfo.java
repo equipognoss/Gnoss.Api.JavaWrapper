@@ -41,9 +41,9 @@ public class OAuthInfo {
         DeveloperEmail = developerEmail;
     }
     
-    public String getSignedUrl(String url) throws SignatureException, URISyntaxException, MalformedURLException{
+    public static String getSignedUrl(String url) throws SignatureException, URISyntaxException, MalformedURLException{
         OAuthBase oauthBase = new OAuthBase(ConsumerKey, ConsumerSecret);
-        HashMap<String, String> parameters = oauthBase.GetOAuthParametersWithoutEncode("GET", url, Token, TokenSecret, null, null);
+        HashMap<String, String> parameters = oauthBase.getOAuthParametersWithoutEncode("GET", url, Token, TokenSecret, null, null);
         
         String urlOauth = url + "?";
         
@@ -93,25 +93,10 @@ public class OAuthInfo {
     
     public String getSignedUrl() throws MalformedURLException{
         try{
-            return GetSignedUrl(ApiUrl);
+            return getSignedUrl(ApiUrl);
         }
         catch(URISyntaxException | SignatureException ex){
             throw new Error("Error while try to get 'ApiUrl'");
         }        
-    }
-    
-    public static  String GetSignedUrl(String url) throws SignatureException, URISyntaxException, MalformedURLException{
-    	OAuthBase oauthBase = new OAuthBase(ConsumerKey, ConsumerSecret);
-    	LinkedHashMap<String, String> parameters = oauthBase.GetOAuthParametersWithoutEncode("GET", url, Token, TokenSecret, null, null);
-    	
-    	String urlOauth = url + "?";
-    	
-    	for(String key : parameters.keySet()){
-    		urlOauth += key + "=" + parameters.get(key) + "&";
-    	}
-    	
-    	urlOauth = urlOauth.substring(0, urlOauth.length() - 1);
-    	
-    	return urlOauth;
     }
 }

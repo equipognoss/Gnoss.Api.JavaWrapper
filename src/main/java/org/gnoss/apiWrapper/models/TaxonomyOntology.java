@@ -45,14 +45,14 @@ public class TaxonomyOntology extends BaseOntology{
      * 
      */
     @Override
-    public byte[] GenerateRDF() throws IOException, GnossAPIException {
+    public byte[] generateRDF() throws IOException, GnossAPIException {
         // Initialize StringBuilder for building RDF content
         setStringBuilder(new StringBuilder());
         StringBuilder stringBuilder = getStringBuilder();
         byte[] rdfFile = null;
         
         // Write RDF header
-        WriteRdfHeader();
+        writeRdfHeader();
         
         // Validate required fields
         if (StringUtils.isEmpty(getRdfType()) || StringUtils.isBlank(getRdfType())) {
@@ -64,23 +64,23 @@ public class TaxonomyOntology extends BaseOntology{
             stringBuilder.append(String.format("<rdf:Description rdf:about=\"%s\">\n", getIdentifier()));
             
             if (!StringUtils.isEmpty(getRdfType()) && !StringUtils.isEmpty(getRdfsLabel())) {
-                Write("rdf:type", getRdfType());
-                Write("rdfs:label", getRdfsLabel());
+                write("rdf:type", getRdfType());
+                write("rdfs:label", getRdfsLabel());
             } else {
                 throw new GnossAPIException("RdfType and RdfLabel are required, they can't be null or empty");
             }
             
             // Write properties
-            WritePropertyList(getProperties(), UUID.fromString("00000000-0000-0000-0000-000000000000"));
+            writePropertyList(getProperties(), UUID.fromString("00000000-0000-0000-0000-000000000000"));
             
             // Write concept entities first description
-            WriteConceptEntitiesFirstDescription(getConceptEntities());
+            writeConceptEntitiesFirstDescription(getConceptEntities());
             
             // Close first description
             stringBuilder.append("</rdf:Description>\n");
             
             // Additional Descriptions
-            WriteConceptEntitiesAdditionalDescription(getConceptEntities());
+            writeConceptEntitiesAdditionalDescription(getConceptEntities());
             
             // Close RDF
             stringBuilder.append("</rdf:RDF>\n");
@@ -99,89 +99,89 @@ public class TaxonomyOntology extends BaseOntology{
      * @throws GnossAPIException if there's a validation error
      */
     public String getStringRdfFile() throws IOException, GnossAPIException {
-        byte[] rdfBytes = GenerateRDF();
+        byte[] rdfBytes = generateRDF();
         return new String(rdfBytes, StandardCharsets.UTF_8);
     }	
     
-    private void WriteConceptEntitiesAdditionalDescription(List<ConceptEntity> conceptEntityList) throws GnossAPIArgumentException, IOException {
+    private void writeConceptEntitiesAdditionalDescription(List<ConceptEntity> conceptEntityList) throws GnossAPIArgumentException, IOException {
     	if (conceptEntityList!=null) {
     		for(ConceptEntity ec : conceptEntityList ) {
-    			WriteConceptEntityAdditionalDescription(ec);
+    			writeConceptEntityAdditionalDescription(ec);
     		}
     	}
     }
     
-	private void WriteConceptEntityAdditionalDescription(ConceptEntity conceptEntity) throws GnossAPIArgumentException, IOException {
+	private void writeConceptEntityAdditionalDescription(ConceptEntity conceptEntity) throws GnossAPIArgumentException, IOException {
 		// TODO Auto-generated method stub
-		if(!conceptEntity.HasRdfTypeDefined()) {
+		if(!conceptEntity.hasRdfTypeDefined()) {
 			throw new GnossAPIArgumentException("Required. It can't be null or empty, RdfType");
 		}
-		else if(!conceptEntity.HasRdfsLabelDefined()) {
+		else if(!conceptEntity.hasRdfsLabelDefined()) {
 			throw new GnossAPIArgumentException("Required. It can't be null or empty, RdfLabel");
 		}
 		else {
-			if(conceptEntity.HasAnyPropertyWithData()) {
+			if(conceptEntity.hasAnyPropertyWithData()) {
 				String line="<rdf:Description rdf:about=\""  +conceptEntity.getConceptEntityGnossId() + "\">";
 				file.append(line);
-				Write("rdf:type", conceptEntity.getRdfType());
-				Write("rdfs:label", conceptEntity.getRdfsLabel());
+				write("rdf:type", conceptEntity.getRdfType());
+				write("rdfs:label", conceptEntity.getRdfsLabel());
 			}
 			if(conceptEntity.getProperties()!=null) {
 				for(OntologyProperty prop: conceptEntity.getProperties()) {
-					if(conceptEntity.HasAnyPropertyWithData()) {
-						Write(prop.getName(), prop.getValue().toString(), prop.getLanguage());
+					if(conceptEntity.hasAnyPropertyWithData()) {
+						write(prop.getName(), prop.getValue().toString(), prop.getLanguage());
 					}
 				}
 			}
 			if(conceptEntity.getSubEntities()!=null && conceptEntity.getSubEntities().size()>0) {
-				WriteConceptEntitiesFirstDescription(conceptEntity.getSubEntities());
+				writeConceptEntitiesFirstDescription(conceptEntity.getSubEntities());
 			}
 			file.append("</rdf:Description>");
 			if(conceptEntity.getSubEntities()!=null && conceptEntity.getSubEntities().size()>0) {
 				for(ConceptEntity newEc: conceptEntity.getSubEntities()) {
-					WriteConceptEntityAdditionalDescription(newEc);
+					writeConceptEntityAdditionalDescription(newEc);
 				}
 			}
 		}
 		
 	}
 	
-	private void WriteConceptEntitiesFirstDescription(List<ConceptEntity> conceptEntityList) throws GnossAPIArgumentException, IOException {
+	private void writeConceptEntitiesFirstDescription(List<ConceptEntity> conceptEntityList) throws GnossAPIArgumentException, IOException {
 		// TODO Auto-generated method stub
 		if(conceptEntityList!=null) {
 			for(ConceptEntity ec : conceptEntityList) {
-				WriteConceptEntityFirstDescription(ec);
+				writeConceptEntityFirstDescription(ec);
 			}
 		}
 		
 	}
-	private void WriteConceptEntityFirstDescription(ConceptEntity conceptEntity) throws GnossAPIArgumentException, IOException {
+	private void writeConceptEntityFirstDescription(ConceptEntity conceptEntity) throws GnossAPIArgumentException, IOException {
 		// TODO Auto-generated method stub
-		if(!conceptEntity.HasRdfTypeDefined()) {
+		if(!conceptEntity.hasRdfTypeDefined()) {
 			throw new GnossAPIArgumentException("Required. It can't be null or empty, RdfType");
 		}
-		else if(!conceptEntity.HasAnyPropertyWithData()) {
+		else if(!conceptEntity.hasAnyPropertyWithData()) {
 			throw new GnossAPIArgumentException("Required. It can't be null or empty, RdfsLabel");
 		}
 		else {
-			if(conceptEntity.HasAnyPropertyWithData()) {
+			if(conceptEntity.hasAnyPropertyWithData()) {
 				if(conceptEntity.getParentIdentifier()==null) {
-					Write(SKOS_MEMBER_LABEL, conceptEntity.getConceptEntityGnossId());
+					write(SKOS_MEMBER_LABEL, conceptEntity.getConceptEntityGnossId());
 				}
 				else {
-					Write(SKOS_NARROWER_LABEL, conceptEntity.getConceptEntityGnossId());
+					write(SKOS_NARROWER_LABEL, conceptEntity.getConceptEntityGnossId());
 				}
 			}
 		}
 		
 	}
 	
-	private void WritePropertyList(List<OntologyProperty> propertyList, UUID resourceId) throws IOException {
+	private void writePropertyList(List<OntologyProperty> propertyList, UUID resourceId) throws IOException {
 		if (resourceId== null) {
 			if(propertyList!=null ) {
 				for(OntologyProperty prop: propertyList) {
 					if(prop.getName()!= null || !prop.getName().isEmpty() && prop.getValue()!=null && !prop.getName().equals(DataTypes.OntologyPropertyImage.toString())) {
-						Write(prop.getName(), prop.getValue().toString(), prop.getLanguage());
+						write(prop.getName(), prop.getValue().toString(), prop.getLanguage());
 					}
 				}
 			}
@@ -189,7 +189,7 @@ public class TaxonomyOntology extends BaseOntology{
 	}
 	
 	public byte[] get_rdfFile() throws IOException, GnossAPIException {
-		this._rdfFile=GenerateRDF();
+		this._rdfFile=generateRDF();
 		return _rdfFile;
 	}
 	

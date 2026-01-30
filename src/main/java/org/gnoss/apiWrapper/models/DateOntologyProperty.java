@@ -8,11 +8,11 @@ public class DateOntologyProperty extends OntologyProperty {
 	public DateOntologyProperty(String label, Calendar date) {
 		if (date != null) {
 			setName(label);
-			setValue(ConvertirCalendarFormatoGnoss(date));
+			setValue(convertirCalendarFormatoGnoss(date));
 		}
 	}
 
-	private String ConvertirCalendarFormatoGnoss(Calendar pFecha) {		
+	private String convertirCalendarFormatoGnoss(Calendar pFecha) {		
 		return new SimpleDateFormat("yyyyMMddHHmmss").format(pFecha.getTime());
 
 	}

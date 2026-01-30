@@ -32,7 +32,7 @@ public class StringHelper {
 	 * @return The inputString without reserved characters
 	 */
 	
-	public static String RemoveReserveCharactersFouUrl(String inputString) {
+	public static String removeReserveCharactersFouUrl(String inputString) {
 		
 		int languageSeparatorIndex= inputString.indexOf("|||");
 		
@@ -72,7 +72,7 @@ public class StringHelper {
 	 * @param pInputString String to remove accents 
 	 * @return  InputString without accents 
 	 */
-	public static String RemoveAccentsWithRegEx(String pInputString) {
+	public static String removeAccentsWithRegEx(String pInputString) {
 		pInputString= mReplace_a_Accents.toString().replaceAll(pInputString, "a");
 		pInputString= mReplace_e_Accents.toString().replaceAll(pInputString, "e");
 		pInputString= mReplace_i_Accents.toString().replaceAll(pInputString, "i");

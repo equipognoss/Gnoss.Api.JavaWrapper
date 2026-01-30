@@ -49,7 +49,7 @@ public class ImageHelper {
 	 * @param pResizeAlways Indicate if the image will be resized always
 	 * @throws GnossAPIException Error at resize the image
 	 */
-	public static void ResizeImageToWidth(BufferedImage image, int widthInPixels, boolean pResizeAlways) throws GnossAPIException {
+	public static void resizeImageToWidth(BufferedImage image, int widthInPixels, boolean pResizeAlways) throws GnossAPIException {
 		try {
 			float aspectRatio = (float) image.getWidth() / (float) image.getHeight();
 			
@@ -68,8 +68,8 @@ public class ImageHelper {
 	 * @param widthInPixels Width to resize
 	 * @throws GnossAPIException Error at resize the image
 	 */
-	public static void ResizeImageToWidth(BufferedImage image, int widthInPixels) throws GnossAPIException {
-		ResizeImageToWidth(image, widthInPixels, false);
+	public static void resizeImageToWidth(BufferedImage image, int widthInPixels) throws GnossAPIException {
+		resizeImageToWidth(image, widthInPixels, false);
 	}
 	
 	/**
@@ -79,7 +79,7 @@ public class ImageHelper {
 	 * @param heightInPixels Height to resize
 	 * @throws GnossAPIException Error at resize the image
 	 */
-	public static void ResizeImageToHeightAndWidth(BufferedImage image, int widthInPixels, int heightInPixels) throws GnossAPIException {
+	public static void resizeImageToHeightAndWidth(BufferedImage image, int widthInPixels, int heightInPixels) throws GnossAPIException {
 		float aspectRatio = (float) image.getWidth() / (float) image.getHeight();
 		
 		if (widthInPixels <= image.getWidth()) {
@@ -113,7 +113,7 @@ public class ImageHelper {
 	 * @param heightInPixels Height to resize
 	 * @param pResizeAlways Indicate if the image will be resized always
 	 */
-	public static void ResizeImageToHeight(BufferedImage image, int heightInPixels, boolean pResizeAlways) {
+	public static void resizeImageToHeight(BufferedImage image, int heightInPixels, boolean pResizeAlways) {
 		float aspectRatio = (float) image.getWidth() / (float) image.getHeight();
 		
 		if (pResizeAlways || heightInPixels <= image.getHeight()) {
@@ -127,8 +127,8 @@ public class ImageHelper {
 	 * @param image Image to resize
 	 * @param heightInPixels Height to resize
 	 */
-	public static void ResizeImageToHeight(BufferedImage image, int heightInPixels) {
-		ResizeImageToHeight(image, heightInPixels, false);
+	public static void resizeImageToHeight(BufferedImage image, int heightInPixels) {
+		resizeImageToHeight(image, heightInPixels, false);
 	}
 	
 	/**
@@ -137,7 +137,7 @@ public class ImageHelper {
 	 * @param squareSize Size in pixels of the width and height of the result image
 	 * @throws GnossAPIException Error at resize the image
 	 */
-	public static void CropImageToSquare(BufferedImage image, int squareSize) throws GnossAPIException {
+	public static void cropImageToSquare(BufferedImage image, int squareSize) throws GnossAPIException {
 		if (image.getHeight() > squareSize && image.getWidth() > squareSize) {
 			boolean isVertical = false;
 			boolean isHorizontal = false;
@@ -151,14 +151,14 @@ public class ImageHelper {
 			
 			if (isVertical) {
 				if (image.getWidth() >= squareSize) {
-					ResizeImageToWidth(image, squareSize);
+					resizeImageToWidth(image, squareSize);
 					cropImageInPlace(image, 0, 0, squareSize, squareSize);
 				} else if (image.getHeight() > squareSize) {
 					cropImageInPlace(image, 0, 0, image.getWidth(), squareSize);
 				}
 			} else if (isHorizontal) {
 				if (image.getHeight() >= squareSize) {
-					ResizeImageToHeight(image, squareSize);
+					resizeImageToHeight(image, squareSize);
 					int originX = (image.getWidth() - squareSize) / 2;
 					cropImageInPlace(image, originX, 0, squareSize, squareSize);
 				} else if (image.getWidth() > squareSize) {
@@ -167,7 +167,7 @@ public class ImageHelper {
 				}
 			} else {
 				// If the image isn't vertical and isn't horizontal, have to be a square
-				ResizeImageToWidth(image, squareSize);
+				resizeImageToWidth(image, squareSize);
 			}
 		}
 	}
@@ -179,16 +179,16 @@ public class ImageHelper {
 	 * @param pWidth Width of the image
 	 * @throws GnossAPIException Error at resize the image
 	 */
-	public static void CropImageToHeightAndWidth(BufferedImage pImage, int pHeight, int pWidth) throws GnossAPIException {
+	public static void cropImageToHeightAndWidth(BufferedImage pImage, int pHeight, int pWidth) throws GnossAPIException {
 		float aspectRatioDeseado = (float) pHeight / (float) pWidth;
 		float aspectRatio = (float) pImage.getHeight() / (float) pImage.getWidth();
 		
 		if (aspectRatio < aspectRatioDeseado) {
-			ResizeImageToHeight(pImage, pHeight, true);
+			resizeImageToHeight(pImage, pHeight, true);
 			int originX = (pImage.getWidth() - pWidth) / 2;
 			cropImageInPlace(pImage, originX, 0, pWidth, pHeight);
 		} else {
-			ResizeImageToWidth(pImage, pWidth, true);
+			resizeImageToWidth(pImage, pWidth, true);
 			int originY = (pImage.getHeight() - pHeight) / 2;
 			cropImageInPlace(pImage, 0, originY, pWidth, pHeight);
 		}
@@ -200,7 +200,7 @@ public class ImageHelper {
 	 * @return byte[] converted from bitmap
 	 * @throws GnossAPIException if conversion fails
 	 */
-	public static byte[] BitmapToByteArray(BufferedImage bitmap) throws GnossAPIException {
+	public static byte[] bitmapToByteArray(BufferedImage bitmap) throws GnossAPIException {
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ImageIO.write(bitmap, "png", baos);
@@ -217,10 +217,10 @@ public class ImageHelper {
 	 * @return byte[] converted from bitmap
 	 * @throws GnossAPIException if conversion fails
 	 */
-	public static byte[] BitmapToByteArray(BufferedImage bitmap, int quality) throws GnossAPIException {
+	public static byte[] bitmapToByteArray(BufferedImage bitmap, int quality) throws GnossAPIException {
 		if (quality == Integer.MIN_VALUE) {
 			// Convert without minimum quality
-			return BitmapToByteArray(bitmap);
+			return bitmapToByteArray(bitmap);
 		} else {
 			try {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -257,7 +257,7 @@ public class ImageHelper {
 	 * @return BufferedImage
 	 * @throws GnossAPIException if download fails
 	 */
-	public static BufferedImage DownloadImageFromUrl(String imageUrl) throws GnossAPIException {
+	public static BufferedImage downloadImageFromUrl(String imageUrl) throws GnossAPIException {
 		try {
 			URL url = new URL(imageUrl);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -287,11 +287,11 @@ public class ImageHelper {
 	 * @return BufferedImage
 	 * @throws GnossAPIException if reading fails
 	 */
-	public BufferedImage ReadImageFromUrlOrLocalPath(String imageUrlOrPath) throws GnossAPIException {
+	public BufferedImage readImageFromUrlOrLocalPath(String imageUrlOrPath) throws GnossAPIException {
 		BufferedImage image = null;
 		
 		if (isWellFormedUri(imageUrlOrPath)) {
-			image = DownloadImageFromUrl(imageUrlOrPath);
+			image = downloadImageFromUrl(imageUrlOrPath);
 		} else {
 			File file = new File(imageUrlOrPath);
 			if (file.exists()) {
@@ -302,7 +302,7 @@ public class ImageHelper {
 					}
 				} catch (IOException ex) {
 					if (this._logHelper != null) {
-						this._logHelper.Error("Error reading the image " + imageUrlOrPath + ": " + ex.getMessage());
+						this._logHelper.error("Error reading the image " + imageUrlOrPath + ": " + ex.getMessage());
 					}
 					throw new GnossAPIException("Error reading the image " + imageUrlOrPath + ": " + ex.getMessage());
 				}
@@ -320,7 +320,7 @@ public class ImageHelper {
 	 * @return BufferedImage
 	 * @throws GnossAPIException if conversion fails
 	 */
-	public static BufferedImage ByteArrayToBitmap(byte[] byteArray) throws GnossAPIException {
+	public static BufferedImage byteArrayToBitmap(byte[] byteArray) throws GnossAPIException {
 		try {
 			InputStream in = new ByteArrayInputStream(byteArray);
 			BufferedImage image = ImageIO.read(in);
@@ -341,19 +341,19 @@ public class ImageHelper {
 	 * @param image Image
 	 * @throws GnossAPIException if assignment fails
 	 */
-	public void AssignEXIFPropertyColorSpaceSRGB(BufferedImage image) throws GnossAPIException {
+	public void assignEXIFPropertyColorSpaceSRGB(BufferedImage image) throws GnossAPIException {
 		try {
 			// Convert image to byte array
-			byte[] imageBytes = BitmapToByteArray(image);
+			byte[] imageBytes = bitmapToByteArray(image);
 			
 			// Assign EXIF ColorSpace to the byte array
-			byte[] updatedBytes = AssignEXIFPropertyColorSpaceSRGBToByteArray(imageBytes);
+			byte[] updatedBytes = assignEXIFPropertyColorSpaceSRGBToByteArray(imageBytes);
 			
 			// Convert back to BufferedImage if needed
 			// Note: The caller should use the updated bytes directly
 			
 			if (this._logHelper != null) {
-				this._logHelper.Info("EXIF ColorSpace sRGB assigned successfully");
+				this._logHelper.info("EXIF ColorSpace sRGB assigned successfully");
 			}
 		} catch (Exception ex) {
 			throw new GnossAPIException("Error assigning EXIF ColorSpace: " + ex.getMessage());
@@ -366,7 +366,7 @@ public class ImageHelper {
 	 * @return Updated byte array with EXIF ColorSpace
 	 * @throws GnossAPIException if assignment fails
 	 */
-	public static byte[] AssignEXIFPropertyColorSpaceSRGBToByteArray(byte[] jpegBytes) throws GnossAPIException {
+	public static byte[] assignEXIFPropertyColorSpaceSRGBToByteArray(byte[] jpegBytes) throws GnossAPIException {
 		try {
 			ByteArrayOutputStream output = new ByteArrayOutputStream();
 			

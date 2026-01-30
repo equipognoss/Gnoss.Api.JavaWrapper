@@ -14,11 +14,11 @@ import java.util.UUID;
  */
 public class GnossHelper {
  
-    public static String GetImagePath(UUID resourceID, String imageName){
+    public static String getImagePath(UUID resourceID, String imageName){
         return Constants.IMAGES_PATH_ROOT + resourceID.toString().substring(0, 2) + "/" + resourceID.toString().substring(0, 4) + "/" + resourceID + "/" + imageName;
     }
     
-    public static UUID GetResourceID(String largeID){
+    public static UUID getResourceID(String largeID){
         String[] splittedID = largeID.split(Arrays.toString(CharArrayDelimiters.Underscore));
         try{
             return UUID.fromString(splittedID[splittedID.length - 2]);

@@ -36,7 +36,7 @@ public class UtilTelemetry {
 		telemetryClient = telemetry;
 	}
 	
-	public static void EnviarTelemetriaEvento (String pNombreEvento, Map<String, String> pPropiedades, Map<String, Double> pMetricas ) {
+	public static void enviarTelemetriaEvento (String pNombreEvento, Map<String, String> pPropiedades, Map<String, Double> pMetricas ) {
 		if (isEstaConfiguradaTelemetria()) {
 			if(isEstaConfiguradaTelemetria()) {
 			telemetryClient.trackEvent(pNombreEvento, pPropiedades, pMetricas);
@@ -44,7 +44,7 @@ public class UtilTelemetry {
 		}
 	}
 	
-	public static void EnviarTelemetriaTraza(String pMensajeTraza, String pNombreDependencia, StopWatch pReloj, boolean pExito) {
+	public static void enviarTelemetriaTraza(String pMensajeTraza, String pNombreDependencia, StopWatch pReloj, boolean pExito) {
 		if (isEstaConfiguradaTelemetria()) {
 			LocalDateTime localDate = LocalDateTime.now();
 			Duration duracion =null;
@@ -56,7 +56,7 @@ public class UtilTelemetry {
 		}
 	}
 	
-	public static void EnviarTelemetriaExcepcion(Exception pException, String pMensajeExtra, boolean pErrorCritico) {				
+	public static void enviarTelemetriaExcepcion(Exception pException, String pMensajeExtra, boolean pErrorCritico) {				
 		if(isEstaConfiguradaTelemetria()) {
 			telemetryClient.trackException(pException);
 			SeverityLevel nivelError= SeverityLevel.Information;

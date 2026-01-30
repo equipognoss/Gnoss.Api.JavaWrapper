@@ -31,7 +31,7 @@ public class ConceptEntity  extends SecondaryEntity{
 		Properties properties= new Properties();
 		this.level = 1;
 		if(dcSource.isEmpty()|| dcSource==null || dcSource.equals(" ") || prefLabelDictionary== null || identifierNameRoot==null ||identifierNameRoot.equals(" ") || identifier==null || identifier.equals(" ") || identifier.isEmpty()  ) {
-			logHelper.getInstance().Error("RequiredParameterConstructor", this.getClass().getName()); //DUDA
+			logHelper.getInstance().error("RequiredParameterConstructor", this.getClass().getName()); //DUDA
 			throw new GnossAPIException ("RequiredParameteronstructor");
 		}
 		this._prefLabelDictionary=prefLabelDictionary;

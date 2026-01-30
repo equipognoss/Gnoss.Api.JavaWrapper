@@ -105,16 +105,16 @@ public class CommunityApi extends GnossApiWrapper{
      * @throws IOException exception
      * @throws GnossAPIException exception
      */
-    public ArrayList<ThesaurusCategory> LoadCategories(String community_short_name) throws MalformedURLException, IOException, GnossAPIException{
+    public ArrayList<ThesaurusCategory> loadCategories(String community_short_name) throws MalformedURLException, IOException, GnossAPIException{
     	String url = _oauth.getApiUrl() + "/community/get-categories?community_short_name=" + community_short_name;
     	
-    	String response = WebRequest("GET", url, "", "", "application/json");
+    	String response = webRequest("GET", url, "", "", "application/json");
     	Gson gson = new Gson();
     	Type listType = new TypeToken<ArrayList<ThesaurusCategory>>(){}.getType();
     	ArrayList<ThesaurusCategory> communityCategoriesWithoutHierarchy = gson.fromJson(response, listType);
     	
-    	LogHelper.getInstance().Debug("Loaded the categories of the community " + community_short_name);
-    	LoadChildrenCategories(communityCategoriesWithoutHierarchy);
+    	LogHelper.getInstance().debug("Loaded the categories of the community " + community_short_name);
+    	loadChildrenCategories(communityCategoriesWithoutHierarchy);
     	
     	return communityCategoriesWithoutHierarchy;
     }
@@ -125,7 +125,7 @@ public class CommunityApi extends GnossApiWrapper{
     * Load children categories in their parent category
     * @param categories List of categories to load
     */
-    private void LoadChildrenCategories(ArrayList<ThesaurusCategory> categories){
+    private void loadChildrenCategories(ArrayList<ThesaurusCategory> categories){
     	for(ThesaurusCategory category : categories){
     		if(!category.getParent_category_id().equals(UUID.fromString("00000000-0000-0000-0000-000000000000"))){
     			UUID parentCategoryID = category.getParent_category_id();
@@ -140,7 +140,7 @@ public class CommunityApi extends GnossApiWrapper{
 
     public ArrayList<ThesaurusCategory> getCommunityCategories() throws MalformedURLException, IOException, GnossAPIException {
         if(_communityCategories == null){
-            _communityCategories = LoadCategories(CommunityShortName);
+            _communityCategories = loadCategories(CommunityShortName);
         }
         return _communityCategories;
     }
@@ -163,14 +163,14 @@ public class CommunityApi extends GnossApiWrapper{
     
     public void setOAuthInstance(OAuthInfo oAuth){
     	this._oauth = oAuth;
-    	LoadApi();
+    	loadApi();
     }
     
     @Override
-    protected void LoadApi() {
+    protected void loadApi() {
     	if(this._communityCategories!=null) {
     		try {
-				this._communityCategories=LoadCategories(CommunityShortName);
+				this._communityCategories=loadCategories(CommunityShortName);
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -198,7 +198,7 @@ public class CommunityApi extends GnossApiWrapper{
      * @param domain Domain of the community
      * @throws Exception exception 
      */
-    public void CreateCommunity(String communityName, String communityShortName, String description, List<String> tagList, int type, int accessType, String parentCommunityShortName, UUID administratorUserId, String organizationShortName, String communityDefaultLanguage, byte[] logo, String domain) throws Exception {
+    public void createCommunity(String communityName, String communityShortName, String description, List<String> tagList, int type, int accessType, String parentCommunityShortName, UUID administratorUserId, String organizationShortName, String communityDefaultLanguage, byte[] logo, String domain) throws Exception {
     	
     	try {
 			String tags = URLEncoder.encode(String.join(",", tagList), "UTF-8");
@@ -217,7 +217,7 @@ public class CommunityApi extends GnossApiWrapper{
 				community.setLogo(logo);
 				community.setDomain(domain);
 				
-				CreateCommunity(community);
+				createCommunity(community);
 			}
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -238,8 +238,8 @@ public class CommunityApi extends GnossApiWrapper{
      * @param logo Logo of the community
      * @throws Exception exception 
      */
-    public void CreateCommunity(String communityName, String communityShortName, String description, List<String> tagList, int type, int accessType, String parentCommunityShortName, UUID administratorUserId, String organizationShortName, byte[] logo) throws Exception {
-        CreateCommunity(communityName, communityShortName, description, tagList, type, accessType, parentCommunityShortName, administratorUserId, organizationShortName, "es", logo, null);
+    public void createCommunity(String communityName, String communityShortName, String description, List<String> tagList, int type, int accessType, String parentCommunityShortName, UUID administratorUserId, String organizationShortName, byte[] logo) throws Exception {
+        createCommunity(communityName, communityShortName, description, tagList, type, accessType, parentCommunityShortName, administratorUserId, organizationShortName, "es", logo, null);
     }
 
     /**
@@ -247,14 +247,14 @@ public class CommunityApi extends GnossApiWrapper{
      * @param pEditCommunityImageModel Logo of the community and community name
      * @throws Exception exception
      */
-    public void ModifyLogo(EditCommunityImageModel pEditCommunityImageModel) throws Exception {
+    public void modifyLogo(EditCommunityImageModel pEditCommunityImageModel) throws Exception {
         String json = null;
         try {
             String url = getApiUrl() + "/community/modify-community-image";
-            WebRequestPostWithJsonObject(url, pEditCommunityImageModel);
-            this._logHelper.Debug("Modify Logo " + json);
+            webRequestPostWithJsonObject(url, pEditCommunityImageModel);
+            this._logHelper.debug("Modify Logo " + json);
         } catch (Exception ex) {
-            this._logHelper.Error("Error Modify Logo " + json + ": \r\n" + ex.getMessage());
+            this._logHelper.error("Error Modify Logo " + json + ": \r\n" + ex.getMessage());
             throw ex;
         }
     }
@@ -266,14 +266,14 @@ public class CommunityApi extends GnossApiWrapper{
      * @param administratorUserId Admin ID of the community
      * @throws Exception exception 
      */
-    public void VincularComunidadPadre(String communityShortName, String parentCommunityShortName, UUID administratorUserId) throws Exception {
+    public void vincularComunidadPadre(String communityShortName, String parentCommunityShortName, UUID administratorUserId) throws Exception {
     	LinkParentCommunityModel linkparent= new LinkParentCommunityModel();
     	{
     		linkparent.setParent_community_short_name(parentCommunityShortName);
     		linkparent.setShort_name(communityShortName);
     		linkparent.setAdmin_id(administratorUserId);
     		
-    		LinkParentCommunity(linkparent);
+    		linkParentCommunity(linkparent);
     	}
     }
     
@@ -285,7 +285,7 @@ public class CommunityApi extends GnossApiWrapper{
      * @return UUID Category identifier
      * @throws Exception exception
      */
-    public UUID CreateCategory(String categoryName, UUID parentCategoryID, byte[] categoryImage) throws Exception {
+    public UUID createCategory(String categoryName, UUID parentCategoryID, byte[] categoryImage) throws Exception {
     	UUID uuid = null;
     	try {
     		CommunityCategoryModel communityModel = new CommunityCategoryModel();
@@ -298,15 +298,15 @@ public class CommunityApi extends GnossApiWrapper{
     		
     		String url = getApiUrl() + "/community/create-category";
     		
-    		this._logHelper.Fatal("Inicio llamada 1." + communityModel.getCategory_name() + " | 2." + communityModel.getCommunity_short_name() + " | 3." + communityModel.getParent_category_id());
+    		this._logHelper.fatal("Inicio llamada 1." + communityModel.getCategory_name() + " | 2." + communityModel.getCommunity_short_name() + " | 3." + communityModel.getParent_category_id());
     		
-    		String response = WebRequestPostWithJsonObject(url, communityModel);
+    		String response = webRequestPostWithJsonObject(url, communityModel);
     		
     		Gson gson = new Gson();
 			return uuid = gson.fromJson(response, UUID.class);
     		
     	} catch(Exception ex) {
-    		this._logHelper.Error("Error creating category " + categoryName + ":\r\n" + ex.getMessage());
+    		this._logHelper.error("Error creating category " + categoryName + ":\r\n" + ex.getMessage());
     		throw ex;
     	}
     }
@@ -318,8 +318,8 @@ public class CommunityApi extends GnossApiWrapper{
      * @return UUID Category identifier
      * @throws Exception exception
      */
-    public UUID CreateCategory(String categoryName, UUID parentCategoryID) throws Exception {
-        return CreateCategory(categoryName, parentCategoryID, null);
+    public UUID createCategory(String categoryName, UUID parentCategoryID) throws Exception {
+        return createCategory(categoryName, parentCategoryID, null);
     }
 
     /**
@@ -327,14 +327,14 @@ public class CommunityApi extends GnossApiWrapper{
      * @param pmodel model 
      * @throws Exception exception 
      */
-    public void UploadContentFile(UploadContentModel pmodel) throws Exception {
+    public void uploadContentFile(UploadContentModel pmodel) throws Exception {
     	try {
     		String url = getApiUrl() + "/community/uploaded-content-file";
-    		WebRequestPostWithJsonObject(url, pmodel);
-    		this._logHelper.Debug("File upload");
+    		webRequestPostWithJsonObject(url, pmodel);
+    		this._logHelper.debug("File upload");
     		
     	} catch(Exception ex) {
-    		this._logHelper.Error("Error File update");
+    		this._logHelper.error("Error File update");
     		throw ex;
     	}
     }
@@ -344,15 +344,15 @@ public class CommunityApi extends GnossApiWrapper{
      * @param communityModel Community model
      * @throws Exception exception 
      */
-    public void CreateCommunity(CommunityModel communityModel) throws Exception {
+    public void createCommunity(CommunityModel communityModel) throws Exception {
     	String json = null;
     	try {
     		String url = getApiUrl() + "/community/create-community";
-    		WebRequestPostWithJsonObject(url, communityModel);
-    		this._logHelper.Debug("Community created " + json);
+    		webRequestPostWithJsonObject(url, communityModel);
+    		this._logHelper.debug("Community created " + json);
     		
     	} catch(Exception ex) {
-    		this._logHelper.Error("Error creating community" + json + ":\r\n" + ex.getMessage());
+    		this._logHelper.error("Error creating community" + json + ":\r\n" + ex.getMessage());
     		throw ex;
     	}
     }
@@ -363,14 +363,14 @@ public class CommunityApi extends GnossApiWrapper{
      * @param linkparent Community model
      * @throws Exception exception 
      */
-	private void LinkParentCommunity(LinkParentCommunityModel linkparent) throws Exception {
+	private void linkParentCommunity(LinkParentCommunityModel linkparent) throws Exception {
 		String json = null;
 		try {
 			String url = getApiUrl() + "/community/link-parent-community";
-			WebRequestPostWithJsonObject(url, linkparent);
-			this._logHelper.Debug("Community created " + json);
+			webRequestPostWithJsonObject(url, linkparent);
+			this._logHelper.debug("Community created " + json);
 		} catch(Exception ex) {
-			this._logHelper.Error("Error creating community " + json + ":\r\n" + ex.getMessage());
+			this._logHelper.error("Error creating community " + json + ":\r\n" + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -394,14 +394,14 @@ public class CommunityApi extends GnossApiWrapper{
 			long fechafin = pFechaFin != null ? pFechaFin.getTime() : 0;
 			
 			String url = getApiUrl() + "/community/get-users-by-community-short-name?community_short_name=" + CommunityShortName + "&number_resources=" + number_resources + "&number_comments=" + number_comments + "&groups=" + groups + "&pFechaInit=" + fechainit + "&pFechaFin=" + fechafin;   
-			String response = WebRequest("GET", url);
+			String response = webRequest("GET", url);
 			
 			Gson gson = new Gson();
 			Type tipo = new TypeToken<ArrayList<UserCommunity>>(){}.getType();
 			return lista = gson.fromJson(response, tipo);
 			
 		} catch(Exception ex) {
-			this._logHelper.Error("Error creating community " + json + ":\r\n" + ex.getMessage());
+			this._logHelper.error("Error creating community " + json + ":\r\n" + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -416,7 +416,7 @@ public class CommunityApi extends GnossApiWrapper{
 		
 		try {
 			String url = getApiUrl() + "/community/get-thesaurus?community_short_name=" + CommunityShortName;
-			String response = WebRequest("GET", url);
+			String response = webRequest("GET", url);
 			 if (response != null) {
 		            response = response.trim();
 		            if (response.startsWith("\"") && response.endsWith("\"")) {
@@ -426,7 +426,7 @@ public class CommunityApi extends GnossApiWrapper{
 			return response;
 			
 		} catch(Exception ex) {
-			this._logHelper.Error("Error getting the thesaurus from " + CommunityShortName + ": \r\n" + ex.getMessage());
+			this._logHelper.error("Error getting the thesaurus from " + CommunityShortName + ": \r\n" + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -436,7 +436,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @param thesaurusXml Thesaurus to create
 	 * @throws Exception exception
 	 */
-	public void CreateThesaurus(String thesaurusXml) throws Exception {
+	public void createThesaurus(String thesaurusXml) throws Exception {
 		try {
 			String url = getApiUrl() + "/community/create-thesaurus";
 			ThesaurusModel model = new ThesaurusModel();
@@ -444,11 +444,11 @@ public class CommunityApi extends GnossApiWrapper{
 				model.setCommunity_short_name(CommunityShortName);
 				model.setThesaurus(thesaurusXml);
 			}
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("Thesaurus created in " + CommunityShortName);
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("Thesaurus created in " + CommunityShortName);
 			
 		} catch(Exception ex) {
-			this._logHelper.Error("Error creating thesaurus " + thesaurusXml + " in " + CommunityShortName + ":\r\n" + ex.getMessage());
+			this._logHelper.error("Error creating thesaurus " + thesaurusXml + " in " + CommunityShortName + ":\r\n" + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -458,14 +458,14 @@ public class CommunityApi extends GnossApiWrapper{
 	 * Open an existing community
 	 * @throws Exception exception 
 	 */
-	public void OpenCommunity() throws Exception {
+	public void openCommunity() throws Exception {
 		try {
 			String url = getApiUrl() + "/community/open-community";
-			WebRequestPostWithJsonObject(url, CommunityShortName);
-			this._logHelper.Debug("Community opened " + CommunityShortName);
+			webRequestPostWithJsonObject(url, CommunityShortName);
+			this._logHelper.debug("Community opened " + CommunityShortName);
 			
 		} catch(Exception ex) {
-			this._logHelper.Error("Error opening community " + CommunityShortName + ": " + ex.getMessage());
+			this._logHelper.error("Error opening community " + CommunityShortName + ": " + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -474,14 +474,14 @@ public class CommunityApi extends GnossApiWrapper{
 	 * Config graph of community
 	 * @throws Exception exception
 	 */
-	public void ConfigGraphCommunity() throws Exception {
+	public void configGraphCommunity() throws Exception {
 		try {
 			String url = getApiUrl() + "/community/config-graph-community";
-			WebRequestPostWithJsonObject(url, CommunityShortName);
-			this._logHelper.Debug("Config graph community " + CommunityShortName);
+			webRequestPostWithJsonObject(url, CommunityShortName);
+			this._logHelper.debug("Config graph community " + CommunityShortName);
 			
 		} catch(Exception ex) {
-			this._logHelper.Error("Error graph community " + CommunityShortName + ": " + ex.getMessage());
+			this._logHelper.error("Error graph community " + CommunityShortName + ": " + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -491,7 +491,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @param settingsXml Community settings in XML format
 	 * @throws Exception exception
 	 */
-	public void UploadConfiguration(String settingsXml) throws Exception {
+	public void uploadConfiguration(String settingsXml) throws Exception {
 		try {
 			String url = getApiUrl() + "/community/upload-configuration-xml";
 			ConfigurationModel model = new ConfigurationModel();
@@ -499,12 +499,12 @@ public class CommunityApi extends GnossApiWrapper{
 				model.setCommunity_short_name(CommunityShortName);
 				model.setSettings(settingsXml);
 				
-				WebRequestPostWithJsonObject(url, model);
-				this._logHelper.Debug("Settings uploaded succesfully to " + CommunityShortName);
+				webRequestPostWithJsonObject(url, model);
+				this._logHelper.debug("Settings uploaded succesfully to " + CommunityShortName);
 			}
 			
 		} catch(Exception ex) {
-			this._logHelper.Error("Error uploading settings to community " + CommunityShortName + settingsXml + ": \r\n" + ex.getMessage());
+			this._logHelper.error("Error uploading settings to community " + CommunityShortName + settingsXml + ": \r\n" + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -514,7 +514,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @param settingsCmsXml Community CMS settings in XML format
 	 * @throws Exception exception
 	 */
-	public void UploadCMSConfiguration(String settingsCmsXml) throws Exception {
+	public void uploadCMSConfiguration(String settingsCmsXml) throws Exception {
 		try {
 			String url = getApiUrl() + "/community/upload-cms-configuration-xml";
 			ConfigurationModel model = new ConfigurationModel();
@@ -522,11 +522,11 @@ public class CommunityApi extends GnossApiWrapper{
 				model.setCommunity_short_name(CommunityShortName);
 				model.setSettings(settingsCmsXml);
 			}
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("CMS settings uploaded succesfully to " + CommunityShortName);
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("CMS settings uploaded succesfully to " + CommunityShortName);
 			
 		} catch(Exception ex) {
-			this._logHelper.Error("Error uploading the CMS settings to community " + CommunityShortName + " " + settingsCmsXml + ": \r\n" + ex.getMessage());
+			this._logHelper.error("Error uploading the CMS settings to community " + CommunityShortName + " " + settingsCmsXml + ": \r\n" + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -539,7 +539,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @param identityType Type of user identity in the community
 	 * @throws Exception exception
 	 */
-	public void AddMember(UUID userID, String organizationShortName, int identityType) throws Exception {
+	public void addMember(UUID userID, String organizationShortName, int identityType) throws Exception {
 		try {
 			String url = getApiUrl() + "/community/add-member";
 			
@@ -551,11 +551,11 @@ public class CommunityApi extends GnossApiWrapper{
 				model.setOrganization_short_name(organizationShortName);
 			}
 			
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("user " + userID + " added to " + CommunityShortName);
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("user " + userID + " added to " + CommunityShortName);
 			
 		} catch(Exception ex) {
-			this._logHelper.Error("Error adding member " + userID + " to " + CommunityShortName);
+			this._logHelper.error("Error adding member " + userID + " to " + CommunityShortName);
 			throw ex;
 		}
 	}
@@ -565,8 +565,8 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @param userID User identifier that we will register in the community
 	 * @throws Exception exception
 	 */
-	public void AddMember(UUID userID) throws Exception {
-		AddMember(userID, null, 0);
+	public void addMember(UUID userID) throws Exception {
+		addMember(userID, null, 0);
 	}
 	
 	
@@ -575,7 +575,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @param userID User identifier that we will delete from the community
 	 * @throws Exception exception
 	 */
-	public void DeleteMember(UUID userID) throws Exception {
+	public void deleteMember(UUID userID) throws Exception {
 		try {
 			String url = getApiUrl() + "/community/delete-member";
 			UserCommunityModel model = new UserCommunityModel();
@@ -584,11 +584,11 @@ public class CommunityApi extends GnossApiWrapper{
 				model.setUser_id(userID);
 			}
 			
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("The member " + userID + " deleted from " + CommunityShortName);
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("The member " + userID + " deleted from " + CommunityShortName);
 			
 		} catch(Exception ex) {
-			this._logHelper.Error("Error deleting member " + userID + " from " + CommunityShortName + ": " + ex.getMessage());
+			this._logHelper.error("Error deleting member " + userID + " from " + CommunityShortName + ": " + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -601,7 +601,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @param identityType Type of user identity in the community
 	 * @throws Exception exception 
 	 */
-	public void AddMemberOrganizationGroupToCommunity(String organizationShortName, String groupShortName, int identityType) throws Exception {
+	public void addMemberOrganizationGroupToCommunity(String organizationShortName, String groupShortName, int identityType) throws Exception {
 		try {
 			String url = getApiUrl() + "/community/add-members-organization-group-to-community";
 			
@@ -613,11 +613,11 @@ public class CommunityApi extends GnossApiWrapper{
 				model.setIdentity_type(identityType);
 			}
 			
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("The group " + groupShortName + " of " + organizationShortName + " has been added to " + CommunityShortName);
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("The group " + groupShortName + " of " + organizationShortName + " has been added to " + CommunityShortName);
 			
 		} catch(Exception ex) {
-			this._logHelper.Error("Error adding the group " + groupShortName + " of " + organizationShortName + " from " + CommunityShortName + ": \r\n" + ex.getMessage());
+			this._logHelper.error("Error adding the group " + groupShortName + " of " + organizationShortName + " from " + CommunityShortName + ": \r\n" + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -628,7 +628,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @param groupShortName Short name of the organization
 	 * @throws Exception exception
 	 */
-	public void DeleteMemberOrganizationGroupFromCommunity(String organizationShortName, String groupShortName) throws Exception {
+	public void deleteMemberOrganizationGroupFromCommunity(String organizationShortName, String groupShortName) throws Exception {
 		try {
 			String url = getApiUrl() + "/community/delete-group";
 			
@@ -639,10 +639,10 @@ public class CommunityApi extends GnossApiWrapper{
 				model.setGroup_short_name(groupShortName);
 			}
 			
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("All the members from the group " + groupShortName + " of " + organizationShortName + " has been deleteed to " + CommunityShortName);
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("All the members from the group " + groupShortName + " of " + organizationShortName + " has been deleteed to " + CommunityShortName);
 		} catch(Exception ex) {
-			this._logHelper.Error("Error deleting the group members " + groupShortName + " of " + organizationShortName + " from " + CommunityShortName + ": " + ex.getMessage());
+			this._logHelper.error("Error deleting the group members " + groupShortName + " of " + organizationShortName + " from " + CommunityShortName + ": " + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -653,7 +653,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @param userId user id
 	 * @throws Exception exception
 	 */
-	public void UpgradeMemberToAdministrator(UUID userId) throws Exception {
+	public void upgradeMemberToAdministrator(UUID userId) throws Exception {
 		try {
 			String url = getApiUrl() + "/community/add-administrator-member";
 			UserCommunityModel model = new UserCommunityModel(); 
@@ -661,10 +661,10 @@ public class CommunityApi extends GnossApiWrapper{
 				model.setCommunity_short_name(CommunityShortName);
 				model.setUser_id(userId);
 			}
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("The member " + userId + " has been upgraded to administrator of " + CommunityShortName);
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("The member " + userId + " has been upgraded to administrator of " + CommunityShortName);
 		} catch(Exception ex) {
-			this._logHelper.Error("Error upgrading member " + userId + " to administrator in " + CommunityShortName + ": " + ex.getMessage());
+			this._logHelper.error("Error upgrading member " + userId + " to administrator in " + CommunityShortName + ": " + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -676,7 +676,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @param groupShortName Short name of the group
 	 * @throws Exception exception
 	 */
-	public void UpgradeMembersOrganizationGroupToAdministrators(String organizationShortName, String groupShortName) throws Exception {
+	public void upgradeMembersOrganizationGroupToAdministrators(String organizationShortName, String groupShortName) throws Exception {
 		try {
 			String url = getApiUrl() + "/community/add-administrator-group";
 			GroupOrgCommunityModel model = new GroupOrgCommunityModel();
@@ -686,11 +686,11 @@ public class CommunityApi extends GnossApiWrapper{
 				model.setGroup_short_name(groupShortName);
 			}
 			
-			String result = WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("All the members from the group " + groupShortName + " of " + organizationShortName + " has been upgraded to administrator in " + CommunityShortName + ". +\r\n" + result);
+			String result = webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("All the members from the group " + groupShortName + " of " + organizationShortName + " has been upgraded to administrator in " + CommunityShortName + ". +\r\n" + result);
 		
 		} catch(Exception ex) {
-			this._logHelper.Error("Error upgrading to administrator the members from the group " + groupShortName + " of " + organizationShortName + " in " + CommunityShortName + ": " + ex.getMessage());
+			this._logHelper.error("Error upgrading to administrator the members from the group " + groupShortName + " of " + organizationShortName + " in " + CommunityShortName + ": " + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -706,7 +706,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @param sendNotification It indicates whether an email is going to be sent to users telling them that has been added to the group
 	 * @throws Exception exception 
 	 */
-	public void CreateCommunityGroup(String groupName, String groupShortName, String description, List<String> tags, List<UUID> members, boolean sendNotification) throws Exception {
+	public void createCommunityGroup(String groupName, String groupShortName, String description, List<String> tags, List<UUID> members, boolean sendNotification) throws Exception {
 		try {
 			String url = getApiUrl() + "/community/create-community-group";
 			CreateGroupCommunityModel model = new CreateGroupCommunityModel();
@@ -720,10 +720,10 @@ public class CommunityApi extends GnossApiWrapper{
 				model.setSend_notification(sendNotification);
 			}
 			
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("Group " + groupName + " created in " + CommunityShortName);
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("Group " + groupName + " created in " + CommunityShortName);
 		} catch(Exception ex) {
-			this._logHelper.Error("Error creating group " + groupName + " in " + CommunityShortName + ": " + ex.getMessage());
+			this._logHelper.error("Error creating group " + groupName + " in " + CommunityShortName + ": " + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -734,7 +734,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @param groupShortName Short name of the community group
 	 * @throws Exception exception
 	 */
-	public void DeleteCommunityGroup(String groupShortName) throws Exception {
+	public void deleteCommunityGroup(String groupShortName) throws Exception {
 		try {
 			String url = getApiUrl() + "/community/delete-community-group";
 			DeleteGroupCommunityModel model = new DeleteGroupCommunityModel();
@@ -742,10 +742,10 @@ public class CommunityApi extends GnossApiWrapper{
 				model.setCommunity_short_name(CommunityShortName);
 				model.setGroup_short_name(groupShortName);
 			}
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("Group " + groupShortName + " deleted in " + CommunityShortName);
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("Group " + groupShortName + " deleted in " + CommunityShortName);
 		} catch(Exception ex) {
-			this._logHelper.Error("Error deleting group " + groupShortName + " in " + CommunityShortName + ": " + ex.getMessage());
+			this._logHelper.error("Error deleting group " + groupShortName + " in " + CommunityShortName + ": " + ex.getMessage());
 			throw ex; 
 		}
 	}
@@ -758,7 +758,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @param sendNotification It indicates whatever a message is going to be sent to users telling them has been added to the group
 	 * @throws Exception exception 
 	 */
-	public void AddMembersToGroup(String groupShortName, List<UUID> members, boolean sendNotification) throws Exception {
+	public void addMembersToGroup(String groupShortName, List<UUID> members, boolean sendNotification) throws Exception {
 		String miembros = "";
 		
 		try {
@@ -770,10 +770,10 @@ public class CommunityApi extends GnossApiWrapper{
 				model.setMembers(members);
 				model.setSend_notification(sendNotification);
 			}
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("The users has been added to the group " + groupShortName + " of the community " + CommunityShortName);
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("The users has been added to the group " + groupShortName + " of the community " + CommunityShortName);
 		} catch(Exception ex) {
-			this._logHelper.Error("Error adding users " + (String.join(",", members.toString())) + " to group " + groupShortName + " of the community " + CommunityShortName + ": \r\n" + ex.getMessage());
+			this._logHelper.error("Error adding users " + (String.join(",", members.toString())) + " to group " + groupShortName + " of the community " + CommunityShortName + ": \r\n" + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -785,7 +785,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @param certificationPolitics Certification politics
 	 * @throws Exception exception 
 	 */
-	public void CreateCertificationLevels(List<String> certificationLevelsDescription, String certificationPolitics) throws Exception {
+	public void createCertificationLevels(List<String> certificationLevelsDescription, String certificationPolitics) throws Exception {
 		String miembros = "";
 		try {
 			String url = getApiUrl() + "/community/create-certification-levels";
@@ -795,10 +795,10 @@ public class CommunityApi extends GnossApiWrapper{
 				model.setCertification_levels(certificationLevelsDescription);
 				model.setCertification_politics(certificationPolitics);
 			}
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("The certification levels has been added to the community " + CommunityShortName);
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("The certification levels has been added to the community " + CommunityShortName);
 		} catch(Exception ex) {
-			this._logHelper.Error("Error creating certification levels of the community " + CommunityShortName + ": \r\n" + ex.getMessage());
+			this._logHelper.error("Error creating certification levels of the community " + CommunityShortName + ": \r\n" + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -809,7 +809,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @param members List users that want to add
 	 * @throws Exception exception 
 	 */
-	public void DeleteMembersFromGroup(String groupShortName, List<UUID> members) throws Exception {
+	public void deleteMembersFromGroup(String groupShortName, List<UUID> members) throws Exception {
 		try {
 			String url = getApiUrl() + "/community/delete-members-of-community-group";
 			MembersGroupCommunityModel model = new MembersGroupCommunityModel();
@@ -818,11 +818,11 @@ public class CommunityApi extends GnossApiWrapper{
 				model.setGroup_short_name(groupShortName);
 				model.setMembers(members);
 			}
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("The users has been deleted from the group " + groupShortName + " of the community " + CommunityShortName);
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("The users has been deleted from the group " + groupShortName + " of the community " + CommunityShortName);
 			
 		} catch(Exception ex) {
-			this._logHelper.Error("Error deleting users " + (String.join(",", members.toString())) + " from group " + groupShortName + " of the community " + CommunityShortName + " : \r\n" + ex.getMessage());
+			this._logHelper.error("Error deleting users " + (String.join(",", members.toString())) + " from group " + groupShortName + " of the community " + CommunityShortName + " : \r\n" + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -838,13 +838,13 @@ public class CommunityApi extends GnossApiWrapper{
 		List<UUID> members = null;
 		try {
 			String url = getApiUrl() + "/community/get-members-from-community-group?community_short_name=" + CommunityShortName + "&group_short_name=" + groupShortName;
-			String response = WebRequest("GET", url);
+			String response = webRequest("GET", url);
 			Gson gson = new Gson();
 			Type tipo = new TypeToken<ArrayList<UUID>>(){}.getType();
 			members = gson.fromJson(response, tipo);
-			this._logHelper.Debug("Users obtained from group " + groupShortName + " of the community " + CommunityShortName);
+			this._logHelper.debug("Users obtained from group " + groupShortName + " of the community " + CommunityShortName);
 		} catch(Exception ex) {
-			this._logHelper.Error("Error obtaining users from group " + groupShortName + " of the community " + CommunityShortName + ": \r\n " + ex.getMessage());
+			this._logHelper.error("Error obtaining users from group " + groupShortName + " of the community " + CommunityShortName + ": \r\n " + ex.getMessage());
 			throw ex;
 		}
 		return members;
@@ -861,13 +861,13 @@ public class CommunityApi extends GnossApiWrapper{
 		List<UUID> members = null;
 		try {
 			String url = getApiUrl() + "/community/get-members-organization-group?organization_short_name=" + organizationShortName + "&group_short_name=" + groupShortName;
-			String response = WebRequest("GET", url);
+			String response = webRequest("GET", url);
 			Gson gson = new Gson();
 			Type tipo = new TypeToken<ArrayList<UUID>>(){}.getType();
 			members = gson.fromJson(response, tipo);
-			this._logHelper.Debug("Users obtained from group " + groupShortName + "of the organization " + organizationShortName);
+			this._logHelper.debug("Users obtained from group " + groupShortName + "of the organization " + organizationShortName);
 		} catch(Exception ex) {
-			this._logHelper.Error("Error obtaining users from group " + groupShortName + " of the organization " + organizationShortName + ": \r\n " + ex.getMessage());
+			this._logHelper.error("Error obtaining users from group " + groupShortName + " of the organization " + organizationShortName + ": \r\n " + ex.getMessage());
 			throw ex;
 		}
 		return members;
@@ -878,7 +878,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @param userId User identifier to expel from the community
 	 * @throws Exception exception
 	 */
-	public void ExpelMember(UUID userId) throws Exception {
+	public void expelMember(UUID userId) throws Exception {
 		try {
 			String url = getApiUrl() + "/community/expel-member";
 			UserCommunityModel model = new UserCommunityModel();
@@ -886,10 +886,10 @@ public class CommunityApi extends GnossApiWrapper{
 				model.setCommunity_short_name(CommunityShortName);
 				model.setUser_id(userId);
 			}
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("User " + userId + " expelled from " + CommunityShortName);
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("User " + userId + " expelled from " + CommunityShortName);
 		} catch(Exception ex) {
-			this._logHelper.Error("Error expelling member " + userId + " from " + CommunityShortName + ": \r\n " + ex.getMessage());
+			this._logHelper.error("Error expelling member " + userId + " from " + CommunityShortName + ": \r\n " + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -899,13 +899,13 @@ public class CommunityApi extends GnossApiWrapper{
 	 * Close a community
 	 * @throws Exception exception
 	 */
-	public void CloseCommunity() throws Exception {
+	public void closeCommunity() throws Exception {
 		try {
 			String url = getApiUrl() + "/community/close-community";
-			WebRequestPostWithJsonObject(url, CommunityShortName);
-			this._logHelper.Debug("Community " + CommunityShortName + " closed");
+			webRequestPostWithJsonObject(url, CommunityShortName);
+			this._logHelper.debug("Community " + CommunityShortName + " closed");
 		} catch(Exception ex) {
-			this._logHelper.Error("Error closing " + CommunityShortName + ": " + ex.getMessage());
+			this._logHelper.error("Error closing " + CommunityShortName + ": " + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -915,7 +915,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @param newName new Community name 
 	 * @throws Exception exception 
 	 */
-	public void ChangeCommunityName(String newName) throws Exception {
+	public void changeCommunityName(String newName) throws Exception {
 		try {
 			String url = getApiUrl() + "/community/change-community-name";
 			ChangeNameCommunityModel model = new ChangeNameCommunityModel();
@@ -923,10 +923,10 @@ public class CommunityApi extends GnossApiWrapper{
 				model.setCommunity_name(newName);
 				model.setCommunity_short_name(CommunityShortName);
 			}
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("Community name of " + CommunityShortName + " changed to " + newName);
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("Community name of " + CommunityShortName + " changed to " + newName);
 		} catch(Exception ex) {
-			this._logHelper.Error("Error changing name of " + CommunityShortName + " to " + newName + ": " + ex.getMessage());
+			this._logHelper.error("Error changing name of " + CommunityShortName + " to " + newName + ": " + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -941,13 +941,13 @@ public class CommunityApi extends GnossApiWrapper{
 		List<GroupCommunityModel> groups = null;
 		try {
 			String url = getApiUrl() + "/community/get-community-groups?community_short_name=" + CommunityShortName;
-			String response = WebRequest("GET", url);
+			String response = webRequest("GET", url);
 			Gson gson = new Gson();
 			Type tipo = new TypeToken<ArrayList<GroupCommunityModel>>(){}.getType();
 			groups = gson.fromJson(response, tipo);
-			this._logHelper.Debug("Groups obteined from " + CommunityShortName);
+			this._logHelper.debug("Groups obteined from " + CommunityShortName);
 		} catch(Exception ex) {
-			this._logHelper.Error("Error obtaining groups from " + CommunityShortName + ": \r\n" + ex.getMessage());
+			this._logHelper.error("Error obtaining groups from " + CommunityShortName + ": \r\n" + ex.getMessage());
 			throw ex;
 		}
 		return groups;
@@ -964,13 +964,13 @@ public class CommunityApi extends GnossApiWrapper{
 		String organizationShortName = null;
 		try {
 			String url = getApiUrl() + "/community/get-organization-short-name-from-member?community_short_name=" + CommunityShortName + "&user_id=" + userId;
-			organizationShortName = WebRequest("GET", url);
+			organizationShortName = webRequest("GET", url);
 			if(organizationShortName != null) {
 				organizationShortName = organizationShortName.trim().replaceAll("^\"|\"$", "");
 			}
-			this._logHelper.Debug("Organization short name obtained from " + userId + " in " + CommunityShortName);
+			this._logHelper.debug("Organization short name obtained from " + userId + " in " + CommunityShortName);
 		} catch(Exception ex) {
-			this._logHelper.Error("Error obtaining the organization short name from " + userId + " in " + CommunityShortName + ": \r\n" + ex.getMessage());
+			this._logHelper.error("Error obtaining the organization short name from " + userId + " in " + CommunityShortName + ": \r\n" + ex.getMessage());
 			throw ex;
 		}
 		return organizationShortName;
@@ -986,13 +986,13 @@ public class CommunityApi extends GnossApiWrapper{
 		List<ExtraRegisterData> extraRegisterData = null;
 		try {
 			String url = getApiUrl() + "/community/get-extra-register-data?community_short_name=" + CommunityShortName;
-			String response = WebRequest("GET", url);
+			String response = webRequest("GET", url);
 			Gson gson = new Gson();
 			Type tipo = new TypeToken<ArrayList<ExtraRegisterData>>(){}.getType();
 			extraRegisterData = gson.fromJson(response, tipo);
-			this._logHelper.Debug("Extra register data obtained from " + CommunityShortName);
+			this._logHelper.debug("Extra register data obtained from " + CommunityShortName);
 		} catch(Exception ex) {
-			this._logHelper.Error("Error obtaining extra register data from " + CommunityShortName + ": \r\n" + ex.getMessage());
+			this._logHelper.error("Error obtaining extra register data from " + CommunityShortName + ": \r\n" + ex.getMessage());
 			throw ex;
 		}
 		return extraRegisterData;
@@ -1005,13 +1005,13 @@ public class CommunityApi extends GnossApiWrapper{
 	public String getCommunityMainLanguage() {
 		try {
 			String url = getApiUrl() + "/community/get-main-language?community_short_name=" + CommunityShortName;
-			String response = WebRequest("GET", url, "application/json");
+			String response = webRequest("GET", url, "application/json");
 			if(response != null) {
 				response = response.trim().replaceAll("^\"|\"$", "");
 			}
 			return response;
 		} catch(Exception ex) {
-			this._logHelper.Error("Imposible to obtain the main language");
+			this._logHelper.error("Imposible to obtain the main language");
 			return null;
 		}
 	}
@@ -1023,13 +1023,13 @@ public class CommunityApi extends GnossApiWrapper{
 	public Map<UUID, String> getCommunityPersonIDEmail(){
 		try {
 			String url = getApiUrl() + "/community/get-community-personid-email?community_short_name=" + CommunityShortName;
-			String response = WebRequest("GET", url, "application/json");
+			String response = webRequest("GET", url, "application/json");
 			Gson gson = new Gson();
 			Type tipo = new TypeToken<HashMap<UUID, String>>(){}.getType();
 			return gson.fromJson(response, tipo);
 			
 		} catch(Exception ex) {
-			this._logHelper.Error("The person identifiers and emails of the community members '" + CommunityShortName + "' could not be obtained");
+			this._logHelper.error("The person identifiers and emails of the community members '" + CommunityShortName + "' could not be obtained");
 			return null;
 		}
 	}
@@ -1044,13 +1044,13 @@ public class CommunityApi extends GnossApiWrapper{
 	        String url = getApiUrl() + "/community/refresh-heavy-cache?community_id=" + communityID + 
 	                     "&organization_id=" + organizationID;
 	        
-	        WebRequestPostWithJsonObject(url, "");
+	        webRequestPostWithJsonObject(url, "");
 	        
-	        _logHelper.Trace("community " + communityID + ". Organization: " + organizationID);
+	        _logHelper.trace("community " + communityID + ". Organization: " + organizationID);
 	        
 	        return true;
 	    } catch(Exception ex) {
-	        _logHelper.Error(ex.getMessage());
+	        _logHelper.error(ex.getMessage());
 	        return false;
 	    }
 	}
@@ -1064,12 +1064,12 @@ public class CommunityApi extends GnossApiWrapper{
 	public List<TextosTraducidosIdioma> getTranslations(UUID community_id, String community_short_name, String language) {
 		try {
 			String url = getApiUrl() + "/community/get-language-translations?community_id=" + community_id + "&community_short_name=" + community_short_name + "&language=" + language;
-			String response = WebRequest("GET", url, "application/json");
+			String response = webRequest("GET", url, "application/json");
 			Gson gson = new Gson();
 	        Type listType = new TypeToken<ArrayList<TextosTraducidosIdioma>>(){}.getType();
 	        return gson.fromJson(response, listType);
 		} catch(Exception ex) {
-			this._logHelper.Error("The proyect could not be obtained");
+			this._logHelper.error("The proyect could not be obtained");
 			return null;
 		}
 	}
@@ -1085,7 +1085,7 @@ public class CommunityApi extends GnossApiWrapper{
 	public String getTranslation(UUID community_id, String community_short_name, String language, String text_id) {
 		try {
 			String url = getApiUrl() + "/community/get-language-translation?community_id=" + community_id + "&community_short_name=" + community_short_name + "&language=" + language + "&text_id=" + text_id;
-			String response = WebRequest("GET", url, "application/json");
+			String response = webRequest("GET", url, "application/json");
 			// Eliminar comillas dobles al inicio y final si existen
 	        if (response != null) {
 	            response = response.trim();
@@ -1096,7 +1096,7 @@ public class CommunityApi extends GnossApiWrapper{
 	        
 	        return response;
 		} catch(Exception ex) {
-			this._logHelper.Error("The proyect could not be obtained");
+			this._logHelper.error("The proyect could not be obtained");
 			return null;
 		}
 	}
@@ -1110,11 +1110,11 @@ public class CommunityApi extends GnossApiWrapper{
 	public UUID getCommunityId() throws Exception {
 		try {
 			String url = getApiUrl() + "/community/get-community-id?community_short_name=" + URLEncoder.encode(CommunityShortName, StandardCharsets.UTF_8);
-			String response = WebRequest("GET", url, "application/json");
+			String response = webRequest("GET", url, "application/json");
 			Gson gson = new Gson();
 			return gson.fromJson(response, UUID.class); 
 		} catch(Exception ex) {
-			this._logHelper.Error("The community " + CommunityShortName + " could not be found");
+			this._logHelper.error("The community " + CommunityShortName + " could not be found");
 			throw ex;
 		}
 	}
@@ -1124,7 +1124,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @param userId User's identifier 
 	 * @throws Exception exception
 	 */
-	public void BlockMember(UUID userId) throws Exception {
+	public void blockMember(UUID userId) throws Exception {
 		try {
 			UserCommunityModel model = new UserCommunityModel();
 			{
@@ -1132,9 +1132,9 @@ public class CommunityApi extends GnossApiWrapper{
 				model.setCommunity_short_name(CommunityShortName);
 			}
 			String url = getApiUrl() + "/community/block-member";
-			WebRequestPostWithJsonObject(url, model);
+			webRequestPostWithJsonObject(url, model);
 		} catch(Exception ex) {
-			this._logHelper.Error("The user " + userId + " of the community members '" + CommunityShortName + "' could not be blocked");
+			this._logHelper.error("The user " + userId + " of the community members '" + CommunityShortName + "' could not be blocked");
 			throw ex;
 		}
 	}
@@ -1145,7 +1145,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @param userId User's identifier
 	 * @throws Exception exception 
 	 */
-	public void UnblockMember(UUID userId) throws Exception {
+	public void unblockMember(UUID userId) throws Exception {
 		try {
 			UserCommunityModel model = new UserCommunityModel();
 			{
@@ -1153,9 +1153,9 @@ public class CommunityApi extends GnossApiWrapper{
 				model.setCommunity_short_name(CommunityShortName);
 			}
 			String url = getApiUrl() + "/community/unblock-member";
-			WebRequestPostWithJsonObject(url, model);
+			webRequestPostWithJsonObject(url, model);
 		} catch(Exception ex) {
-			this._logHelper.Error("The user " + userId + " of the community members '" + CommunityShortName + "' could not be unblocked");
+			this._logHelper.error("The user " + userId + " of the community members '" + CommunityShortName + "' could not be unblocked");
 			throw ex;
 		}
 	}
@@ -1165,12 +1165,12 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @param componentId Component id to refresh
 	 * @throws Exception exception 
 	 */
-	public void RefreshCMSComponent(UUID componentId) throws Exception {
+	public void refreshCMSComponent(UUID componentId) throws Exception {
 		try {
 			String url = getApiUrl() + "/community/refresh-cms-component?component_id=" + componentId.toString() + "&community_short_name=" + URLEncoder.encode(CommunityShortName, StandardCharsets.UTF_8);
-			WebRequest("POST", url);
+			webRequest("POST", url);
 		} catch(Exception ex) {
-			this._logHelper.Error("The component id " + componentId + " of the community '" + CommunityShortName + "' could not be refreshed");
+			this._logHelper.error("The component id " + componentId + " of the community '" + CommunityShortName + "' could not be refreshed");
 			throw ex;
 		}
 	}
@@ -1180,12 +1180,12 @@ public class CommunityApi extends GnossApiWrapper{
 	 * Refresh the cache of all community's CMS components 
 	 * @throws Exception exception 
 	 */
-	public void RefreshAllCMSComponents() throws Exception {
+	public void refreshAllCMSComponents() throws Exception {
 		try {
 			String url = getApiUrl() + "/community/refresh-all-cms-components?community_short_name=" + URLEncoder.encode(CommunityShortName, StandardCharsets.UTF_8);
-			WebRequest("POST", url);
+			webRequest("POST", url);
 		} catch(Exception ex) {
-			this._logHelper.Error("The components of the community '" + CommunityShortName + "' could not be refreshed");
+			this._logHelper.error("The components of the community '" + CommunityShortName + "' could not be refreshed");
 			throw ex;
 		}
 	}
@@ -1196,14 +1196,14 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @return CommunityInfoModel Community info model 
 	 * @throws Exception Exception 
 	 */
-	public CommunityInfoModel GetCommunityInfo() throws Exception {
+	public CommunityInfoModel getCommunityInfo() throws Exception {
 		try {
 			String url = getApiUrl() + "/community/get-community-information?community_short_name=" + URLEncoder.encode(CommunityShortName, StandardCharsets.UTF_8);
-			String response = WebRequest("GET", url, "application/json");
+			String response = webRequest("GET", url, "application/json");
 			Gson gson = new Gson();
 			return gson.fromJson(response, CommunityInfoModel.class); 
 		} catch(Exception ex) {
-			this._logHelper.Error("The community " + CommunityShortName + " could not be found");
+			this._logHelper.error("The community " + CommunityShortName + " could not be found");
 			throw ex;
 		}
 	}
@@ -1214,14 +1214,14 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @return CommunityInfoModel Community Info model 
 	 * @throws Exception Exception 
 	 */
-	public CommunityInfoModel GetCommunityInfo(UUID communityId) throws Exception {
+	public CommunityInfoModel getCommunityInfo(UUID communityId) throws Exception {
 		try {
 			String url = getApiUrl() + "/community/get-community-information?community_id=" + communityId;
-			String response = WebRequest("GET", url, "application/json");
+			String response = webRequest("GET", url, "application/json");
 			Gson gson = new Gson();
 			return gson.fromJson(response, CommunityInfoModel.class); 
 		} catch(Exception ex) {
-			this._logHelper.Error("The community " + communityId + " could not be found");
+			this._logHelper.error("The community " + communityId + " could not be found");
 			throw ex;
 		}
 	}
@@ -1236,11 +1236,11 @@ public class CommunityApi extends GnossApiWrapper{
 	public CategoryNames getCategoryName(UUID categoryId) throws Exception {
 		try {
 			String url = getApiUrl() + "/community/get-category-name?category_id=" + categoryId;
-			String response = WebRequest("GET", url, "application/json");
+			String response = webRequest("GET", url, "application/json");
 			Gson gson = new Gson();
 			return gson.fromJson(response, CategoryNames.class); 
 		} catch(Exception ex) {
-			this._logHelper.Error("The category " + categoryId + " could not be found");
+			this._logHelper.error("The category " + categoryId + " could not be found");
 			throw ex;
 		}
 	}
@@ -1253,12 +1253,12 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @throws IOException IO Exception 
 	 * @throws GnossAPIException GnossAPIException 
 	 */
-	public boolean CheckIsAdminCommunity(String pShortName, UUID pUserID) throws IOException, GnossAPIException {
+	public boolean checkIsAdminCommunity(String pShortName, UUID pUserID) throws IOException, GnossAPIException {
 		UserCommunityModel model = new UserCommunityModel();
 		model.setCommunity_short_name(pShortName);
 		model.setUser_id(pUserID);
 		String url = getApiUrl() + "/community/check-administrator-community";
-		String response = WebRequestPostWithJsonObject(url, model);
+		String response = webRequestPostWithJsonObject(url, model);
 		Gson gson = new Gson();
 		return gson.fromJson(response, Boolean.class); 
 	}
@@ -1268,7 +1268,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @param userId User identifier
 	 * @throws Exception exception
 	 */
-	public void DowngradeMemberFromAdministrator(UUID userId) throws Exception {
+	public void downgradeMemberFromAdministrator(UUID userId) throws Exception {
 		try {
 			String url = getApiUrl() + "/community/delete-administrator-permission";
 			UserCommunityModel model = new UserCommunityModel();
@@ -1276,10 +1276,10 @@ public class CommunityApi extends GnossApiWrapper{
 				model.setCommunity_short_name(CommunityShortName);
 				model.setUser_id(userId);
 			}
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("The member " + userId + " has been downgraded from administrator of " + CommunityShortName);
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("The member " + userId + " has been downgraded from administrator of " + CommunityShortName);
 		} catch(Exception ex) {
-			this._logHelper.Error("Error downgrading member " + userId + " from administrator in " + CommunityShortName + ": " + ex.getMessage());
+			this._logHelper.error("Error downgrading member " + userId + " from administrator in " + CommunityShortName + ": " + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -1291,7 +1291,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @param duration Duration of the cache expiration in seconds
 	 * @throws Exception exception
 	 */
-	public void AddSearchToCache(String key, ConsultaCacheModel queryValue, double duration) throws Exception {
+	public void addSearchToCache(String key, ConsultaCacheModel queryValue, double duration) throws Exception {
 		try {
 			String url = getApiUrl() + "/community/add-search-to-cache";
 			AddSearchToCacheModel model = new AddSearchToCacheModel();
@@ -1301,10 +1301,10 @@ public class CommunityApi extends GnossApiWrapper{
 				model.setCommunity_short_name(CommunityShortName);
 				model.setDuration(duration);
 			}
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("The value was added correctly to cache to the community: " + CommunityShortName);
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("The value was added correctly to cache to the community: " + CommunityShortName);
 		} catch(Exception ex) {
-			this._logHelper.Error("Error adding the cache to " + CommunityShortName + ": " + ex.getMessage());
+			this._logHelper.error("Error adding the cache to " + CommunityShortName + ": " + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -1316,7 +1316,7 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @param duration Duration of the cache expiration in seconds
 	 * @throws Exception exception
 	 */
-	public void AddToCache(String key, String value, double duration) throws Exception {
+	public void addToCache(String key, String value, double duration) throws Exception {
 		try {
 			String url = getApiUrl() + "/community/add-to-cache";
 			AddToCacheModel model = new AddToCacheModel();
@@ -1326,10 +1326,10 @@ public class CommunityApi extends GnossApiWrapper{
 				model.setCommunity_short_name(CommunityShortName);
 				model.setDuration(duration);
 			}
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("The value was added correctly to cache to the community: " + CommunityShortName);
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("The value was added correctly to cache to the community: " + CommunityShortName);
 		} catch(Exception ex) {
-			this._logHelper.Error("Error adding the cache to " + CommunityShortName + ": " + ex.getMessage());
+			this._logHelper.error("Error adding the cache to " + CommunityShortName + ": " + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -1341,16 +1341,16 @@ public class CommunityApi extends GnossApiWrapper{
 	 * @return String with the text in the specified language
 	 * @throws Exception exception
 	 */
-	public String GetTextByLanguage(String language, String textoID) throws Exception {
+	public String getTextByLanguage(String language, String textoID) throws Exception {
 	    try {
 	        String url = getApiUrl() + "/community/get-text-by-language?community_short_name=" + URLEncoder.encode(CommunityShortName, StandardCharsets.UTF_8) + "&language=" + URLEncoder.encode(language, StandardCharsets.UTF_8) + "&texto_id=" + URLEncoder.encode(textoID, StandardCharsets.UTF_8);
-	        String response = WebRequest("GET", url, "application/json");
+	        String response = webRequest("GET", url, "application/json");
 	        if (response != null) {
 	            response = response.trim().replaceAll("^\"|\"$", "");
 	        }
 	        return response;
 	    } catch(Exception ex) {
-	        this._logHelper.Error("Error getting the text by the data given: " + ex.getMessage());
+	        this._logHelper.error("Error getting the text by the data given: " + ex.getMessage());
 	        throw ex;
 	    }
 	}

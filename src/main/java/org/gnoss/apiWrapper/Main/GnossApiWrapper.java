@@ -126,25 +126,25 @@ public class GnossApiWrapper {
      * @throws GnossAPIException GnossAPIException
      */
     public GnossApiWrapper(String configFilePath) throws GnossAPIException, ParserConfigurationException, SAXException, IOException {
-        LoadConfigFile(configFilePath);
+        loadConfigFile(configFilePath);
         this._logHelper = LogHelper.getInstance();
     }
 
     //Methods
-    private void LoadConfigFile(String filePath) throws GnossAPIException, ParserConfigurationException, SAXException, IOException {
+    private void loadConfigFile(String filePath) throws GnossAPIException, ParserConfigurationException, SAXException, IOException {
         if (getUsarVariablesEntorno()) {
-            LoadEnvironmentVariables();
+            loadEnvironmentVariables();
         }
         else {
         	File file = new File(filePath);
         	if(file.exists()){
-        		ReadConfigFile(filePath);
+        		readConfigFile(filePath);
         	}
         	//Leer xml
         }
     }
     
-    protected void ReadConfigFile(String filePath) throws ParserConfigurationException, SAXException, IOException, GnossAPIException{
+    protected void readConfigFile(String filePath) throws ParserConfigurationException, SAXException, IOException, GnossAPIException{
     	String apiUrl, consumerKey, consumerSecret, tokenKey, tokenSecret;
     	String developerEmail = "";
     	
@@ -209,12 +209,12 @@ public class GnossApiWrapper {
     		throw new GnossAPIException("The config file doesn´t contains developerEmail");
     	}
     	
-    	 ConfigureLogFromConfigFile(filePath);
+    	 configureLogFromConfigFile(filePath);
     	 
     	 setOAuthInstance(new OAuthInfo(apiUrl, tokenKey, tokenSecret, consumerKey, consumerSecret, developerEmail)); 
     }
 
-    private void ConfigureLogFromConfigFile(String filePath){
+    private void configureLogFromConfigFile(String filePath){
     	
     	File file= new File(filePath);
     	String logPath="";
@@ -252,7 +252,7 @@ public class GnossApiWrapper {
 		}
     }
     
-    protected void LoadEnvironmentVariables() throws GnossAPIException {
+    protected void loadEnvironmentVariables() throws GnossAPIException {
         String apiUrl = "", consumerKey = "", consumerSecret = "", tokenKey = "", tokenSecret = "";
         String developerEmail = "";
         Map<String, String> variablesEntorno = System.getenv();
@@ -303,7 +303,7 @@ public class GnossApiWrapper {
         _oauth = new OAuthInfo(apiUrl, tokenKey, tokenSecret, consumerKey, consumerSecret, developerEmail);
     }
 
-    protected String GetResponse(HttpURLConnection conexion) throws IOException{
+    protected String getResponse(HttpURLConnection conexion) throws IOException{
     	BufferedReader in = new BufferedReader(
 				  new InputStreamReader(conexion.getInputStream()));
 		String inputLine;
@@ -315,11 +315,11 @@ public class GnossApiWrapper {
 		return content.toString();
     }
     
-    protected String WebRequest(String httpMethod, String url, String postData, String contentType, String acceptHeader, HashMap<String, String> otherHeaders) throws IOException, GnossAPIException{
-    	HttpURLConnection webRequest = PrepareWebRequest(httpMethod, url, postData, contentType, acceptHeader, otherHeaders);
+    protected String webRequest(String httpMethod, String url, String postData, String contentType, String acceptHeader, HashMap<String, String> otherHeaders) throws IOException, GnossAPIException{
+    	HttpURLConnection webRequest = prepareWebRequest(httpMethod, url, postData, contentType, acceptHeader, otherHeaders);
     	
     	try{
-    		String respuesta = GetResponse(webRequest);
+    		String respuesta = getResponse(webRequest);
     		
     		return respuesta;
     		
@@ -341,7 +341,7 @@ public class GnossApiWrapper {
                     message = ex.getMessage();
                 }
                 
-                LogHelper.getInstance().Error(ex.getMessage() + ".\r\nResponse: " + message);
+                LogHelper.getInstance().error(ex.getMessage() + ".\r\nResponse: " + message);
             } catch (Exception e) {
                 message = ex.getMessage();
             }
@@ -360,20 +360,20 @@ public class GnossApiWrapper {
     	if(!StringUtils.isEmpty(respuesta) &&  )
     }
     */
-    protected String WebRequest(String httpMethod, String url, String postData, String contentType, String acceptHeader) throws MalformedURLException, IOException, GnossAPIException{
-    	return WebRequest(httpMethod, url, postData, contentType, acceptHeader, null);
+    protected String webRequest(String httpMethod, String url, String postData, String contentType, String acceptHeader) throws MalformedURLException, IOException, GnossAPIException{
+    	return webRequest(httpMethod, url, postData, contentType, acceptHeader, null);
     }
     
-    protected String WebRequest(String httpMethod, String url, String postData, String contentType) throws MalformedURLException, IOException, GnossAPIException{
-    	return WebRequest(httpMethod, url, postData, contentType, "", null);
+    protected String webRequest(String httpMethod, String url, String postData, String contentType) throws MalformedURLException, IOException, GnossAPIException{
+    	return webRequest(httpMethod, url, postData, contentType, "", null);
     }
 
-    protected String WebRequest(String httpMethod, String url, String postData) throws MalformedURLException, IOException, GnossAPIException{
-    	return WebRequest(httpMethod, url, postData, "", "", null);
+    protected String webRequest(String httpMethod, String url, String postData) throws MalformedURLException, IOException, GnossAPIException{
+    	return webRequest(httpMethod, url, postData, "", "", null);
     }
 
-    protected String WebRequest(String httpMethod, String url) throws MalformedURLException, IOException, GnossAPIException{
-    	return WebRequest(httpMethod, url, "", "", "", null);
+    protected String webRequest(String httpMethod, String url) throws MalformedURLException, IOException, GnossAPIException{
+    	return webRequest(httpMethod, url, "", "", "", null);
     }
     
     /**
@@ -385,7 +385,7 @@ public class GnossApiWrapper {
      * @throws IOException IO exception
      * @throws GnossAPIException Gnoss API exception
      */
-    protected String WebRequestPostWithJsonObject(String url, Object model, String acceptHeader) throws IOException, GnossAPIException {
+    protected String webRequestPostWithJsonObject(String url, Object model, String acceptHeader) throws IOException, GnossAPIException {
         HashMap<String, String> otherHeaders = new HashMap<>();
         SendLockTokenForResource(model, otherHeaders);
 
@@ -399,13 +399,13 @@ public class GnossApiWrapper {
                 .create();
         String json = jsonUtilities.toJson(model);
 
-        HttpURLConnection webRequest = PrepareWebRequest("POST", url, json, "application/json", acceptHeader, otherHeaders);
+        HttpURLConnection webRequest = prepareWebRequest("POST", url, json, "application/json", acceptHeader, otherHeaders);
 
         try {
             // Intentar obtener la respuesta exitosa
             InputStream inputStream = webRequest.getInputStream();
-            UpdateLockTokenForResource(webRequest, model);
-            return ReadWebResponse(inputStream);
+            updateLockTokenForResource(webRequest, model);
+            return readWebResponse(inputStream);
         } catch (IOException ex) {
             // Manejar error de respuesta del servidor
             String message = null;
@@ -422,7 +422,7 @@ public class GnossApiWrapper {
                     reader.close();
                     
                     if (this._logHelper != null) {
-                    	this._logHelper.Error(String.format("%s. \r\nResponse: %s", ex.getMessage(), message));
+                    	this._logHelper.error(String.format("%s. \r\nResponse: %s", ex.getMessage(), message));
                     }
                 }
             } catch (Exception e) {
@@ -438,10 +438,10 @@ public class GnossApiWrapper {
         }
     }
 
-    protected String ReadWebResponse(InputStream inputStream) throws GnossAPIException, IOException {
+    protected String readWebResponse(InputStream inputStream) throws GnossAPIException, IOException {
     	String message = "";
     	try{
-        	message = WebResponseGet(inputStream);
+        	message = webResponseGet(inputStream);
         }
         catch(Exception ex){
         	InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
@@ -461,7 +461,7 @@ public class GnossApiWrapper {
         return message;
     }
 
-    protected String WebResponseGet(InputStream streamReader) throws GnossAPIException, IOException{
+    protected String webResponseGet(InputStream streamReader) throws GnossAPIException, IOException{
     	InputStreamReader inputStreamReader = new InputStreamReader(streamReader, "utf-8");
         BufferedReader br = new BufferedReader(inputStreamReader);
         StringBuilder response = new StringBuilder();
@@ -490,7 +490,7 @@ public class GnossApiWrapper {
      * @throws MalformedURLException exception
      * @throws IOException exception
      */
-    protected HttpURLConnection PrepareWebRequest(String httpMethod, String url, String postData, String contentType, String acceptHeader, HashMap<String, String> otherHeaders) throws MalformedURLException, IOException {
+    protected HttpURLConnection prepareWebRequest(String httpMethod, String url, String postData, String contentType, String acceptHeader, HashMap<String, String> otherHeaders) throws MalformedURLException, IOException {
         HttpURLConnection webRequest = null;
         OutputStreamWriter requestWriter = null;
 
@@ -498,9 +498,9 @@ public class GnossApiWrapper {
         webRequest = (HttpURLConnection) iurl.openConnection();
         webRequest.setRequestMethod(httpMethod);
         webRequest.setConnectTimeout(3600000); // Cambiado a 3600000 como en C#
-        webRequest.setRequestProperty("User-Agent", GenerarUserAgent());
+        webRequest.setRequestProperty("User-Agent", generarUserAgent());
 
-        SetHeaders(webRequest, contentType, acceptHeader, otherHeaders);
+        setHeaders(webRequest, contentType, acceptHeader, otherHeaders);
         
         if (httpMethod.equals("POST") || httpMethod.equals("PUT") || httpMethod.equals("DELETE")) {
             webRequest.setDoOutput(true);
@@ -520,7 +520,7 @@ public class GnossApiWrapper {
      * Generate the UserAgent
      * @return The custom UserAgent
      */
-    public static String GenerarUserAgent() {
+    public static String generarUserAgent() {
         String osName = System.getProperty("os.name");
         String osVersion = System.getProperty("os.version");
         String osArch = System.getProperty("os.arch");
@@ -542,10 +542,10 @@ public class GnossApiWrapper {
                             OSVersion, assemblyVersion);
     }
 
-    private void SetHeaders(HttpURLConnection webRequest, String contentType, String acceptHeader, HashMap<String, String> otherHeaders) throws MalformedURLException {
+    private void setHeaders(HttpURLConnection webRequest, String contentType, String acceptHeader, HashMap<String, String> otherHeaders) throws MalformedURLException {
         //TODO  Getters   
         //webRequest.setRequestProperty("X-Request-ID", AffinityToken);
-        SetOauthHeader(webRequest);
+        setOauthHeader(webRequest);
 
         if (otherHeaders != null) {
             for (String header : otherHeaders.keySet()) {
@@ -561,7 +561,7 @@ public class GnossApiWrapper {
         }
     }
 
-    private void SetOauthHeader(HttpURLConnection webRequest) throws MalformedURLException {
+    private void setOauthHeader(HttpURLConnection webRequest) throws MalformedURLException {
         String signUrl = webRequest.getURL().toString();
         if (signUrl.contains("?")) {
             signUrl = signUrl.substring(0, signUrl.indexOf('?'));
@@ -583,9 +583,9 @@ public class GnossApiWrapper {
     }
 
     private void SendLockTokenForResource(Object model, HashMap<String, String> otherHeaders) {
-        UUID resourceID = GetResourceIdFromModel(model);
+        UUID resourceID = getResourceIdFromModel(model);
         if (resourceID != null) {
-            String token = GetLockTokenForResource(resourceID);
+            String token = getLockTokenForResource(resourceID);
             if (!StringUtils.isEmpty(token)) {
                 otherHeaders.put("X-Correlation-ID", token);
             }
@@ -596,19 +596,19 @@ public class GnossApiWrapper {
      * @param webResponse HTTP response connection
      * @param model Model object
      */
-    private void UpdateLockTokenForResource(HttpURLConnection webResponse, Object model) {
+    private void updateLockTokenForResource(HttpURLConnection webResponse, Object model) {
         if (webResponse != null) {
             String lockToken = webResponse.getHeaderField("X-Correlation-ID");
             if (lockToken != null && !lockToken.isEmpty()) {
-                UUID resourceId = GetResourceIdFromModel(model);
+                UUID resourceId = getResourceIdFromModel(model);
                 if (resourceId != null) {
-                    SetLockTokenForResource(resourceId, lockToken);
+                    setLockTokenForResource(resourceId, lockToken);
                 }
             }
         }
     }
 
-    private UUID GetResourceIdFromModel(Object model) {
+    private UUID getResourceIdFromModel(Object model) {
         if (model.getClass().equals(new ModifyResourceTripleListParams().getClass())) {
             return ((ModifyResourceTripleListParams) model).getResource_id();
         } else if (model.getClass().equals(ModifyResourceProperty.class)) {
@@ -619,7 +619,7 @@ public class GnossApiWrapper {
         return null;
     }
 
-    protected String GetLockTokenForResource(UUID resourceID) {
+    protected String getLockTokenForResource(UUID resourceID) {
         if (_resourceLockTokens.containsKey(resourceID)) {
             return _resourceLockTokens.get(resourceID);
         }
@@ -627,11 +627,11 @@ public class GnossApiWrapper {
         return null;
     }
 
-    protected String WebRequestPostWithJsonObject(String url, Object model) throws IOException, GnossAPIException {
-        return WebRequestPostWithJsonObject(url, model, "");
+    protected String webRequestPostWithJsonObject(String url, Object model) throws IOException, GnossAPIException {
+        return webRequestPostWithJsonObject(url, model, "");
     }
 
-    private void ConfigureLogFromConfigFile(Document docXml) throws GnossAPIException {
+    private void configureLogFromConfigFile(Document docXml) throws GnossAPIException {
         String logPath = "";
         String logFileName = "";
         String logLevel = "";
@@ -699,7 +699,7 @@ public class GnossApiWrapper {
         }
     }
 
-    protected void LoadApi() {
+    protected void loadApi() {
     }
 
     //Getters and Setters
@@ -733,7 +733,7 @@ public class GnossApiWrapper {
 
     public void setOAuthInstance(OAuthInfo oAuthInfo) {
         _oauth = oAuthInfo;
-        LoadApi();
+        loadApi();
     }
 
     public OAuthInfo getOAuthInfo() {
@@ -742,10 +742,10 @@ public class GnossApiWrapper {
 
     public void setOAuthInfo(OAuthInfo oAuth) {
         _oauth = oAuth;
-        LoadApi();
+        loadApi();
     }
     
-    protected void SetLockTokenForResource(UUID resourceId, String token) {
+    protected void setLockTokenForResource(UUID resourceId, String token) {
     	if(this._resourceLockTokens.containsKey(resourceId)) {
     		if(token==null) {
     			this._resourceLockTokens.remove(resourceId);

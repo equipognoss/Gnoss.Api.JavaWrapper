@@ -331,7 +331,7 @@ public abstract class BaseResource {
         }
     }
     
-    protected byte[] ReadFile(String downloadUrl) throws GnossAPIException, IOException
+    protected byte[] readFile(String downloadUrl) throws GnossAPIException, IOException
         {
             byte[] file = null;
             if (downloadUrl != null && !downloadUrl.isEmpty())

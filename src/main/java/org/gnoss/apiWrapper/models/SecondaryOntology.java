@@ -35,7 +35,7 @@ public class SecondaryOntology extends BaseOntology{
 
 	//Public methods
 	@Override
-	public byte[] GenerateRDF() throws IOException, GnossAPIException{
+	public byte[] generateRDF() throws IOException, GnossAPIException{
 		// Initialize output stream and string builder
 	    ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	    setStringBuilder(new StringBuilder());
@@ -43,11 +43,11 @@ public class SecondaryOntology extends BaseOntology{
 	    byte[] rdfFile = null;
 	    
 	    // Write RDF header
-	    WriteRdfHeader();
+	    writeRdfHeader();
 	    
 	    // Convert entity lists to dictionaries
-	    HashMap<UUID, OntologyEntity> entitiesDictionary = EntityListToEntityDictionary();
-	    HashMap<String, SecondaryEntity> secondaryEntityDictionary = SecondaryEntityListToSecondaryEntityDictionary();
+	    HashMap<UUID, OntologyEntity> entitiesDictionary = entityListToEntityDictionary();
+	    HashMap<String, SecondaryEntity> secondaryEntityDictionary = secondaryEntityListToSecondaryEntityDictionary();
 	    
 	    // Validate required fields
 	    if (StringUtils.isEmpty(getRdfType()) || StringUtils.isBlank(getRdfType())) {
@@ -61,29 +61,29 @@ public class SecondaryOntology extends BaseOntology{
 	        stringBuilder.append(line);
 	        
 	        if (!StringUtils.isEmpty(getRdfType()) && !StringUtils.isEmpty(getRdfsLabel())) {
-	            Write("rdf:type", getRdfType());
-	            Write("rdfs:label", getRdfsLabel());
+	            write("rdf:type", getRdfType());
+	            write("rdfs:label", getRdfsLabel());
 	        } else {
 	            throw new GnossAPIException("RdfType and RdfLabel are required, they can't be null or empty");
 	        }
 	        
 	        // Write properties
-	        WritePropertyList(getProperties(), UUID.fromString("00000000-0000-0000-0000-000000000000"));
+	        writePropertyList(getProperties(), UUID.fromString("00000000-0000-0000-0000-000000000000"));
 	        
 	        // Write entity first description
-	        WriteEntityFirstDescription(entitiesDictionary, _resourceId);
+	        writeEntityFirstDescription(entitiesDictionary, _resourceId);
 	        
 	        // Write secondary entity first description
-	        WriteSecondaryEntityFirstDescription(secondaryEntityDictionary);
+	        writeSecondaryEntityFirstDescription(secondaryEntityDictionary);
 	        
 	        // Close first description
 	        stringBuilder.append("</rdf:Description>\n");
 	        
 	        // Additional Descriptions
-	        WriteEntityAdditionalDescription(entitiesDictionary, _resourceId);
+	        writeEntityAdditionalDescription(entitiesDictionary, _resourceId);
 	        
 	        // Write secondary entity additional description
-	        WriteSecondaryEntityAdditionalDescription(secondaryEntityDictionary);
+	        writeSecondaryEntityAdditionalDescription(secondaryEntityDictionary);
 	        
 	        // Close RDF
 	        stringBuilder.append("</rdf:RDF>\n");
@@ -96,18 +96,18 @@ public class SecondaryOntology extends BaseOntology{
 	}
 	
 	@Override
-	protected void WritePropertyList(ArrayList<OntologyProperty> properties, UUID resourceId) throws IOException{
+	protected void writePropertyList(ArrayList<OntologyProperty> properties, UUID resourceId) throws IOException{
 		if(resourceId.equals(UUID.fromString("00000000-0000-0000-0000-000000000000"))){
 			if(properties != null){
 				for(OntologyProperty prop : properties){
 					if(!StringUtils.isEmpty(prop.getName()) && prop.getValue() != null && !prop.getClass().equals(DataTypes.OntologyPropertyImage.getClass())){
 						if(prop.getValue() instanceof ArrayList<?>) {
 							for(Object obj : (ArrayList<Object>)prop.getValue()) {
-								Write(prop.getName(), obj.toString(), prop.getLanguage());
+								write(prop.getName(), obj.toString(), prop.getLanguage());
 							}
 						}
 						else {
-							Write(prop.getName(), prop.getValue().toString(), prop.getLanguage());
+							write(prop.getName(), prop.getValue().toString(), prop.getLanguage());
 						}
 					}
 				}
@@ -115,25 +115,25 @@ public class SecondaryOntology extends BaseOntology{
 		}
 	}
 	
-	private void WriteSecondaryEntityFirstDescription(HashMap<String, SecondaryEntity> secondaryEntityDictionary) throws GnossAPIArgumentException, IOException{
+	private void writeSecondaryEntityFirstDescription(HashMap<String, SecondaryEntity> secondaryEntityDictionary) throws GnossAPIArgumentException, IOException{
 		if(secondaryEntityDictionary != null){
 			for(String id : secondaryEntityDictionary.keySet()){
-				if(!secondaryEntityDictionary.get(id).HasRdfTypeDefined()){
+				if(!secondaryEntityDictionary.get(id).hasRdfTypeDefined()){
 					throw new GnossAPIArgumentException("Required. " + secondaryEntityDictionary.get(id).getRdfType() + " can't be null");
 				}
-				else if(!secondaryEntityDictionary.get(id).HasRdfsLabelDefined()){
+				else if(!secondaryEntityDictionary.get(id).hasRdfsLabelDefined()){
 					throw new GnossAPIArgumentException("Required. " + secondaryEntityDictionary.get(id).getRdfsLabel() + " can't be null");
 				}
 				else{
-					if(secondaryEntityDictionary.get(id).HasAnyPropertyWithData()){
-						Write(secondaryEntityDictionary.get(id).getLabel(), secondaryEntityDictionary.get(id).getIdentifier());
+					if(secondaryEntityDictionary.get(id).hasAnyPropertyWithData()){
+						write(secondaryEntityDictionary.get(id).getLabel(), secondaryEntityDictionary.get(id).getIdentifier());
 					}
 				}
 			}
 		}
 	}
 	
-	private HashMap<String, SecondaryEntity> SecondaryEntityListToSecondaryEntityDictionary(){
+	private HashMap<String, SecondaryEntity> secondaryEntityListToSecondaryEntityDictionary(){
 		HashMap<String, SecondaryEntity> secondaryEntityDictionary = null;
 		if(SecondaryEntities != null){
 			for(SecondaryEntity secondaryEntity : SecondaryEntities){
@@ -146,25 +146,25 @@ public class SecondaryOntology extends BaseOntology{
 		return secondaryEntityDictionary;
 	}
 	
-	private void WriteSecondaryEntityAdditionalDescription(HashMap<String, SecondaryEntity> secondaryEntityDictionary) throws GnossAPIArgumentException, IOException{
+	private void writeSecondaryEntityAdditionalDescription(HashMap<String, SecondaryEntity> secondaryEntityDictionary) throws GnossAPIArgumentException, IOException{
 		if(secondaryEntityDictionary != null){
 			for(String id : secondaryEntityDictionary.keySet()){
-				if(!secondaryEntityDictionary.get(id).HasRdfTypeDefined()){
+				if(!secondaryEntityDictionary.get(id).hasRdfTypeDefined()){
 					throw new GnossAPIArgumentException("Required. " + secondaryEntityDictionary.get(id).getRdfType() + " can't be null");
 				}
-				else if(!secondaryEntityDictionary.get(id).HasRdfsLabelDefined()){
+				else if(!secondaryEntityDictionary.get(id).hasRdfsLabelDefined()){
 					throw new GnossAPIArgumentException("Required. " + secondaryEntityDictionary.get(id).getRdfsLabel() + " can't be null");
 				}
 				else{
 					getStringBuilder().append("<rdf:Description rdf:about=\"" + secondaryEntityDictionary.get(id).getIdentifier() + "\">\n");
 					
-					Write("rdf:type", secondaryEntityDictionary.get(id).getRdfType());
-					Write("rdfs:label", secondaryEntityDictionary.get(id).getRdfsLabel());
+					write("rdf:type", secondaryEntityDictionary.get(id).getRdfType());
+					write("rdfs:label", secondaryEntityDictionary.get(id).getRdfsLabel());
 					
 					if(secondaryEntityDictionary.get(id).getProperties() != null){
 						for(OntologyProperty prop : secondaryEntityDictionary.get(id).getProperties()){
-							if(secondaryEntityDictionary.get(id).HasAnyPropertyWithData()){
-								Write(prop.getName(), prop.getValue().toString(), prop.getLanguage());
+							if(secondaryEntityDictionary.get(id).hasAnyPropertyWithData()){
+								write(prop.getName(), prop.getValue().toString(), prop.getLanguage());
 							}
 						}
 					}

@@ -88,7 +88,7 @@ public class OAuthBase {
     }
 
     //Métodos
-    public HashMap<String, String> GetOAuthParameters(String httpMethod, String url, String requestToken,
+    public HashMap<String, String> getOAuthParameters(String httpMethod, String url, String requestToken,
             String tokenSecret, String verifier, String callback) throws URISyntaxException, SignatureException, MalformedURLException {
 
         HashMap<String, String> oAuthParameters = new HashMap<String, String>();
@@ -110,23 +110,23 @@ public class OAuthBase {
             oAuthParameters.put("oauth_callback", callback);
         }
 
-        String signatureBase = GetSignatureBase(httpMethod, NormalizeUrl(url), oAuthParameters);
-        String signature = GetSignature(ConsumerSecret, signatureBase, tokenSecret);
+        String signatureBase = getSignatureBase(httpMethod, NormalizeUrl(url), oAuthParameters);
+        String signature = getSignature(ConsumerSecret, signatureBase, tokenSecret);
         oAuthParameters.put("oauth_signature", signature);
 
         return oAuthParameters;
     }
 
-    public LinkedHashMap<String, String> GetOAuthParametersWithoutEncode(String httpMethod, String url, String requestToken, String tokenSecret, String verifier, String callback) throws SignatureException, URISyntaxException, MalformedURLException {
+    public LinkedHashMap<String, String> getOAuthParametersWithoutEncode(String httpMethod, String url, String requestToken, String tokenSecret, String verifier, String callback) throws SignatureException, URISyntaxException, MalformedURLException {
         LinkedHashMap<String, String> oAuthParameters = new LinkedHashMap<String, String>();
-        oAuthParameters.put("oauth_consumer_key", UrlEncode(ConsumerKey));
+        oAuthParameters.put("oauth_consumer_key", urlEncode(ConsumerKey));
 
         LinkedHashMap<String, String> oAuthParametersEncode = new LinkedHashMap<String, String>();
-        oAuthParametersEncode.put("oauth_consumer_key", UrlEncode(ConsumerKey));
+        oAuthParametersEncode.put("oauth_consumer_key", urlEncode(ConsumerKey));
 
         if (!StringUtils.isEmpty(requestToken)) {
             oAuthParameters.put("oauth_token", requestToken);
-            oAuthParametersEncode.put("oauth_token", UrlEncode(requestToken));
+            oAuthParametersEncode.put("oauth_token", urlEncode(requestToken));
         }
 
         oAuthParameters.put("oauth_signature_method", "HMAC-SHA1");
@@ -143,7 +143,7 @@ public class OAuthBase {
 
         if (!StringUtils.isEmpty(verifier)) {
             oAuthParameters.put("oauth_verifier", verifier);
-            oAuthParametersEncode.put("oauth_verifier", UrlEncode(verifier));
+            oAuthParametersEncode.put("oauth_verifier", urlEncode(verifier));
         }
 
         if (!StringUtils.isEmpty(callback)) {
@@ -151,8 +151,8 @@ public class OAuthBase {
             oAuthParametersEncode.put("oauth_callback", callback);
         }
 
-        String signatureBase = GetSignatureBaseEncoded(httpMethod, NormalizeUrl(url), oAuthParametersEncode);
-        String signature = UrlEncode(GetSignature(UrlEncode(ConsumerSecret), signatureBase, UrlEncode(tokenSecret)));
+        String signatureBase = getSignatureBaseEncoded(httpMethod, NormalizeUrl(url), oAuthParametersEncode);
+        String signature = urlEncode(getSignature(urlEncode(ConsumerSecret), signatureBase, urlEncode(tokenSecret)));
 
         oAuthParameters.put("oauth_signature", signature);
         oAuthParametersEncode.put("oauth_signature", signature);
@@ -167,31 +167,31 @@ public class OAuthBase {
      * @param oAuthParameters OAuth parameters
      * @return String signatureBase
      */
-    private static String GetSignatureBaseEncoded(String httpMehod, String url, HashMap<String, String> oAuthParameters){
+    private static String getSignatureBaseEncoded(String httpMehod, String url, HashMap<String, String> oAuthParameters){
         HashMap<String, String> parameters = new HashMap<>();
         for(String key : oAuthParameters.keySet()){
             parameters.put(key, oAuthParameters.get(key));
         }
         
         String normalizedParameters = NormalizeParameters(parameters);
-        String signatureBase = httpMehod + "&" + UrlEncode(url) + "&" + UrlEncode(normalizedParameters);
+        String signatureBase = httpMehod + "&" + urlEncode(url) + "&" + urlEncode(normalizedParameters);
         
         return signatureBase;
     }
 
-    public static String UrlEncode(String value) {      
+    public static String urlEncode(String value) {      
     	String encodedUrl = "";
 		try {
 			encodedUrl = URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
 		} catch (UnsupportedEncodingException e) {
-			LogHelper.getInstance().Error("The URL can't be encoded");
+			LogHelper.getInstance().error("The URL can't be encoded");
 			e.printStackTrace();
 		}    
         	        
         return encodedUrl;
     }
 
-    private static String GetSignature(String consumerSecret, String signatureBase, String tokenSecret) throws SignatureException {
+    private static String getSignature(String consumerSecret, String signatureBase, String tokenSecret) throws SignatureException {
         //Si no funciona este método probar OAuthClientLibrary Java
         //Example https://github.com/SAP-samples/jam-collaboration-sample/blob/master/OAuth_1_HMAC-SHA1/jam_java_oauth1_client/src/com/sap/jam/oauth/client/OAuthClientHelper.java
         try {
@@ -209,7 +209,7 @@ public class OAuthBase {
         }
     }
 
-    private static String GetSignatureBase(String httpMehod, String url, HashMap<String, String> oAuthParameters) throws URISyntaxException {
+    private static String getSignatureBase(String httpMehod, String url, HashMap<String, String> oAuthParameters) throws URISyntaxException {
         HashMap<String, String> parameters = new HashMap<String, String>();
         for (String key : oAuthParameters.keySet()) {
             parameters.put(key, oAuthParameters.get(key));

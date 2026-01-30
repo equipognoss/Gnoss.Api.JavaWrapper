@@ -17,7 +17,7 @@ public abstract  class GnossWebClient implements WebClient{
 		this.autoRedirect=pAutoRedirect;
 	}
 	
-	protected String GetWebRequest(URI address) {
+	protected String getWebRequest(URI address) {
 		//String request=GetWebRequest(address).toString();
 		//return request;
 		return "";

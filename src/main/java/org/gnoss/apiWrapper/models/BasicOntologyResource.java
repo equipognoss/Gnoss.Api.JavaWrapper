@@ -24,8 +24,8 @@ public class BasicOntologyResource extends BaseResource{
 	 * @throws IOException  IOException
 	 * @throws GnossAPIException GnossAPIException 
 	 */
-	public void AttachImage(String downloadUrl, int size) throws GnossAPIException, IOException{
-		byte[] image = ReadFile(downloadUrl);
+	public void attachImage(String downloadUrl, int size) throws GnossAPIException, IOException{
+		byte[] image = readFile(downloadUrl);
 		
 		BufferedImage resizedImage = null;
 		GenerateSnapshot = true;
@@ -43,14 +43,14 @@ public class BasicOntologyResource extends BaseResource{
 	 * @throws IOException IOException
 	 * @throws GnossAPIException GnossAPIException
 	 */
-	public void AttachFile(String downloadUrl) throws GnossAPIException, IOException{
-		ReadFile(downloadUrl);
+	public void attachFile(String downloadUrl) throws GnossAPIException, IOException{
+		readFile(downloadUrl);
 	}
 	
 	//Protected methods
 	@Override
-	protected byte[] ReadFile(String downloadUrl) throws GnossAPIException, IOException{
-		AttachedFile = super.ReadFile(downloadUrl);
+	protected byte[] readFile(String downloadUrl) throws GnossAPIException, IOException{
+		AttachedFile = super.readFile(downloadUrl);
 		
 		String[] schemes  = {"http", "https"};
 		File file = new File(downloadUrl);

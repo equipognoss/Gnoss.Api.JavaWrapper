@@ -72,14 +72,14 @@ public class ThesaurusAPI extends GnossApiWrapper {
 		try {
 			String url = getApiUrl() + "/thesaurus/get-thesaurus?thesaurus_ontology_url=" + thesaurusOntologyUrl + 
 					"&community_short_name=" + getCommunityShortName() + "&source=" + source;
-			String response = WebRequest("GET", url, "application/json");
+			String response = webRequest("GET", url, "application/json");
 			
 			if (response != null && !response.isEmpty()) {
-				this._logHelper.Debug("Thesaurus obtained successfully");
+				this._logHelper.debug("Thesaurus obtained successfully");
 			}
 			return response;
 		} catch (Exception ex) {
-			this._logHelper.Error("There has been an error getting the thesaurus of the community " + 
+			this._logHelper.error("There has been an error getting the thesaurus of the community " + 
 					getCommunityShortName() + " and ontology " + thesaurusOntologyUrl + ". " + ex.getMessage()); 
 			throw ex;
 		}
@@ -106,8 +106,8 @@ public class ThesaurusAPI extends GnossApiWrapper {
 			model.setCategory_id(pCategoriaMoveId);
 			model.setPath(pPath);
 			
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("The category " + pCategoriaMoveId + " has been moved");
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("The category " + pCategoriaMoveId + " has been moved");
 		} catch (Exception ex) {
 			throw ex;
 		}
@@ -134,8 +134,8 @@ public class ThesaurusAPI extends GnossApiWrapper {
 			model.setCategory_id(pCategoriaAEliminarId);
 			model.setPath(pPath);
 			
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("The category " + pCategoriaAEliminarId + " has been deleted");
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("The category " + pCategoriaAEliminarId + " has been deleted");
 		} catch (Exception ex) {
 			throw ex;
 		}
@@ -157,8 +157,8 @@ public class ThesaurusAPI extends GnossApiWrapper {
 			model.setCategory_id(categoryId);
 			model.setNew_category_name(newCategoryName);
 			
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("The category " + categoryId + " has been modified");
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("The category " + categoryId + " has been modified");
 		} catch (Exception ex) {
 			throw ex;
 		}
@@ -180,8 +180,8 @@ public class ThesaurusAPI extends GnossApiWrapper {
 			model.setCategory_name(categoryName);
 			model.setParent_category_id(parentCategoryId);
 			
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("The category " + categoryName + " has been created");
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("The category " + categoryName + " has been created");
 		} catch (Exception ex) {
 			throw ex;
 		}
@@ -213,8 +213,8 @@ public class ThesaurusAPI extends GnossApiWrapper {
 			model.setCommunity_short_name(getCommunityShortName());
 			model.setCategory_id(categoryId);
 			
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("The category " + categoryName + " has been deleted");
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("The category " + categoryName + " has been deleted");
 		} catch (Exception ex) {
 			throw ex;
 		}
@@ -239,8 +239,8 @@ public class ThesaurusAPI extends GnossApiWrapper {
 			model.setParent_category_id(pCategoriaPadreId);
 			model.setChild_category_id(pCategoriaHijoId);
 			
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("The parent of the category " + pCategoriaHijoId + " is now " + pCategoriaPadreId);
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("The parent of the category " + pCategoriaHijoId + " is now " + pCategoriaPadreId);
 		} catch (Exception ex) {
 			throw ex;
 		}
@@ -265,8 +265,8 @@ public class ThesaurusAPI extends GnossApiWrapper {
 			model.setCategory_id(pCategoriaId);
 			model.setCategory_name(pNombre);
 			
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("The category " + pCategoriaId + " has changed, and now is " + pNombre);
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("The category " + pCategoriaId + " has changed, and now is " + pNombre);
 		} catch (Exception ex) {
 			throw ex;
 		}
@@ -288,8 +288,8 @@ public class ThesaurusAPI extends GnossApiWrapper {
 			model.setCommunity_short_name(getCommunityShortName());
 			model.setRdf_category(pRdfCategoria);
 			
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("A semantic category has been added to the community " + getCommunityShortName());
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("A semantic category has been added to the community " + getCommunityShortName());
 		} catch (Exception ex) {
 			throw ex;
 		}
@@ -308,10 +308,10 @@ public class ThesaurusAPI extends GnossApiWrapper {
 				pThesaurus.setCommunityShortName(getCommunityShortName());
 			}
 			
-			WebRequestPostWithJsonObject(url, pThesaurus);
-			this._logHelper.Debug("Thesaurus created successfully");
+			webRequestPostWithJsonObject(url, pThesaurus);
+			this._logHelper.debug("Thesaurus created successfully");
 		} catch (Exception ex) {
-			this._logHelper.Error("Error creating thesaurus: " + ex.getMessage());
+			this._logHelper.error("Error creating thesaurus: " + ex.getMessage());
 			throw new Exception(ex.getMessage(), ex);
 		}
 	}
@@ -329,10 +329,10 @@ public class ThesaurusAPI extends GnossApiWrapper {
 				pThesaurus.setCommunityShortName(getCommunityShortName());
 			}
 			
-			WebRequestPostWithJsonObject(url, pThesaurus);
-			this._logHelper.Debug("Thesaurus modified successfully");
+			webRequestPostWithJsonObject(url, pThesaurus);
+			this._logHelper.debug("Thesaurus modified successfully");
 		} catch (Exception ex) {
-			this._logHelper.Error("Error modifying thesaurus: " + ex.getMessage());
+			this._logHelper.error("Error modifying thesaurus: " + ex.getMessage());
 			throw new Exception(ex.getMessage(), ex);
 		}
 	}
@@ -357,10 +357,10 @@ public class ThesaurusAPI extends GnossApiWrapper {
 			
 			String url = getApiUrl() + "/thesaurus/add-thesaurus-category";
 			
-			WebRequestPostWithJsonObject(url, conceptToAddModel);
-			this._logHelper.Debug("Category added successfully");
+			webRequestPostWithJsonObject(url, conceptToAddModel);
+			this._logHelper.debug("Category added successfully");
 		} catch (Exception ex) {
-			this._logHelper.Error("Error adding category: " + ex.getMessage());
+			this._logHelper.error("Error adding category: " + ex.getMessage());
 			throw new Exception(ex.getMessage(), ex);
 		}
 	}
@@ -398,10 +398,10 @@ public class ThesaurusAPI extends GnossApiWrapper {
 			
 			String url = getApiUrl() + "/thesaurus/modify-thesaurus-category";
 			
-			WebRequestPostWithJsonObject(url, conceptToModify);
-			this._logHelper.Debug("Category modified successfully");
+			webRequestPostWithJsonObject(url, conceptToModify);
+			this._logHelper.debug("Category modified successfully");
 		} catch (Exception ex) {
-			this._logHelper.Error("Error modifying category: " + ex.getMessage());
+			this._logHelper.error("Error modifying category: " + ex.getMessage());
 			throw new Exception(ex.getMessage(), ex);
 		}
 	}
@@ -434,10 +434,10 @@ public class ThesaurusAPI extends GnossApiWrapper {
 			
 			String url = getApiUrl() + "/thesaurus/delete-thesaurus";
 			
-			WebRequestPostWithJsonObject(url, thesaurusToDelete);
-			this._logHelper.Debug("Thesaurus deleted successfully");
+			webRequestPostWithJsonObject(url, thesaurusToDelete);
+			this._logHelper.debug("Thesaurus deleted successfully");
 		} catch (Exception ex) {
-			this._logHelper.Error("Error deleting thesaurus: " + ex.getMessage());
+			this._logHelper.error("Error deleting thesaurus: " + ex.getMessage());
 			throw new Exception(ex.getMessage(), ex);
 		}
 	}
@@ -457,10 +457,10 @@ public class ThesaurusAPI extends GnossApiWrapper {
 			
 			String url = getApiUrl() + "/thesaurus/delete-thesaurus-category";
 			
-			WebRequestPostWithJsonObject(url, conceptToDelete);
-			this._logHelper.Debug("Category deleted successfully");
+			webRequestPostWithJsonObject(url, conceptToDelete);
+			this._logHelper.debug("Category deleted successfully");
 		} catch (Exception ex) {
-			this._logHelper.Error("Error deleting category: " + ex.getMessage());
+			this._logHelper.error("Error deleting category: " + ex.getMessage());
 			throw new Exception(ex.getMessage(), ex);
 		}
 	}

@@ -17,9 +17,9 @@ public interface ILogHelper {
      * @param className (Optional) Class name who invokes this method
      * @param memberName (Optional) Method name who infoes this
      */
-    void Trace(String message, String className, String memberName);
-    void Trace(String message, String className);
-    void Trace(String message);
+    void trace(String message, String className, String memberName);
+    void trace(String message, String className);
+    void trace(String message);
     
     
     /**
@@ -28,9 +28,9 @@ public interface ILogHelper {
      * @param className (Optional) Class name who invokes this method
      * @param memberName (Optional) Method name who infoes this
      */
-    void Debug(String message, String className, String memberName);
-    void Debug(String message, String className);
-    void Debug(String message);
+    void debug(String message, String className, String memberName);
+    void debug(String message, String className);
+    void debug(String message);
     
     /**
      * Write a information log message
@@ -38,9 +38,9 @@ public interface ILogHelper {
      * @param className (Optional) Class name who invokes this method
      * @param memberName (Optional) Method name who infoes this
      */
-    void Info(String message, String className, String memberName);
-    void Info(String message, String className);
-    void Info(String message);
+    void info(String message, String className, String memberName);
+    void info(String message, String className);
+    void info(String message);
     
     /**
      * Write a warn log message
@@ -48,9 +48,9 @@ public interface ILogHelper {
      * @param className (Optional) Class name who invokes this method
      * @param memberName (Optional) Method name who infoes this
      */
-    void Warn(String message, String className, String memberName);
-    void Warn(String message, String className);
-    void Warn(String message);
+    void warn(String message, String className, String memberName);
+    void warn(String message, String className);
+    void warn(String message);
     
     /**
      * Write a error log message
@@ -58,9 +58,9 @@ public interface ILogHelper {
      * @param className (Optional) Class name who invokes this method
      * @param memberName (Optional) Method name who infoes this
      */
-    void Error(String message, String className, String memberName);
-    void Error(String message, String className);
-    void Error(String message);
+    void error(String message, String className, String memberName);
+    void error(String message, String className);
+    void error(String message);
     
     /**
      * Write a fatal log message
@@ -68,7 +68,7 @@ public interface ILogHelper {
      * @param className (Optional) Class name who invokes this method
      * @param memberName (Optional) Method name who infoes this
      */
-    void Fatal(String message, String className, String memberName);
-    void Fatal(String message, String className);
-    void Fatal(String message);
+    void fatal(String message, String className, String memberName);
+    void fatal(String message, String className);
+    void fatal(String message);
 }

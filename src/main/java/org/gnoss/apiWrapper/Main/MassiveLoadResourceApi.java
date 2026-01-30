@@ -217,10 +217,10 @@ public class MassiveLoadResourceApi extends ResourceApi {
 			createMassiveDataLoadInternal();
 
 			LogHelper.getInstance()
-					.Debug("Massive data load create with the identifier " + massiveLoadIdentifier.toString());
+					.debug("Massive data load create with the identifier " + massiveLoadIdentifier.toString());
 			return massiveLoadIdentifier;
 		} catch (Exception ex) {
-			LogHelper.getInstance().Error("Error creating the massive data load " + massiveLoadIdentifier
+			LogHelper.getInstance().error("Error creating the massive data load " + massiveLoadIdentifier
 					+ ex.getMessage() + " " + getStackTraceAsString(ex));
 			throw new GnossAPIException("Error creating the massive data load " + massiveLoadIdentifier
 					+ ex.getMessage() + " " + getStackTraceAsString(ex));
@@ -282,7 +282,7 @@ public class MassiveLoadResourceApi extends ResourceApi {
 			resource.setFileHash(fileHash);
 			resource.setUrl(uri + "/test.nq");
 
-			WebRequestPostWithJsonObject(url, resource);
+			webRequestPostWithJsonObject(url, resource);
 		} catch (Exception ex) {
 			throw new Exception(
 					"The connection to the server could not be established or nq files are not supported. " + uri, ex);
@@ -332,9 +332,9 @@ public class MassiveLoadResourceApi extends ResourceApi {
 				counter.put(getOntologyNameWithoutExtension(), new OntologyCount(0, 0));
 			}
 
-			ArrayList<String> ontologyTriples = resource.ToOntologyGnossTriples(this);
-			ArrayList<String> searchTriples = resource.ToSearchGraphTriples(this);
-			HashMap<UUID, String> acidData = resource.ToAcidData(this);
+			ArrayList<String> ontologyTriples = resource.toOntologyGnossTriples(this);
+			ArrayList<String> searchTriples = resource.toSearchGraphTriples(this);
+			HashMap<UUID, String> acidData = resource.toAcidData(this);
 
 			String pathOntology = filesDirectory + File.separator + getOntologyNameWithoutExtension() + "_"
 					+ massiveLoadIdentifier.toString() + "_"
@@ -366,7 +366,7 @@ public class MassiveLoadResourceApi extends ResourceApi {
 			if ((currentCount.getResourcesCount() >= maxResourcesPerPackage && !isDebugMode)
 					|| (isDebugMode && currentCount.getResourcesCount() >= DEBUG_PACKAGE_SIZE)) {
 				if (isDebugMode) {
-					this._logHelper.Warn(
+					this._logHelper.warn(
 							"DebugMode On, use it only for testing purpose. Please turn DebugMode off as soon as possible.");
 				}
 
@@ -378,7 +378,7 @@ public class MassiveLoadResourceApi extends ResourceApi {
 				currentCount.setResourcesCount(currentCount.getResourcesCount() + 1);
 			}
 		} catch (Exception ex) {
-			LogHelper.getInstance().Error("Error creating the package of massive data load " + ex.getMessage() + " "
+			LogHelper.getInstance().error("Error creating the package of massive data load " + ex.getMessage() + " "
 					+ getStackTraceAsString(ex));
 		}
 	}
@@ -400,12 +400,12 @@ public class MassiveLoadResourceApi extends ResourceApi {
 			model = new CloseMassiveDataLoadResource();
 			model.setDataLoadIdentifier(massiveLoadIdentifier);
 
-			WebRequestPostWithJsonObject(url, model);
-			LogHelper.getInstance().Debug("Data load is closed");
+			webRequestPostWithJsonObject(url, model);
+			LogHelper.getInstance().debug("Data load is closed");
 			closed = true;
 		} catch (Exception ex) {
 			Gson gson = new Gson();
-			LogHelper.getInstance().Error("Error closing the data load " + massiveLoadIdentifier.toString()
+			LogHelper.getInstance().error("Error closing the data load " + massiveLoadIdentifier.toString()
 					+ ". \r\n Json: " + gson.toJson(model), ex.getMessage());
 			throw ex;
 		}
@@ -442,12 +442,12 @@ public class MassiveLoadResourceApi extends ResourceApi {
 			model.setCommunity_name(getCommunityShortName());
 			model.setOntology(getOntologyUrl());
 
-			WebRequestPostWithJsonObject(url, model);
+			webRequestPostWithJsonObject(url, model);
 			created = true;
-			LogHelper.getInstance().Debug("Massive data load created");
+			LogHelper.getInstance().debug("Massive data load created");
 		} catch (Exception ex) {
 			Gson gson = new Gson();
-			LogHelper.getInstance().Error("Error creating massive data load " + massiveLoadIdentifier.toString()
+			LogHelper.getInstance().error("Error creating massive data load " + massiveLoadIdentifier.toString()
 					+ ". \r\n Json: " + gson.toJson(model), ex.getMessage());
 			throw ex;
 		}
@@ -510,10 +510,10 @@ public class MassiveLoadResourceApi extends ResourceApi {
 
 			createPackageMassiveDataLoad(model);
 
-			LogHelper.getInstance().Debug(
+			LogHelper.getInstance().debug(
 					"Package massive data load create with the identifier " + getMassiveLoadIdentifier().toString());
 		} catch (Exception ex) {
-			LogHelper.getInstance().Error("Error creating the package of massive data load " + ex.getMessage());
+			LogHelper.getInstance().error("Error creating the package of massive data load " + ex.getMessage());
 		}
 	}
 
@@ -560,12 +560,12 @@ public class MassiveLoadResourceApi extends ResourceApi {
 		boolean created = false;
 		try {
 			String url = getApiUrl() + "/massiveresource/create-massive-load-package";
-			WebRequestPostWithJsonObject(url, model);
+			webRequestPostWithJsonObject(url, model);
 			created = true;
-			LogHelper.getInstance().Debug("Massive data load package created");
+			LogHelper.getInstance().debug("Massive data load package created");
 		} catch (Exception ex) {
 			Gson gson = new Gson();
-			LogHelper.getInstance().Error("Error creating massive data load package " + model.getPackage_id().toString()
+			LogHelper.getInstance().error("Error creating massive data load package " + model.getPackage_id().toString()
 					+ ". \r\n Json: " + gson.toJson(model), ex.getMessage());
 			throw ex;
 		}
@@ -583,7 +583,7 @@ public class MassiveLoadResourceApi extends ResourceApi {
 		EstadoCargaModel estadoCarga;
 		try {
 			String url = getApiUrl() + "/massiveresource/load-state";
-			String response = WebRequestPostWithJsonObject(url, pLoadId);
+			String response = webRequestPostWithJsonObject(url, pLoadId);
 
 			Gson gson = new Gson();
 			estadoCarga = gson.fromJson(response, EstadoCargaModel.class);
@@ -643,15 +643,15 @@ public class MassiveLoadResourceApi extends ResourceApi {
 
 		try {
 			String url=getApiUrl()+"/MassiveResource/massive-complex-ontology-resource-creation";
-			WebRequestPostWithJsonObject(url, massiveLoad);
+			webRequestPostWithJsonObject(url, massiveLoad);
 
 			if(!StringUtils.isBlank(resourceId) || !resourceId.isEmpty()) {
-				_logHelper.Debug("Complex ontology resource created: "+resourceId);
+				_logHelper.debug("Complex ontology resource created: "+resourceId);
 			}else {
-				_logHelper.Debug("Massive Complex ontology resource not created: "+gson.toJson(massiveLoad));
+				_logHelper.debug("Massive Complex ontology resource not created: "+gson.toJson(massiveLoad));
 			}
 		}catch(Exception ex) {
-			_logHelper.Error("Error trying to create a Massive complex ontology resource. \r\n Error description: "+ex.getMessage()+". \r\n Json: "+gson.toJson(massiveLoad));
+			_logHelper.error("Error trying to create a Massive complex ontology resource. \r\n Error description: "+ex.getMessage()+". \r\n Json: "+gson.toJson(massiveLoad));
 			throw ex;
 		}
 

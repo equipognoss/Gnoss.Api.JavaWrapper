@@ -42,6 +42,8 @@ public class Languages {
 	 * Italian 
 	 */
 	public final static String Italian="it";
-	
-
+	/**
+	 * Valencian
+	 */
+	public final static String Valencian="ca-valencia";
 }

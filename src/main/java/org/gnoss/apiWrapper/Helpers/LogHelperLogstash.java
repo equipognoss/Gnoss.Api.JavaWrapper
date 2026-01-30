@@ -11,109 +11,109 @@ public class LogHelperLogstash implements ILogHelper{
 	private static String EndPoint;
 
 	@Override
-	public void Trace(String message, String className, String memberName) {
+	public void trace(String message, String className, String memberName) {
 		if(LogHelper.getLogLevel().compareTo(LogLevels.TRACE) <= 0){
-			EnviarLog(LogLevels.TRACE, className, memberName, message);
+			enviarLog(LogLevels.TRACE, className, memberName, message);
 		}
 	}
 
 
 	@Override
-	public void Trace(String message, String className) {
-		Trace(message, className, "");
+	public void trace(String message, String className) {
+		trace(message, className, "");
 	}
 
 	@Override
-	public void Trace(String message) {
-		Trace(message, "", "");
+	public void trace(String message) {
+		trace(message, "", "");
 	}
 
 	@Override
-	public void Debug(String message, String className, String memberName) {
+	public void debug(String message, String className, String memberName) {
 		if(LogHelper.getLogLevel().compareTo(LogLevels.DEBUG) <= 0){
-			EnviarLog(LogLevels.DEBUG, className, memberName, message);
+			enviarLog(LogLevels.DEBUG, className, memberName, message);
 		}
 	}
 
 	@Override
-	public void Debug(String message, String className) {
-		Debug(message, className, "");
+	public void debug(String message, String className) {
+		debug(message, className, "");
 	}
 
 	@Override
-	public void Debug(String message) {
-		Debug(message, "", "");
+	public void debug(String message) {
+		debug(message, "", "");
 	}
 
 	@Override
-	public void Info(String message, String className, String memberName) {
+	public void info(String message, String className, String memberName) {
 		if(LogHelper.getLogLevel().compareTo(LogLevels.INFO) <= 0){
-			EnviarLog(LogLevels.INFO, className, memberName, message);
+			enviarLog(LogLevels.INFO, className, memberName, message);
 		}
 	}
 
 	@Override
-	public void Info(String message, String className) {
-		Info(message, className, "");
+	public void info(String message, String className) {
+		info(message, className, "");
 	}
 
 	@Override
-	public void Info(String message) {
-		Info(message, "", "");
+	public void info(String message) {
+		info(message, "", "");
 	}
 
 	@Override
-	public void Warn(String message, String className, String memberName) {
+	public void warn(String message, String className, String memberName) {
 		if(LogHelper.getLogLevel().compareTo(LogLevels.WARN) <= 0){
-			EnviarLog(LogLevels.WARN, className, memberName, message);
+			enviarLog(LogLevels.WARN, className, memberName, message);
 		}
 	}
 
 	@Override
-	public void Warn(String message, String className) {
-		Warn(message, className, "");
+	public void warn(String message, String className) {
+		warn(message, className, "");
 	}
 
 	@Override
-	public void Warn(String message) {
-		Warn(message, "", "");
+	public void warn(String message) {
+		warn(message, "", "");
 	}
 
 	@Override
-	public void Error(String message, String className, String memberName) {
+	public void error(String message, String className, String memberName) {
 		if(LogHelper.getLogLevel().compareTo(LogLevels.ERROR) <= 0){
-			EnviarLog(LogLevels.ERROR, className, memberName, message);
+			enviarLog(LogLevels.ERROR, className, memberName, message);
 		}
 	}
 
 	@Override
-	public void Error(String message, String className) {
-		Error(message, className, "");
+	public void error(String message, String className) {
+		error(message, className, "");
 	}
 
 	@Override
-	public void Error(String message) {
-		Error(message, "", "");
+	public void error(String message) {
+		error(message, "", "");
 	}
 
 	@Override
-	public void Fatal(String message, String className, String memberName) {
+	public void fatal(String message, String className, String memberName) {
 		if(LogHelper.getLogLevel().compareTo(LogLevels.FATAL) <= 0){
-			EnviarLog(LogLevels.FATAL, className, memberName, message);
+			enviarLog(LogLevels.FATAL, className, memberName, message);
 		}
 	}
 
 	@Override
-	public void Fatal(String message, String className) {
-		Fatal(message, className, "");
+	public void fatal(String message, String className) {
+		fatal(message, className, "");
 	}
 
 	@Override
-	public void Fatal(String message) {
-		Fatal(message, "", "");
+	public void fatal(String message) {
+		fatal(message, "", "");
 	}
 
-	private void EnviarLog(LogLevels logLevels, String className, String memberName, String message) {
+	private void enviarLog(LogLevels logLevels, String className, String memberName, String message) {
 		int numberWriteErrors=3;
 		try {
 
@@ -173,7 +173,7 @@ public class LogHelperLogstash implements ILogHelper{
 			e.printStackTrace();
 			if(numberWriteErrors>0) {
 				numberWriteErrors--;
-				EnviarLog(logLevels, className, memberName, message);
+				enviarLog(logLevels, className, memberName, message);
 			}
 		}
 	}

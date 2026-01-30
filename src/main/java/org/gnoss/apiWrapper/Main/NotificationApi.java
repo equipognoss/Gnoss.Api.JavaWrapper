@@ -69,7 +69,7 @@ public class NotificationApi extends GnossApiWrapper {
      * @return Mail ID
      * @throws Exception exception
      */
-    public int SendEmail(String subject, String message, List<String> receivers, boolean isHTML, String senderMask) throws Exception {
+    public int sendEmail(String subject, String message, List<String> receivers, boolean isHTML, String senderMask) throws Exception {
         try {
             String url = getApiUrl() + "/notification/send-email";
             
@@ -81,7 +81,7 @@ public class NotificationApi extends GnossApiWrapper {
             model.setSender_mask(senderMask);
             model.setCommunity_short_name(getCommunityShortName());
             
-            String result = WebRequestPostWithJsonObject(url, model);
+            String result = webRequestPostWithJsonObject(url, model);
             
             int mailID = 0;
             try {
@@ -90,12 +90,12 @@ public class NotificationApi extends GnossApiWrapper {
                 // Si no se puede parsear, devolver 0
             }
             
-            this._logHelper.Debug("Email '" + subject + "' sent to " + String.join(",", receivers));
+            this._logHelper.debug("Email '" + subject + "' sent to " + String.join(",", receivers));
             
             return mailID;
             
         } catch (Exception ex) {
-            this._logHelper.Error("Error sending mail '" + subject + "' to " + String.join(",", receivers) + ": \r\n" + ex.getMessage());
+            this._logHelper.error("Error sending mail '" + subject + "' to " + String.join(",", receivers) + ": \r\n" + ex.getMessage());
             throw ex;
         }
     }
@@ -108,8 +108,8 @@ public class NotificationApi extends GnossApiWrapper {
      * @return Mail ID
      * @throws Exception exception
      */
-    public int SendEmail(String subject, String message, List<String> receivers) throws Exception {
-        return SendEmail(subject, message, receivers, false, "");
+    public int sendEmail(String subject, String message, List<String> receivers) throws Exception {
+        return sendEmail(subject, message, receivers, false, "");
     }
     
     /**
@@ -123,7 +123,7 @@ public class NotificationApi extends GnossApiWrapper {
      * @return Mail ID
      * @throws Exception exception
      */
-    public int SendEmailSMTPDefined(String subject, String message, List<String> receivers, MailConfigurationModel transmitterMailConfiguration, boolean isHTML, String senderMask) throws Exception {
+    public int sendEmailSMTPDefined(String subject, String message, List<String> receivers, MailConfigurationModel transmitterMailConfiguration, boolean isHTML, String senderMask) throws Exception {
         try {
             String url = getApiUrl() + "/notification/send-email";
             
@@ -136,7 +136,7 @@ public class NotificationApi extends GnossApiWrapper {
             model.setCommunity_short_name(getCommunityShortName());
             model.setTransmitter_mail_configuration(transmitterMailConfiguration);
             
-            String result = WebRequestPostWithJsonObject(url, model);
+            String result = webRequestPostWithJsonObject(url, model);
             
             int mailID = 0;
             try {
@@ -145,12 +145,12 @@ public class NotificationApi extends GnossApiWrapper {
                 // Si no se puede parsear, devolver 0
             }
             
-            this._logHelper.Debug("Email '" + subject + "' sent to " + String.join(",", receivers));
+            this._logHelper.debug("Email '" + subject + "' sent to " + String.join(",", receivers));
             
             return mailID;
             
         } catch (Exception ex) {
-            this._logHelper.Error("Error sending mail '" + subject + "' to " + String.join(",", receivers) + ": \r\n" + ex.getMessage());
+            this._logHelper.error("Error sending mail '" + subject + "' to " + String.join(",", receivers) + ": \r\n" + ex.getMessage());
             throw ex;
         }
     }
@@ -164,8 +164,8 @@ public class NotificationApi extends GnossApiWrapper {
      * @return Mail ID
      * @throws Exception exception
      */
-    public int SendEmailSMTPDefined(String subject, String message, List<String> receivers, MailConfigurationModel transmitterMailConfiguration) throws Exception {
-        return SendEmailSMTPDefined(subject, message, receivers, transmitterMailConfiguration, false, "");
+    public int sendEmailSMTPDefined(String subject, String message, List<String> receivers, MailConfigurationModel transmitterMailConfiguration) throws Exception {
+        return sendEmailSMTPDefined(subject, message, receivers, transmitterMailConfiguration, false, "");
     }
     
     /**
@@ -174,12 +174,12 @@ public class NotificationApi extends GnossApiWrapper {
      * @return MailStateModel with pending and error emails
      * @throws Exception exception
      */
-    public MailStateModel MailState(int mailID) throws Exception {
+    public MailStateModel mailState(int mailID) throws Exception {
         try {
         	String url = getApiUrl() + "/notification/mail-state?mail_id=" + mailID;            
             String response = null;
             try {
-                response = WebRequest("GET", url, "application/json");
+                response = webRequest("GET", url, "application/json");
             } catch (Exception webEx) {
                 System.err.println("Error en WebRequest: " + webEx.getMessage());
                 throw webEx;
@@ -192,14 +192,14 @@ public class NotificationApi extends GnossApiWrapper {
             Gson gson = new Gson();
             MailStateModel mailStateModel = gson.fromJson(response, MailStateModel.class);
 
-            this._logHelper.Debug("Get mails sent with ID: " + mailID);
+            this._logHelper.debug("Get mails sent with ID: " + mailID);
 
             return mailStateModel;
 
         } catch (Exception ex) {
             System.err.println("ERROR MailState: " + ex.getMessage());
             ex.printStackTrace();
-            this._logHelper.Error("Error getting mails with ID: " + mailID + ": \r\n" + ex.getMessage());
+            this._logHelper.error("Error getting mails with ID: " + mailID + ": \r\n" + ex.getMessage());
             throw ex;
         }
     }
@@ -212,7 +212,7 @@ public class NotificationApi extends GnossApiWrapper {
      * @param fechaNotificacion Notification date
      * @throws Exception exception
      */
-    public void IngestNotificationHtml(UUID usuario, UUID comunidad, String contenidoNotificacion, Date fechaNotificacion) throws Exception {
+    public void ingestNotificationHtml(UUID usuario, UUID comunidad, String contenidoNotificacion, Date fechaNotificacion) throws Exception {
         try {
         	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             String fechaFormateada = sdf.format(fechaNotificacion);
@@ -222,12 +222,12 @@ public class NotificationApi extends GnossApiWrapper {
                          "&comunidad=" + comunidad.toString() +
                          "&contenidoNotificacion=" + URLEncoder.encode(contenidoNotificacion, StandardCharsets.UTF_8) +
                          "&fechaNotificacion=" + URLEncoder.encode(fechaFormateada, StandardCharsets.UTF_8);
-            WebRequest("POST", url);
-            this._logHelper.Debug("Default notification ingested for user: " + usuario);
+            webRequest("POST", url);
+            this._logHelper.debug("Default notification ingested for user: " + usuario);
         } catch (Exception ex) {
             System.err.println("ERROR: " + ex.getMessage());
             ex.printStackTrace();
-            this._logHelper.Error("Error ingesting HTML notification for user: " + usuario + ": \r\n" + ex.getMessage());
+            this._logHelper.error("Error ingesting HTML notification for user: " + usuario + ": \r\n" + ex.getMessage());
             throw ex;
         }
     }
@@ -241,7 +241,7 @@ public class NotificationApi extends GnossApiWrapper {
      * @param fechaNotificacion Notification date
      * @throws Exception exception
      */
-    public void IngestNotificationDefault(UUID usuario, UUID comunidad, String contenidoNotificacion, String urlNotificacion, Date fechaNotificacion) throws Exception {
+    public void ingestNotificationDefault(UUID usuario, UUID comunidad, String contenidoNotificacion, String urlNotificacion, Date fechaNotificacion) throws Exception {
         try {
         	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             String fechaFormateada = sdf.format(fechaNotificacion);
@@ -253,14 +253,14 @@ public class NotificationApi extends GnossApiWrapper {
                          "&urlNotificacion=" + URLEncoder.encode(urlNotificacion, StandardCharsets.UTF_8) +
                          "&fechaNotificacion=" + URLEncoder.encode(fechaFormateada, StandardCharsets.UTF_8);
             
-            WebRequest("POST", url);
+            webRequest("POST", url);
             
-            this._logHelper.Debug("Default notification ingested for user: " + usuario);
+            this._logHelper.debug("Default notification ingested for user: " + usuario);
             
         } catch (Exception ex) {
             System.err.println("ERROR: " + ex.getMessage());
             ex.printStackTrace();
-            this._logHelper.Error("Error ingesting HTML notification for user: " + usuario + ": \r\n" + ex.getMessage());
+            this._logHelper.error("Error ingesting HTML notification for user: " + usuario + ": \r\n" + ex.getMessage());
             throw ex;
         }
     }

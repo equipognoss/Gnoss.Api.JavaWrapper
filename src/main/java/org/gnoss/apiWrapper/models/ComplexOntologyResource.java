@@ -59,7 +59,7 @@ public class ComplexOntologyResource extends BaseResource {
      * Empty constructor
      */
     public ComplexOntologyResource() {
-        Initialize();
+        initialize();
     }
     
     /**
@@ -68,7 +68,7 @@ public class ComplexOntologyResource extends BaseResource {
      * @throws GnossAPIArgumentException if largeGnossId is null
      */
     public ComplexOntologyResource(String largeGnossId) throws GnossAPIArgumentException {
-        Initialize();
+        initialize();
         if (largeGnossId != null) {
             setGnossId(largeGnossId);
         } else {
@@ -81,7 +81,7 @@ public class ComplexOntologyResource extends BaseResource {
      * @param shortGnossId Internal GNOSS identifier used as subject in the search graph
      */
     public ComplexOntologyResource(UUID shortGnossId) {
-        Initialize();
+        initialize();
         setShortGnossId(shortGnossId);
     }
     
@@ -90,7 +90,7 @@ public class ComplexOntologyResource extends BaseResource {
     
     public byte[] getRdfFile() throws IOException, GnossAPIException {
         if (_rdfFile == null || _rdfFile.length == 0) {
-            _rdfFile = this._ontology.GenerateRDF();
+            _rdfFile = this._ontology.generateRDF();
         }
         return _rdfFile;
     }
@@ -101,7 +101,7 @@ public class ComplexOntologyResource extends BaseResource {
 
     public String getStringRdfFile() throws IOException, GnossAPIException {
         if (_rdfFile == null || _rdfFile.length == 0) {
-            _rdfFile = this._ontology.GenerateRDF();
+            _rdfFile = this._ontology.generateRDF();
         }
         return new String(_rdfFile);
     }
@@ -128,7 +128,7 @@ public class ComplexOntologyResource extends BaseResource {
 
     public void setOntology(Ontology ontology) throws IOException, GnossAPIException {
         this._ontology = ontology;
-        _rdfFile = _ontology.GenerateRDF();
+        _rdfFile = _ontology.generateRDF();
         setShortGnossId(_ontology.getResourceId());
         setGnossId(_ontology.getIdentifier());
     }
@@ -185,7 +185,7 @@ public class ComplexOntologyResource extends BaseResource {
      * @param imagePredicate Predicate where the screenshot url will be saved
      * @param screenshotSizes Screenshot sizes. It will generate as many screenshots as sizes in this array
      */
-    public void GenerateScreenshot(String screenshotUrl, String imagePredicate, int[] screenshotSizes) {
+    public void generateScreenshot(String screenshotUrl, String imagePredicate, int[] screenshotSizes) {
         MustGenerateScreenshot = true;
         ScreenshotUrl = screenshotUrl;
         ScreenshotPredicate = imagePredicate;
@@ -223,9 +223,9 @@ public class ComplexOntologyResource extends BaseResource {
      * @throws GnossAPIException if the file doesn't exist
      * @throws IOException if there's an I/O error
      */
-    public void AttachFile(String downloadUrl, String filePredicate, OntologyEntity entity, String fileIdentifier, String language) throws GnossAPIException, IOException {
+    public void attachFile(String downloadUrl, String filePredicate, OntologyEntity entity, String fileIdentifier, String language) throws GnossAPIException, IOException {
         if (!StringUtils.isEmpty(downloadUrl)) {
-            byte[] file = ReadFile(downloadUrl);
+            byte[] file = readFile(downloadUrl);
             String fileName = "";
             
             if (isWellFormedUri(downloadUrl)) {
@@ -244,7 +244,7 @@ public class ComplexOntologyResource extends BaseResource {
                 }
             }
             
-            AttachFileInternal(file, filePredicate, fileName, AttachedResourceFilePropertyTypes.file, entity, false, language);
+            attachFileInternal(file, filePredicate, fileName, AttachedResourceFilePropertyTypes.file, entity, false, language);
         } else {
             throw new GnossAPIArgumentException("Required. It can't be null or empty", "downloadUrl");
         }
@@ -259,8 +259,21 @@ public class ComplexOntologyResource extends BaseResource {
      * @throws GnossAPIException if there's an error
      * @throws IOException if there's an I/O error
      */
-    public void AttachFile(byte[] file, String filePredicate, String fileName, OntologyEntity entity) throws IOException, GnossAPIException {
-        AttachFileInternal(file, filePredicate, fileName, AttachedResourceFilePropertyTypes.file, entity, false, null);
+    public void attachFile(byte[] file, String filePredicate, String fileName, OntologyEntity entity) throws IOException, GnossAPIException {
+        attachFileInternal(file, filePredicate, fileName, AttachedResourceFilePropertyTypes.file, entity, false, null);
+    }
+    
+    /**
+     * Attach a file (not an image, to attach an image use AttachImage method) to the resource. 
+     * @param file The file bytes
+     * @param filePredicate Predicate of the ontological property where the file reference will be inserted
+     * @param fileName The file name
+     * @param entity (Optional) Auxiliary entity which would have the reference to the file
+     * @throws GnossAPIException if there's an error
+     * @throws IOException if there's an I/O error
+     */
+    public void attachFile(byte[] file, String filePredicate, String fileName, OntologyEntity entity, String language) throws IOException, GnossAPIException {
+        attachFileInternal(file, filePredicate, fileName, AttachedResourceFilePropertyTypes.file, entity, false, language);
     }
     
     /**
@@ -274,8 +287,8 @@ public class ComplexOntologyResource extends BaseResource {
      * @throws GnossAPIException if there's an error
      * @throws IOException if there's an I/O error
      */
-    public void AttachDownloadableFile(byte[] file, String filePredicate, String fileName, OntologyEntity entity, String language) throws IOException, GnossAPIException {
-        AttachFileInternal(file, filePredicate, fileName, AttachedResourceFilePropertyTypes.downloadableFile, entity, false, language);
+    public void attachDownloadableFile(byte[] file, String filePredicate, String fileName, OntologyEntity entity, String language) throws IOException, GnossAPIException {
+        attachFileInternal(file, filePredicate, fileName, AttachedResourceFilePropertyTypes.downloadableFile, entity, false, language);
     }
      
     /**
@@ -288,7 +301,7 @@ public class ComplexOntologyResource extends BaseResource {
      * @throws GnossAPIException if the file doesn't exist
      * @throws IOException if there's an I/O error
      */
-    public void AttachReferenceToFile(String downloadUrl, String filePredicate, OntologyEntity entity, String fileIdentifier, String language) throws IOException, GnossAPIException {
+    public void attachReferenceToFile(String downloadUrl, String filePredicate, OntologyEntity entity, String fileIdentifier, String language) throws IOException, GnossAPIException {
         if (!StringUtils.isEmpty(downloadUrl)) {
             String fileName = "";
             
@@ -312,7 +325,7 @@ public class ComplexOntologyResource extends BaseResource {
                 fileName = fileName + "@" + language;
             }
             
-            AttachFileInternal(null, filePredicate, fileName, AttachedResourceFilePropertyTypes.file, entity, true, null);
+            attachFileInternal(null, filePredicate, fileName, AttachedResourceFilePropertyTypes.file, entity, true, null);
         } else {
             throw new GnossAPIArgumentException("Required. It can't be null or empty", "downloadUrl");
         }
@@ -329,7 +342,7 @@ public class ComplexOntologyResource extends BaseResource {
      * @throws GnossAPIException if the file doesn't exist
      * @throws IOException if there's an I/O error
      */
-    public void AttachReferenceToDownloadableFile(String downloadUrl, String filePredicate, OntologyEntity entity, String fileIdentifier, String language) throws IOException, GnossAPIException {
+    public void attachReferenceToDownloadableFile(String downloadUrl, String filePredicate, OntologyEntity entity, String fileIdentifier, String language) throws IOException, GnossAPIException {
         if (!StringUtils.isEmpty(downloadUrl)) {
             String fileName = "";
             
@@ -353,7 +366,7 @@ public class ComplexOntologyResource extends BaseResource {
                 fileName = fileName + "@" + language;
             }
             
-            AttachFileInternal(null, filePredicate, fileName, AttachedResourceFilePropertyTypes.downloadableFile, entity, true, null);
+            attachFileInternal(null, filePredicate, fileName, AttachedResourceFilePropertyTypes.downloadableFile, entity, true, null);
         } else {
             throw new GnossAPIArgumentException("Required. It can't be null or empty", "downloadUrl");
         }
@@ -367,9 +380,9 @@ public class ComplexOntologyResource extends BaseResource {
      * @throws GnossAPIException if the file doesn't exist
      * @throws IOException if there's an I/O error
      */
-    public void AttachFileWithoutReference(String downloadUrl, String fileIdentifier, String language) throws GnossAPIException, IOException {
+    public void attachFileWithoutReference(String downloadUrl, String fileIdentifier, String language) throws GnossAPIException, IOException {
         if (!StringUtils.isEmpty(downloadUrl)) {
-            byte[] file = ReadFile(downloadUrl);
+            byte[] file = readFile(downloadUrl);
             String fileName = "";
             
             if (isWellFormedUri(downloadUrl)) {
@@ -392,7 +405,7 @@ public class ComplexOntologyResource extends BaseResource {
                 fileName = fileName + "@" + language;
             }
             
-            AttachFileInternal(file, null, fileName, AttachedResourceFilePropertyTypes.file, null, false, null);
+            attachFileInternal(file, null, fileName, AttachedResourceFilePropertyTypes.file, null, false, null);
         } else {
             throw new GnossAPIArgumentException("Required. It can't be null or empty", "downloadUrl");
         }
@@ -407,9 +420,9 @@ public class ComplexOntologyResource extends BaseResource {
      * @throws GnossAPIException if the file doesn't exist
      * @throws IOException if there's an I/O error
      */
-    public void AttachDownloadableFileWithoutReference(String downloadUrl, String fileIdentifier, String language) throws GnossAPIException, IOException {
+    public void attachDownloadableFileWithoutReference(String downloadUrl, String fileIdentifier, String language) throws GnossAPIException, IOException {
         if (!StringUtils.isEmpty(downloadUrl)) {
-            byte[] file = ReadFile(downloadUrl);
+            byte[] file = readFile(downloadUrl);
             String fileName = "";
             
             if (isWellFormedUri(downloadUrl)) {
@@ -432,7 +445,7 @@ public class ComplexOntologyResource extends BaseResource {
                 fileName = fileName + "@" + language;
             }
             
-            AttachFileInternal(file, null, fileName, AttachedResourceFilePropertyTypes.downloadableFile, null, false, null);
+            attachFileInternal(file, null, fileName, AttachedResourceFilePropertyTypes.downloadableFile, null, false, null);
         } else {
             throw new GnossAPIArgumentException("Required. It can't be null or empty", "downloadUrl");
         }
@@ -451,12 +464,12 @@ public class ComplexOntologyResource extends BaseResource {
      * @return True if the image has been attached successfully
      * @throws Exception 
      */
-    public boolean AttachImage(String downloadUrl, ArrayList<ImageAction> actions, String predicate, boolean mainImage, String extension, OntologyEntity entity, boolean saveOriginalImage, boolean saveMaxSizedImage) throws Exception {
-        BufferedImage imagenOriginal = _imageHelper.ReadImageFromUrlOrLocalPath(downloadUrl);
+    public boolean attachImage(String downloadUrl, ArrayList<ImageAction> actions, String predicate, boolean mainImage, String extension, OntologyEntity entity, boolean saveOriginalImage, boolean saveMaxSizedImage) throws Exception {
+        BufferedImage imagenOriginal = _imageHelper.readImageFromUrlOrLocalPath(downloadUrl);
         boolean imagenAdjuntada = false;
         
         if (imagenOriginal != null) {
-            imagenAdjuntada = AttachImageInternal(ImageHelper.BitmapToByteArray(imagenOriginal), actions, predicate, mainImage, null, false, entity, extension, saveOriginalImage, saveMaxSizedImage, true);
+            imagenAdjuntada = attachImageInternal(ImageHelper.bitmapToByteArray(imagenOriginal), actions, predicate, mainImage, null, false, entity, extension, saveOriginalImage, saveMaxSizedImage, true);
         }
         
         return imagenAdjuntada;
@@ -473,8 +486,8 @@ public class ComplexOntologyResource extends BaseResource {
      * @return True if the image reference has been attached successfully
      * @throws Exception 
      */
-    public boolean AttachReferenceToImage(ArrayList<ImageAction> actions, String predicate, boolean mainImage, UUID imageId, String extension, OntologyEntity entity) throws Exception {
-        return AttachImageInternal(null, actions, predicate, mainImage, imageId, true, entity, extension, false, false, false);
+    public boolean attachReferenceToImage(ArrayList<ImageAction> actions, String predicate, boolean mainImage, UUID imageId, String extension, OntologyEntity entity) throws Exception {
+        return attachImageInternal(null, actions, predicate, mainImage, imageId, true, entity, extension, false, false, false);
     }
     
     /**
@@ -490,13 +503,13 @@ public class ComplexOntologyResource extends BaseResource {
      * @return True if the image has been uploaded successfully
      * @throws GnossAPIException if there's an error
      */
-    public boolean AttachImageWithoutReference(String downloadUrl, ArrayList<ImageAction> actions, boolean mainImage, UUID imageId, String extension, boolean saveOriginalImage, boolean saveMaxSizedImage, boolean saveMainImage) throws GnossAPIException {
-        BufferedImage originalImage = _imageHelper.ReadImageFromUrlOrLocalPath(downloadUrl);
+    public boolean attachImageWithoutReference(String downloadUrl, ArrayList<ImageAction> actions, boolean mainImage, UUID imageId, String extension, boolean saveOriginalImage, boolean saveMaxSizedImage, boolean saveMainImage) throws GnossAPIException {
+        BufferedImage originalImage = _imageHelper.readImageFromUrlOrLocalPath(downloadUrl);
         boolean success = false;
         
         if (originalImage != null) {
             try {
-                success = AttachImageInternal(ImageHelper.BitmapToByteArray(originalImage), actions, "", mainImage, imageId, false, null, extension, saveOriginalImage, saveMaxSizedImage, saveMainImage);
+                success = attachImageInternal(ImageHelper.bitmapToByteArray(originalImage), actions, "", mainImage, imageId, false, null, extension, saveOriginalImage, saveMaxSizedImage, saveMainImage);
             } catch (Exception ex) {
                 throw new GnossAPIException("Error attaching image " + downloadUrl + ": " + ex.getMessage());
             }
@@ -516,10 +529,10 @@ public class ComplexOntologyResource extends BaseResource {
      * @return True if the image has been uploaded successfully
      * @throws Exception 
      */
-    public boolean AttachImageWithoutReference(byte[] originalImage, ArrayList<ImageAction> actions, boolean mainImage, UUID imageId, String extension, boolean saveOriginalImage, boolean saveMaxSizedImage) throws Exception {
+    public boolean attachImageWithoutReference(byte[] originalImage, ArrayList<ImageAction> actions, boolean mainImage, UUID imageId, String extension, boolean saveOriginalImage, boolean saveMaxSizedImage) throws Exception {
         boolean imagenAdjuntada = false;
         if (originalImage != null) {
-            imagenAdjuntada = AttachImageInternal(originalImage, actions, "", mainImage, imageId, false, null, extension, saveOriginalImage, saveMaxSizedImage, true);
+            imagenAdjuntada = attachImageInternal(originalImage, actions, "", mainImage, imageId, false, null, extension, saveOriginalImage, saveMaxSizedImage, true);
         }
         return imagenAdjuntada;
     }
@@ -537,10 +550,10 @@ public class ComplexOntologyResource extends BaseResource {
      * @return True if the image reference has been attached successfully
      * @throws Exception 
      */
-    public boolean AttachImage(byte[] originalImage, ArrayList<ImageAction> actions, String predicate, boolean mainImage, String extension, OntologyEntity entity, boolean saveOriginalImage, boolean saveMaxSizedImage) throws Exception {
+    public boolean attachImage(byte[] originalImage, ArrayList<ImageAction> actions, String predicate, boolean mainImage, String extension, OntologyEntity entity, boolean saveOriginalImage, boolean saveMaxSizedImage) throws Exception {
         boolean success = false;
         if (originalImage != null) {
-            success = AttachImageInternal(originalImage, actions, predicate, mainImage, null, false, entity, extension, saveOriginalImage, saveMaxSizedImage, true);
+            success = attachImageInternal(originalImage, actions, predicate, mainImage, null, false, entity, extension, saveOriginalImage, saveMaxSizedImage, true);
         }
         return success;
     }
@@ -548,7 +561,7 @@ public class ComplexOntologyResource extends BaseResource {
     
     // Private methods
     
-    private void Initialize() {
+    private void initialize() {
         setAuthor(null);
         MustGenerateScreenshot = false;
         ScreenshotUrl = "";
@@ -578,7 +591,7 @@ public class ComplexOntologyResource extends BaseResource {
      * @throws IOException if there's an I/O error
      * @throws GnossAPIException if there's an error
      */
-    private void AttachFileInternal(byte[] file, String filePredicate, String fileName, AttachedResourceFilePropertyTypes fileType, OntologyEntity entity, boolean onlyReference, String language) throws IOException, GnossAPIException {
+    private void attachFileInternal(byte[] file, String filePredicate, String fileName, AttachedResourceFilePropertyTypes fileType, OntologyEntity entity, boolean onlyReference, String language) throws IOException, GnossAPIException {
         if (file != null) {
             if (!onlyReference) {
                 AttachedFiles.add(file);
@@ -616,7 +629,7 @@ public class ComplexOntologyResource extends BaseResource {
         }
         
         if (getOntology() != null) {
-            _rdfFile = getOntology().GenerateRDF();
+            _rdfFile = getOntology().generateRDF();
         }
     }
     
@@ -636,7 +649,7 @@ public class ComplexOntologyResource extends BaseResource {
      * @return True if the image reference has been attached successfully
      * @throws Exception 
      */
-    private boolean AttachImageInternal(byte[] originalImage, ArrayList<ImageAction> actions, String predicate, 
+    private boolean attachImageInternal(byte[] originalImage, ArrayList<ImageAction> actions, String predicate, 
                                        boolean mainImage, UUID imageId, boolean onlyReference, 
                                        OntologyEntity entity, String extension, boolean saveOriginalImage, 
                                        boolean saveMaxSizedImage, boolean saveMainImage) 
@@ -706,8 +719,8 @@ public class ComplexOntologyResource extends BaseResource {
                             switch (action.getImageTransformationType()) {
                                 case Crop:
                                     try {
-                                        resizedImage = ImageHelper.ByteArrayToBitmap(originalImage);
-                                        _imageHelper.CropImageToSquare(resizedImage, action.getSize());
+                                        resizedImage = ImageHelper.byteArrayToBitmap(originalImage);
+                                        _imageHelper.cropImageToSquare(resizedImage, action.getSize());
                                     } catch (GnossAPIException gaex) {
                                         imageModificationError = true;
                                         errorList.add(gaex.getMessage());
@@ -715,8 +728,8 @@ public class ComplexOntologyResource extends BaseResource {
                                     break;
                                 case ResizeToHeight:
                                     try {
-                                        resizedImage = ImageHelper.ByteArrayToBitmap(originalImage);
-                                        _imageHelper.ResizeImageToHeight(resizedImage, (int) action.getHeight());
+                                        resizedImage = ImageHelper.byteArrayToBitmap(originalImage);
+                                        _imageHelper.resizeImageToHeight(resizedImage, (int) action.getHeight());
                                     } catch (GnossAPIException gaex) {
                                         imageModificationError = true;
                                         errorList.add(gaex.getMessage());
@@ -724,8 +737,8 @@ public class ComplexOntologyResource extends BaseResource {
                                     break;
                                 case ResizeToWidth:
                                     try {
-                                        resizedImage = ImageHelper.ByteArrayToBitmap(originalImage);
-                                        _imageHelper.ResizeImageToWidth(resizedImage, (int) action.getWidth());
+                                        resizedImage = ImageHelper.byteArrayToBitmap(originalImage);
+                                        _imageHelper.resizeImageToWidth(resizedImage, (int) action.getWidth());
                                     } catch (GnossAPIException gaex) {
                                         imageModificationError = true;
                                         errorList.add(gaex.getMessage());
@@ -733,8 +746,8 @@ public class ComplexOntologyResource extends BaseResource {
                                     break;
                                 case ResizeToHeightAndWidth:
                                     try {
-                                        resizedImage = ImageHelper.ByteArrayToBitmap(originalImage);
-                                        _imageHelper.ResizeImageToHeightAndWidth(resizedImage, (int) action.getWidth(), (int) action.getHeight());
+                                        resizedImage = ImageHelper.byteArrayToBitmap(originalImage);
+                                        _imageHelper.resizeImageToHeightAndWidth(resizedImage, (int) action.getWidth(), (int) action.getHeight());
                                     } catch (GnossAPIException gaex) {
                                         imageModificationError = true;
                                         errorList.add(gaex.getMessage());
@@ -742,8 +755,8 @@ public class ComplexOntologyResource extends BaseResource {
                                     break;
                                 case CropToHeightAndWidth:
                                     try {
-                                        resizedImage = ImageHelper.ByteArrayToBitmap(originalImage);
-                                        _imageHelper.CropImageToHeightAndWidth(resizedImage, (int) action.getHeight(), (int) action.getWidth());
+                                        resizedImage = ImageHelper.byteArrayToBitmap(originalImage);
+                                        _imageHelper.cropImageToHeightAndWidth(resizedImage, (int) action.getHeight(), (int) action.getWidth());
                                     } catch (GnossAPIException gaex) {
                                         imageModificationError = true;
                                         errorList.add(gaex.getMessage());
@@ -765,12 +778,12 @@ public class ComplexOntologyResource extends BaseResource {
                             }
                             
                             AttachedFilesName.add(imageId + "_" + action.getSize() + extension);
-                            AttachedFiles.add(ImageHelper.BitmapToByteArray(resizedImage, (int) action.getImageQualityPercentage()));
+                            AttachedFiles.add(ImageHelper.bitmapToByteArray(resizedImage, (int) action.getImageQualityPercentage()));
                             AttachedFilesType.add(AttachedResourceFilePropertyTypes.image);
                             attachedImage = true;
                             
                             if (action.isEmbedsRGB()) {
-                                _imageHelper.AssignEXIFPropertyColorSpaceSRGB(resizedImage);
+                                _imageHelper.assignEXIFPropertyColorSpaceSRGB(resizedImage);
                             }
                             
                             // Save original image
@@ -783,7 +796,7 @@ public class ComplexOntologyResource extends BaseResource {
                                             maxQuality = (int) a.getImageQualityPercentage();
                                         }
                                     }
-                                    AttachedFiles.add(ImageHelper.BitmapToByteArray(ImageHelper.ByteArrayToBitmap(originalImage), maxQuality));
+                                    AttachedFiles.add(ImageHelper.bitmapToByteArray(ImageHelper.byteArrayToBitmap(originalImage), maxQuality));
                                     AttachedFilesType.add(AttachedResourceFilePropertyTypes.image);
                                 }
                                 
@@ -803,9 +816,9 @@ public class ComplexOntologyResource extends BaseResource {
                     if (saveMaxSizedImage) {
                         try {
                             // The quality percentage of the max size image is the highest quality percentage
-                            if (ImageHelper.ByteArrayToBitmap(originalImage).getWidth() > Constants.MAXIMUM_WIDTH_GNOSS_IMAGE) {
-                                maxSizeImage = ImageHelper.ByteArrayToBitmap(originalImage);
-                                _imageHelper.ResizeImageToWidth(maxSizeImage, Constants.MAXIMUM_WIDTH_GNOSS_IMAGE);
+                            if (ImageHelper.byteArrayToBitmap(originalImage).getWidth() > Constants.MAXIMUM_WIDTH_GNOSS_IMAGE) {
+                                maxSizeImage = ImageHelper.byteArrayToBitmap(originalImage);
+                                _imageHelper.resizeImageToWidth(maxSizeImage, Constants.MAXIMUM_WIDTH_GNOSS_IMAGE);
                                 
                                 int maxQuality = 0;
                                 for (ImageAction a : actions) {
@@ -815,7 +828,7 @@ public class ComplexOntologyResource extends BaseResource {
                                 }
                                 
                                 AttachedFilesName.add(imageId + "_" + Constants.MAXIMUM_WIDTH_GNOSS_IMAGE + extension);
-                                AttachedFiles.add(ImageHelper.BitmapToByteArray(maxSizeImage, maxQuality));
+                                AttachedFiles.add(ImageHelper.bitmapToByteArray(maxSizeImage, maxQuality));
                                 AttachedFilesType.add(AttachedResourceFilePropertyTypes.image);
                                 
                                 attachedImage = true;
@@ -828,7 +841,7 @@ public class ComplexOntologyResource extends BaseResource {
                                 }
                                 
                                 AttachedFilesName.add(imageId + "_" + Constants.MAXIMUM_WIDTH_GNOSS_IMAGE + extension);
-                                AttachedFiles.add(ImageHelper.BitmapToByteArray(ImageHelper.ByteArrayToBitmap(originalImage), maxQuality));
+                                AttachedFiles.add(ImageHelper.bitmapToByteArray(ImageHelper.byteArrayToBitmap(originalImage), maxQuality));
                                 AttachedFilesType.add(AttachedResourceFilePropertyTypes.image);
                                 
                                 attachedImage = true;
@@ -898,7 +911,7 @@ public class ComplexOntologyResource extends BaseResource {
             }
             
             if (getOntology() != null) {
-                _rdfFile = getOntology().GenerateRDF();
+                _rdfFile = getOntology().generateRDF();
             }
             
         } else {

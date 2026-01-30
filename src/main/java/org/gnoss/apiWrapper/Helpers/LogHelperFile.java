@@ -36,93 +36,93 @@ public class LogHelperFile implements ILogHelper {
     }
     
     //Public methods
-    public void Trace(String message, String className, String memberName){
+    public void trace(String message, String className, String memberName){
         if(LogHelper.getLogLevel().compareTo(LogLevels.TRACE) <= 0){
-        	Write(LogLevels.TRACE, className, memberName, message);       
+        	write(LogLevels.TRACE, className, memberName, message);       
         }
     }
     
-    public void Trace(String message, String className){
-        Trace(message, className, "");
+    public void trace(String message, String className){
+        trace(message, className, "");
     }
     
-    public void Trace(String message){
-        Trace(message, "", "");
+    public void trace(String message){
+        trace(message, "", "");
     }
     
-    public void Debug(String message, String className, String memberName){
+    public void debug(String message, String className, String memberName){
         if(LogHelper.getLogLevel().compareTo(LogLevels.DEBUG) <= 0){
-        	Write(LogLevels.DEBUG, className, memberName, message);
+        	write(LogLevels.DEBUG, className, memberName, message);
         }
     }
     
-    public void Debug(String message, String className){
-        Debug(message, className, "");
+    public void debug(String message, String className){
+        debug(message, className, "");
     }
     
-    public void Debug(String message){
-        Debug(message, "", "");
+    public void debug(String message){
+        debug(message, "", "");
     }
     
-    public void Info(String message, String className, String memberName){
+    public void info(String message, String className, String memberName){
         if(LogHelper.getLogLevel().compareTo(LogLevels.INFO) <= 0){
-        	Write(LogLevels.INFO, className, memberName, message);
+        	write(LogLevels.INFO, className, memberName, message);
         }
     }
     
-    public void Info(String message, String className){
-        Info(message, className, "");
+    public void info(String message, String className){
+        info(message, className, "");
     }
     
-    public void Info(String message){
-        Info(message, "", "");
+    public void info(String message){
+        info(message, "", "");
     }
     
-    public void Warn(String message, String className, String memberName){
+    public void warn(String message, String className, String memberName){
         if(LogHelper.getLogLevel().compareTo(LogLevels.WARN) <= 0){
-        	Write(LogLevels.WARN, className, memberName, message);
+        	write(LogLevels.WARN, className, memberName, message);
         }
     }
     
-    public void Warn(String message, String className){
-        Warn(message, className, "");
+    public void warn(String message, String className){
+        warn(message, className, "");
     }
     
-    public void Warn(String message){
-        Warn(message, "", "");
+    public void warn(String message){
+        warn(message, "", "");
     }
     
-    public void Error(String message, String className, String memberName){
+    public void error(String message, String className, String memberName){
         if(LogHelper.getLogLevel().compareTo(LogLevels.ERROR) <= 0){
-        	Write(LogLevels.ERROR, className, memberName, message);
+        	write(LogLevels.ERROR, className, memberName, message);
         }
     }
     
-    public void Error(String message, String className){
-        Error(message, className, "");
+    public void error(String message, String className){
+        error(message, className, "");
     }
     
-    public void Error(String message){
-        Error(message, "", "");
+    public void error(String message){
+        error(message, "", "");
     }
     
-    public void Fatal(String message, String className, String memberName){
+    public void fatal(String message, String className, String memberName){
         if(LogHelper.getLogLevel().compareTo(LogLevels.FATAL) <= 0){
-        	Write(LogLevels.FATAL, className, memberName, message);            
+        	write(LogLevels.FATAL, className, memberName, message);            
         }
     }
     
-    public void Fatal(String message, String className){
-        Fatal(message, className, "");
+    public void fatal(String message, String className){
+        fatal(message, className, "");
     }
     
-    public void Fatal(String message){
-        Fatal(message, "", "");
+    public void fatal(String message){
+        fatal(message, "", "");
     }
     
     //Private methods
     
-    private void Write(LogLevels logLevel, String className, String memberName, String message, int numberWriteErrors) {
+    private void write(LogLevels logLevel, String className, String memberName, String message, int numberWriteErrors) {
         if(_isActivated){
             OutputStreamWriter sw = null;
             OutputStream os = null;
@@ -151,25 +151,25 @@ public class LogHelperFile implements ILogHelper {
 				}
                 if(numberWriteErrors > 0){
                     numberWriteErrors --;
-                    Write(logLevel, className, memberName, message, numberWriteErrors);
+                    write(logLevel, className, memberName, message, numberWriteErrors);
                 }
             }
             finally {
-            	CerrarFileOutputStreamWriter(sw);
-            	CerrarFileOutputStream(os);
+            	cerrarFileOutputStreamWriter(sw);
+            	cerrarFileOutputStream(os);
             }
         }
     }
     
-    private void Write(LogLevels logLevel, String className, String memberName, String message) {
-        Write(logLevel, className, memberName, message, 3);
+    private void write(LogLevels logLevel, String className, String memberName, String message) {
+        write(logLevel, className, memberName, message, 3);
     }
     
 	/**
 	 * Cierra y controla la excepción de los OutputStream
 	 * @param outputStream
 	 */
-	private void CerrarFileOutputStream(OutputStream outputStream) {
+	private void cerrarFileOutputStream(OutputStream outputStream) {
 		try {
 			if(outputStream != null) {
 				outputStream.close();	
@@ -182,7 +182,7 @@ public class LogHelperFile implements ILogHelper {
 	 * Cierra y controla la excepción de los OutputStreamWriter
 	 * @param outputStreamWriter
 	 */
-	private void CerrarFileOutputStreamWriter(OutputStreamWriter outputStreamWriter) {
+	private void cerrarFileOutputStreamWriter(OutputStreamWriter outputStreamWriter) {
 		try {
 			if(outputStreamWriter != null) {
 				outputStreamWriter.close();	

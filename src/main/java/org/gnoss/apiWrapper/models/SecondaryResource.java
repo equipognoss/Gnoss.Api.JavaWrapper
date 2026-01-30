@@ -49,7 +49,7 @@ public class SecondaryResource {
 	}
 	
 	public byte[] getRdfFile() throws IOException, GnossAPIException{
-		_rdfFile = SecondaryOntology.GenerateRDF();		
+		_rdfFile = SecondaryOntology.generateRDF();		
 		return _rdfFile;
 	}
 	
@@ -58,7 +58,7 @@ public class SecondaryResource {
 	}
 	
 	public String getStringRdfFile() throws IOException, GnossAPIException{
-		_rdfFile = SecondaryOntology.GenerateRDF();
+		_rdfFile = SecondaryOntology.generateRDF();
 	    return new String(_rdfFile, StandardCharsets.UTF_8);
 	}
 }

@@ -80,15 +80,15 @@ public class UserApi extends GnossApiWrapper {
 		User user = null;
 		try {
 			String url = getApiUrl() + "/user/get-by-short-name?user_short_name=" + userShortName + "&community_short_name=" + getCommunityShortName();
-			String response = WebRequest("GET", url, "application/json");
+			String response = webRequest("GET", url, "application/json");
 			user = gson.fromJson(response, User.class);
 			if (user != null) {
-				this._logHelper.Debug("The user " + user.getName() + " " + user.getLast_name() + " has been obtained successfully");
+				this._logHelper.debug("The user " + user.getName() + " " + user.getLast_name() + " has been obtained successfully");
 			} else {
-				this._logHelper.Error("Couldn't get the user " + userShortName + "\r\n" + response);
+				this._logHelper.error("Couldn't get the user " + userShortName + "\r\n" + response);
 			}
 		} catch (Exception ex) {
-			this._logHelper.Error("Couldn't get the user: " + userShortName + "\r\n" + ex.getMessage());
+			this._logHelper.error("Couldn't get the user: " + userShortName + "\r\n" + ex.getMessage());
 			throw ex;
 		}
 		return user;
@@ -104,15 +104,15 @@ public class UserApi extends GnossApiWrapper {
 		User user = null;
 		try {
 			String url = getApiUrl() + "/user/get-by-id?user_ID=" + userId + "&community_short_name=" + getCommunityShortName();
-			String response = WebRequest("GET", url, "application/json");
+			String response = webRequest("GET", url, "application/json");
 			user = gson.fromJson(response, User.class);
 	        if (user != null) {
-	        	this._logHelper.Debug("The user " + user.getName() + " " + user.getLast_name() + " has been obtained successfully");
+	        	this._logHelper.debug("The user " + user.getName() + " " + user.getLast_name() + " has been obtained successfully");
 	        } else {
-	        	this._logHelper.Error("Couldn't get the user " + userId + "\r\n" + response);
+	        	this._logHelper.error("Couldn't get the user " + userId + "\r\n" + response);
 	        }
 		} catch (Exception ex) {
-			this._logHelper.Error("Couldn't get the user: " + userId + "\r\n" + ex.getMessage());
+			this._logHelper.error("Couldn't get the user: " + userId + "\r\n" + ex.getMessage());
 			throw ex;
 		}
 		return user;
@@ -128,15 +128,15 @@ public class UserApi extends GnossApiWrapper {
 		User user = null;
 		try {
 			String url = getApiUrl() + "/user/get-by-email?email=" + email + "&community_short_name=" + getCommunityShortName();
-			String response = WebRequest("GET", url, "application/json");
+			String response = webRequest("GET", url, "application/json");
 			user = gson.fromJson(response, User.class);
 			if (user != null) {
-				this._logHelper.Debug("The user " + user.getName() + " " + user.getLast_name() + " has been obtained successfully");
+				this._logHelper.debug("The user " + user.getName() + " " + user.getLast_name() + " has been obtained successfully");
 			} else {
-				this._logHelper.Error("Couldn't get the user " + email + "\r\n" + response);
+				this._logHelper.error("Couldn't get the user " + email + "\r\n" + response);
 			}
 		} catch (Exception ex) {
-			this._logHelper.Error("Couldn't get the user: " + email + "\r\n" + ex.getMessage());
+			this._logHelper.error("Couldn't get the user: " + email + "\r\n" + ex.getMessage());
 			throw ex;
 		}
 		return user;
@@ -155,7 +155,7 @@ public class UserApi extends GnossApiWrapper {
 		boolean validPassword = false;
 		
 		if (StringUtils.isBlank(user) || StringUtils.isBlank(password)) {
-			this._logHelper.Error("The user and the password can't be null or empty");
+			this._logHelper.error("The user and the password can't be null or empty");
 			return validPassword;
 		}
 		
@@ -168,16 +168,16 @@ public class UserApi extends GnossApiWrapper {
 			Gson jsonUtilities = new Gson();
 			String postData = jsonUtilities.toJson(model);
 	        
-			String respuesta = WebRequest("POST", url, postData, "application/json");
+			String respuesta = webRequest("POST", url, postData, "application/json");
 			validPassword = gson.fromJson(respuesta, boolean.class);
 			
 			if (validPassword) {
-				this._logHelper.Debug("The password for the user " + user + " is correct");
+				this._logHelper.debug("The password for the user " + user + " is correct");
 			} else {
-				this._logHelper.Debug("The password for the user " + user + " isn't correct");
+				this._logHelper.debug("The password for the user " + user + " isn't correct");
 			}
 		} catch (Exception ex) {
-			this._logHelper.Error(ex.getMessage());
+			this._logHelper.error(ex.getMessage());
 			throw ex;
 		}
 		return validPassword;
@@ -193,11 +193,11 @@ public class UserApi extends GnossApiWrapper {
 		String profileRol = "";
 		try {
 			String url = getApiUrl() + "/user/get-profile-role-in-organization?profile_id=" + profileId + "&community_short_name=" + getCommunityShortName();
-			profileRol = WebRequest("GET", url);
+			profileRol = webRequest("GET", url);
 			profileRol = profileRol.trim().replaceAll("\"", "");
-			this._logHelper.Debug("The profile role of " + profileId + " in " + getCommunityShortName() + " is " + profileRol);
+			this._logHelper.debug("The profile role of " + profileId + " in " + getCommunityShortName() + " is " + profileRol);
 		} catch (Exception ex) {
-			this._logHelper.Error("Error getting the profile role of " + profileId + ": " + ex.getMessage());
+			this._logHelper.error("Error getting the profile role of " + profileId + ": " + ex.getMessage());
 			throw ex;
 		}
 		return profileRol;
@@ -216,15 +216,15 @@ public class UserApi extends GnossApiWrapper {
 
 		try {
 			String url = getApiUrl() + "/user/create-user-waiting-for-activate";
-			String response = WebRequest("POST", url, json, "application/json");
+			String response = webRequest("POST", url, json, "application/json");
 			createdUser = gson.fromJson(response, User.class);
 			if (createdUser != null) {
-				this._logHelper.Debug("User created: " + createdUser.getName() + " " + createdUser.getLast_name());
+				this._logHelper.debug("User created: " + createdUser.getName() + " " + createdUser.getLast_name());
 			} else {
-				this._logHelper.Error("Error creating user " + json + ": " + response);
+				this._logHelper.error("Error creating user " + json + ": " + response);
 			}
 		} catch (Exception ex) {
-			this._logHelper.Error("Error creating user " + json + ": \r\n" + ex.getMessage());
+			this._logHelper.error("Error creating user " + json + ": \r\n" + ex.getMessage());
 			throw ex;
 		}
 		return createdUser;
@@ -243,15 +243,15 @@ public class UserApi extends GnossApiWrapper {
 
 		try {
 			String url = getApiUrl() + "/user/create-user";
-			String response = WebRequest("POST", url, json, "application/json");
+			String response = webRequest("POST", url, json, "application/json");
 			createdUser = gson.fromJson(response, User.class);
 			if (createdUser != null) {
-				this._logHelper.Debug("User created: " + createdUser.getName() + " " + createdUser.getLast_name());
+				this._logHelper.debug("User created: " + createdUser.getName() + " " + createdUser.getLast_name());
 			} else {
-				this._logHelper.Error("Error creating user " + json + ": " + response);
+				this._logHelper.error("Error creating user " + json + ": " + response);
 			}
 		} catch (Exception ex) {
-			this._logHelper.Error("Error creating user " + json + ": \r\n" + ex.getMessage());
+			this._logHelper.error("Error creating user " + json + ": \r\n" + ex.getMessage());
 			throw ex;
 		}
 		return createdUser;
@@ -272,10 +272,10 @@ public class UserApi extends GnossApiWrapper {
 			model.setOrganization_short_name(organizationShortName);
 			model.setGroup_short_name(groupShortName);
 			
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("The user " + userId + " has been deleted from the group " + groupShortName + " of the organization " + organizationShortName);
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("The user " + userId + " has been deleted from the group " + groupShortName + " of the organization " + organizationShortName);
 		} catch (Exception ex) {
-			this._logHelper.Error("Error deleting the user " + userId + " from the group " + groupShortName + " of the organization " + organizationShortName + ": \n" + ex.getMessage());
+			this._logHelper.error("Error deleting the user " + userId + " from the group " + groupShortName + " of the organization " + organizationShortName + ": \n" + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -295,10 +295,10 @@ public class UserApi extends GnossApiWrapper {
 			model.setOrganization_short_name(organizationShortName);
 			model.setGroup_short_name(groupShortName);
 			
-			WebRequestPostWithJsonObject(url, model);
-			this._logHelper.Debug("The user " + shortNameOrEmail + " has been deleted from the group " + groupShortName + " of the organization " + organizationShortName);
+			webRequestPostWithJsonObject(url, model);
+			this._logHelper.debug("The user " + shortNameOrEmail + " has been deleted from the group " + groupShortName + " of the organization " + organizationShortName);
 		} catch (Exception ex) {
-			this._logHelper.Error("Error deleting the user " + shortNameOrEmail + " from the group " + groupShortName + " of the organization " + organizationShortName + ": \n" + ex.getMessage());
+			this._logHelper.error("Error deleting the user " + shortNameOrEmail + " from the group " + groupShortName + " of the organization " + organizationShortName + ": \n" + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -312,11 +312,11 @@ public class UserApi extends GnossApiWrapper {
 	public UUID getUserIdByLogin(String login) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/get-user-id-by-login?pLogin=" + login;
-			String response = WebRequest("GET", url);
+			String response = webRequest("GET", url);
 			UUID userId = gson.fromJson(response, UUID.class);
 			return userId;
 		} catch (Exception ex) {
-			this._logHelper.Error("Error getting user's ID for user " + login + " from the community " + getCommunityShortName() + ": \r\n" + ex.getMessage());
+			this._logHelper.error("Error getting user's ID for user " + login + " from the community " + getCommunityShortName() + ": \r\n" + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -330,10 +330,10 @@ public class UserApi extends GnossApiWrapper {
 	public User getUserByAccreditationDocument(String accreditationDocument) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/get-user-by-accreditation-document?pValorDocumentoAcreditativo=" + accreditationDocument + "&pNombreCorto=" + getCommunityShortName();
-			String response = WebRequest("GET", url);
+			String response = webRequest("GET", url);
 			return gson.fromJson(response, User.class);
 		} catch (Exception ex) {
-			this._logHelper.Error("Error getting person by accreditation document " + accreditationDocument + ": \r\n" + ex.getMessage());
+			this._logHelper.error("Error getting person by accreditation document " + accreditationDocument + ": \r\n" + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -348,10 +348,10 @@ public class UserApi extends GnossApiWrapper {
 	public boolean setAccreditationDocumentByUser(String accreditationDocument, UUID userId) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/set-accreditation-document-by-user?pValorDocumentoAcreditativo=" + accreditationDocument + "&pUserID=" + userId;
-			String response = WebRequest("POST", url);
+			String response = webRequest("POST", url);
 			return gson.fromJson(response, boolean.class);
 		} catch (Exception ex) {
-			this._logHelper.Error("Error setting accreditation document " + accreditationDocument + " to person with id " + userId + ": \r\n" + ex.getMessage());
+			this._logHelper.error("Error setting accreditation document " + accreditationDocument + " to person with id " + userId + ": \r\n" + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -366,10 +366,10 @@ public class UserApi extends GnossApiWrapper {
 	public boolean setAccreditationDocumentByUser(String accreditationDocument, String shortNameOrEmail) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/set-accreditation-document-by-user?pValorDocumentoAcreditativo=" + accreditationDocument + "&pLogin=" + shortNameOrEmail;
-			String response = WebRequest("POST", url);
+			String response = webRequest("POST", url);
 			return gson.fromJson(response, boolean.class);
 		} catch (Exception ex) {
-			this._logHelper.Error("Error setting accreditation document " + accreditationDocument + " to person " + shortNameOrEmail + ": \r\n" + ex.getMessage());
+			this._logHelper.error("Error setting accreditation document " + accreditationDocument + " to person " + shortNameOrEmail + ": \r\n" + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -385,11 +385,11 @@ public class UserApi extends GnossApiWrapper {
 		if (!StringUtils.isBlank(loginOrEmail)) {
 			try {
 				String url = getApiUrl() + "/user/generate-forgotten-password-url?login=" + loginOrEmail + "&community_short_name=" + getCommunityShortName();
-				link = WebRequest("GET", url);
+				link = webRequest("GET", url);
 				link = link.trim().replaceAll("\"", "");
-				this._logHelper.Debug("Forgotten password url generated " + link);
+				this._logHelper.debug("Forgotten password url generated " + link);
 			} catch (Exception ex) {
-				this._logHelper.Error("Error generating forgotten password url for user " + loginOrEmail + ": " + ex.getMessage());
+				this._logHelper.error("Error generating forgotten password url for user " + loginOrEmail + ": " + ex.getMessage());
 				throw ex;
 			}
 		}
@@ -407,11 +407,11 @@ public class UserApi extends GnossApiWrapper {
 		if (userId != null) {
 			try {
 				String url = getApiUrl() + "/user/generate-forgotten-password-url?user_id=" + userId + "&community_short_name=" + getCommunityShortName();
-				link = WebRequest("GET", url);
+				link = webRequest("GET", url);
 				link = link.trim().replaceAll("\"", "");
-				this._logHelper.Debug("Forgotten password url generated " + link);
+				this._logHelper.debug("Forgotten password url generated " + link);
 			} catch (Exception ex) {
-				this._logHelper.Error("Error generating forgotten password url for user " + userId + ": " + ex.getMessage());
+				this._logHelper.error("Error generating forgotten password url for user " + userId + ": " + ex.getMessage());
 				throw ex;
 			}
 		}
@@ -429,10 +429,10 @@ public class UserApi extends GnossApiWrapper {
 		
 		try {
 			String url = getApiUrl() + "/user/modify-user";
-			WebRequest("POST", url, json, "application/json");
-			this._logHelper.Debug("User modify successfully " + json);
+			webRequest("POST", url, json, "application/json");
+			this._logHelper.debug("User modify successfully " + json);
 		} catch (Exception ex) {
-			this._logHelper.Error("Error trying to modify user " + json + ": " + ex.getMessage());
+			this._logHelper.error("Error trying to modify user " + json + ": " + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -452,10 +452,10 @@ public class UserApi extends GnossApiWrapper {
 			Gson jsonUtilities = new Gson();
 			String postData = jsonUtilities.toJson(model);
 			
-			WebRequest("POST", url, postData, "application/json");
-			this._logHelper.Debug("User " + userShortName + " deleted successfully from the community " + getCommunityShortName());
+			webRequest("POST", url, postData, "application/json");
+			this._logHelper.debug("User " + userShortName + " deleted successfully from the community " + getCommunityShortName());
 		} catch (Exception ex) {
-			this._logHelper.Error("Error deleting user " + userShortName + " from the community " + getCommunityShortName() + ": \r\n" + ex.getMessage());
+			this._logHelper.error("Error deleting user " + userShortName + " from the community " + getCommunityShortName() + ": \r\n" + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -475,10 +475,10 @@ public class UserApi extends GnossApiWrapper {
 			Gson jsonUtilities = new Gson();
 			String postData = jsonUtilities.toJson(model);
 			
-			WebRequest("POST", url, postData, "application/json");
-			this._logHelper.Debug("User " + userId + " deleted successfully from the community " + getCommunityShortName());
+			webRequest("POST", url, postData, "application/json");
+			this._logHelper.debug("User " + userId + " deleted successfully from the community " + getCommunityShortName());
 		} catch (Exception ex) {
-			this._logHelper.Error("Error deleting user " + userId + " from the community " + getCommunityShortName() + ": \r\n" + ex.getMessage());
+			this._logHelper.error("Error deleting user " + userId + " from the community " + getCommunityShortName() + ": \r\n" + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -491,10 +491,10 @@ public class UserApi extends GnossApiWrapper {
 	public void deleteUser(UUID userId) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/delete-user?user_ID=" + userId;
-			WebRequestPostWithJsonObject(url, userId);
-			this._logHelper.Debug("User " + userId + " deleted successfully");
+			webRequestPostWithJsonObject(url, userId);
+			this._logHelper.debug("User " + userId + " deleted successfully");
 		} catch (Exception ex) {
-			this._logHelper.Error("Error deleting user " + userId + ": " + ex.getMessage());
+			this._logHelper.error("Error deleting user " + userId + ": " + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -519,10 +519,10 @@ public class UserApi extends GnossApiWrapper {
 			Gson jsonUtilities = new Gson();
 			String postData = jsonUtilities.toJson(model);
 			
-			WebRequest("POST", url, postData, "application/json");
-			this._logHelper.Debug("User " + userId + " added successfully to organization " + organizationShortName + " in the communities: " + String.join(",", communitiesShortNames));
+			webRequest("POST", url, postData, "application/json");
+			this._logHelper.debug("User " + userId + " added successfully to organization " + organizationShortName + " in the communities: " + String.join(",", communitiesShortNames));
 		} catch (Exception ex) {
-			this._logHelper.Error("Error adding user " + userId + " to organization " + organizationShortName + " in the communities: " + String.join(",", communitiesShortNames) + ": \r\n" + ex.getMessage());
+			this._logHelper.error("Error adding user " + userId + " to organization " + organizationShortName + " in the communities: " + String.join(",", communitiesShortNames) + ": \r\n" + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -547,10 +547,10 @@ public class UserApi extends GnossApiWrapper {
 			Gson jsonUtilities = new Gson();
 			String postData = jsonUtilities.toJson(model);
 			
-			WebRequest("POST", url, postData, "application/json");
-			this._logHelper.Debug("User " + shortNameOrEmail + " added successfully to organization " + organizationShortName + " in the communities: " + String.join(",", communitiesShortNames));
+			webRequest("POST", url, postData, "application/json");
+			this._logHelper.debug("User " + shortNameOrEmail + " added successfully to organization " + organizationShortName + " in the communities: " + String.join(",", communitiesShortNames));
 		} catch (Exception ex) {
-			this._logHelper.Error("Error adding user " + shortNameOrEmail + " to organization " + organizationShortName + " in the communities: " + String.join(",", communitiesShortNames) + ": \r\n" + ex.getMessage());
+			this._logHelper.error("Error adding user " + shortNameOrEmail + " to organization " + organizationShortName + " in the communities: " + String.join(",", communitiesShortNames) + ": \r\n" + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -573,10 +573,10 @@ public class UserApi extends GnossApiWrapper {
 			Gson jsonUtilities = new Gson();
 			String postData = jsonUtilities.toJson(model);
 			
-			WebRequest("POST", url, postData, "application/json");
-			this._logHelper.Debug("User " + userId + " added successfully to organization " + organizationShortName + " in the groups: " + String.join(",", groupsShortNames));
+			webRequest("POST", url, postData, "application/json");
+			this._logHelper.debug("User " + userId + " added successfully to organization " + organizationShortName + " in the groups: " + String.join(",", groupsShortNames));
 		} catch (Exception ex) {
-			this._logHelper.Error("Error adding user " + userId + " to organization " + organizationShortName + " in the groups: " + String.join(",", groupsShortNames) + ": " + ex.getMessage());
+			this._logHelper.error("Error adding user " + userId + " to organization " + organizationShortName + " in the groups: " + String.join(",", groupsShortNames) + ": " + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -599,10 +599,10 @@ public class UserApi extends GnossApiWrapper {
 			Gson jsonUtilities = new Gson();
 			String postData = jsonUtilities.toJson(model);
 			
-			WebRequest("POST", url, postData, "application/json");
-			this._logHelper.Debug("User " + shortNameOrEmail + " added successfully to organization " + organizationShortName + " in the groups: " + String.join(",", groupsShortNames));
+			webRequest("POST", url, postData, "application/json");
+			this._logHelper.debug("User " + shortNameOrEmail + " added successfully to organization " + organizationShortName + " in the groups: " + String.join(",", groupsShortNames));
 		} catch (Exception ex) {
-			this._logHelper.Error("Error adding user " + shortNameOrEmail + " to organization " + organizationShortName + " in the groups: " + String.join(",", groupsShortNames) + ": " + ex.getMessage());
+			this._logHelper.error("Error adding user " + shortNameOrEmail + " to organization " + organizationShortName + " in the groups: " + String.join(",", groupsShortNames) + ": " + ex.getMessage());
 			throw ex;
 		}
 	}
@@ -617,13 +617,13 @@ public class UserApi extends GnossApiWrapper {
 		Map<UUID, Userlite> users = null;
 		try {
 			String url = getApiUrl() + "/user/get-users-by-id";
-			String result = WebRequestPostWithJsonObject(url, listaIds);
+			String result = webRequestPostWithJsonObject(url, listaIds);
 			
 			Type type = new TypeToken<HashMap<UUID, Userlite>>(){}.getType();
 			users = gson.fromJson(result, type);
-			this._logHelper.Debug("Users obtained by Ids");
+			this._logHelper.debug("Users obtained by Ids");
 		} catch (Exception ex) {
-			this._logHelper.Error("Error getting the users: " + ex.getMessage());
+			this._logHelper.error("Error getting the users: " + ex.getMessage());
 			throw ex;
 		}
 		return users;
@@ -639,13 +639,13 @@ public class UserApi extends GnossApiWrapper {
 		Map<UUID, Userlite> users = null;
 		try {
 			String url = getApiUrl() + "/user/get-users-by-shortname-or-email";
-			String result = WebRequestPostWithJsonObject(url, lista);
+			String result = webRequestPostWithJsonObject(url, lista);
 			
 			Type type = new TypeToken<HashMap<UUID, Userlite>>(){}.getType();
 			users = gson.fromJson(result, type);
-			this._logHelper.Debug("Users obtained by short name or email");
+			this._logHelper.debug("Users obtained by short name or email");
 		} catch (Exception ex) {
-			this._logHelper.Error("Error getting the users: " + ex.getMessage());
+			this._logHelper.error("Error getting the users: " + ex.getMessage());
 			throw ex;
 		}
 		return users;
@@ -676,14 +676,14 @@ public class UserApi extends GnossApiWrapper {
 			}
 			
 			String url = getApiUrl() + "/user/get-modified-users?community_short_name=" + getCommunityShortName() + "&search_date=" + searchDate;
-			String response = WebRequest("GET", url);
+			String response = webRequest("GET", url);
 			
 			Type type = new TypeToken<ArrayList<UUID>>(){}.getType();
 			users = gson.fromJson(response, type);
 			
-			this._logHelper.Debug("Users obtained of the community " + getCommunityShortName() + " from date " + searchDate);
+			this._logHelper.debug("Users obtained of the community " + getCommunityShortName() + " from date " + searchDate);
 		} catch (Exception ex) {
-			this._logHelper.Error("Error getting the users of " + getCommunityShortName() + " from date " + searchDate + ": " + ex.getMessage());
+			this._logHelper.error("Error getting the users of " + getCommunityShortName() + " from date " + searchDate + ": " + ex.getMessage());
 			throw ex;
 		}
 		return users;
@@ -699,12 +699,12 @@ public class UserApi extends GnossApiWrapper {
 		List<String> communities = null;
 		try {
 			String url = getApiUrl() + "/user/get-admin-communities?login=" + login;
-			String response = WebRequest("GET", url);
+			String response = webRequest("GET", url);
 			Type type = new TypeToken<ArrayList<String>>(){}.getType();
 			communities = gson.fromJson(response, type);
-			this._logHelper.Debug("Communities obtained for user " + login);
+			this._logHelper.debug("Communities obtained for user " + login);
 		} catch (Exception ex) {
-			this._logHelper.Error("Error getting the communities of " + login + ": " + ex.getMessage());
+			this._logHelper.error("Error getting the communities of " + login + ": " + ex.getMessage());
 			throw ex;
 		}
 		return communities;
@@ -720,12 +720,12 @@ public class UserApi extends GnossApiWrapper {
 		List<String> communities = null;
 		try {
 			String url = getApiUrl() + "/user/get-admin-communities?user_id=" + userId;
-			String response = WebRequest("GET", url);
+			String response = webRequest("GET", url);
 			Type type = new TypeToken<ArrayList<String>>(){}.getType();
 			communities = gson.fromJson(response, type);
-			this._logHelper.Debug("Communities obtained for user " + userId);
+			this._logHelper.debug("Communities obtained for user " + userId);
 		} catch (Exception ex) {
-			this._logHelper.Error("Error getting the communities of " + userId + ": " + ex.getMessage());
+			this._logHelper.error("Error getting the communities of " + userId + ": " + ex.getMessage());
 			throw ex;
 		}
 		return communities;
@@ -742,20 +742,20 @@ public class UserApi extends GnossApiWrapper {
 		UserNovertiesModel user = null;
 		try {
 			if (searchDate.contains(" ") || !searchDate.contains("T")) {
-				this._logHelper.Error("The search date string is not in the ISO8601 format: " + searchDate);
+				this._logHelper.error("The search date string is not in the ISO8601 format: " + searchDate);
 				return null;
 			}
 			String url = getApiUrl() + "/user/get-user-novelties?user_id=" + userId + "&community_short_name=" + getCommunityShortName() + "&search_date=" + searchDate;
-			String response = WebRequest("GET", url, "application/x-www-form-urlencoded");
+			String response = webRequest("GET", url, "application/x-www-form-urlencoded");
 			user = gson.fromJson(response, UserNovertiesModel.class);
 			
 			if (user != null) {
-				this._logHelper.Debug("Obtained the user " + userId + " of the community " + getCommunityShortName() + " from the date " + searchDate);
+				this._logHelper.debug("Obtained the user " + userId + " of the community " + getCommunityShortName() + " from the date " + searchDate);
 			} else {
-				this._logHelper.Debug("The user " + userId + " could not be obtained of the community " + getCommunityShortName() + " from the date " + searchDate);
+				this._logHelper.debug("The user " + userId + " could not be obtained of the community " + getCommunityShortName() + " from the date " + searchDate);
 			}
 		} catch (Exception ex) {
-			this._logHelper.Error("Error getting the user " + userId + " of the community " + getCommunityShortName() + " from the date " + searchDate + ": " + ex.getMessage());
+			this._logHelper.error("Error getting the user " + userId + " of the community " + getCommunityShortName() + " from the date " + searchDate + ": " + ex.getMessage());
 			throw ex;
 		}
 		return user;
@@ -772,20 +772,20 @@ public class UserApi extends GnossApiWrapper {
 		UserNovertiesModel user = null;
 		try {
 			if (searchDate.contains(" ") || !searchDate.contains("T")) {
-				this._logHelper.Error("The search date string is not in the ISO8601 format: " + searchDate);
+				this._logHelper.error("The search date string is not in the ISO8601 format: " + searchDate);
 				return null;
 			}
 			String url = getApiUrl() + "/user/get-user-novelties?login=" + shortNameOrEmail + "&community_short_name=" + getCommunityShortName() + "&search_date=" + searchDate;
-			String response = WebRequest("GET", url, "application/x-www-form-urlencoded");
+			String response = webRequest("GET", url, "application/x-www-form-urlencoded");
 			user = gson.fromJson(response, UserNovertiesModel.class);
 			
 			if (user != null) {
-				this._logHelper.Debug("Obtained the user " + shortNameOrEmail + " of the community " + getCommunityShortName() + " from the date " + searchDate);
+				this._logHelper.debug("Obtained the user " + shortNameOrEmail + " of the community " + getCommunityShortName() + " from the date " + searchDate);
 			} else {
-				this._logHelper.Debug("The user " + shortNameOrEmail + " could not be obtained of the community " + getCommunityShortName() + " from the date " + searchDate);
+				this._logHelper.debug("The user " + shortNameOrEmail + " could not be obtained of the community " + getCommunityShortName() + " from the date " + searchDate);
 			}
 		} catch (Exception ex) {
-			this._logHelper.Error("Error getting the user " + shortNameOrEmail + " of the community " + getCommunityShortName() + " from the date " + searchDate + ": " + ex.getMessage());
+			this._logHelper.error("Error getting the user " + shortNameOrEmail + " of the community " + getCommunityShortName() + " from the date " + searchDate + ": " + ex.getMessage());
 			throw ex;
 		}
 		return user;
@@ -801,10 +801,10 @@ public class UserApi extends GnossApiWrapper {
 		UUID userID = null;
 		try {
 			String url = getApiUrl() + "/user/get-user-cookie?pCookie=" + cookie;
-			String response = WebRequest("GET", url, "application/x-www-form-urlencoded");
+			String response = webRequest("GET", url, "application/x-www-form-urlencoded");
 			userID = gson.fromJson(response, UUID.class);
 		} catch (Exception ex) {
-			this._logHelper.Error("Error getting the user from the cookie: " + ex.getMessage());
+			this._logHelper.error("Error getting the user from the cookie: " + ex.getMessage());
 			throw ex;
 		}
 		return userID;
@@ -825,7 +825,7 @@ public class UserApi extends GnossApiWrapper {
 		}
 		
 		String url = getApiUrl() + "/user/generate-login-token-for-email?email=" + email + "&longLiveToken=" + longLiveToken;
-		String result = WebRequest("POST", url, "application/json");	 
+		String result = webRequest("POST", url, "application/json");	 
 		String token = gson.fromJson(result, String.class);
 		return token;
 	}
@@ -844,7 +844,7 @@ public class UserApi extends GnossApiWrapper {
 		}
 		
 		String url = getApiUrl() + "/user/generate-login-token-for-email?email=" + email + "&longLiveToken=" + false;
-		String result = WebRequest("POST", url, "application/json");
+		String result = webRequest("POST", url, "application/json");
 		String token = gson.fromJson(result, String.class);
 		return token;
 	}
@@ -864,7 +864,7 @@ public class UserApi extends GnossApiWrapper {
 		}
 		
 		String url = getApiUrl() + "/user/generate-login-token-for-email?user_id=" + userId + "&longLiveToken=" + longLiveToken;
-		String result = WebRequest("POST", url, "application/json");
+		String result = webRequest("POST", url, "application/json");
 		String token = gson.fromJson(result, String.class);
 		return token;
 	}
@@ -883,7 +883,7 @@ public class UserApi extends GnossApiWrapper {
 		}
 		
 		String url = getApiUrl() + "/user/generate-login-token-for-email?user_id=" + userId + "&longLiveToken=" + false;
-		String result = WebRequest("POST", url, "application/json"); 
+		String result = webRequest("POST", url, "application/json"); 
 		String token = gson.fromJson(result, String.class);
 		return token;
 	}
@@ -903,7 +903,7 @@ public class UserApi extends GnossApiWrapper {
 		}
 		
 		String url = getApiUrl() + "/user/get-email-by-token?token=" + token + "&deleteSingleUseToken=" + deleteSingleToken;
-		String result = WebRequest("GET", url, "application/json");
+		String result = webRequest("GET", url, "application/json");
 		String email = gson.fromJson(result, String.class);
 		return email;
 	}
@@ -922,7 +922,7 @@ public class UserApi extends GnossApiWrapper {
 		}
 		
 		String url = getApiUrl() + "/user/get-email-by-token?token=" + token + "&deleteSingleUseToken=" + false;
-		String result = WebRequest("GET", url, "application/json");
+		String result = webRequest("GET", url, "application/json");
 		String email = gson.fromJson(result, String.class);
 		return email;
 	}
@@ -935,9 +935,9 @@ public class UserApi extends GnossApiWrapper {
 	public void blockUser(UUID userId) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/block?user_id=" + userId;
-			WebRequest("POST", url);
+			webRequest("POST", url);
 		} catch (Exception ex) {
-			this._logHelper.Error("The user '" + userId + "' could not be blocked");
+			this._logHelper.error("The user '" + userId + "' could not be blocked");
 			throw ex;
 		}
 	}
@@ -950,9 +950,9 @@ public class UserApi extends GnossApiWrapper {
 	public void blockUser(String shortNameOrEmail) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/block?login=" + shortNameOrEmail;
-			WebRequest("POST", url);
+			webRequest("POST", url);
 		} catch (Exception ex) {
-			this._logHelper.Error("The user '" + shortNameOrEmail + "' could not be blocked");
+			this._logHelper.error("The user '" + shortNameOrEmail + "' could not be blocked");
 			throw ex;
 		}
 	}
@@ -965,9 +965,9 @@ public class UserApi extends GnossApiWrapper {
 	public void unblockUser(UUID userId) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/unblock?user_id=" + userId;
-			WebRequest("POST", url);
+			webRequest("POST", url);
 		} catch (Exception ex) {
-			this._logHelper.Error("The user '" + userId + "' could not be unblocked");
+			this._logHelper.error("The user '" + userId + "' could not be unblocked");
 			throw ex;
 		}
 	}
@@ -980,9 +980,9 @@ public class UserApi extends GnossApiWrapper {
 	public void unblockUser(String shortNameOrEmail) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/unblock?login=" + shortNameOrEmail;
-			WebRequest("POST", url);
+			webRequest("POST", url);
 		} catch (Exception ex) {
-			this._logHelper.Error("The user '" + shortNameOrEmail + "' could not be unblocked");
+			this._logHelper.error("The user '" + shortNameOrEmail + "' could not be unblocked");
 			throw ex;
 		}
 	}
@@ -999,9 +999,9 @@ public class UserApi extends GnossApiWrapper {
 			String url = getApiUrl() + "/user/add-social-network-login?user_id=" + userId + 
 					"&social_network_user_id=" + URLEncoder.encode(socialNetworkUserId, StandardCharsets.UTF_8) + 
 					"&social_network=" + URLEncoder.encode(socialNetwork, StandardCharsets.UTF_8);
-			WebRequest("POST", url);
+			webRequest("POST", url);
 		} catch (Exception ex) {
-			this._logHelper.Error("The social network login " + socialNetworkUserId + " at " + socialNetwork + " could not be added to user '" + userId + "'");
+			this._logHelper.error("The social network login " + socialNetworkUserId + " at " + socialNetwork + " could not be added to user '" + userId + "'");
 			throw ex;
 		}
 	}
@@ -1018,9 +1018,9 @@ public class UserApi extends GnossApiWrapper {
 			String url = getApiUrl() + "/user/add-social-network-login?login=" + shortNameOrEmail + 
 					"&social_network_user_id=" + URLEncoder.encode(socialNetworkUserId, StandardCharsets.UTF_8) + 
 					"&social_network=" + URLEncoder.encode(socialNetwork, StandardCharsets.UTF_8);
-			WebRequest("POST", url);
+			webRequest("POST", url);
 		} catch (Exception ex) {
-			this._logHelper.Error("The social network login " + socialNetworkUserId + " at " + socialNetwork + " could not be added to user '" + shortNameOrEmail + "'");
+			this._logHelper.error("The social network login " + socialNetworkUserId + " at " + socialNetwork + " could not be added to user '" + shortNameOrEmail + "'");
 			throw ex;
 		}
 	}
@@ -1037,9 +1037,9 @@ public class UserApi extends GnossApiWrapper {
 			String url = getApiUrl() + "/user/modify-social-network-login?user_id=" + userId + 
 					"&social_network_user_id=" + URLEncoder.encode(socialNetworkUserId, StandardCharsets.UTF_8) + 
 					"&social_network=" + URLEncoder.encode(socialNetwork, StandardCharsets.UTF_8);
-			WebRequest("POST", url);
+			webRequest("POST", url);
 		} catch (Exception ex) {
-			this._logHelper.Error("The social network login " + socialNetworkUserId + " at " + socialNetwork + " could not be modified for user '" + userId + "'");
+			this._logHelper.error("The social network login " + socialNetworkUserId + " at " + socialNetwork + " could not be modified for user '" + userId + "'");
 			throw ex;
 		}
 	}
@@ -1056,9 +1056,9 @@ public class UserApi extends GnossApiWrapper {
 			String url = getApiUrl() + "/user/modify-social-network-login?login=" + shortNameOrEmail + 
 					"&social_network_user_id=" + URLEncoder.encode(socialNetworkUserId, StandardCharsets.UTF_8) + 
 					"&social_network=" + URLEncoder.encode(socialNetwork, StandardCharsets.UTF_8);
-			WebRequest("POST", url);
+			webRequest("POST", url);
 		} catch (Exception ex) {
-			this._logHelper.Error("The social network login " + socialNetworkUserId + " at " + socialNetwork + " could not be modified for user '" + shortNameOrEmail + "'");
+			this._logHelper.error("The social network login " + socialNetworkUserId + " at " + socialNetwork + " could not be modified for user '" + shortNameOrEmail + "'");
 			throw ex;
 		}
 	}
@@ -1076,10 +1076,10 @@ public class UserApi extends GnossApiWrapper {
 			String url = getApiUrl() + "/user/get-user_id-by-social-network-login?social_network_user_id=" + 
 					URLEncoder.encode(socialNetworkUserId, StandardCharsets.UTF_8) + 
 					"&social_network=" + URLEncoder.encode(socialNetwork, StandardCharsets.UTF_8);
-			String result = WebRequest("GET", url, "application/json"); 
+			String result = webRequest("GET", url, "application/json"); 
 			user_id = gson.fromJson(result, UUID.class);
 		} catch (Exception ex) {
-			this._logHelper.Error("The social network login " + socialNetworkUserId + " at " + socialNetwork + " could not be found");
+			this._logHelper.error("The social network login " + socialNetworkUserId + " at " + socialNetwork + " could not be found");
 			throw ex;
 		}
 		return user_id;
@@ -1098,10 +1098,10 @@ public class UserApi extends GnossApiWrapper {
 			String url = getApiUrl() + "/user/exists-social-network-login?social_network_user_id=" + 
 					URLEncoder.encode(socialNetworkUserId, StandardCharsets.UTF_8) + 
 					"&social_network=" + URLEncoder.encode(socialNetwork, StandardCharsets.UTF_8);
-			String result = WebRequest("GET", url, "application/json");
+			String result = webRequest("GET", url, "application/json");
 			exists = gson.fromJson(result, boolean.class);
 		} catch (Exception ex) {
-			this._logHelper.Error("The social network login " + socialNetworkUserId + " at " + socialNetwork + " could not be found");
+			this._logHelper.error("The social network login " + socialNetworkUserId + " at " + socialNetwork + " could not be found");
 			throw ex;
 		}
 		return exists;
@@ -1117,11 +1117,11 @@ public class UserApi extends GnossApiWrapper {
 		List<String> lista = null;
 		try {
 			String url = getApiUrl() + "/user/exists-email-in-database";
-			String result = WebRequestPostWithJsonObject(url, emails);
+			String result = webRequestPostWithJsonObject(url, emails);
 			Type type = new TypeToken<ArrayList<String>>(){}.getType();
 			lista = gson.fromJson(result, type);
 		} catch (Exception ex) {
-			this._logHelper.Error("Impossible to check the emails " + String.join(",", emails));
+			this._logHelper.error("Impossible to check the emails " + String.join(",", emails));
 			throw ex;
 		}
 		return lista;
@@ -1136,9 +1136,9 @@ public class UserApi extends GnossApiWrapper {
 	public String getUserPhoto(UUID userId) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/get-user-photo?user_id=" + userId;
-			return WebRequest("POST", url);
+			return webRequest("POST", url);
 		} catch (Exception ex) {
-			this._logHelper.Error(ex.getMessage());
+			this._logHelper.error(ex.getMessage());
 			throw ex;
 		}
 	}
@@ -1152,9 +1152,9 @@ public class UserApi extends GnossApiWrapper {
 	public String getUserPhoto(String shortNameOrEmail) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/get-user-photo?login=" + shortNameOrEmail;
-			return WebRequest("POST", url);
+			return webRequest("POST", url);
 		} catch (Exception ex) {
-			this._logHelper.Error(ex.getMessage());
+			this._logHelper.error(ex.getMessage());
 			throw ex;
 		}
 	}
@@ -1169,11 +1169,11 @@ public class UserApi extends GnossApiWrapper {
 		List<String> lista = null;
 		try {
 			String url = getApiUrl() + "/user/get-groups-per-community?user_id=" + userId + "&community_short_name=" + getCommunityShortName();
-			String result = WebRequest("GET", url, "application/json");
+			String result = webRequest("GET", url, "application/json");
 			Type type = new TypeToken<ArrayList<String>>(){}.getType();
 			lista = gson.fromJson(result, type);
 		} catch (Exception ex) {
-			this._logHelper.Error("Impossible to get groups of " + userId + " from community " + getCommunityShortName());
+			this._logHelper.error("Impossible to get groups of " + userId + " from community " + getCommunityShortName());
 			throw ex;
 		}
 		return lista;
@@ -1189,11 +1189,11 @@ public class UserApi extends GnossApiWrapper {
 		List<String> lista = null;
 		try {
 			String url = getApiUrl() + "/user/get-groups-per-community?login=" + shortNameOrEmail + "&community_short_name=" + getCommunityShortName();
-			String result = WebRequest("GET", url, "application/json"); 
+			String result = webRequest("GET", url, "application/json"); 
 			Type type = new TypeToken<ArrayList<String>>(){}.getType();
 			lista = gson.fromJson(result, type);
 		} catch (Exception ex) {
-			this._logHelper.Error("Impossible to get groups of " + shortNameOrEmail + " from community " + getCommunityShortName());
+			this._logHelper.error("Impossible to get groups of " + shortNameOrEmail + " from community " + getCommunityShortName());
 			throw ex;
 		}
 		return lista;
@@ -1211,10 +1211,10 @@ public class UserApi extends GnossApiWrapper {
 		try {
 			String url = getApiUrl() + "/user/get-social-network-login-by-user_id?user_id=" + userId + 
 					"&social_network=" + URLEncoder.encode(socialNetwork, StandardCharsets.UTF_8);
-			socialNetworkLogin = WebRequest("GET", url, "application/json");
+			socialNetworkLogin = webRequest("GET", url, "application/json");
 			socialNetworkLogin = socialNetworkLogin.trim().replaceAll("\"", "");
 		} catch (Exception ex) {
-			this._logHelper.Error("The user " + userId + " at " + socialNetwork + " could not be found.");
+			this._logHelper.error("The user " + userId + " at " + socialNetwork + " could not be found.");
 			throw ex;
 		}
 		return socialNetworkLogin;
@@ -1232,10 +1232,10 @@ public class UserApi extends GnossApiWrapper {
 		try {
 			String url = getApiUrl() + "/user/get-social-network-login-by-user_id?login=" + shortNameOrEmail + 
 					"&social_network=" + URLEncoder.encode(socialNetwork, StandardCharsets.UTF_8);
-			socialNetworkLogin = WebRequest("GET", url, "application/json");
+			socialNetworkLogin = webRequest("GET", url, "application/json");
 			socialNetworkLogin = socialNetworkLogin.trim().replaceAll("\"", "");
 		} catch (Exception ex) {
-			this._logHelper.Error("The user " + shortNameOrEmail + " at " + socialNetwork + " could not be found.");
+			this._logHelper.error("The user " + shortNameOrEmail + " at " + socialNetwork + " could not be found.");
 			throw ex;
 		}
 		return socialNetworkLogin;
@@ -1249,9 +1249,9 @@ public class UserApi extends GnossApiWrapper {
 	public void addRolToUser(UUID userId, UUID rolId) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/add-permission?user_id=" + userId + "&community_short_name=" + getCommunityShortName() + "&pRolID=" + rolId;
-			WebRequest("POST", url);
+			webRequest("POST", url);
 		} catch (Exception ex) {
-			this._logHelper.Error("The rol could not be added to user '" + userId + "'");
+			this._logHelper.error("The rol could not be added to user '" + userId + "'");
 			throw ex;
 		}
 	}
@@ -1264,9 +1264,9 @@ public class UserApi extends GnossApiWrapper {
 	public void addRolToUser(String shortNameOrEmail, UUID rolId) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/add-permission?login=" + shortNameOrEmail + "&community_short_name=" + getCommunityShortName() + "&pRolID=" + rolId;
-			WebRequest("POST", url);
+			webRequest("POST", url);
 		} catch (Exception ex) {
-			this._logHelper.Error("The community CMS admin rol could not be added to user '" + shortNameOrEmail + "'");
+			this._logHelper.error("The community CMS admin rol could not be added to user '" + shortNameOrEmail + "'");
 			throw ex;
 		}
 	}
@@ -1279,9 +1279,9 @@ public class UserApi extends GnossApiWrapper {
 	public void removeRolToUser(UUID userId, UUID rolId) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/remove-permission?user_id=" + userId + "&community_short_name=" + getCommunityShortName() + "&pRolID=" + rolId;
-			WebRequest("POST", url);
+			webRequest("POST", url);
 		} catch (Exception ex) {
-			this._logHelper.Error("The community CMS admin rol could not be removed from user '" + userId + "'");
+			this._logHelper.error("The community CMS admin rol could not be removed from user '" + userId + "'");
 			throw ex;
 		}
 	}
@@ -1294,9 +1294,9 @@ public class UserApi extends GnossApiWrapper {
 	public void removeRolToUser(String shortNameOrEmail, UUID rolId) throws Exception {
 		try {
 			String url = getApiUrl() + "/user/remove-permission?login=" + shortNameOrEmail + "&community_short_name=" + getCommunityShortName() + "&pRolID=" + rolId;
-			WebRequest("POST", url);
+			webRequest("POST", url);
 		} catch (Exception ex) {
-			this._logHelper.Error("The community CMS admin rol could not be removed from user '" + shortNameOrEmail + "'");
+			this._logHelper.error("The community CMS admin rol could not be removed from user '" + shortNameOrEmail + "'");
 			throw ex;
 		}
 	}
@@ -1309,9 +1309,9 @@ public class UserApi extends GnossApiWrapper {
 	public void clearPersonCache(UUID personId) throws Exception {
 		try {
 			String url = getApiUrl() + "/cache/invalidar-caches-locales?pPersonaID=" + personId;
-			WebRequest("POST", url);
+			webRequest("POST", url);
 		} catch (Exception ex) {
-			this._logHelper.Error("Error while trying to clean cache of person: '" + personId + "'");
+			this._logHelper.error("Error while trying to clean cache of person: '" + personId + "'");
 			throw ex;
 		}
 	}
@@ -1324,9 +1324,9 @@ public class UserApi extends GnossApiWrapper {
 	public void clearPersonCache(String shortNameOrEmail) throws Exception {
 		try {
 			String url = getApiUrl() + "/cache/invalidar-caches-locales?login=" + shortNameOrEmail;
-			WebRequest("POST", url);
+			webRequest("POST", url);
 		} catch (Exception ex) {
-			this._logHelper.Error("Error while trying to clean cache of person: '" + shortNameOrEmail + "'");
+			this._logHelper.error("Error while trying to clean cache of person: '" + shortNameOrEmail + "'");
 			throw ex;
 		}
 	}

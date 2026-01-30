@@ -55,7 +55,7 @@ public class GnossDate {
      * Constructor of GnossDate
      */
     public GnossDate() {
-    	Initialize();
+    	initialize();
     }
     
     /**
@@ -65,21 +65,21 @@ public class GnossDate {
      * @throws GnossAPIDateException GnossAPIDateException
      */
     public GnossDate(String date, boolean americanFormat) throws GnossAPIDateException {
-    	Initialize();
+    	initialize();
     	
     	this.typeDate=this.getDateType(date);
-    	date= CleanDateType(date);
+    	date= cleanDateType(date);
     	
     	this.precisionDate=GetDateAccurancy(date);
-    	date=CleanDateAccurancy(date);
+    	date=cleanDateAccurancy(date);
     	
-    	NormalizeDate(date, americanFormat);
+    	normalizeDate(date, americanFormat);
     	
     }
     
     //region Private methods
     
-    private void NormalizeDate(String date, boolean americanFormat) throws GnossAPIDateException {
+    private void normalizeDate(String date, boolean americanFormat) throws GnossAPIDateException {
     	Pattern pattern=null;
     	if(americanFormat) {
     		_patternDDMMYYYY = _patternMMDDYYYY;
@@ -205,7 +205,7 @@ public class GnossDate {
     	}
     }
     
-    private void Initialize() {
+    private void initialize() {
     	 day = "00";
          month = "00";
          year = "0000";
@@ -380,7 +380,7 @@ public class GnossDate {
     	return text;
     }
     
-    private String CleanDateType(String text) {
+    private String cleanDateType(String text) {
     	List<String> dateTypePatterns= new ArrayList<String>();
     	dateTypePatterns.add(_patternDateTypeAC);
     	dateTypePatterns.add(_patternDateTypeBP);
@@ -411,7 +411,7 @@ public class GnossDate {
     	return text;
     }
     
-    private String CleanDateAccurancy(String text) {
+    private String cleanDateAccurancy(String text) {
     	List<String> dateTypePatterns= new ArrayList<String>();
     	dateTypePatterns.add(_patternDateAccurancyTypeAprox);
     	dateTypePatterns.add(_patternDateAccurancyDoubtful);
