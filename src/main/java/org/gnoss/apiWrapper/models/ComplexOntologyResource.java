@@ -577,6 +577,7 @@ public class ComplexOntologyResource extends BaseResource {
         setPublishInHome(false);
         setUploaded(false);
         setPublisherEmail("");
+        setVisibility(ResourceVisibility.open);
     }
     
     /**
